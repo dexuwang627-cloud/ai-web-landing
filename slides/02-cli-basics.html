@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 — CLI 基礎</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT === */
+html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
+.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); }
+:root {
+  --title-size: clamp(2rem, 6vw, 5rem); --h2-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  --h3-size: clamp(1.2rem, 3vw, 2.2rem); --body-size: clamp(0.95rem, 2vw, 1.5rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.1rem); --slide-padding: clamp(1rem, 4vw, 4rem);
+  --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
+  --bg: #050508; --surface: #0b0b12; --card: #111119;
+  --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
+  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
+  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+  --mac: #2d2d2d; --win: #0c0c0c;
+}
+@media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
+@media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
+@media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
+@media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .cmd-grid, .split-panel, .os-split { grid-template-columns: 1fr !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
+/* === THEME === */
+body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
+.slide { background: var(--bg); }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+.label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.3vw, 1.1rem); font-weight: 500; letter-spacing: 3px; color: var(--accent); }
+.big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
+.sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
+.body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+.reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal-element.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
+.typewrite-text { display: inline; border-right: 2px solid var(--accent); padding-right: 2px; }
+.typewrite-text.done { border-right-color: transparent; }
+@keyframes blink-caret { 50% { border-color: transparent; } }
+.typewrite-text:not(.done) { animation: blink-caret 0.7s step-end infinite; }
+/* === TERMINAL === */
+.terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
+.terminal-header { display: flex; gap: 6px; margin-bottom: clamp(8px,1vh,14px); }
+.terminal-dot { width: clamp(10px,1.2vw,14px); height: clamp(10px,1.2vw,14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .path { color: #79c0ff; } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #8b949e; } .terminal .output { color: #8b949e; } .terminal .flag { color: #d2a8ff; }
+/* === OS SPLIT === */
+.os-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px,1.5vw,24px); margin-top: var(--content-gap); max-width: min(92vw, 960px); width: 100%; }
+.os-col { text-align: left; }
+.os-label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem,1vw,0.85rem); font-weight: 700; letter-spacing: 2px; margin-bottom: clamp(6px,0.8vh,12px); }
+.os-label.mac { color: var(--accent); }
+.os-label.win { color: var(--accent2); }
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
+.feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
+.feature-item:hover { border-color: rgba(255,107,53,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,107,53,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
+.feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === HIGHLIGHT BOX === */
+.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+/* === CMD GRID (for cheat sheet) === */
+.cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
+.cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
+.cmd-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-soft); transform: scale(1.3); }
+.slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+</style>
+</head>
+<body>
+<nav class="nav-dots" aria-label="Slide navigation"></nav>
+<div class="slide-counter">01 / 18</div>
+<div class="keyboard-hint">Arrow keys or scroll to navigate</div>
+
+<!-- ═══════════════════════════════════════════
+     02-CLI-BASICS: 上午場 — CLI 基礎 (09:30–12:00)
+     ═══════════════════════════════════════════ -->
+
+<!-- SLIDE 1 — Section title -->
+<section class="slide" id="slide-section-title">
+  <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(57,211,83,0.08),transparent 70%);top:-25%;right:-10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">MORNING</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      命令列基礎
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
+      從害怕黑畫面到自信下指令
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      09:30 – 12:00
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 2 — What is CLI -->
+<section class="slide" id="slide-what-cli">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">COMMAND LINE</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      那個黑黑的畫面是什麼？
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px);">
+      命令列（Command Line Interface）就是用文字告訴電腦要做什麼。<br>
+      不是點圖片，是打字。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="prompt">$</span> <span class="cmd">echo "Hello, Command Line!"</span></div>
+      <div class="output">Hello, Command Line!</div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">
+      就這麼簡單。你打字，電腦執行。
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Why CLI matters -->
+<section class="slide" id="slide-why-cli">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">WHY</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      為什麼要學命令列？
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">AI</div>
+        <div><h4>Agentic AI 的門票</h4><p>Claude Code、Cursor、GitHub Copilot — 全部在命令列操作</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">Git</div>
+        <div><h4>版本控制的基礎</h4><p>git 是命令列工具，圖形介面只是包裝</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">10x</div>
+        <div><h4>比滑鼠快 10 倍</h4><p>一個指令做到圖形介面要點 20 下的事</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">🔧</div>
+        <div><h4>自動化的起點</h4><p>把重複操作寫成腳本，一鍵執行</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — Mac vs Windows intro -->
+<section class="slide" id="slide-os-intro">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">SETUP</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      你的終端機在哪？
+    </h2>
+    <div class="os-split reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">Mac — Terminal</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">%</span> <span class="cmd">open Terminal</span></div>
+          <div class="comment"># Spotlight → 搜尋 Terminal</div>
+          <div class="comment"># 或 Applications → Utilities → Terminal</div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">Windows — PowerShell</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">pwsh</span></div>
+          <div class="comment"># 開始選單 → 搜尋 PowerShell</div>
+          <div class="comment"># 建議用 Windows Terminal</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        Mac 和 Windows 的指令有些不同，投影片會同時標示。<br>
+        <span style="color:var(--accent);">橘色 = Mac</span> ｜ <span style="color:var(--accent2);">藍色 = Windows</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — pwd / cd -->
+<section class="slide" id="slide-nav-1">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">NAVIGATION 01</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      我在哪？<span class="accent-text">pwd</span>
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); text-align:center;">
+      Print Working Directory — 告訴你現在在哪個資料夾
+    </p>
+    <div class="os-split reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">Mac / Linux</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">$</span> <span class="cmd">pwd</span></div>
+          <div class="output">/Users/te-shu/Desktop</div>
+          <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">cd Documents</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">pwd</span></div>
+          <div class="output">/Users/te-shu/Documents</div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">Windows</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">pwd</span></div>
+          <div class="output">C:\Users\te-shu\Desktop</div>
+          <div style="margin-top:8px;"><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">cd Documents</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">pwd</span></div>
+          <div class="output">C:\Users\te-shu\Documents</div>
+        </div>
+      </div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--content-gap); text-align:center;">
+      <span class="highlight-wipe">cd = Change Directory = 換資料夾</span>
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 5.5 — Practice: Navigate -->
+<section class="slide" id="slide-practice-nav">
+  <div class="orb" style="width:clamp(250px,35vw,500px);height:clamp(250px,35vw,500px);background:radial-gradient(circle,rgba(57,211,83,0.08),transparent 70%);bottom:-10%;left:5%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      動手：穿越資料夾
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 1. 看你在哪</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">pwd</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 2. 進 Desktop</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cd Desktop</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 3. 確認你到了</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">pwd</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 4. 回到家目錄</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cd ~</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 5. 再確認一次</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">pwd</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">挑戰：</span>用 <span style="color:var(--accent);">cd</span> 進 Documents 再回 Desktop，不要用滑鼠。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — ls / dir -->
+<section class="slide" id="slide-nav-2">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">NAVIGATION 02</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      裡面有什麼？<span class="accent-text">ls</span>
+    </h2>
+    <div class="os-split reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">Mac / Linux</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+          <div class="output">Desktop  Documents  Downloads  Pictures</div>
+          <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">ls <span class="flag">-la</span></span></div>
+          <div class="output">drwxr-xr-x  5 user  160 May 21 10:00 Desktop</div>
+          <div class="output">-rw-r--r--  1 user  4096 May 20 15:30 .bashrc</div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">Windows</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">ls</span></div>
+          <div class="output">Desktop  Documents  Downloads  Pictures</div>
+          <div style="margin-top:8px;"><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">ls <span class="flag">-la</span></span></div>
+          <div class="output">d----  5/21/2026  10:00 AM  Desktop</div>
+          <div class="output">-a---  5/20/2026   3:30 PM  .bashrc</div>
+        </div>
+      </div>
+    </div>
+    <div class="cmd-grid reveal-element reveal-delay-3" style="align-self:center;">
+      <span class="cmd-cell">ls</span><span class="cmd-desc">列出檔案和資料夾</span>
+      <span class="cmd-cell">ls -la</span><span class="cmd-desc">列出所有（含隱藏）+ 詳細資訊</span>
+      <span class="cmd-cell">ls *.txt</span><span class="cmd-desc">只列出 .txt 檔案</span>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        Windows PowerShell 也用 <span class="cmd-cell">ls</span>，但有 <span class="cmd-cell">dir</span> 也可以
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — mkdir / touch -->
+<section class="slide" id="slide-create">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">CREATE</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      建立資料夾和檔案
+    </h2>
+    <div class="os-split reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">Mac / Linux</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">$</span> <span class="cmd">mkdir my-project</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">cd my-project</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">touch index.html</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">touch README.md</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+          <div class="output">index.html  README.md</div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">Windows</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">mkdir my-project</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">cd my-project</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">New-Item index.html</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">New-Item README.md</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">ls</span></div>
+          <div class="output">index.html  README.md</div>
+        </div>
+      </div>
+    </div>
+    <div class="cmd-grid reveal-element reveal-delay-3" style="align-self:center;">
+      <span class="cmd-cell">mkdir</span><span class="cmd-desc">建立資料夾（make directory）</span>
+      <span class="cmd-cell">touch</span><span class="cmd-desc">建立空檔案（Mac）/ <span class="cmd-cell">New-Item</span>（Windows）</span>
+      <span class="cmd-cell">mkdir -p a/b/c</span><span class="cmd-desc">一次建多層資料夾</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7.5 — Practice: Create files -->
+<section class="slide" id="slide-practice-create">
+  <div class="orb" style="width:clamp(250px,35vw,500px);height:clamp(250px,35vw,500px);background:radial-gradient(circle,rgba(57,211,83,0.08),transparent 70%);top:-10%;right:5%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      動手：建一個專案結構
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 1. 建練習資料夾並進入</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">mkdir cli-practice && cd cli-practice</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 2. 建三個檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">touch index.html style.css app.js</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 3. 確認都在</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+      <div class="output">index.html  style.css  app.js</div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">挑戰：</span>建一個 <span style="color:var(--accent);">images/</span> 子資料夾，在裡面建一個 <span style="color:var(--accent);">logo.png</span>。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — cp / mv / rm -->
+<section class="slide" id="slide-file-ops">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">FILE OPS</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      複製、搬移、刪除
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 複製檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cp index.html backup.html</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 搬移 / 改名</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">mv backup.html archives/</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 刪除（小心！沒有資源回收桶）</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">rm archives/backup.html</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">rm <span class="flag">-r</span> old-folder/</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:600; color:var(--bad);">
+        rm 沒有「還原」。刪了就是刪了。
+      </p>
+      <p style="font-size:var(--small-size); color:var(--text-muted); margin-top:var(--element-gap);">
+        習慣：刪之前先用 ls 確認，或加 <span style="color:var(--accent);">-i</span> 參數（互動確認）
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8.5 — Practice: File operations -->
+<section class="slide" id="slide-practice-ops">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      動手：複製、搬移、清理
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 繼續在 cli-practice 裡</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cp index.html backup.html</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+      <div class="output">backup.html  index.html  style.css  app.js</div>
+      <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">mkdir archives && mv backup.html archives/</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls archives/</span></div>
+      <div class="output">backup.html</div>
+      <div style="margin-top:8px;"><span class="comment"># 清理練習用檔案（小心 rm！）</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">rm archives/backup.html</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--bad);">注意：</span>rm 沒有資源回收桶。先 ls 確認檔名，再 rm。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 — cat / head / grep -->
+<section class="slide" id="slide-read">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">READ</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      看檔案內容
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 看整個檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cat README.md</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 看前 10 行</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">head -10 README.md</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 搜尋關鍵字</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">grep <span class="flag">"TODO"</span> README.md</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 看即時更新的 log（超實用）</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">tail <span class="flag">-f</span> app.log</span></div>
+    </div>
+    <div class="cmd-grid reveal-element reveal-delay-3" style="align-self:center;">
+      <span class="cmd-cell">cat</span><span class="cmd-desc">印出整個檔案內容</span>
+      <span class="cmd-cell">head -N</span><span class="cmd-desc">只看前 N 行</span>
+      <span class="cmd-cell">grep "字"</span><span class="cmd-desc">在檔案裡搜尋關鍵字</span>
+      <span class="cmd-cell">tail -f</span><span class="cmd-desc">即時監看（AI 工具常用）</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 — Pipe and redirect -->
+<section class="slide" id="slide-pipe">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">POWER MOVE</div>
+    <h2 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap); max-width:min(85vw,800px); line-height:1.5;">
+      管線 <span class="accent-text">|</span> 與重導向 <span class="accent-text">&gt;</span>
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
+      把一個指令的輸出，變成下一個指令的輸入。<br>
+      這就是命令列最強大的地方。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 找出所有 .js 檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls <span class="flag">-R</span> | grep <span class="flag">".js"</span></span></div>
+      <div style="margin-top:8px;"><span class="comment"># 數有多少個檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls | wc <span class="flag">-l</span></span></div>
+      <div style="margin-top:8px;"><span class="comment"># 把結果存到檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls <span class="flag">-la</span> <span class="flag">&gt;</span> file-list.txt</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--accent);">|</span> = 管線（pipe）｜<span style="color:var(--accent);">&gt;</span> = 重導向（redirect）
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10.5 — Practice: Pipe & search -->
+<section class="slide" id="slide-practice-pipe">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      動手：管線與搜尋
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 在 cli-practice 裡建一個有內容的檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">echo "Hello CLI" > hello.txt</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">echo "Learning grep" >> hello.txt</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 搜尋關鍵字</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">grep <span class="flag">"CLI"</span> hello.txt</span></div>
+      <div class="output">Hello CLI</div>
+      <div style="margin-top:8px;"><span class="comment"># 數有幾行</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cat hello.txt | wc <span class="flag">-l</span></span></div>
+      <div class="output">2</div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">挑戰：</span>用 <span style="color:var(--accent);">ls | grep .html</span> 只列出 .html 檔案。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11 — Environment variables -->
+<section class="slide" id="slide-env">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">ENV</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      環境變數與 PATH
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,600px); text-align:center;">
+      環境變數就像電腦的「記憶」— 告訴程式去哪找東西。<br>
+      PATH 是最重要的環境變數：電腦去哪找指令。
+    </p>
+    <div class="os-split reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">Mac / Linux</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">$</span> <span class="cmd">echo $PATH</span></div>
+          <div class="output" style="font-size:clamp(0.7rem,1vw,0.85rem);">/usr/local/bin:/usr/bin:/bin</div>
+          <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">export <span class="flag">MY_API_KEY</span>=<span class="flag">"sk-xxx"</span></span></div>
+          <div><span class="prompt">$</span> <span class="cmd">echo $MY_API_KEY</span></div>
+          <div class="output">sk-xxx</div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">Windows</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">$env:PATH</span></div>
+          <div class="output" style="font-size:clamp(0.7rem,1vw,0.85rem);">C:\Windows\system32;C:\Python</div>
+          <div style="margin-top:8px;"><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">$env:MY_API_KEY = <span class="flag">"sk-xxx"</span></span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">$env:MY_API_KEY</span></div>
+          <div class="output">sk-xxx</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        設 API Key 的時候會用到。AI 工具很多需要環境變數。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12 — Cheatsheet -->
+<section class="slide" id="slide-cheatsheet">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">CHEAT SHEET</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      上午指令總覽
+    </h2>
+    <div class="cmd-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <span class="cmd-cell">pwd</span><span class="cmd-desc">我在哪？（目前路徑）</span>
+      <span class="cmd-cell">cd &lt;path&gt;</span><span class="cmd-desc">換資料夾</span>
+      <span class="cmd-cell">ls / ls -la</span><span class="cmd-desc">列出檔案</span>
+      <span class="cmd-cell">mkdir &lt;name&gt;</span><span class="cmd-desc">建資料夾</span>
+      <span class="cmd-cell">touch / New-Item</span><span class="cmd-desc">建空檔案</span>
+      <span class="cmd-cell">cp &lt;src&gt; &lt;dst&gt;</span><span class="cmd-desc">複製檔案</span>
+      <span class="cmd-cell">mv &lt;src&gt; &lt;dst&gt;</span><span class="cmd-desc">搬移或改名</span>
+      <span class="cmd-cell">rm &lt;file&gt;</span><span class="cmd-desc">刪除（無法還原）</span>
+      <span class="cmd-cell">cat &lt;file&gt;</span><span class="cmd-desc">看檔案內容</span>
+      <span class="cmd-cell">grep "word"</span><span class="cmd-desc">搜尋關鍵字</span>
+      <span class="cmd-cell">| (pipe)</span><span class="cmd-desc">串接指令</span>
+      <span class="cmd-cell">&gt; (redirect)</span><span class="cmd-desc">輸出存檔</span>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); text-align:center;">
+      不用背。這張表你帶回去，用幾次就記住了。
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 13 — Practice intro -->
+<section class="slide" id="slide-practice">
+  <div class="orb" style="width:clamp(250px,35vw,500px);height:clamp(250px,35vw,500px);background:radial-gradient(circle,rgba(57,211,83,0.06),transparent 70%);bottom:-15%;right:10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">PRACTICE</div>
+    <h2 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      動手時間
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
+      打開終端機，跟著做：
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 1. 看你在哪</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">pwd</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 2. 建一個練習資料夾</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">mkdir cli-practice && cd cli-practice</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 3. 建幾個檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">touch hello.txt notes.md</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 4. 確認檔案在</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14 — Lunch break -->
+<section class="slide" id="slide-lunch">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">BREAK</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      午餐休息
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); font-size:var(--h3-size);">
+      12:00 – 13:00
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--element-gap);">
+      下午學 Git，然後用 AI 工具串起來。
+    </p>
+  </div>
+</section>
+
+<script>
+const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { scramble(); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initTypewrite(el) { const text = el.dataset.typewrite; el.textContent = ''; let typed = false; const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting && !typed) { typed = true; let i = 0; const timer = setInterval(() => { el.textContent = text.slice(0, i + 1); i++; if (i >= text.length) { clearInterval(timer); el.classList.add('done'); } }, 80); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
+document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.scramble-text').forEach(initScramble); document.querySelectorAll('.typewrite-text').forEach(initTypewrite); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); });
+</script>
+</body>
+</html>

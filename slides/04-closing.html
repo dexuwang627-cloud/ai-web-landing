@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 — 總結與下一步</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT === */
+html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
+.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); }
+:root {
+  --title-size: clamp(2rem, 6vw, 5rem); --h2-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  --h3-size: clamp(1.2rem, 3vw, 2.2rem); --body-size: clamp(0.95rem, 2vw, 1.5rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.1rem); --slide-padding: clamp(1rem, 4vw, 4rem);
+  --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
+  --bg: #050508; --surface: #0b0b12; --card: #111119;
+  --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
+  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
+  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+}
+@media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
+@media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
+@media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
+@media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .cmd-grid, .os-split, .flow-grid, .step-grid { grid-template-columns: 1fr !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
+/* === THEME === */
+body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
+.slide { background: var(--bg); }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+.label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.3vw, 1.1rem); font-weight: 500; letter-spacing: 3px; color: var(--accent); }
+.big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
+.sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
+.body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal-element.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+/* === TERMINAL === */
+.terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
+.terminal-header { display: flex; gap: 6px; margin-bottom: clamp(8px,1vh,14px); }
+.terminal-dot { width: clamp(10px,1.2vw,14px); height: clamp(10px,1.2vw,14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #8b949e; } .terminal .output { color: #8b949e; } .terminal .flag { color: #d2a8ff; }
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
+.feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
+.feature-item:hover { border-color: rgba(255,107,53,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,107,53,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
+.feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === HIGHLIGHT BOX === */
+.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+/* === CMD GRID === */
+.cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
+.cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
+.cmd-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === STEP GRID === */
+.step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(92vw, 900px); width: 100%; }
+.step-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); text-align: center; }
+.step-card .step-num { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.5rem,3vw,2.5rem); font-weight: 800; }
+.step-card h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.4vw,1.15rem); font-weight: 600; margin: clamp(6px,0.8vh,12px) 0 4px; }
+.step-card p { font-size: clamp(0.8rem,1.1vw,0.95rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === RESOURCE LIST === */
+.resource-list { display: flex; flex-direction: column; gap: clamp(6px,0.8vw,12px); margin-top: var(--content-gap); max-width: min(90vw, 700px); width: 100%; }
+.resource-item { display: flex; align-items: baseline; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(10px,1.5vw,18px); }
+.resource-item .res-label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); font-weight: 700; color: var(--accent); flex-shrink: 0; min-width: clamp(60px,8vw,100px); }
+.resource-item .res-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-soft); transform: scale(1.3); }
+.slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+</style>
+</head>
+<body>
+<nav class="nav-dots" aria-label="Slide navigation"></nav>
+<div class="slide-counter">01 / 10</div>
+<div class="keyboard-hint">Arrow keys or scroll to navigate</div>
+
+<!-- ═══════════════════════════════════════════
+     04-CLOSING: 總結與下一步
+     ═══════════════════════════════════════════ -->
+
+<!-- SLIDE 1 — Section title -->
+<section class="slide" id="slide-section-title">
+  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(255,107,53,0.06),transparent 70%);top:-30%;left:-15%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">WRAP UP</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      總結與下一步
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
+      從今天開始，你的命令列不再是黑畫面
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 2 — What we learned -->
+<section class="slide" id="slide-learned">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">REVIEW</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      今天學了什麼
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">CLI</div>
+        <div><h4>命令列基礎</h4><p>pwd、cd、ls、mkdir、cp、mv、rm — 你不再害怕黑畫面</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">Git</div>
+        <div><h4>版本控制</h4><p>init、add、commit、branch、push — 你的程式碼有時光機</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">AI</div>
+        <div><h4>Agentic AI 協作</h4><p>用自然語言指揮 AI 操作命令列和 Git</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Three pillars -->
+<section class="slide" id="slide-pillars">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">FRAMEWORK</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Agentic AI 的三根支柱
+    </h2>
+    <div class="step-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="step-card" style="border-top: 3px solid var(--good);">
+        <div class="step-num" style="color:var(--good);">1</div>
+        <h4>CLI 能力</h4>
+        <p>知道指令在做什麼<br>才能判斷 AI 做得對不對</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid var(--accent2);">
+        <div class="step-num" style="color:var(--accent2);">2</div>
+        <h4>Git 習慣</h4>
+        <p>每次完成一個目標<br>就 commit，就 push</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid #a855f7;">
+        <div class="step-num" style="color:#a855f7;">3</div>
+        <h4>AI 協作</h4>
+        <p>描述目標，讓 AI 執行<br>你負責審查和確認</p>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">CLI</span> + <span style="color:var(--accent2);">Git</span> + <span style="color:#a855f7;">AI</span> = 你不會被取代，你會被加速
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — Daily workflow -->
+<section class="slide" id="slide-daily">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">DAILY</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      每天的工作循環
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 1. 開始工作</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cd my-project</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git pull</span></div>
+      <div style="margin-top:10px;"><span class="comment"># 2. 建分支開發</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout <span class="flag">-b</span> feature-x</span></div>
+      <div style="margin-top:10px;"><span class="comment"># 3. 用 AI 協作</span></div>
+      <div><span class="prompt">$</span> <span class="cmd" style="color:#a855f7;">claude</span></div>
+      <div style="margin-top:10px;"><span class="comment"># 4. 確認、提交、推送</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git diff</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add . && git commit <span class="flag">-m "feat: ..."</span></span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git push</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — Common pitfalls -->
+<section class="slide" id="slide-pitfalls">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">WATCH OUT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      新手常見地雷
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item" style="border-left:3px solid var(--bad);">
+        <div class="feature-icon" style="background:rgba(239,68,68,0.12); color:var(--bad);">!</div>
+        <div><h4 style="color:var(--bad);">rm 刪了就沒了</h4><p>沒有資源回收桶。刪之前用 ls 確認，或加 -i</p></div>
+      </div>
+      <div class="feature-item" style="border-left:3px solid var(--bad);">
+        <div class="feature-icon" style="background:rgba(239,68,68,0.12); color:var(--bad);">!</div>
+        <div><h4 style="color:var(--bad);">忘記 commit 就 push</h4><p>git add → commit → push，三步缺一不可</p></div>
+      </div>
+      <div class="feature-item" style="border-left:3px solid #eab308;">
+        <div class="feature-icon" style="background:rgba(234,179,8,0.12); color:#eab308;">?</div>
+        <div><h4 style="color:#eab308;">AI 幻覺</h4><p>AI 可能生成不存在的指令。看不懂就查，不要盲抄</p></div>
+      </div>
+      <div class="feature-item" style="border-left:3px solid #eab308;">
+        <div class="feature-icon" style="background:rgba(234,179,8,0.12); color:#eab308;">?</div>
+        <div><h4 style="color:#eab308;">環境變數外洩</h4><p>API Key 放 .env，不要寫進程式碼或 commit</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — Practice tips -->
+<section class="slide" id="slide-practice-tips">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">TIPS</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      持續練習的方法
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">01</div>
+        <div><h4>每天用一次 CLI</h4><p>cd 到專案、ls 看檔案、git status — 就這三個就夠了</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">02</div>
+        <div><h4>每個改動都 commit</h4><p>不要累積。完成一個功能就 commit，訊息寫清楚</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">03</div>
+        <div><h4>用 AI 學 CLI</h4><p>看不懂指令？問 AI 解釋。把 AI 當老師，不是當打字機</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — Resources -->
+<section class="slide" id="slide-resources">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">RESOURCES</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      延伸資源
+    </h2>
+    <div class="resource-list reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="resource-item">
+        <span class="res-label">CLI</span>
+        <span class="res-desc">命令列小抄 — 今天帶回家那張</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">Git</span>
+        <span class="res-desc">git-scm.com — 官方教學（有繁中）</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">GitHub</span>
+        <span class="res-desc">skills.github.com — 免費互動式課程</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">Claude</span>
+        <span class="res-desc">docs.anthropic.com — Claude Code 文件</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">練習</span>
+        <span class="res-desc">learngitbranching.js.org — 視覺化學 Git</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — Next steps -->
+<section class="slide" id="slide-next">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">NEXT STEPS</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      接下來可以做什麼？
+    </h2>
+    <div class="step-grid reveal-element reveal-delay-2" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="step-card" style="border-top: 3px solid var(--good);">
+        <div class="step-num" style="color:var(--good);">1</div>
+        <h4>裝好環境</h4>
+        <p>確保 Git 和 Node.js 都裝好<br>Terminal / PowerShell 能用</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid var(--accent);">
+        <div class="step-num" style="color:var(--accent);">2</div>
+        <h4>開一個 Repo</h4>
+        <p>在 GitHub 建一個 repo<br>clone 下來，push 一個 commit</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid #a855f7;">
+        <div class="step-num" style="color:#a855f7;">3</div>
+        <h4>試用 Agentic AI</h4>
+        <p>安裝 Claude Code<br>用自然語言完成一個小任務</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 — Q&A -->
+<section class="slide" id="slide-qa">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">Q&A</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      問題時間
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
+      任何問題都可以問。<br>
+      CLI、Git、AI 工具 — 今天不會的，現在搞懂。
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 10 — Thank you -->
+<section class="slide" id="slide-thanks">
+  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);bottom:-30%;right:-15%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">THANKS</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      <span class="accent-text">謝謝大家</span>
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); font-size:var(--h3-size);">
+      從今天起，命令列是你的夥伴，不是敵人。
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--element-gap); max-width:min(80vw,600px);">
+      有問題隨時聯繫 — 我很樂意幫忙。
+    </p>
+  </div>
+</section>
+
+<script>
+const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { scramble(); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
+document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.scramble-text').forEach(initScramble); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); });
+</script>
+</body>
+</html>

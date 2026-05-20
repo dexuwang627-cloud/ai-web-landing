@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 — Git 與 Agentic AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT === */
+html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
+.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); }
+:root {
+  --title-size: clamp(2rem, 6vw, 5rem); --h2-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  --h3-size: clamp(1.2rem, 3vw, 2.2rem); --body-size: clamp(0.95rem, 2vw, 1.5rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.1rem); --slide-padding: clamp(1rem, 4vw, 4rem);
+  --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
+  --bg: #050508; --surface: #0b0b12; --card: #111119;
+  --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
+  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
+  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+  --mac: #2d2d2d; --win: #0c0c0c;
+}
+@media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
+@media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
+@media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
+@media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .cmd-grid, .split-panel, .os-split, .flow-grid { grid-template-columns: 1fr !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
+/* === THEME === */
+body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
+.slide { background: var(--bg); }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+.label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.3vw, 1.1rem); font-weight: 500; letter-spacing: 3px; color: var(--accent); }
+.big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
+.sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
+.body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+.reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal-element.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
+/* === TERMINAL === */
+.terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
+.terminal-header { display: flex; gap: 6px; margin-bottom: clamp(8px,1vh,14px); }
+.terminal-dot { width: clamp(10px,1.2vw,14px); height: clamp(10px,1.2vw,14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .path { color: #79c0ff; } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #8b949e; } .terminal .output { color: #8b949e; } .terminal .flag { color: #d2a8ff; }
+/* === OS SPLIT === */
+.os-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px,1.5vw,24px); margin-top: var(--content-gap); max-width: min(92vw, 960px); width: 100%; }
+.os-col { text-align: left; }
+.os-label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem,1vw,0.85rem); font-weight: 700; letter-spacing: 2px; margin-bottom: clamp(6px,0.8vh,12px); }
+.os-label.mac { color: var(--accent); }
+.os-label.win { color: var(--accent2); }
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
+.feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
+.feature-item:hover { border-color: rgba(255,107,53,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,107,53,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
+.feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === HIGHLIGHT BOX === */
+.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+/* === CMD GRID === */
+.cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
+.cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
+.cmd-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === FLOW GRID === */
+.flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(92vw, 960px); width: 100%; }
+.flow-step { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); text-align: center; }
+.flow-step .step-num { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.2rem,2.5vw,2rem); font-weight: 800; color: var(--accent); }
+.flow-step h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.9rem,1.4vw,1.15rem); font-weight: 600; margin: clamp(6px,0.8vh,12px) 0 4px; }
+.flow-step p { font-size: clamp(0.8rem,1.1vw,0.95rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+.flow-arrow { display: flex; align-items: center; justify-content: center; font-size: clamp(1.2rem,2vw,1.8rem); color: var(--text-dim); }
+/* === COMPARISON GRID === */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px,1.5vw,24px); margin-top: var(--content-gap); max-width: min(92vw, 900px); width: 100%; }
+.compare-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); }
+.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem,1.3vw,1.1rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(8px,1vh,14px); }
+.compare-card.trad h4 { color: var(--text-muted); }
+.compare-card.agent h4 { color: var(--accent); }
+.compare-card.trad { border-left: 3px solid var(--text-dim); }
+.compare-card.agent { border-left: 3px solid var(--accent); }
+.compare-card ul { list-style: none; padding: 0; margin: 0; }
+.compare-card li { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); line-height: 1.6; padding-left: 1.2em; position: relative; }
+.compare-card li::before { content: '·'; position: absolute; left: 0; color: var(--text-dim); font-weight: 700; }
+.compare-card.agent li::before { color: var(--accent); }
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-soft); transform: scale(1.3); }
+.slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+</style>
+</head>
+<body>
+<nav class="nav-dots" aria-label="Slide navigation"></nav>
+<div class="slide-counter">01 / 16</div>
+<div class="keyboard-hint">Arrow keys or scroll to navigate</div>
+
+<!-- ═══════════════════════════════════════════
+     03-GIT-AND-AI: 下午場 — Git 與 Agentic AI (13:00–17:00)
+     ═══════════════════════════════════════════ -->
+
+<!-- SLIDE 1 — Section title -->
+<section class="slide" id="slide-section-title">
+  <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(59,130,246,0.08),transparent 70%);top:-20%;left:-10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">AFTERNOON</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      Git 與 Agentic AI
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
+      版本控制 + AI 協作 = 現代開發工作流
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      13:00 – 17:00
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 2 — What is Git -->
+<section class="slide" id="slide-what-git">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">VERSION CONTROL</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      Git 是什麼？
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px);">
+      Git 是一個<span class="accent-text">時間機器</span>，記錄你每次修改。<br>
+      出錯了？回到之前的版本就好。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 沒有 Git 的世界</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+      <div class="output">report.doc  report_v2.doc  report_final.doc  report_final_v2_REAL.doc</div>
+      <div style="margin-top:12px;"><span class="comment"># 有 Git 的世界</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git log <span class="flag">--oneline</span></span></div>
+      <div class="output" style="color:var(--good);">a3f2b1e 完成最終版</div>
+      <div class="output">c7d9e4a 修改第三章</div>
+      <div class="output">1b4a8f2 初稿</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Git workflow -->
+<section class="slide" id="slide-git-flow">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">WORKFLOW</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Git 的三個區域
+    </h2>
+    <div class="flow-grid reveal-element reveal-delay-2" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <h4>工作目錄</h4>
+        <p>你正在編輯的檔案</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <h4>暫存區</h4>
+        <p>準備提交的變更</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <h4>儲存庫</h4>
+        <p>已保存的版本歷史</p>
+      </div>
+    </div>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add index.html</span>       <span class="comment"># 工作目錄 → 暫存區</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "加入首頁"</span></span>  <span class="comment"># 暫存區 → 儲存庫</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span class="accent-text">add</span> = 選你要提交的變更｜<span class="accent-text">commit</span> = 存一個版本
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — git init / clone -->
+<section class="slide" id="slide-git-init">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">START</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      開始一個 Git 專案
+    </h2>
+    <div class="os-split reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">從零開始</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">$</span> <span class="cmd">mkdir my-app && cd my-app</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
+          <div class="output">Initialized empty Git repository</div>
+          <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">touch README.md</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git add .</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "初始提交"</span></span></div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">從 GitHub 複製</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git clone https://github.com/...</span></div>
+          <div class="output">Cloning into 'my-app'...</div>
+          <div style="margin-top:8px;"><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">cd my-app</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git status</span></div>
+          <div class="output">On branch main — nothing to commit</div>
+        </div>
+      </div>
+    </div>
+    <div class="cmd-grid reveal-element reveal-delay-3" style="align-self:center;">
+      <span class="cmd-cell">git init</span><span class="cmd-desc">建立新的 Git 儲存庫</span>
+      <span class="cmd-cell">git clone &lt;url&gt;</span><span class="cmd-desc">從遠端複製一個專案</span>
+      <span class="cmd-cell">git status</span><span class="cmd-desc">看目前狀態（超常用）</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4.5 — Practice: git init + first commit -->
+<section class="slide" id="slide-practice-git-init">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      動手：第一次 commit
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 1. 建新專案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">mkdir my-git-practice && cd my-git-practice</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 2. 初始化 Git</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 3. 建一個檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">echo "# My First Repo" > README.md</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 4. 加入並提交</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add .</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "初次提交"</span></span></div>
+      <div style="margin-top:6px;"><span class="comment"># 5. 確認歷史</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git log <span class="flag">--oneline</span></span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">確認：</span><span style="color:var(--accent);">git log --oneline</span> 出現你的第一次 commit 就成功了。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — git add / commit -->
+<section class="slide" id="slide-git-commit">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">COMMIT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      add + commit：存一個版本
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 修改了 index.html</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git status</span></div>
+      <div class="output">Changes not staged for commit:</div>
+      <div class="output">  modified: index.html</div>
+      <div style="margin-top:8px;"><span class="comment"># 選擇要提交的變更</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add index.html</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 存一個版本</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "修改首頁標題"</span></span></div>
+      <div class="output">[main a3f2b1e] 修改首頁標題</div>
+      <div class="output"> 1 file changed, 3 insertions(+), 1 deletion(-)</div>
+    </div>
+    <div class="cmd-grid reveal-element reveal-delay-3" style="align-self:center);">
+      <span class="cmd-cell">git add .</span><span class="cmd-desc">全部加到暫存區</span>
+      <span class="cmd-cell">git add &lt;file&gt;</span><span class="cmd-desc">只加特定檔案</span>
+      <span class="cmd-cell">git commit -m "訊息"</span><span class="cmd-desc">提交並寫訊息</span>
+      <span class="cmd-cell">git log --oneline</span><span class="cmd-desc">看版本歷史（簡短）</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — git branch -->
+<section class="slide" id="slide-branch">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">BRANCH</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      分支：平行時空
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,600px); text-align:center;">
+      分支讓你在不影響主線的情況下開發新功能。<br>
+      做完再合併回來。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 建立新分支</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git branch feature-login</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout feature-login</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 或一行搞定</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout <span class="flag">-b</span> feature-login</span></div>
+      <div style="margin-top:12px;"><span class="comment"># 做完之後，合併回主線</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout main</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git merge feature-login</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        分支 = 平行宇宙。合併 = 把平行宇宙收束回主線。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6.5 — Practice: Branch -->
+<section class="slide" id="slide-practice-branch">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      動手：分支與合併
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 1. 建分支並切換</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout <span class="flag">-b</span> add-intro</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 2. 改檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">echo "這是我的介紹" >> README.md</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add . && git commit <span class="flag">-m "加入介紹"</span></span></div>
+      <div style="margin-top:6px;"><span class="comment"># 3. 回主線並合併</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout main</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git merge add-intro</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 4. 確認合併成功</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git log <span class="flag">--oneline</span></span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">挑戰：</span>再建一個 <span style="color:var(--accent);">feature-footer</span> 分支，加一行後合併回 main。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — git push / remote -->
+<section class="slide" id="slide-remote">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">REMOTE</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      推送到遠端：GitHub
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,600px); text-align:center;">
+      本地儲存庫是你的。GitHub 是雲端備份 + 協作平台。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 第一次推上去</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git remote add origin https://github.com/you/repo.git</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git push <span class="flag">-u</span> origin main</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 之後每次推</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git push</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 拉別人的更新</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git pull</span></div>
+    </div>
+    <div class="cmd-grid reveal-element reveal-delay-4" style="align-self:center;">
+      <span class="cmd-cell">git push</span><span class="cmd-desc">把本地提交推到 GitHub</span>
+      <span class="cmd-cell">git pull</span><span class="cmd-desc">從 GitHub 拉最新更新</span>
+      <span class="cmd-cell">git remote -v</span><span class="cmd-desc">看遠端設定</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — Git cheatsheet -->
+<section class="slide" id="slide-git-cheatsheet">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">CHEAT SHEET</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Git 指令總覽
+    </h2>
+    <div class="cmd-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <span class="cmd-cell">git init</span><span class="cmd-desc">建立新儲存庫</span>
+      <span class="cmd-cell">git clone &lt;url&gt;</span><span class="cmd-desc">從遠端複製</span>
+      <span class="cmd-cell">git status</span><span class="cmd-desc">看目前狀態</span>
+      <span class="cmd-cell">git add .</span><span class="cmd-desc">加到暫存區</span>
+      <span class="cmd-cell">git commit -m "msg"</span><span class="cmd-desc">提交版本</span>
+      <span class="cmd-cell">git log --oneline</span><span class="cmd-desc">看版本歷史</span>
+      <span class="cmd-cell">git branch &lt;name&gt;</span><span class="cmd-desc">建分支</span>
+      <span class="cmd-cell">git checkout -b &lt;name&gt;</span><span class="cmd-desc">建分支並切換</span>
+      <span class="cmd-cell">git merge &lt;branch&gt;</span><span class="cmd-desc">合併分支</span>
+      <span class="cmd-cell">git push</span><span class="cmd-desc">推到遠端</span>
+      <span class="cmd-cell">git pull</span><span class="cmd-desc">拉遠端更新</span>
+      <span class="cmd-cell">git diff</span><span class="cmd-desc">看修改內容</span>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); text-align:center;">
+      記住這組：<span class="accent-text">status → add → commit → push</span>
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 9 — Transition to Agentic AI -->
+<section class="slide" id="slide-transition-ai">
+  <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(168,85,247,0.08),transparent 70%);bottom:-20%;right:-10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:#a855f7;">AGENTIC AI</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      從 CLI 到<span class="accent-text">AI 協作</span>
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
+      你已經會用命令列了。<br>
+      現在讓 AI 幫你操作命令列。
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 10 — Traditional vs Agentic -->
+<section class="slide" id="slide-compare">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">PARADIGM SHIFT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      對話式 vs 代理式
+    </h2>
+    <div class="compare-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="compare-card trad">
+        <h4>對話式 AI</h4>
+        <ul>
+          <li>你問，AI 答</li>
+          <li>你要自己複製貼上</li>
+          <li>一步一步手動操作</li>
+          <li>AI 是顧問</li>
+        </ul>
+      </div>
+      <div class="compare-card agent">
+        <h4>代理式 AI</h4>
+        <ul>
+          <li>你說目標，AI 執行</li>
+          <li>AI 直接改檔案、跑指令</li>
+          <li>多步驟自動完成</li>
+          <li>AI 是助手</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        對話式 = 你打字問 ChatGPT<br>
+        代理式 = 你說「幫我建一個網站」，AI 自己開終端機做
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11 — Claude Code intro -->
+<section class="slide" id="slide-claude-code">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">TOOL</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Agentic AI 工具：Claude Code
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">AI</div>
+        <div><h4>直接在終端機操作</h4><p>讀檔案、寫程式、跑指令 — AI 自己動手</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">Git</div>
+        <div><h4>自動 Git 操作</h4><p>commit、branch、merge — 用自然語言指揮</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">CLI</div>
+        <div><h4>就是命令列</h4><p>不需要圖形介面，你的終端機就是 AI 的操作台</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">PR</div>
+        <div><h4>端到端完成</h4><p>從寫 code 到開 PR，一句話搞定</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12 — Other agentic tools -->
+<section class="slide" id="slide-other-tools">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">ECOSYSTEM</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Agentic AI 工具生態
+    </h2>
+    <div class="flow-grid reveal-element reveal-delay-2" style="align-self:center; grid-template-columns: repeat(4, 1fr);">
+      <div class="flow-step" style="border-color: rgba(168,85,247,0.2);">
+        <div class="step-num" style="color:#a855f7;">1</div>
+        <h4>Claude Code</h4>
+        <p>終端機 AI 助手</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(59,130,246,0.2);">
+        <div class="step-num" style="color:var(--accent2);">2</div>
+        <h4>Cursor</h4>
+        <p>AI 程式編輯器</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(57,211,83,0.2);">
+        <div class="step-num" style="color:var(--good);">3</div>
+        <h4>Copilot</h4>
+        <p>GitHub AI 配對</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(255,107,53,0.2);">
+        <div class="step-num" style="color:var(--accent);">4</div>
+        <h4>Codex CLI</h4>
+        <p>OpenAI 終端機</p>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        這些工具都需要 CLI。不會命令列，就用不了。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13 — Agentic workflow -->
+<section class="slide" id="slide-agentic-flow">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">WORKFLOW</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Agentic AI 工作流
+    </h2>
+    <div class="flow-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <h4>描述目標</h4>
+        <p>用自然語言告訴 AI 你要什麼</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <h4>AI 規劃</h4>
+        <p>AI 拆解步驟，提出計畫</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <h4>AI 執行</h4>
+        <p>讀檔、寫碼、跑指令</p>
+      </div>
+    </div>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div style="color:#a855f7; font-weight:600;">$ claude</div>
+      <div style="margin-top:6px;"><span class="cmd">幫我在 my-app 資料夾建一個 Express API，</span></div>
+      <div><span class="cmd">要有 /hello 和 /users 兩個路由。</span></div>
+      <div style="margin-top:10px;"><span class="comment">AI: 我會這樣做：</span></div>
+      <div><span class="comment">1. mkdir my-app && cd my-app</span></div>
+      <div><span class="comment">2. npm init -y</span></div>
+      <div><span class="comment">3. 建立 index.js 和路由</span></div>
+      <div><span class="comment">4. git init + first commit</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14 — Hands-on practice -->
+<section class="slide" id="slide-practice">
+  <div class="orb" style="width:clamp(250px,35vw,500px);height:clamp(250px,35vw,500px);background:radial-gradient(circle,rgba(168,85,247,0.06),transparent 70%);bottom:-15%;left:10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:#a855f7;">HANDS-ON</div>
+    <h2 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      實作練習
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
+      用 CLI + Git + Agentic AI 完成一件事：
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 1. 建專案資料夾</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">mkdir my-first-app && cd my-first-app</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 2. 初始化 Git</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 3. 開 Claude Code</span></div>
+      <div><span class="prompt">$</span> <span class="cmd" style="color:#a855f7;">claude</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 4. 告訴 AI 你的目標</span></div>
+      <div><span class="cmd">> 幫我建一個簡單的網頁，標題是「我的第一個 AI 專案」</span></div>
+      <div style="margin-top:6px;"><span class="comment"># 5. 看 AI 自動完成 → 用 git status 確認</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git status</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 15 — Git + AI workflow summary -->
+<section class="slide" id="slide-workflow-summary">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">SUMMARY</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Git + AI 的日常循環
+    </h2>
+    <div class="flow-grid reveal-element reveal-delay-2" style="align-self:center; grid-template-columns: repeat(4, 1fr);">
+      <div class="flow-step" style="border-color: rgba(255,107,53,0.2);">
+        <div class="step-num">1</div>
+        <h4>描述</h4>
+        <p>告訴 AI 你要什麼</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(168,85,247,0.2);">
+        <div class="step-num">2</div>
+        <h4>AI 實作</h4>
+        <p>AI 寫 code 跑指令</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(57,211,83,0.2);">
+        <div class="step-num">3</div>
+        <h4>確認</h4>
+        <p>git diff 看改了什麼</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(59,130,246,0.2);">
+        <div class="step-num">4</div>
+        <h4>提交</h4>
+        <p>git add → commit → push</p>
+      </div>
+    </div>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 你每天會做的事</span></div>
+      <div><span class="prompt">$</span> <span class="cmd" style="color:#a855f7;">claude</span>                    <span class="comment"># 開 AI</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git diff</span>                  <span class="comment"># 看 AI 改了什麼</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add .</span>                  <span class="comment"># 加到暫存區</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "feat: ..."</span></span>  <span class="comment"># 提交</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git push</span>                   <span class="comment"># 推到 GitHub</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 16 — Break / Q&A -->
+<section class="slide" id="slide-break">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">BREAK</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      休息 + 問題時間
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); font-size:var(--h3-size);">
+      15 分鐘
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--element-gap);">
+      之後進入最後的總結。
+    </p>
+  </div>
+</section>
+
+<script>
+const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { scramble(); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
+document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.scramble-text').forEach(initScramble); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); });
+</script>
+</body>
+</html>
