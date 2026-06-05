@@ -71,6 +71,27 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
 .cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
 .cmd-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === UNIT DIVIDER === */
+.unit-divider { display: grid; grid-template-columns: 1fr auto 1fr; gap: clamp(14px,2.5vw,36px); align-items: stretch; margin-top: var(--content-gap); max-width: min(92vw, 920px); width: 100%; }
+.unit-col { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); text-align: left; }
+.unit-col.done { border-left: 3px solid var(--good); }
+.unit-col.next { border-left: 3px solid var(--accent); }
+.unit-col h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.78rem,1.2vw,1rem); font-weight: 700; letter-spacing: 1.5px; margin: 0 0 clamp(8px,1vh,14px); }
+.unit-col.done h4 { color: var(--good); }
+.unit-col.next h4 { color: var(--accent); }
+.unit-col ul { list-style: none; padding: 0; margin: 0; }
+.unit-col li { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.8rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.9; padding-left: 1.5em; position: relative; }
+.unit-col.done li::before { content: '✓'; position: absolute; left: 0; color: var(--good); font-weight: 700; }
+.unit-col.next li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+.unit-mid { display: flex; align-items: center; justify-content: center; font-size: clamp(1.5rem,3vw,2.6rem); color: var(--accent); }
+/* === COUNTDOWN (true 90s) === */
+.countdown { position: relative; width: clamp(150px,24vw,230px); height: clamp(150px,24vw,230px); margin-top: var(--content-gap); }
+.countdown svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.cd-ring-bg { fill: none; stroke: rgba(255,107,53,0.12); stroke-width: 7; }
+.cd-ring-prog { fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 0 9px rgba(255,107,53,0.45)); }
+.cd-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(2.6rem,6.5vw,4.8rem); font-weight: 800; color: var(--accent); }
+.countdown.done .cd-num { color: var(--good); }
+.countdown.done .cd-ring-prog { stroke: var(--good); filter: drop-shadow(0 0 9px rgba(34,197,94,0.5)); }
 /* === NAV === */
 .nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
 .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
@@ -81,7 +102,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 </head>
 <body>
 <nav class="nav-dots" aria-label="Slide navigation"></nav>
-<div class="slide-counter">01 / 18</div>
+<div class="slide-counter">01 / 24</div>
 <div class="keyboard-hint">Arrow keys or scroll to navigate</div>
 
 <!-- ═══════════════════════════════════════════
@@ -256,6 +277,21 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   </div>
 </section>
 
+<!-- SLIDE 5.7 — Micro-break 1 (Unit 1 中段 ~09:50) -->
+<section class="slide" id="slide-micro-break-1">
+  <div class="orb" style="width:clamp(250px,38vw,560px);height:clamp(250px,38vw,560px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">BREATHE</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">⚡ 微休息 90 秒</h1>
+    <div class="countdown reveal-element reveal-delay-2" data-countdown data-seconds="90" style="align-self:center;">
+      <svg viewBox="0 0 120 120"><circle class="cd-ring-bg" cx="60" cy="60" r="54"></circle><circle class="cd-ring-prog" cx="60" cy="60" r="54"></circle></svg>
+      <div class="cd-num">90</div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); font-size:var(--h3-size); color:var(--text);">站起來，伸個懶腰，看遠方</p>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">時間到，我們繼續</p>
+  </div>
+</section>
+
 <!-- SLIDE 6 — ls / dir -->
 <section class="slide" id="slide-nav-2">
   <div class="slide-content" style="align-items:center;">
@@ -363,6 +399,60 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   </div>
 </section>
 
+<!-- SLIDE 7.7 — Micro-break 2 (Unit 1 末段 ~10:15) -->
+<section class="slide" id="slide-micro-break-2">
+  <div class="orb" style="width:clamp(250px,38vw,560px);height:clamp(250px,38vw,560px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">BREATHE</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">⚡ 微休息 90 秒</h1>
+    <div class="countdown reveal-element reveal-delay-2" data-countdown data-seconds="90" style="align-self:center;">
+      <svg viewBox="0 0 120 120"><circle class="cd-ring-bg" cx="60" cy="60" r="54"></circle><circle class="cd-ring-prog" cx="60" cy="60" r="54"></circle></svg>
+      <div class="cd-num">90</div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); font-size:var(--h3-size); color:var(--text);">站起來，伸個懶腰，看遠方</p>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">時間到，我們繼續</p>
+  </div>
+</section>
+
+<!-- SLIDE 7.8 — Unit transition: 導航 → 操作 -->
+<section class="slide" id="slide-unit-transition-1to2">
+  <div class="orb" style="width:clamp(280px,40vw,620px);height:clamp(280px,40vw,620px);background:radial-gradient(circle,rgba(57,211,83,0.06),transparent 70%);top:-15%;left:-8%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">CHECKPOINT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      CLI 導航 <span style="color:var(--good);">✓</span> → CLI 操作
+    </h2>
+    <div class="unit-divider reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="unit-col done">
+        <h4>已完成 · 導航</h4>
+        <ul>
+          <li>pwd</li>
+          <li>cd</li>
+          <li>ls</li>
+          <li>mkdir</li>
+          <li>touch</li>
+        </ul>
+      </div>
+      <div class="unit-mid">→</div>
+      <div class="unit-col next">
+        <h4>接下來 · 操作</h4>
+        <ul>
+          <li>cp</li>
+          <li>mv</li>
+          <li>rm</li>
+          <li>cat / grep</li>
+          <li>| (pipe)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        10:45 回來，我們繼續
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- SLIDE 8 — cp / mv / rm -->
 <section class="slide" id="slide-file-ops">
   <div class="slide-content" style="align-items:center;">
@@ -415,6 +505,21 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <span style="color:var(--bad);">注意：</span>rm 沒有資源回收桶。先 ls 確認檔名，再 rm。
       </p>
     </div>
+  </div>
+</section>
+
+<!-- SLIDE 8.7 — Micro-break 3 (Unit 2 中段 ~11:10) -->
+<section class="slide" id="slide-micro-break-3">
+  <div class="orb" style="width:clamp(250px,38vw,560px);height:clamp(250px,38vw,560px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">BREATHE</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">⚡ 微休息 90 秒</h1>
+    <div class="countdown reveal-element reveal-delay-2" data-countdown data-seconds="90" style="align-self:center;">
+      <svg viewBox="0 0 120 120"><circle class="cd-ring-bg" cx="60" cy="60" r="54"></circle><circle class="cd-ring-prog" cx="60" cy="60" r="54"></circle></svg>
+      <div class="cd-num">90</div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); font-size:var(--h3-size); color:var(--text);">站起來，伸個懶腰，看遠方</p>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">時間到，我們繼續</p>
   </div>
 </section>
 
@@ -497,6 +602,21 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <span style="color:var(--good);">挑戰：</span>用 <span style="color:var(--accent);">ls | grep .html</span> 只列出 .html 檔案。
       </p>
     </div>
+  </div>
+</section>
+
+<!-- SLIDE 10.7 — Micro-break 4 (Unit 2 末段 ~11:35) -->
+<section class="slide" id="slide-micro-break-4">
+  <div class="orb" style="width:clamp(250px,38vw,560px);height:clamp(250px,38vw,560px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">BREATHE</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">⚡ 微休息 90 秒</h1>
+    <div class="countdown reveal-element reveal-delay-2" data-countdown data-seconds="90" style="align-self:center;">
+      <svg viewBox="0 0 120 120"><circle class="cd-ring-bg" cx="60" cy="60" r="54"></circle><circle class="cd-ring-prog" cx="60" cy="60" r="54"></circle></svg>
+      <div class="cd-num">90</div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); font-size:var(--h3-size); color:var(--text);">站起來，伸個懶腰，看遠方</p>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">最後一段，再撐一下</p>
   </div>
 </section>
 
@@ -593,6 +713,40 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   </div>
 </section>
 
+<!-- SLIDE 13.5 — Comprehensive practice (11:55–12:10) -->
+<section class="slide" id="slide-comprehensive-practice">
+  <div class="orb" style="width:clamp(250px,35vw,520px);height:clamp(250px,35vw,520px);background:radial-gradient(circle,rgba(57,211,83,0.07),transparent 70%);bottom:-12%;left:6%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--good);">CAPSTONE</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      你的第一個專案資料夾
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px);">
+      情境：建一個 <span class="accent-text">my-project</span> 資料夾，裡面放你的自我介紹。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># Step 1：建專案資料夾並進入</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">mkdir my-project && cd my-project</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 2：建自我介紹檔案</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">touch intro.txt</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 3：寫入內容</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">echo "我叫 ___，今天學 CLI" > intro.txt</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 4：確認內容</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cat intro.txt</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 5：搜尋關鍵字</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">grep <span class="flag">"CLI"</span> intro.txt</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 6：回上層確認結構</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cd .. && ls my-project/</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">過關標準：</span><span class="cmd-cell">cat intro.txt</span> 看得到內容就過關！　<span style="color:var(--text-muted);">卡住？翻紅色便利貼</span>
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- SLIDE 14 — Lunch break -->
 <section class="slide" id="slide-lunch">
   <div class="slide-content" style="align-items:center; text-align:center;">
@@ -614,8 +768,31 @@ const CHARS = '!<>-_\\/[]{}—=+*^?#________';
 function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { scramble(); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
 function initTypewrite(el) { const text = el.dataset.typewrite; el.textContent = ''; let typed = false; const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting && !typed) { typed = true; let i = 0; const timer = setInterval(() => { el.textContent = text.slice(0, i + 1); i++; if (i >= text.length) { clearInterval(timer); el.classList.add('done'); } }, 80); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
 function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initCountdown(el) {
+  const dur = parseInt(el.dataset.seconds || '90', 10);
+  const ring = el.querySelector('.cd-ring-prog');
+  const num = el.querySelector('.cd-num');
+  const R = ring ? ring.r.baseVal.value : 54;
+  const C = 2 * Math.PI * R;
+  if (ring) { ring.style.strokeDasharray = C; ring.style.strokeDashoffset = '0'; }
+  let running = false;
+  const run = () => {
+    el.classList.remove('done');
+    const t0 = Date.now();
+    const tick = () => {
+      const remaining = Math.max(0, dur - (Date.now() - t0) / 1000);
+      if (num) num.textContent = Math.ceil(remaining);
+      if (ring) ring.style.strokeDashoffset = C * (1 - remaining / dur);
+      if (remaining > 0) { requestAnimationFrame(tick); }
+      else { if (num) num.textContent = '0'; el.classList.add('done'); running = false; }
+    };
+    tick();
+  };
+  const io = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting && !running) { running = true; run(); } }); }, { threshold: 0.6 });
+  io.observe(el.closest('.slide') || el);
+}
 class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
-document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.scramble-text').forEach(initScramble); document.querySelectorAll('.typewrite-text').forEach(initTypewrite); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); });
+document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.scramble-text').forEach(initScramble); document.querySelectorAll('.typewrite-text').forEach(initTypewrite); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); document.querySelectorAll('[data-countdown]').forEach(initCountdown); });
 </script>
 </body>
 </html>
