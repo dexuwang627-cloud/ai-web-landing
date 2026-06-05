@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<style>
+  :root{
+    --ink:#1B1B23; --muted:#5A5A6E; --faint:#8A8A9A;
+    --line:#E4E2DC; --bg:#FBFAF7; --card:#FFFFFF; --accent:#FF6B35;
+    --code-bg:#FFF1EB; --code-fg:#C2410C;
+    --cjk:"NotoSansCJK","PingFang TC","Heiti TC",sans-serif;
+    --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,"Courier New",monospace;
+  }
+  @page{ size:A4; margin:0; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ font-family:var(--cjk); color:var(--ink); background:var(--bg); -webkit-font-smoothing:antialiased; }
+
+  .page{
+    position:relative;
+    width:210mm; height:296mm;
+    background-color:var(--bg);
+    background-image:radial-gradient(rgba(27,27,35,0.10) 1px, transparent 1.1px);
+    background-size:18px 18px;
+    overflow:hidden;
+    padding:15mm 15mm 11mm;
+    display:flex; flex-direction:column;
+  }
+  .page-bg{
+    position:absolute; top:0; left:0; width:210mm; height:296mm;
+    z-index:0; overflow:hidden; pointer-events:none;
+    background-image:radial-gradient(56mm 56mm at 94% 5%, rgba(255,107,53,0.15), transparent 70%);
+  }
+  .page > *:not(.topbar):not(.page-bg){ position:relative; z-index:1; }
+  .topbar{ position:absolute; top:0; left:0; right:0; height:6mm; background:var(--accent); z-index:2; }
+
+  /* ---- header ---- */
+  .kicker{ font-family:var(--mono); font-size:10.5pt; letter-spacing:3px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4mm; }
+  h1.title{ font-size:31pt; font-weight:900; letter-spacing:-0.3px; }
+  h1.title .x{ color:var(--accent); }
+  .subtitle{ font-size:13.5pt; color:var(--muted); margin-top:3mm; font-weight:500; }
+
+  /* ---- mental model flow ---- */
+  .flow{
+    margin-top:6mm;
+    background:#1B1B23; border-radius:3mm; padding:5mm 5mm;
+    display:flex; align-items:center; justify-content:space-between; gap:1mm;
+  }
+  .flow .node{ text-align:center; flex:none; }
+  .flow .node .nm{ font-size:11.5pt; font-weight:800; color:#fff; }
+  .flow .node .sub{ font-size:8pt; color:#9A9AAC; margin-top:1mm; }
+  .flow .node.cloud .nm{ color:var(--accent); }
+  .flow .arrow{ flex:1; display:flex; flex-direction:column; align-items:center; gap:1mm; min-width:0; }
+  .flow .arrow code{ font-family:var(--mono); font-size:9pt; color:var(--accent); white-space:nowrap; }
+  .flow .arrow .line{ width:100%; height:2px; background:linear-gradient(90deg,#3A3A46,#FF6B35); border-radius:2px; position:relative; }
+  .flow .arrow .line::after{ content:"▶"; position:absolute; right:-1.5mm; top:-3.6pt; font-size:7.5pt; color:var(--accent); }
+
+  .rule{ height:1px; background:var(--line); margin:7mm 0 6mm; }
+
+  /* ---- command groups ---- */
+  .cols{ column-count:2; column-gap:11mm; }
+  .grp{ break-inside:avoid; margin-bottom:6.5mm; }
+  .gh{ display:flex; align-items:center; gap:2.6mm; font-size:13pt; font-weight:800; color:var(--ink); margin-bottom:3mm; }
+  .gh .gi{ display:inline-flex; }
+  .gh .gi svg{ width:5.8mm; height:5.8mm; }
+
+  .cmd{ display:flex; gap:3mm; align-items:baseline; padding:1.7mm 0; line-height:1.32; }
+  .cmd code{
+    font-family:var(--mono); font-size:11pt; font-weight:600;
+    background:var(--code-bg); color:var(--code-fg);
+    padding:0.7mm 2.3mm; border-radius:1.6mm; white-space:nowrap; flex:none;
+  }
+  .cmd .d{ font-size:10.6pt; color:var(--muted); }
+  .cmd .d .warn{ color:var(--accent); font-weight:700; }
+
+  /* ---- tip callout ---- */
+  .callout{
+    margin-top:4mm;
+    display:flex; gap:3.5mm; align-items:flex-start;
+    background:#FFF6F2; border:1px solid #FFD9C7; border-left:4px solid var(--accent);
+    border-radius:2.4mm; padding:4.5mm 5mm;
+  }
+  .callout .ci{ flex:none; display:inline-flex; padding-top:0.4mm; }
+  .callout .ci svg{ width:6.4mm; height:6.4mm; }
+  .callout p{ font-size:11.5pt; color:var(--ink); line-height:1.5; }
+  .callout p b{ color:var(--accent); }
+  .callout code{ font-family:var(--mono); background:#FFE6DC; color:#C2410C; padding:0.4mm 1.8mm; border-radius:1.3mm; }
+
+  /* ---- footer ---- */
+  .foot{ margin-top:auto; padding-top:5.5mm; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:flex-end; gap:7mm; }
+  .foot .plat{ font-size:10pt; color:var(--faint); line-height:1.5; }
+  .foot .plat code{ font-family:var(--mono); color:var(--muted); background:#F1EFEA; padding:0.3mm 1.5mm; border-radius:1.2mm; }
+  .foot .brand{ font-size:10pt; color:var(--faint); text-align:right; white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar"></div>
+  <div class="page-bg"></div>
+
+  <div class="kicker">一日實作班 · 隨身小抄</div>
+  <h1 class="title">Git 指令<span class="x">小抄</span></h1>
+  <div class="subtitle">版控保命的常用指令 —— 程式碼再也不會真的搞丟</div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">工作區</div><div class="sub">你改檔案的地方</div></div>
+    <div class="arrow"><code>git add</code><div class="line"></div></div>
+    <div class="node"><div class="nm">暫存區</div><div class="sub">準備好的改動</div></div>
+    <div class="arrow"><code>git commit</code><div class="line"></div></div>
+    <div class="node"><div class="nm">儲存庫</div><div class="sub">本地歷史存檔</div></div>
+    <div class="arrow"><code>git push</code><div class="line"></div></div>
+    <div class="node cloud"><div class="nm">GitHub</div><div class="sub">雲端備份</div></div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="cols">
+
+    <div class="grp">
+      <div class="gh"><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/><path d="M21 4v4h-4"/></svg></span>每天都會用：日常循環</div>
+      <div class="cmd"><code>git status</code><span class="d">看現在什麼狀態（最常用，忘了就打）</span></div>
+      <div class="cmd"><code>git add 檔名</code><span class="d">把某個改動放進暫存區</span></div>
+      <div class="cmd"><code>git add .</code><span class="d">把所有改動一次放進暫存區</span></div>
+      <div class="cmd"><code>git commit -m "訊息"</code><span class="d">存成一個存檔點，附上說明</span></div>
+      <div class="cmd"><code>git push</code><span class="d">推上雲端 GitHub</span></div>
+      <div class="cmd"><code>git pull</code><span class="d">拉下別人最新的改動</span></div>
+      <div class="cmd"><code>git log</code><span class="d">看過去的存檔點歷史</span></div>
+      <div class="cmd"><code>git diff</code><span class="d">看這次到底改了哪些東西</span></div>
+    </div>
+
+    <div class="grp">
+      <div class="gh"><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 2L9 5M12 2l3 3"/><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M4 11h16"/></svg></span>第一次設定</div>
+      <div class="cmd"><code>git init</code><span class="d">在資料夾啟用版控</span></div>
+      <div class="cmd"><code>git clone 網址</code><span class="d">把雲端 repo 整個抓下來</span></div>
+      <div class="cmd"><code>git remote add origin 網址</code><span class="d">把本地連到 GitHub 上的 repo</span></div>
+      <div class="cmd"><code>git push -u origin main</code><span class="d">第一次推送（設好上游，之後只要 push）</span></div>
+    </div>
+
+    <div class="grp">
+      <div class="gh"><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.4"/><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="9" r="2.4"/><path d="M6 7.4v9.2"/><path d="M6 12h6a4 4 0 0 0 4-4V11"/></svg></span>分支：實驗不弄壞主線</div>
+      <div class="cmd"><code>git branch 名稱</code><span class="d">開一條新分支（實驗室）</span></div>
+      <div class="cmd"><code>git checkout 名稱</code><span class="d">切換到某條分支</span></div>
+      <div class="cmd"><code>git checkout -b 名稱</code><span class="d">開新分支並直接切過去</span></div>
+      <div class="cmd"><code>git merge 名稱</code><span class="d">把分支的成果合併回主線</span></div>
+    </div>
+
+    <div class="grp">
+      <div class="gh"><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a9 9 0 0 1 15-3l3 3"/><path d="M21 4v4h-4"/><path d="M21 16a9 9 0 0 1-15 3l-3-3"/><path d="M3 20v-4h4"/></svg></span>後悔藥：救命四招</div>
+      <div class="cmd"><code>git checkout -- 檔名</code><span class="d">還沒 commit 改壞了 → 還原這個檔</span></div>
+      <div class="cmd"><code>git reset HEAD~1</code><span class="d">commit 錯了 → 回前一版（改動還留著）</span></div>
+      <div class="cmd"><code>git status</code><span class="d">不知道發生什麼事 → 先打它看狀態</span></div>
+      <div class="cmd"><code>git clone 網址</code><span class="d">整個資料夾炸了 → 重新拉一份乾淨的</span></div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></span>
+    <p><b>commit 訊息小撇步：</b>用「動詞 + 做了什麼」，例如 <code>git commit -m "新增自我介紹頁"</code>。訊息寫清楚，未來翻 <code>git log</code> 找版本時，現在的你會被未來的你感謝。</p>
+  </div>
+
+  <div class="foot">
+    <div class="plat">提示字元：Mac / Linux 是 <code>$</code>，Windows PowerShell 是 <code>PS&gt;</code>，打指令時不用打它。<br>Git 指令在兩個平台寫法完全相同，放心照打。</div>
+    <div class="brand">CLI × Git × Agentic AI<br>一日實作班</div>
+  </div>
+</div>
+</body>
+</html>
