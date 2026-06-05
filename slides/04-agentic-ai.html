@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 — Agentic AI 協作</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT === */
+html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
+.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); position: relative; z-index: 1; }
+:root {
+  --title-size: clamp(2rem, 6vw, 5rem); --h2-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  --h3-size: clamp(1.2rem, 3vw, 2.2rem); --body-size: clamp(0.95rem, 2vw, 1.5rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.1rem); --slide-padding: clamp(1rem, 4vw, 4rem);
+  --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
+  --bg: #050508; --surface: #0b0b12; --card: #111119;
+  --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
+  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
+  --ai: #a855f7; --ai-soft: rgba(168,85,247,0.12);
+  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+  --mac: #2d2d2d; --win: #0c0c0c;
+}
+@media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
+@media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
+@media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
+@media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .cmd-grid, .split-panel, .os-split, .flow-grid, .compare-grid { grid-template-columns: 1fr !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
+/* === THEME === */
+body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
+.slide { background: var(--bg); }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+.label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.3vw, 1.1rem); font-weight: 500; letter-spacing: 3px; color: var(--accent); }
+.big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
+.sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
+.body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.ai-text { background: linear-gradient(135deg, var(--ai), #c99bff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+.reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal-element.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
+/* === TERMINAL === */
+.terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
+.terminal-header { display: flex; gap: 6px; margin-bottom: clamp(8px,1vh,14px); }
+.terminal-dot { width: clamp(10px,1.2vw,14px); height: clamp(10px,1.2vw,14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .path { color: #79c0ff; } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #8b949e; } .terminal .output { color: #8b949e; } .terminal .flag { color: #d2a8ff; }
+.terminal .ai-cmd { color: var(--ai); font-weight: 600; } .terminal .add { color: var(--good); } .terminal .del { color: var(--bad); }
+/* === OS SPLIT === */
+.os-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px,1.5vw,24px); margin-top: var(--content-gap); max-width: min(92vw, 960px); width: 100%; }
+.os-col { text-align: left; }
+.os-label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem,1vw,0.85rem); font-weight: 700; letter-spacing: 2px; margin-bottom: clamp(6px,0.8vh,12px); }
+.os-label.mac { color: var(--accent); }
+.os-label.win { color: var(--accent2); }
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
+.feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
+.feature-item:hover { border-color: rgba(168,85,247,0.18); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(168,85,247,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--ai); }
+.feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
+.feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === HIGHLIGHT BOX === */
+.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+.highlight-box.ai { background: rgba(168,85,247,0.06); border-color: rgba(168,85,247,0.3); }
+/* === CMD GRID === */
+.cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
+.cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
+.cmd-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === FLOW GRID === */
+.flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(92vw, 960px); width: 100%; }
+.flow-step { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); text-align: center; }
+.flow-step .step-num { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.2rem,2.5vw,2rem); font-weight: 800; color: var(--ai); }
+.flow-step h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.9rem,1.4vw,1.15rem); font-weight: 600; margin: clamp(6px,0.8vh,12px) 0 4px; }
+.flow-step p { font-size: clamp(0.8rem,1.1vw,0.95rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === COMPARISON GRID === */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px,1.5vw,24px); margin-top: var(--content-gap); max-width: min(92vw, 900px); width: 100%; }
+.compare-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); }
+.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem,1.3vw,1.1rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(8px,1vh,14px); }
+.compare-card.trad h4 { color: var(--text-muted); }
+.compare-card.agent h4 { color: var(--ai); }
+.compare-card.trad { border-left: 3px solid var(--text-dim); }
+.compare-card.agent { border-left: 3px solid var(--ai); }
+.compare-card ul { list-style: none; padding: 0; margin: 0; }
+.compare-card li { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); line-height: 1.6; padding-left: 1.2em; position: relative; }
+.compare-card li::before { content: '·'; position: absolute; left: 0; color: var(--text-dim); font-weight: 700; }
+.compare-card.agent li::before { color: var(--ai); }
+/* === COUNTDOWN (true 90s) === */
+.countdown { position: relative; width: clamp(150px,24vw,230px); height: clamp(150px,24vw,230px); margin-top: var(--content-gap); }
+.countdown svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.cd-ring-bg { fill: none; stroke: rgba(255,107,53,0.12); stroke-width: 7; }
+.cd-ring-prog { fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 0 9px rgba(255,107,53,0.45)); }
+.cd-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(2.6rem,6.5vw,4.8rem); font-weight: 800; color: var(--accent); }
+.countdown.done .cd-num { color: var(--good); }
+.countdown.done .cd-ring-prog { stroke: var(--good); filter: drop-shadow(0 0 9px rgba(34,197,94,0.5)); }
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--ai); box-shadow: 0 0 12px var(--ai-soft); transform: scale(1.3); }
+.slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+</style>
+</head>
+<body>
+<nav class="nav-dots" aria-label="Slide navigation"></nav>
+<div class="slide-counter">01 / 13</div>
+<div class="keyboard-hint">Arrow keys or scroll to navigate</div>
+
+<!-- ═══════════════════════════════════════════
+     04-AGENTIC-AI: Unit 4 — AI 協作目的地 (15:00–16:15)
+     ═══════════════════════════════════════════ -->
+
+<!-- SLIDE 1 — Section title -->
+<section class="slide" id="slide-ai-section-title">
+  <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(168,85,247,0.10),transparent 70%);top:-20%;left:-10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--ai);">UNIT 4 · 目的地</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      AI 協作 — 今天的<span class="ai-text">目的地</span>
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,680px); font-size:var(--h3-size); font-weight:400; color:var(--text);">
+      你已經學會 CLI 和 Git——它們是工具。<br>AI 讓工具自己動起來。
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      接下來，你會親手完成「跟 AI 一起寫 code → commit → push」
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 2 — From CLI to AI (對話式 vs 代理式) -->
+<section class="slide" id="slide-from-cli-to-ai">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--ai);">PARADIGM</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      對話式 vs 代理式 AI
+    </h2>
+    <div class="compare-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="compare-card trad">
+        <h4>對話式</h4>
+        <ul>
+          <li>你問一句、AI 答一句</li>
+          <li>ChatGPT 網頁版</li>
+          <li>你要自己複製貼上</li>
+          <li>像坐計程車說「左轉右轉」</li>
+        </ul>
+      </div>
+      <div class="compare-card agent">
+        <h4>代理式</h4>
+        <ul>
+          <li>你給目標、AI 自己完成</li>
+          <li>讀檔、寫檔、跑指令、commit</li>
+          <li>直接操作你的終端機和 Git</li>
+          <li>像說地址，司機自己導航</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        今天的主角是<span class="ai-text">代理式</span> —— 它直接動手，不只是給你建議
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Tool ecosystem -->
+<section class="slide" id="slide-tool-ecosystem">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--ai);">ECOSYSTEM</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      AI 工具生態概覽
+    </h2>
+    <div class="flow-grid reveal-element reveal-delay-2" style="align-self:center; grid-template-columns: repeat(4, 1fr);">
+      <div class="flow-step" style="border-color: rgba(59,130,246,0.2);">
+        <div class="step-num" style="color:var(--accent2);">Cursor</div>
+        <h4>IDE 內建 AI</h4>
+        <p>視覺化操作，編輯器裡直接用</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(57,211,83,0.2);">
+        <div class="step-num" style="color:var(--good);">Copilot</div>
+        <h4>行內自動完成</h4>
+        <p>適合已經知道要寫什麼的人</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(168,85,247,0.35);">
+        <div class="step-num" style="color:var(--ai);">Claude Code</div>
+        <h4>終端機原生代理式</h4>
+        <p>今天的主角</p>
+      </div>
+      <div class="flow-step" style="border-color: rgba(255,107,53,0.2);">
+        <div class="step-num" style="color:var(--accent);">Codex CLI</div>
+        <h4>OpenAI 終端機 agent</h4>
+        <p>另一個 CLI 選擇</p>
+      </div>
+    </div>
+    <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        選擇邏輯：IDE 用戶 → <span style="color:var(--accent2);">Cursor / Copilot</span>；CLI 用戶 → <span class="ai-text">Claude Code / Codex</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — Claude Code features -->
+<section class="slide" id="slide-claude-code-features">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--ai);">CLAUDE CODE</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Claude Code 四大特色
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,860px);">
+      <div class="feature-item">
+        <div class="feature-icon">CLI</div>
+        <div><h4>終端機操作</h4><p>就在你熟悉的 CLI 裡跑，不用切視窗</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">Git</div>
+        <div><h4>自動 Git</h4><p>改完檔案自動 diff、自動 commit，版本控制不漏接</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">▶</div>
+        <div><h4>就是 CLI</h4><p>一條指令啟動，不需要 IDE 或特殊編輯器</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(255,107,53,0.12); color:var(--accent);">E2E</div>
+        <div><h4>端到端</h4><p>從建檔到 push 全包，不是只幫你寫片段</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — Claude Code demo -->
+<section class="slide" id="slide-claude-code-demo">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--ai);">LIVE DEMO</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      現場 Demo：看 AI 自己動手
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="prompt">$</span> <span class="cmd">mkdir demo-project && cd demo-project</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
+      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"幫我建一個 Python 計算機 CLI 工具"</span></div>
+      <div class="comment"># 觀察 Claude：讀檔 → 寫檔 → 跑指令</div>
+      <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">git diff</span>          <span class="comment"># 先看改了什麼</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add .</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "feat: calculator CLI"</span></span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git push</span></div>
+    </div>
+    <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
+        關鍵：AI 產出的東西，你<span class="ai-text">一定要自己看過</span>再 commit
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — Micro-break 1 -->
+<section class="slide" id="slide-micro-break-1">
+  <div class="orb" style="width:clamp(250px,38vw,560px);height:clamp(250px,38vw,560px);background:radial-gradient(circle,rgba(168,85,247,0.09),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--ai);">BREATHE</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      ⚡ 微休息 90 秒
+    </h1>
+    <div class="countdown reveal-element reveal-delay-2" data-countdown data-seconds="90" style="align-self:center;">
+      <svg viewBox="0 0 120 120"><circle class="cd-ring-bg" cx="60" cy="60" r="54"></circle><circle class="cd-ring-prog" cx="60" cy="60" r="54"></circle></svg>
+      <div class="cd-num">90</div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); font-size:var(--h3-size); color:var(--text);">
+      站起來、動一動、喝水
+    </p>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">
+      等等就要換你動手了
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 7 — Hands-on init -->
+<section class="slide" id="slide-hands-on-init">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT · Step 1–2</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      跟做：建專案 + 啟動 Claude
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># Step 1：建資料夾並進入</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">mkdir my-project && cd my-project</span></div>
+      <div style="margin-top:8px;"><span class="comment"># Step 2：啟用版控</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
+      <div class="output">Initialized empty Git repository in .../my-project/.git/</div>
+      <div style="margin-top:8px;"><span class="comment"># 啟動 Claude，給明確指令</span></div>
+      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"幫我建一個 intro.txt，內容是自我介紹，3-5 行"</span></div>
+    </div>
+    <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        指令寫法技巧：說清楚<span class="ai-text">「做什麼」+「長什麼樣」</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — Hands-on diff -->
+<section class="slide" id="slide-hands-on-diff">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT · Step 3</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      跟做：AI 產出 → diff 檢查
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
+      為什麼要先看 diff？AI 也會寫錯，<span class="ai-text">你是最後守門員</span>。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="prompt">$</span> <span class="cmd">git diff</span></div>
+      <div class="add">+ Hello, 我是 ___</div>
+      <div class="add">+ 今天參加了 CLI + Git + AI 課程</div>
+      <div class="add">+ 正在學習用 AI 協作寫程式</div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        diff 看不懂沒關係：找<span style="color:var(--good);">綠色（新增）</span>和<span style="color:var(--bad);">紅色（刪除）</span>就好
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 — Hands-on commit + push -->
+<section class="slide" id="slide-hands-on-commit-push">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--good);">TRY IT · Step 4–6</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      跟做：add → commit → push
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># Step 4：加入暫存區</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add .</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 5：寫下你的提交訊息</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "feat: add intro.txt"</span></span></div>
+      <div class="output">[main (root-commit) abc1234] feat: add intro.txt</div>
+      <div class="output"> 1 file changed, 3 insertions(+)</div>
+      <div style="margin-top:6px;"><span class="comment"># Step 6：推上遠端</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git push origin main</span></div>
+    </div>
+    <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
+        你完成了一個完整循環：<span class="ai-text">AI 寫 → 你看 → 你 commit → 你 push</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 — Free play intro -->
+<section class="slide" id="slide-free-play-intro">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--ai);">YOUR TURN</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      自由嘗試：三個題目
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,820px);">
+      <div class="feature-item">
+        <div class="feature-icon">1</div>
+        <div><h4>建一個 README.md</h4><p>用 AI 介紹你的 my-project 專案</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">2</div>
+        <div><h4>加一個 index.html</h4><p>用 AI 幫你的資料夾做一個簡單網頁</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">3</div>
+        <div><h4>修改 intro.txt</h4><p>用 AI 加一段「今天學了什麼」</p></div>
+      </div>
+    </div>
+    <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        有自己的想法也歡迎。記得：<span class="ai-text">claude → diff → add → commit → push</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11 — Free play session -->
+<section class="slide" id="slide-free-play-session">
+  <div class="orb" style="width:clamp(250px,38vw,520px);height:clamp(250px,38vw,520px);background:radial-gradient(circle,rgba(168,85,247,0.08),transparent 70%);bottom:-15%;right:-8%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--ai);">FREE PLAY</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      自由嘗試時間
+    </h1>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(88vw,720px); text-align:left;">
+      <div class="feature-item">
+        <div class="feature-icon">↻</div>
+        <div><h4>用同一個 my-project 繼續玩</h4><p>每次改完都跑 diff → add → commit → push</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">≠</div>
+        <div><h4>試不同的指令</h4><p>觀察 AI 的回應差異，指令越清楚結果越好</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">?</div>
+        <div><h4>遇到問題舉手</h4><p>助教會來幫忙，沒有人被丟下</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12 — AI daily loop -->
+<section class="slide" id="slide-ai-daily-loop">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--ai);">THE LOOP</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      AI 日常循環
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
+      你負責「看」和「決定」，AI 負責「做」。<br>
+      <span class="ai-text">diff 是關鍵——不看就不 commit。</span>
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 你以後每天都可以用的循環</span></div>
+      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"做什麼"</span>     <span class="comment"># AI 幫你做</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git diff</span>             <span class="comment"># 你檢查產出</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add .</span>            <span class="comment"># 你決定納入</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "..."</span></span>  <span class="comment"># 你留下紀錄</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git push</span>             <span class="comment"># 你推上遠端</span></div>
+    </div>
+    <div class="highlight-box ai reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
+        CLI 是手，Git 是記憶，<span class="ai-text">AI 是夥伴</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13 — Unit 4 wrap -->
+<section class="slide" id="slide-unit4-wrap">
+  <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(168,85,247,0.08),transparent 70%);bottom:-20%;left:-10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element" style="color:var(--ai);">UNIT 4 小結</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      你今天從零學會了
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,680px); font-size:var(--h3-size); color:var(--text);">
+      <span class="accent-text">CLI 操作</span> · <span style="color:var(--accent2);">Git 版本控制</span> · <span class="ai-text">AI 協作</span>
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); max-width:min(80vw,640px);">
+      三者串起來，就是現代開發者的日常。
+    </p>
+    <div class="highlight-box ai reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
+        回家作業：用 <span class="ai-cmd" style="font-family:'JetBrains Mono',monospace;color:var(--ai);">claude</span> 幫自己做一個小專案，走完一次循環
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initCountdown(el) {
+  const dur = parseInt(el.dataset.seconds || '90', 10);
+  const ring = el.querySelector('.cd-ring-prog');
+  const num = el.querySelector('.cd-num');
+  const R = ring ? ring.r.baseVal.value : 54;
+  const C = 2 * Math.PI * R;
+  if (ring) { ring.style.strokeDasharray = C; ring.style.strokeDashoffset = '0'; }
+  let running = false;
+  const run = () => {
+    el.classList.remove('done');
+    const t0 = Date.now();
+    const tick = () => {
+      const remaining = Math.max(0, dur - (Date.now() - t0) / 1000);
+      if (num) num.textContent = Math.ceil(remaining);
+      if (ring) ring.style.strokeDashoffset = C * (1 - remaining / dur);
+      if (remaining > 0) { requestAnimationFrame(tick); }
+      else { if (num) num.textContent = '0'; el.classList.add('done'); running = false; }
+    };
+    tick();
+  };
+  const io = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting && !running) { running = true; run(); } }); }, { threshold: 0.6 });
+  io.observe(el.closest('.slide') || el);
+}
+class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
+document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); document.querySelectorAll('[data-countdown]').forEach(initCountdown); });
+</script>
+</body>
+</html>

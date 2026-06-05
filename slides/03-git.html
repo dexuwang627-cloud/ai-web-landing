@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03 — Git 版控橋樑</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT === */
+html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
+.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); position: relative; z-index: 1; }
+:root {
+  --title-size: clamp(2rem, 6vw, 5rem); --h2-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  --h3-size: clamp(1.2rem, 3vw, 2.2rem); --body-size: clamp(0.95rem, 2vw, 1.5rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.1rem); --slide-padding: clamp(1rem, 4vw, 4rem);
+  --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
+  --bg: #050508; --surface: #0b0b12; --card: #111119;
+  --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
+  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
+  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+  --mac: #2d2d2d; --win: #0c0c0c;
+}
+@media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
+@media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
+@media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
+@media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .cmd-grid, .split-panel, .os-split, .flow-grid { grid-template-columns: 1fr !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } .filename-fly .ff { display: none; } }
+/* === THEME === */
+body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
+.slide { background: var(--bg); }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+.label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.3vw, 1.1rem); font-weight: 500; letter-spacing: 3px; color: var(--accent); }
+.big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
+.sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
+.body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+.reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal-element.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
+/* === TERMINAL === */
+.terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
+.terminal-header { display: flex; gap: 6px; margin-bottom: clamp(8px,1vh,14px); }
+.terminal-dot { width: clamp(10px,1.2vw,14px); height: clamp(10px,1.2vw,14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .path { color: #79c0ff; } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #8b949e; } .terminal .output { color: #8b949e; } .terminal .flag { color: #d2a8ff; }
+.terminal .conflict-marker { color: var(--bad); font-weight: 700; }
+.terminal .conflict-ours { color: var(--good); }
+.terminal .conflict-theirs { color: var(--accent2); }
+/* === OS SPLIT === */
+.os-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px,1.5vw,24px); margin-top: var(--content-gap); max-width: min(92vw, 960px); width: 100%; }
+.os-col { text-align: left; }
+.os-label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem,1vw,0.85rem); font-weight: 700; letter-spacing: 2px; margin-bottom: clamp(6px,0.8vh,12px); }
+.os-label.mac { color: var(--accent); }
+.os-label.win { color: var(--accent2); }
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
+.feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
+.feature-item:hover { border-color: rgba(255,107,53,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,107,53,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
+.feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+.feature-item p .cmd-inline { font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+/* === HIGHLIGHT BOX === */
+.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+/* === CMD GRID === */
+.cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
+.cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
+.cmd-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === FLOW GRID === */
+.flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(92vw, 960px); width: 100%; align-items: stretch; }
+.flow-step { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); text-align: center; position: relative; }
+.flow-step .step-num { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.2rem,2.5vw,2rem); font-weight: 800; color: var(--accent); }
+.flow-step h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.9rem,1.4vw,1.15rem); font-weight: 600; margin: clamp(6px,0.8vh,12px) 0 4px; }
+.flow-step p { font-size: clamp(0.8rem,1.1vw,0.95rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+.flow-step .step-cmd { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.72rem,1vw,0.9rem); color: var(--accent); margin-top: 6px; }
+.flow-arrow { display: flex; align-items: center; justify-content: center; font-size: clamp(1.2rem,2vw,1.8rem); color: var(--accent); }
+/* === COUNTDOWN (true 90s) === */
+.countdown { position: relative; width: clamp(150px,24vw,230px); height: clamp(150px,24vw,230px); margin-top: var(--content-gap); }
+.countdown svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.cd-ring-bg { fill: none; stroke: rgba(255,107,53,0.12); stroke-width: 7; }
+.cd-ring-prog { fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 0 9px rgba(255,107,53,0.45)); }
+.cd-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(2.6rem,6.5vw,4.8rem); font-weight: 800; color: var(--accent); }
+.countdown.done .cd-num { color: var(--good); }
+.countdown.done .cd-ring-prog { stroke: var(--good); filter: drop-shadow(0 0 9px rgba(34,197,94,0.5)); }
+/* === FILENAME FLY (section-title bg) === */
+.filename-fly { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.filename-fly .ff { position: absolute; left: -40%; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem,1.5vw,1.1rem); color: rgba(255,107,53,0.16); white-space: nowrap; animation: flyacross linear infinite; }
+@keyframes flyacross { 0% { transform: translateX(0); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateX(180vw); opacity: 0; } }
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-soft); transform: scale(1.3); }
+.slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+</style>
+</head>
+<body>
+<nav class="nav-dots" aria-label="Slide navigation"></nav>
+<div class="slide-counter">01 / 12</div>
+<div class="keyboard-hint">Arrow keys or scroll to navigate</div>
+
+<!-- ═══════════════════════════════════════════
+     03-GIT: Unit 3 — Git 版控橋樑 (13:15–14:45)
+     ═══════════════════════════════════════════ -->
+
+<!-- SLIDE 1 — Section title -->
+<section class="slide" id="slide-section-title">
+  <div class="filename-fly" data-filename-fly></div>
+  <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);top:-20%;right:-10%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">UNIT 3 · 橋樑</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap); font-size:clamp(3rem,12vw,9rem);">
+      <span class="accent-text">Git</span>
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
+      版控 = 保命符 · 你的程式碼時間機器
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      13:15 – 14:45
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 2 — Why version control -->
+<section class="slide" id="slide-why-version-control">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">WHY</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      誰沒改過檔名改到瘋掉？
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 你的桌面，此刻</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+      <div class="output">報告.docx  報告_v2.docx  報告_final.docx</div>
+      <div class="output" style="color:var(--bad);">報告_final_REAL_最終版_這次真的.docx</div>
+    </div>
+    <div class="feature-list reveal-element reveal-delay-3" style="max-width:min(90vw,760px);">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(239,68,68,0.12); color:var(--bad);">?</div>
+        <div><h4>改錯了，想回到昨天那一版</h4><p>但昨天那版已經被你存檔蓋掉了 —— 回不去了</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(255,107,53,0.12); color:var(--accent);">✓</div>
+        <div><h4>版控 = 自動幫你記住每一次改動</h4><p>隨時能回到任何時間點，不用再靠檔名硬撐</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Time machine -->
+<section class="slide" id="slide-time-machine">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">TIME MACHINE</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      Git 是你的<span class="accent-text">時間機器</span>
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px);">
+      每一次 commit = 一個存檔點，像遊戲的 save point。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="prompt">$</span> <span class="cmd">git log <span class="flag">--oneline</span></span></div>
+      <div class="output" style="color:var(--good);">a3f2b1e 完成最終版</div>
+      <div class="output">c7d9e4a 修改第三章</div>
+      <div class="output">1b4a8f2 初稿 ← 隨時可以回到這裡</div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        像 Google Docs 的版本記錄，但<span class="accent-text">更強</span> —— 完整掌控、離線可用、記得每一次改動的歷程
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — Three areas -->
+<section class="slide" id="slide-three-areas">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">WORKFLOW</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      三區概念：寫報告 → 放進信封 → 寄出去
+    </h2>
+    <div class="flow-grid reveal-element reveal-delay-2" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <h4>工作區</h4>
+        <p>你正在編輯的檔案，還沒跟 Git 說</p>
+        <div class="step-cmd">Working Directory</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <h4>暫存區</h4>
+        <p>跟 Git 說「這些改動我準備好了」</p>
+        <div class="step-cmd">git add</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <h4>儲存庫</h4>
+        <p>正式存入歷史，蓋下存檔點</p>
+        <div class="step-cmd">git commit</div>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        跟著唸一次：<span class="accent-text">工作區 → 暫存區 → 儲存庫</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — init / add / commit -->
+<section class="slide" id="slide-init-add-commit">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element" style="color:var(--good);">HANDS-ON</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      動手做：git init → add → commit
+    </h2>
+    <div class="os-split reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">Mac / Linux</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
+          <div class="output">Initialized empty Git repository</div>
+          <div><span class="prompt">$</span> <span class="cmd">echo "Hello Git" > hello.txt</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git add hello.txt</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "第一版"</span></span></div>
+          <div style="margin-top:6px;"><span class="comment"># 改第二行，再存一次</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git add . && git commit <span class="flag">-m "第二版"</span></span></div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">Windows PowerShell</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git init</span></div>
+          <div class="output">Initialized empty Git repository</div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">"Hello Git" > hello.txt</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git add hello.txt</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git commit <span class="flag">-m "第一版"</span></span></div>
+          <div style="margin-top:6px;"><span class="comment"># 改第二行，再存一次</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git add . ; git commit <span class="flag">-m "第二版"</span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">過關標準：</span><span class="cmd-cell">git log</span> 看到兩筆記錄就成功了
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — Micro-break 1 -->
+<section class="slide" id="slide-micro-break-1">
+  <div class="orb" style="width:clamp(250px,38vw,560px);height:clamp(250px,38vw,560px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">BREATHE</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      ⚡ 微休息 90 秒
+    </h1>
+    <div class="countdown reveal-element reveal-delay-2" data-countdown data-seconds="90" style="align-self:center;">
+      <svg viewBox="0 0 120 120"><circle class="cd-ring-bg" cx="60" cy="60" r="54"></circle><circle class="cd-ring-prog" cx="60" cy="60" r="54"></circle></svg>
+      <div class="cd-num">90</div>
+    </div>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); font-size:var(--h3-size); color:var(--text);">
+      站起來、喝水、甩手
+    </p>
+    <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">
+      接下來要把程式碼送上雲端
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 7 — Push and GitHub -->
+<section class="slide" id="slide-push-and-github">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">REMOTE</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      把程式碼送上雲端：git push + GitHub
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
+      GitHub = 程式碼的雲端備份 + 協作平台（全世界最大）。<br>
+      為什麼要推上去？備份、跨裝置、分享、協作。
+    </p>
+    <div class="os-split reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="os-col">
+        <div class="os-label mac">Mac / Linux</div>
+        <div class="terminal" style="border-left:3px solid var(--accent);">
+          <div><span class="prompt">$</span> <span class="cmd">git remote add origin https://github.com/...</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git push <span class="flag">-u</span> origin main</span></div>
+          <div class="output" style="color:var(--good);">→ 重新整理 GitHub，看到你的檔案了</div>
+        </div>
+      </div>
+      <div class="os-col">
+        <div class="os-label win">Windows PowerShell</div>
+        <div class="terminal" style="border-left:3px solid var(--accent2);">
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git remote add origin https://github.com/...</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git push <span class="flag">-u</span> origin main</span></div>
+          <div class="output" style="color:var(--good);">→ 重新整理 GitHub，看到你的檔案了</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        第一次設定上游後，之後每次只要 <span class="cmd-cell">git push</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — Branch concept -->
+<section class="slide" id="slide-branch-concept">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">BRANCH</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Branch：平行宇宙
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
+      主線（main）= 正式版；分支（branch）= 實驗室。<br>
+      開 branch = 開一條平行時間線，改壞了不影響主線。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 開一條實驗分支</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git branch feature</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout feature</span>     <span class="comment"># 切過去改東西</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 改壞了也沒關係，主線完好</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git checkout main</span>        <span class="comment"># 切回主線</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git merge feature</span>        <span class="comment"># 滿意了再合併回來</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        類比：同一份報告，一人改結論、一人改附錄，最後合併成一份
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 — Conflict demo -->
+<section class="slide" id="slide-conflict-demo">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">CONFLICT</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      衝突是什麼？Git 說「<span class="accent-text">你來決定</span>」
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
+      兩人改同一行 → Git 不知道聽誰的 → 衝突。<br>
+      衝突不是壞事 = Git 把決定權交給你。
+    </p>
+    <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="comment"># 打開檔案，你會看到這些標記：</span></div>
+      <div><span class="conflict-marker">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span></div>
+      <div><span class="conflict-ours">我寫的版本：標題用「快速上手」</span></div>
+      <div><span class="conflict-marker">=======</span></div>
+      <div><span class="conflict-theirs">同事寫的版本：標題用「新手教學」</span></div>
+      <div><span class="conflict-marker">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature</span></div>
+      <div style="margin-top:10px;"><span class="comment"># 手動選一邊、刪掉標記 → 然後</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git add . && git commit</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        看到 <span class="conflict-marker">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> 不要緊張 —— 就是選 A 或選 B 而已
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 — Git cheatsheet -->
+<section class="slide" id="slide-git-cheatsheet">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">CHEAT SHEET</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Git 小抄：六條指令走天下
+    </h2>
+    <div class="cmd-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <span class="cmd-cell">git init</span><span class="cmd-desc">開始版控</span>
+      <span class="cmd-cell">git add &lt;檔名&gt;</span><span class="cmd-desc">放進暫存區</span>
+      <span class="cmd-cell">git commit -m "訊息"</span><span class="cmd-desc">存入歷史</span>
+      <span class="cmd-cell">git push</span><span class="cmd-desc">推上雲端</span>
+      <span class="cmd-cell">git pull</span><span class="cmd-desc">拉下最新（別人改的）</span>
+      <span class="cmd-cell">git log</span><span class="cmd-desc">查看歷史</span>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
+        加碼一條：<span class="cmd-cell">git status</span>
+      </p>
+      <p style="font-size:var(--small-size); color:var(--text-muted); margin-top:var(--element-gap);">
+        這條最常用 —— 忘記現在什麼狀態，就打它
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11 — Five lives -->
+<section class="slide" id="slide-five-lives">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">SAFETY NET</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      Git 給你的<span class="accent-text">五條命</span>
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,860px);">
+      <div class="feature-item">
+        <div class="feature-icon">1</div>
+        <div><h4>改壞了</h4><p><span class="cmd-inline">git checkout -- &lt;檔名&gt;</span> 還原這個檔</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">2</div>
+        <div><h4>commit 錯了</h4><p><span class="cmd-inline">git reset HEAD~1</span> 回前一版</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">3</div>
+        <div><h4>整個資料夾炸了</h4><p><span class="cmd-inline">git clone</span> 重新拉一份乾淨的回來</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">4</div>
+        <div><h4>不知道現在什麼狀態</h4><p><span class="cmd-inline">git status</span> 先看狀態</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">5</div>
+        <div><h4>推上去發現有錯</h4><p>改完再 push 一次就好 —— 歷史都還在</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12 — Unit 3 summary -->
+<section class="slide" id="slide-unit-3-summary">
+  <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(255,107,53,0.07),transparent 70%);bottom:-20%;right:-10%;"></div>
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">UNIT 3 回顧</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      你帶走了什麼
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,820px);">
+      <div class="feature-item">
+        <div class="feature-icon">⌛</div>
+        <div><h4>版控 = 時間機器</h4><p>記住每一次改動，隨時回到任何時間點</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">3</div>
+        <div><h4>三區</h4><p>工作區 → 暫存區 → 儲存庫</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">6</div>
+        <div><h4>六條指令</h4><p>init / add / commit / push / pull / log</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">⑂</div>
+        <div><h4>Branch = 平行宇宙，衝突 = Git 請你決定</h4><p>GitHub = 程式碼的雲端家</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initFilenameFly(layer) {
+  const names = ['report.docx','report_v2.docx','report_final.docx','report_final_REAL.docx','報告_最終版.docx','報告_真的最終版.docx','設計稿_v3_確定.psd','thesis_FINAL_真的.pdf','code_backup_old.zip','作業_交出去版.docx'];
+  names.forEach((n, i) => {
+    const s = document.createElement('span');
+    s.className = 'ff'; s.textContent = n;
+    s.style.top = (6 + i * 9.2) + '%';
+    s.style.animationDelay = (i * 1.05) + 's';
+    s.style.animationDuration = (9 + (i % 4) * 1.8) + 's';
+    layer.appendChild(s);
+  });
+}
+function initCountdown(el) {
+  const dur = parseInt(el.dataset.seconds || '90', 10);
+  const ring = el.querySelector('.cd-ring-prog');
+  const num = el.querySelector('.cd-num');
+  const R = ring ? ring.r.baseVal.value : 54;
+  const C = 2 * Math.PI * R;
+  if (ring) { ring.style.strokeDasharray = C; ring.style.strokeDashoffset = '0'; }
+  let running = false;
+  const run = () => {
+    el.classList.remove('done');
+    const t0 = Date.now();
+    const tick = () => {
+      const remaining = Math.max(0, dur - (Date.now() - t0) / 1000);
+      if (num) num.textContent = Math.ceil(remaining);
+      if (ring) ring.style.strokeDashoffset = C * (1 - remaining / dur);
+      if (remaining > 0) { requestAnimationFrame(tick); }
+      else { if (num) num.textContent = '0'; el.classList.add('done'); running = false; }
+    };
+    tick();
+  };
+  const io = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting && !running) { running = true; run(); } }); }, { threshold: 0.6 });
+  io.observe(el.closest('.slide') || el);
+}
+class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
+document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); document.querySelectorAll('[data-filename-fly]').forEach(initFilenameFly); document.querySelectorAll('[data-countdown]').forEach(initCountdown); });
+</script>
+</body>
+</html>
