@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# Claude / session handoff
+.claude-handoff.md
+
+# CodeGraph local index
+.codegraph/
