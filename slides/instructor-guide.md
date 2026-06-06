@@ -2,7 +2,14 @@
 title: Instructor Guide — CLI、Git 與 Agentic AI
 tags: [project/ipas, instructor-guide, cli-training]
 created: 2026-05-21
+status: deprecated
+deprecated: 2026-06-05
+superseded_by: instructor-guide-v2.md
 ---
+
+> ⚠️ **本檔為 v1 講師指南，已於 2026-06-05 標記過時。** 投影片編號、slide ID、時間表皆已過時。請改用 [`instructor-guide-v2.md`](./instructor-guide-v2.md)。
+>
+> 下方 v1 分段表保留作歷史參考，請勿用於實際授課。
 
 # Instructor Guide — CLI、Git 與 Agentic AI 實作班
 

@@ -1,22 +1,73 @@
 # 現有投影片更新內容大綱
 
 > v1 → v2 投影片更新清單
+>
+> 2026-06-05 更新：01-opening.html 從 10 頁擴充到 12 頁，加自我介紹 + AI 互動對比卡；時段從 09:00-09:30 拉長到 09:00-09:40。
 
 ---
 
 ## A. 01-opening.html
 
-### Slide 6（路線圖）：修改
+### 新增：自我介紹 slide（NEW 2026-06-05）
+
+**Slide ID**：`self-intro`
+**位置**：slide 1（welcome）之後
+**時間**：約 5 min
+**內容**：
+- 4 條 feature item
+  - 橘色邊線：你的名字 + 一句話定位（placeholder：`你的名字（placeholder）` / `一句話定位：例如「寫程式的人 / 教人寫程式的人」`）
+  - 藍色邊線：技術背景（placeholder：`技術背景（placeholder）` / `例：全端工程師 N 年 / 寫過什麼 / 在哪裡寫過`）
+  - 紫色邊線：教學經驗（placeholder：`教學經驗（placeholder）` / `例：開源貢獻 / 教過幾梯 / 學員背景`）
+  - 綠色邊線：今天為什麼站在這（固定文案：`一句話：把我會的，用你也能會的方式教給你`）
+
+### 新增：AI 互動對比卡 slide（NEW 2026-06-05）
+
+**Slide ID**：`ai-can`
+**位置**：自我介紹之後，原本「黑畫面恐懼」之前
+**時間**：約 12 min（講師控節奏）
+**內容**：
+- 標題：「AI 已經能做到哪些事？」
+- 副標：「點任一張卡，看同一件事在『過去』和『現在』怎麼做」
+- 4 個任務按鈕：
+  - 📄 寫會議記錄
+  - 📊 PDF 轉表格
+  - 🐛 修程式 bug
+  - 📚 學新東西
+- 點擊後下方 Before/After 對比卡同時更新：
+  - 左：過去的步驟 + ⏱ 時間
+  - 右：現在的步驟 + ⏱ 時間
+- 預設顯示「← 點上方任一張卡」引導
+
+**為什麼是 HTML 互動而不是 live demo**：不依賴現場網路 / AI 服務穩定性，零風險。
+
+### Slide 7（路線圖，原本是 slide 6）：修改
 
 **原內容**：AM = CLI 基礎，PM1 = Git 版本控制，PM2 = Agentic AI 實作
 **新內容**：
-- AM（09:00-12:15）：CLI 基礎 — 不怕黑畫面，能操作檔案和目錄
-- PM1（13:15-14:45）：Git 版控橋樑 — 知道為什麼要版控，會 add/commit/push
-- PM2（15:00-16:15）：AI 協作目的地 — 用自然語言指揮 AI，你負責審查
+- AM（09:00-12:10）：CLI 基礎 — 不怕黑畫面，能操作檔案和目錄
+- PM1（13:05-14:35）：Git 版控橋樑 — 知道為什麼要版控，會 add/commit/push
+- PM2（14:50-16:05）：AI 協作目的地 — 用自然語言指揮 AI，你負責審查
 
 **關鍵字變更**：
 - Git：「版本控制」→ 「版控橋樑」
 - AI：「Agentic AI 實作」→ 「AI 協作目的地」
+
+### Slide 編號對應（v1 → v2）
+
+| v1 slide # | v2 slide # | 內容 |
+|------------|------------|------|
+| 1 welcome | 1 welcome | 不變 |
+| — | 2 self-intro | **新增** |
+| — | 3 ai-can | **新增** |
+| 2 black-screen | 4 black-screen | 順移 |
+| 3 why-here | 5 why-here | 順移 |
+| 4 before-after | 6 before-after | 順移 |
+| 5 shift | 7 shift | 順移 |
+| 6 plan | 8 plan | 順移（內容更新） |
+| 7 rules | 9 rules | 順移 |
+| 8 terminal-check | 10 terminal-check | 順移 |
+| 9 succeed | 11 succeed | 順移 |
+| 10 start | 12 start | 順移 |
 
 ---
 

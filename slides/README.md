@@ -1,15 +1,17 @@
 # 投影片索引 — CLI、Git 與 Agentic AI 實作班
 
+> 2026-06-05 更新：01-opening.html 從 10 頁擴充到 12 頁（加自我介紹 + AI 互動對比卡），Unit 1 從 25min 拉長到 40min。
+
 ## 檔案對照
 
 | 檔案 | 內容 | 投影片數 | 時段 |
 |------|------|---------|------|
 | `00-briefing.html` | 課程簡報（宣傳用） | 8 | — |
-| `01-opening.html` | 開場：為什麼要學 CLI | 10 | 09:00–09:30 |
-| `02-cli-basics.html` | CLI 基礎（含單元分界 + 微休息 + 綜合練習） | 24 | 09:30–12:15 |
-| `03-git.html` | Git 版控橋樑 | 12 | 13:15–14:45 |
-| `04-agentic-ai.html` | Agentic AI 協作目的地 | 13 | 15:00–16:15 |
-| `05-closing.html` | 總結與下一步 | 10 | 16:15–16:45 |
+| `01-opening.html` | 開場：自我介紹 + AI 互動 + CLI 入門 | 12 | 09:00–09:40 |
+| `02-cli-basics.html` | CLI 基礎（含單元分界 + 微休息 + 綜合練習） | 24 | 09:40–12:10 |
+| `03-git.html` | Git 版控橋樑 | 12 | 13:05–14:35 |
+| `04-agentic-ai.html` | Agentic AI 協作目的地 | 13 | 14:50–16:05 |
+| `05-closing.html` | 總結與下一步 | 10 | 16:15–16:50 |
 
 > `03-git-and-ai.html` 已拆分為 `03-git.html` + `04-agentic-ai.html`，原檔已移除。
 > 內容來源大綱：`03-git-slides-outline.md`、`04-agentic-ai-slides-outline.md`、`existing-slides-updates.md`（保留當源頭）。
@@ -30,16 +32,18 @@
 - **微休息倒數**（`[data-countdown]`）：JS `requestAnimationFrame` 真倒數 90 秒，橘色圓環同步收束，歸零變綠；每次滑回該頁自動重跑。02 有 4 張、03/04 各 1 張。
 - **檔名飛掠背景**（`[data-filename-fly]`）：03 section-title 背景，JS 注入「report_final_REAL…」等檔名橫向飄過，呈現「檔名地獄」意象。
 - **單元分界**（`.unit-divider`）：02 導航 → 操作之間，左綠勾已完成、右橘箭頭接下來。
+- **AI 互動對比卡**（`01-opening.html` slide 3）：4 張任務按鈕（會議記錄 / PDF 轉表格 / 修 bug / 學新東西），點擊切換下方 Before/After 步驟 + 時間。
 
 ## 時間表
 
-- 09:00 開場（01）
-- 09:30 CLI 基礎（02）— Unit 1 導航：pwd/cd → ls → mkdir/touch
-- 10:45 CLI 基礎（02）— Unit 2 操作：cp/mv/rm → cat/grep → pipe/redirect → env → 綜合練習
-- 12:15 午餐
-- 13:15 Git 版控橋樑（03）：時間機器 → 三區 → init/add/commit → push/GitHub → branch/衝突 → 五條命
-- 14:45 休息
-- 15:00 Agentic AI（04）：對話式 vs 代理式 → Claude Code → demo → 跟做循環 → 自由嘗試
+- 09:00 開場（01）— 自我介紹 + AI 互動 + 路線圖
+- 09:40 CLI 基礎（02）— Unit 1 導航：pwd/cd → ls → mkdir/touch
+- 11:00 CLI 基礎（02）— Unit 2 操作：cp/mv/rm → cat/grep → pipe/redirect → env → 綜合練習
+- 12:10 午餐（55min）
+- 13:05 Git 版控橋樑（03）：時間機器 → 三區 → init/add/commit → push/GitHub → branch/衝突 → 五條命
+- 14:35 休息
+- 14:50 Agentic AI（04）：對話式 vs 代理式 → Claude Code → demo → 跟做循環 → 自由嘗試
+- 16:05 休息
 - 16:15 總結（05）：三層能力（門票/橋樑/目的地）、日常循環、常見地雷、資源、Q&A
 
 ## 三層定位
