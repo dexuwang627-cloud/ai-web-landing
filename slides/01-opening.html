@@ -796,8 +796,9 @@ function initAiDemo() {
       const task = card.dataset.task;
       const data = AI_DEMO_DATA[task];
       if (!data) return;
-      beforeEl.innerHTML = renderSteps(data.before.steps) + `<div class="time">⏱ ${data.before.time}</div>`;
-      afterEl.innerHTML = renderSteps(data.after.steps) + `<div class="time">⏱ ${data.after.time}</div>`;
+      const clockSvg = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.3em;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+      beforeEl.innerHTML = renderSteps(data.before.steps) + `<div class="time">${clockSvg} ${data.before.time}</div>`;
+      afterEl.innerHTML = renderSteps(data.after.steps) + `<div class="time">${clockSvg} ${data.after.time}</div>`;
     });
   });
 }
