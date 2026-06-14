@@ -148,7 +148,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>版控 = 自動幫你記住每一次改動</h4><p>隨時能回到任何時間點，不用再靠檔名硬撐</p></div>
+        <div><h4>版控 = 自動幫你記下每一次改動</h4><p>隨時能回到任何時間點，不用再靠檔名硬撐</p></div>
       </div>
     </div>
   </div>
@@ -316,10 +316,13 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 <!-- SLIDE 8 — Branch concept -->
 <section class="slide" id="slide-branch-concept">
   <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">BRANCH</div>
+    <div class="label reveal-element">BRANCH · 講師 DEMO</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
       Branch：平行宇宙
     </h2>
+    <p class="body-text reveal-element reveal-delay-0" style="margin-top:var(--element-gap); text-align:center; color:var(--text-muted); font-size:var(--small-size);">
+      （時間不夠可跳過 — 理解概念即可）
+    </p>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
       主線（main）= 正式版；分支（branch）= 實驗室。<br>
       開 branch = 開一條平行時間線，改壞了不影響主線。
@@ -328,9 +331,9 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
       <div><span class="comment"># 開一條實驗分支</span></div>
       <div><span class="prompt">$</span> <span class="cmd">git branch feature</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git checkout feature</span>     <span class="comment"># 切過去改東西</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git switch feature</span>     <span class="comment"># 切過去改東西（舊版用 checkout 也行）</span></div>
       <div style="margin-top:8px;"><span class="comment"># 改壞了也沒關係，主線完好</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git checkout main</span>        <span class="comment"># 切回主線</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">git switch main</span>        <span class="comment"># 切回主線</span></div>
       <div><span class="prompt">$</span> <span class="cmd">git merge feature</span>        <span class="comment"># 滿意了再合併回來</span></div>
     </div>
     <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
@@ -344,10 +347,13 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 <!-- SLIDE 9 — Conflict demo -->
 <section class="slide" id="slide-conflict-demo">
   <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">CONFLICT</div>
+    <div class="label reveal-element">CONFLICT · 講師 DEMO</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
       衝突是什麼？Git 說「<span class="accent-text">你來決定</span>」
     </h2>
+    <p class="body-text reveal-element reveal-delay-0" style="margin-top:var(--element-gap); text-align:center; color:var(--text-muted); font-size:var(--small-size);">
+      （時間不夠可跳過 — 理解概念即可）
+    </p>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
       兩人改同一行 → Git 不知道聽誰的 → 衝突。<br>
       衝突不是壞事 = Git 把決定權交給你。
@@ -440,7 +446,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,820px);">
       <div class="feature-item">
         <div class="feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg></div>
-        <div><h4>版控 = 時間機器</h4><p>記住每一次改動，隨時回到任何時間點</p></div>
+        <div><h4>版控 = 時間機器</h4><p>記下每一次改動，隨時回到任何時間點</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">3</div>
