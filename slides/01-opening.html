@@ -121,6 +121,8 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .glitch-container img {
   width: 100%;
   height: auto;
+  max-height: 55vh;
+  object-fit: cover;
   display: block;
   filter: contrast(1.15) saturate(0.85);
 }
@@ -164,6 +166,44 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .scan-lines {
   position: absolute; inset: 0; pointer-events: none; z-index: 3;
   background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 6px);
+}
+/* Noise overlay (fractalNoise SVG filter) */
+.noise-overlay {
+  position: absolute; inset: 0; pointer-events: none; z-index: 4; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Corner borders */
+.corner-borders {
+  position: absolute; inset: 0; pointer-events: none; z-index: 5;
+}
+.corner-borders::before,
+.corner-borders::after {
+  content: ''; position: absolute; width: clamp(20px, 3vw, 36px); height: clamp(20px, 3vw, 36px);
+  border-color: rgba(255,255,255,0.25); border-style: solid;
+}
+.corner-borders::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.corner-borders::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+/* Pulse glow on logo */
+.pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(255,107,53,0.15)); }
+  50%      { filter: drop-shadow(0 0 28px rgba(255,107,53,0.35)); }
+}
+/* Glitch clip slice */
+.glitch-slice {
+  position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: url("images/rogue-verge-model.png") center/cover;
+  opacity: 0;
+  animation: glitch-clip 2s steps(4) infinite;
+}
+@keyframes glitch-clip {
+  0%   { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateX(0); }
+  25%  { opacity: 0.6; clip-path: inset(15% 0 60% 0); transform: translateX(4px); }
+  50%  { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateX(0); }
+  75%  { opacity: 0.4; clip-path: inset(55% 0 20% 0); transform: translateX(-3px); }
+  100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateX(0); }
 }
 .rogue-info {
   display: flex;
@@ -267,12 +307,12 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <h2 id="work-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.4rem,3.5vw,2.8rem); font-weight:700; margin-top:var(--element-gap); text-align:center;">
       做過的東西
     </h2>
-    <div style="display:flex; flex-direction:column; gap:clamp(14px,2.5vw,28px); margin-top:clamp(1.5rem,4vw,3rem); max-width:min(90vw,660px); width:100%;">
-      <div class="work-card" id="work-card-1" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px);">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:clamp(14px,2.5vw,28px); margin-top:clamp(1.5rem,4vw,3rem); max-width:min(90vw,660px); width:100%;">
+      <div class="work-card" id="work-card-1" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px); text-align:center; width:100%;">
         <div style="font-family:'JetBrains Mono',monospace; font-size:clamp(0.7rem,1vw,0.85rem); color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:clamp(6px,1vw,10px);">Rogue Verge</div>
         <div style="font-size:clamp(0.95rem,1.5vw,1.2rem); color:var(--text); font-weight:400; line-height:1.6;">賽博龐克時尚品牌電商，全端開發 + Agentic AI 整合</div>
       </div>
-      <div class="work-card" id="work-card-2" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px);">
+      <div class="work-card" id="work-card-2" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px); text-align:center; width:100%;">
         <div style="font-family:'JetBrains Mono',monospace; font-size:clamp(0.7rem,1vw,0.85rem); color:var(--accent2); letter-spacing:3px; text-transform:uppercase; margin-bottom:clamp(6px,1vw,10px);">世和智能</div>
         <div style="font-size:clamp(0.95rem,1.5vw,1.2rem); color:var(--text); font-weight:400; line-height:1.6;">企業 AI 輔導，帶非技術背景團隊用 AI 解決工作問題</div>
       </div>
@@ -298,13 +338,16 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="label" id="rogue-label">BRAND</div>
     <div class="rogue-grid">
       <div class="rogue-model glitch-container">
-        <img src="images/rogue-verge-model.png" alt="Rogue Verge Model">
+        <img src="images/rogue-verge-model.png" alt="Rogue Verge Model" style="filter: contrast(1.15) saturate(0.85) grayscale(20%);">
         <div class="scan-lines"></div>
+        <div class="noise-overlay"></div>
+        <div class="corner-borders"></div>
+        <div class="glitch-slice"></div>
       </div>
       <div class="rogue-info">
-        <img class="rogue-logo" src="images/rogueverge-logo.svg" alt="Rogue Verge">
+        <img class="rogue-logo pulse-glow" src="images/rogueverge-logo.svg" alt="Rogue Verge" style="filter: grayscale(100%) contrast(125%) drop-shadow(0 0 12px rgba(255,107,53,0.15));">
         <p class="rogue-desc">賽博龐克時尚電商品牌。<br>全端開發 × Agentic AI 整合。</p>
-        <img class="sigilism-logo" src="images/sigilism-logo.svg" alt="Sigilism">
+        <img class="sigilism-logo" src="images/sigilism-logo.svg" alt="Sigilism" style="filter: grayscale(30%) contrast(110%) drop-shadow(0 0 16px rgba(168,85,247,0.15));">
       </div>
     </div>
   </div>
