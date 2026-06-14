@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>01 — 開場</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&family=Cinzel:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
 /* === VIEWPORT === */
@@ -96,10 +96,6 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   width: 100%;
   max-width: min(95vw, 1100px);
   margin-top: var(--content-gap);
-}
-@media (max-width: 768px) {
-  .rogue-grid { grid-template-columns: 1fr; text-align: center; }
-  .rogue-info { align-items: center !important; }
 }
 .glitch-container {
   position: relative;
@@ -194,31 +190,6 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   75%  { opacity: 0.4; clip-path: inset(55% 0 20% 0); transform: translateX(-3px); }
   100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateX(0); }
 }
-.rogue-info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--content-gap);
-  align-items: flex-start;
-}
-.rogue-logo {
-  max-width: min(90%, 280px);
-  height: auto;
-  filter: drop-shadow(0 0 24px rgba(255,107,53,0.1));
-}
-.rogue-desc {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin: 0;
-  max-width: 400px;
-}
-.sigilism-logo {
-  max-width: min(55%, 160px);
-  height: auto;
-  opacity: 0.6;
-  filter: drop-shadow(0 0 16px rgba(168,85,247,0.15));
-}
 .glitch-text {
   position: relative;
   display: inline-block;
@@ -249,11 +220,125 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   86% { transform: translateX(-3px); opacity: 0.7; }
   87% { transform: translateX(0); opacity: 0; }
 }
+
+/* === STANDALONE-STYLE BRAND / SHIHE CSS === */
+.highlight-wipe {
+  background: linear-gradient(90deg, var(--accent), #ffa06c);
+  background-size: 0% 100%; background-repeat: no-repeat;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: var(--text-dim);
+  transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s;
+}
+.highlight-wipe.active {
+  background-size: 100% 100%;
+  -webkit-text-fill-color: transparent;
+}
+.rv-brand {
+  font-family: 'Cinzel', serif; letter-spacing: 0.15em; text-transform: uppercase;
+}
+
+/* Data stream border */
+.data-border { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 2; }
+.data-border-track {
+  position: absolute; font-family: 'JetBrains Mono', monospace;
+  font-size: 7px; color: rgba(255,255,255,0.07); white-space: nowrap; overflow: hidden;
+}
+.data-border-track.top { top: 0; left: 0; width: 100%; height: 10px; }
+.data-border-track.bottom { bottom: 0; left: 0; width: 100%; height: 10px; }
+.data-border-track.left { top: 0; left: 0; width: 10px; height: 100%; writing-mode: vertical-rl; }
+.data-border-track.right { top: 0; right: 0; width: 10px; height: 100%; writing-mode: vertical-rl; }
+.data-border-inner { display: inline-block; animation: dataScroll 20s linear infinite; }
+.data-border-track.left .data-border-inner,
+.data-border-track.right .data-border-inner { animation-name: dataScrollV; }
+@keyframes dataScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes dataScrollV { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+
+/* Scanlines overlay (standalone style) */
+.scanlines {
+  position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
+  opacity: 0.4;
+}
+
+/* Gallery strip */
+.gallery-strip {
+  display: flex; gap: clamp(8px,1vw,16px); align-items: center; flex-wrap: wrap;
+  margin-top: var(--content-gap); justify-content: center;
+}
+.gallery-strip img {
+  max-height: min(28vh, 250px); border-radius: clamp(6px,1vw,12px);
+  object-fit: cover; border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 0.4s, border-color 0.3s;
+}
+.gallery-strip img:hover {
+  transform: scale(1.03); border-color: rgba(255,255,255,0.15);
+}
+
+/* LetterGlitch / Aurora backgrounds */
+.letter-glitch-bg { position: absolute; inset: 0; z-index: 0; }
+.letter-glitch-bg canvas { display: block; width: 100%; height: 100%; }
+.aurora-bg { position: absolute; inset: 0; z-index: 0; }
+.aurora-bg canvas { display: block; width: 100%; height: 100%; }
+.letter-glitch-vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 120% 100% at 50% 50%, rgba(5,5,8,0.55) 0%, rgba(5,5,8,0.8) 40%, rgba(5,5,8,0.95) 70%, rgba(5,5,8,1) 100%);
+}
+.lg-text-backing {
+  position: relative; z-index: 5;
+  background: linear-gradient(135deg, rgba(5,5,8,0.7) 0%, rgba(5,5,8,0.4) 100%);
+  border-radius: clamp(12px,1.5vw,20px); padding: clamp(16px,2.5vw,32px);
+  backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Shihe feature cards */
+.shihe-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, clamp(140px,16vw,220px)), 1fr));
+  gap: clamp(8px,1vw,16px); margin-top: var(--content-gap);
+}
+.shihe-feature-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: clamp(8px,1vw,12px); padding: clamp(10px,1.5vw,20px);
+  backdrop-filter: blur(8px); transition: border-color 0.3s, transform 0.3s;
+}
+.shihe-feature-card:hover { border-color: rgba(34,197,94,0.3); transform: translateY(-2px); }
+.shihe-feature-icon {
+  width: clamp(28px,3vw,40px); height: clamp(28px,3vw,40px); margin-bottom: clamp(4px,0.6vh,10px);
+  display: flex; align-items: center; justify-content: center;
+}
+.shihe-feature-card h3 {
+  font-family: 'Sora', sans-serif; font-size: clamp(1rem,1.6vw,1.3rem);
+  font-weight: 600; margin-bottom: clamp(2px,0.3vh,4px);
+}
+.shihe-feature-card p {
+  font-size: clamp(0.8rem,1.2vw,1rem); color: var(--text-muted); line-height: 1.4;
+}
+.shihe-accent { color: #22c55e; }
+
+/* Shihe gallery */
+.shihe-gallery {
+  display: flex; gap: clamp(8px,1vw,16px); align-items: stretch;
+  margin-top: var(--content-gap); max-width: min(92vw, 1000px);
+}
+.shihe-gallery-item {
+  flex: 1; border-radius: clamp(6px,1vw,12px); overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06); position: relative;
+  transition: transform 0.4s, border-color 0.3s; min-height: min(25vh,200px);
+}
+.shihe-gallery-item:hover { transform: scale(1.02); border-color: rgba(34,197,94,0.2); }
+.shihe-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shihe-gallery-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: clamp(4px,0.5vw,8px) clamp(6px,0.8vw,12px);
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  font-family: 'JetBrains Mono', monospace; font-size: clamp(0.65rem,0.9vw,0.8rem);
+  color: rgba(255,255,255,0.6); letter-spacing: 0.5px;
+}
 </style>
 </head>
 <body>
 <nav class="nav-dots" aria-label="Slide navigation"></nav>
-<div class="slide-counter">01 / 15</div>
+<div class="slide-counter">01 / 17</div>
 <div class="keyboard-hint">Arrow keys or scroll to navigate</div>
 
 <!-- ═══════════════════════════════════════════
@@ -322,22 +407,101 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE — Rogue Verge 品牌 -->
 <section class="slide gsap-slide" id="slide-rogue-verge">
-  <div class="orb" style="width:clamp(500px,65vw,1000px);height:clamp(500px,65vw,1000px);background:radial-gradient(circle,rgba(255,107,53,0.06),transparent 65%);top:-20%;left:-10%;"></div>
-  <div class="slide-content">
-    <div class="label" id="rogue-label">BRAND</div>
-    <div class="rogue-grid">
-      <div class="rogue-model glitch-container">
-        <img src="images/rogue-verge-model.png" alt="Rogue Verge Model" style="filter: contrast(1.15) saturate(0.85) grayscale(20%);">
-        <div class="scan-lines"></div>
-        <div class="noise-overlay"></div>
-        <div class="corner-borders"></div>
-        <div class="glitch-slice"></div>
+  <div class="data-border">
+    <div class="data-border-track top"><div class="data-border-inner">ROGUE_VERGE_叛際線 AI_GENERATED_BRAND MIDJOURNEY+CLAUDE_CODE ROGUE_VERGE_叛際線 AI_GENERATED_BRAND MIDJOURNEY+CLAUDE_CODE </div></div>
+    <div class="data-border-track bottom"><div class="data-border-inner">MODEL:MIDJOURNEY_V6 LOGO:AI_DESIGN WEBSITE:CLAUDE_CODE+REACT+GSAP MODEL:MIDJOURNEY_V6 LOGO:AI_DESIGN WEBSITE:CLAUDE_CODE+REACT+GSAP </div></div>
+    <div class="data-border-track left"><div class="data-border-inner">RV-SIGILISM-001 RV-SIGILISM-002 RV-CODEX RV-SIGILISM-001 RV-SIGILISM-002 RV-CODEX </div></div>
+    <div class="data-border-track right"><div class="data-border-inner">RELIC-01 SILK-BANDANA OPIUM-TEE RELIC-01 SILK-BANDANA OPIUM-TEE </div></div>
+  </div>
+  <div class="scanlines"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">PROJECT 01</div>
+    <h2 class="reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      <span class="rv-brand sub-heading highlight-wipe">Rogue Verge 叛際線</span>
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(85vw,700px);">
+      我的個人服飾品牌。從品牌策略到視覺設計，由我定方向，AI 負責執行。
+    </p>
+    <div class="gallery-strip reveal-element reveal-delay-3">
+      <img src="images/rogue-verge-model.png" alt="Rogue Verge Model" style="max-height:min(28vh,250px);">
+      <img src="images/rogueverge-logo.svg" alt="Rogue Verge Logo" style="max-height:min(28vh,250px);">
+      <img src="images/sigilism-logo.svg" alt="Sigilism" style="max-height:min(28vh,250px);">
+    </div>
+    <p class="reveal-element reveal-delay-4" style="font-size:var(--small-size); color:var(--text-dim); margin-top:var(--element-gap); font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;">
+      Midjourney · AI Design · Claude Code · React + GSAP
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE — 世和智能 (LetterGlitch bg)
+     ═══════════════════════════════════════════ -->
+<section class="slide" id="slide-shihe">
+  <div class="letter-glitch-bg">
+    <canvas id="letter-glitch-canvas"></canvas>
+  </div>
+  <div class="letter-glitch-vignette"></div>
+  <div class="data-border">
+    <div class="data-border-track top"><div class="data-border-inner">SHIHE_INTELLIGENT_世和智能 REACT+TS+SUPABASE+THREEJS GREEN_ENERGY+AI_SOLUTIONS SHIHE_INTELLIGENT_世和智能 REACT+TS+SUPABASE+THREEJS GREEN_ENERGY+AI_SOLUTIONS </div></div>
+    <div class="data-border-track bottom"><div class="data-border-inner">I18N:ZH-TW+EN SEO:PRERENDER+SITEMAP CMS:SUPABASE+AUTH SPLASH_CURSOR:WEBGL_FLUID I18N:ZH-TW+EN SEO:PRERENDER+SITEMAP CMS:SUPABASE+AUTH SPLASH_CURSOR:WEBGL_FLUID </div></div>
+  </div>
+  <div class="slide-content" style="z-index:5; align-items:center;">
+    <div style="display:flex; align-items:center; gap:clamp(8px,1.2vw,16px); margin-bottom:var(--element-gap);" class="reveal-element">
+      <div class="label">PROJECT 02</div>
+    </div>
+    <h2 class="sub-heading reveal-element reveal-delay-1">
+      <span style="color: var(--accent);">世和智能官方網站</span>
+    </h2>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(85vw,700px);">
+      為家族企業從零建置的官方網站。<br>
+      WebGL 流體游標、GLSL 極光著色器、3D 粒子球 — 全程以 AI 協作完成。
+    </p>
+    <div class="shihe-features reveal-element reveal-delay-3" style="max-width:min(92vw,1000px);">
+      <div class="shihe-feature-card">
+        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>流體游標 <span class="shihe-accent">SplashCursor</span></h3>
+        <p>WebGL 即時流體模擬，跟著滑鼠走</p>
       </div>
-      <div class="rogue-info">
-        <img class="rogue-logo pulse-glow" src="images/rogueverge-logo.svg" alt="Rogue Verge" style="filter: grayscale(100%) contrast(125%) drop-shadow(0 0 12px rgba(255,107,53,0.15));">
-        <p class="rogue-desc">賽博龐克時尚電商品牌。<br>全端開發 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Agentic AI 整合。</p>
-        <img class="sigilism-logo" src="images/sigilism-logo.svg" alt="Sigilism" style="filter: grayscale(30%) contrast(110%) drop-shadow(0 0 16px rgba(168,85,247,0.15));">
+      <div class="shihe-feature-card">
+        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div>
+        <h3>動態背景 <span class="shihe-accent">Aurora / Orb</span></h3>
+        <p>GLSL shader 極光 + 粒子球輪播</p>
       </div>
+      <div class="shihe-feature-card">
+        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div>
+        <h3>中英雙語 <span class="shihe-accent">i18next</span></h3>
+        <p>完整國際化 + 語系路由切換</p>
+      </div>
+      <div class="shihe-feature-card">
+        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3>後台 CMS <span class="shihe-accent">Supabase</span></h3>
+        <p>即時 DB + Auth + 郵件通知</p>
+      </div>
+    </div>
+    <p class="reveal-element reveal-delay-4" style="font-size:var(--small-size); color:var(--text-dim); margin-top:var(--element-gap); font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;">
+      React 19 · TypeScript · Tailwind · Three.js · GSAP · Framer Motion
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE — 世和智能: Visual Showcase
+     ═══════════════════════════════════════════ -->
+<section class="slide" id="slide-shihe-visual">
+  <div class="aurora-bg">
+    <canvas id="aurora-canvas"></canvas>
+  </div>
+  <div class="slide-content" style="z-index:5; align-items:center;">
+    <div class="lg-text-backing" style="text-align:center; max-width:min(90vw,900px); width:100%;">
+      <div class="label reveal-element">LIVE EFFECTS</div>
+      <h3 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+        <span class="typewrite-text" data-typewrite="這兩頁的背景，都是從網站搬過來的"></span>
+      </h3>
+      <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,700px); margin-left:auto; margin-right:auto;">
+        上一頁是 <span style="color:#22c55e; font-weight:500;">LetterGlitch</span> 亂碼矩陣，這頁是 <span style="color:#3dc9a0; font-weight:500;">Aurora</span> 極光著色器。<br>
+        兩種截然不同的 Canvas 動畫，都是描述視覺方向後由 AI 實現的。<br>
+        <span style="color:var(--text); font-weight:400;">今天這堂課的核心，就是學會如何有效地指揮 AI 完成工作。</span>
+      </p>
     </div>
   </div>
 </section>
@@ -687,6 +851,13 @@ function animateTypewriter(el, { speed = 48, delay = 0 } = {}) {
   return () => clearTimeout(tid);
 }
 
+function initTypewrite(el) {
+  const text = el.dataset.typewrite;
+  if (!text) return;
+  el.textContent = text;
+  animateTypewriter(el, { speed: 42, delay: 0 });
+}
+
 // ── Main orchestrator ──────────────────────────────────────────
 function initGSAPSlides() {
   if (typeof gsap === 'undefined') return;
@@ -722,16 +893,26 @@ function initGSAPSlides() {
       setTimeout(() => animateTypewriter(heading, { speed: 42, delay: 400 }), 0);
     },
     'slide-rogue-verge': () => {
-      const label = document.getElementById('rogue-label');
-      const model = document.querySelector('#slide-rogue-verge .rogue-model');
-      const logo  = document.querySelector('#slide-rogue-verge .rogue-logo');
-      const desc  = document.querySelector('#slide-rogue-verge .rogue-desc');
-      const sigil = document.querySelector('#slide-rogue-verge .sigilism-logo');
+      const slide = document.getElementById('slide-rogue-verge');
+      const label = slide.querySelector('.label');
+      const title = slide.querySelector('.sub-heading');
+      const desc  = slide.querySelector('.body-text');
+      const gallery = slide.querySelector('.gallery-strip');
+      const tags  = slide.querySelector('.gallery-strip + p');
+      gsap.from(label,   { autoAlpha: 0, y: 16, duration: 0.4 });
+      gsap.from(title,   { autoAlpha: 0, y: 30, duration: 0.6, ease: 'power3.out', delay: 0.2 });
+      gsap.from(desc,    { autoAlpha: 0, y: 20, duration: 0.5, ease: 'power3.out', delay: 0.4 });
+      gsap.from(gallery, { autoAlpha: 0, y: 30, scale: 0.95, duration: 0.7, ease: 'power3.out', delay: 0.55 });
+      gsap.from(tags,    { autoAlpha: 0, duration: 0.4, delay: 0.8 });
+    },
+    'slide-shihe-visual': () => {
+      const slide = document.getElementById('slide-shihe-visual');
+      const label = slide.querySelector('.label');
+      const title = slide.querySelector('.typewrite-text');
+      const desc  = slide.querySelector('.body-text');
       gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
-      gsap.from(model, { autoAlpha: 0, x: -60, duration: 0.7, ease: 'power3.out', delay: 0.25 });
-      gsap.from(logo,  { autoAlpha: 0, y: 30, duration: 0.6, ease: 'power3.out', delay: 0.45 });
-      gsap.from(desc,  { autoAlpha: 0, y: 20, duration: 0.5, ease: 'power3.out', delay: 0.65 });
-      gsap.from(sigil, { autoAlpha: 0, scale: 0.9, duration: 0.6, ease: 'power3.out', delay: 0.85 });
+      setTimeout(() => initTypewrite(title), 300);
+      gsap.from(desc,  { autoAlpha: 0, y: 20, duration: 0.5, ease: 'power3.out', delay: 0.6 });
     }
   };
 
@@ -790,6 +971,196 @@ function initAiDemo() {
     });
   });
 }
+
+/* ===== HIGHLIGHT-WIPE ACTIVATION ===== */
+(function() {
+  const rogueSlide = document.getElementById('slide-rogue-verge');
+  if (!rogueSlide) return;
+  const wipe = rogueSlide.querySelector('.highlight-wipe');
+  if (!wipe) return;
+  const io = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { wipe.classList.add('active'); }
+    else { wipe.classList.remove('active'); }
+  }, { threshold: 0.3 });
+  io.observe(rogueSlide);
+})();
+
+/* ===== LETTERGLITCH ===== */
+const GLITCH_COLORS = ['#0d1f45', '#146070', '#1e6e4a'];
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789世和智能綠能轉型';
+const FONT_SIZE = 16;
+const CHAR_W = 10;
+const CHAR_H = 20;
+const GLITCH_SPEED = 55;
+
+function hexToRgb(hex) {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return m ? { r: parseInt(m[1],16), g: parseInt(m[2],16), b: parseInt(m[3],16) } : null;
+}
+function lerpColor(a, b, t) {
+  return `rgb(${Math.round(a.r+(b.r-a.r)*t)},${Math.round(a.g+(b.g-a.g)*t)},${Math.round(a.b+(b.b-a.b)*t)})`;
+}
+
+function initLetterGlitch(canvas) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let cols = 0, rows = 0, letters = [], raf = null, visible = false, lastTime = 0;
+
+  function rndChar() { return CHARS[Math.floor(Math.random()*CHARS.length)]; }
+  function rndColor() { return GLITCH_COLORS[Math.floor(Math.random()*GLITCH_COLORS.length)]; }
+
+  function resize() {
+    const p = canvas.parentElement;
+    if (!p) return;
+    const dpr = Math.min(devicePixelRatio||1, 2);
+    const w = p.clientWidth, h = p.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    canvas.style.width = w+'px'; canvas.style.height = h+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cols = Math.ceil(w/CHAR_W); rows = Math.ceil(h/CHAR_H);
+    letters = Array.from({length: cols*rows}, () => ({
+      ch: rndChar(), color: rndColor(), target: rndColor(), prog: 1
+    }));
+    draw(w, h);
+  }
+
+  function draw(w, h) {
+    if (!w) { const p=canvas.parentElement; if(!p) return; w=p.clientWidth; h=p.clientHeight; }
+    ctx.clearRect(0,0,w,h);
+    ctx.font = FONT_SIZE+'px monospace';
+    ctx.textBaseline = 'top';
+    for (let i=0; i<letters.length; i++) {
+      ctx.fillStyle = letters[i].color;
+      ctx.fillText(letters[i].ch, (i%cols)*CHAR_W, Math.floor(i/cols)*CHAR_H);
+    }
+  }
+
+  function update() {
+    const count = Math.max(1, Math.floor(letters.length*0.05));
+    for (let i=0; i<count; i++) {
+      const idx = Math.floor(Math.random()*letters.length);
+      letters[idx].ch = rndChar();
+      letters[idx].target = rndColor();
+      letters[idx].prog = 0;
+    }
+  }
+
+  function smoothStep() {
+    let dirty = false;
+    for (const l of letters) {
+      if (l.prog < 1) {
+        l.prog = Math.min(1, l.prog + 0.05);
+        const a = hexToRgb(l.color), b = hexToRgb(l.target);
+        if (a && b) { l.color = lerpColor(a, b, l.prog); dirty = true; }
+      }
+    }
+    if (dirty) draw();
+  }
+
+  function animate(now) {
+    if (!visible) return;
+    if (now - lastTime >= GLITCH_SPEED) { update(); draw(); lastTime = now; }
+    smoothStep();
+    raf = requestAnimationFrame(animate);
+  }
+
+  const io = new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if (visible && !raf) { resize(); raf = requestAnimationFrame(animate); }
+    if (!visible && raf) { cancelAnimationFrame(raf); raf = null; }
+  }, { threshold: 0.1 });
+  io.observe(canvas.closest('.slide'));
+  window.addEventListener('resize', () => { if (visible) resize(); });
+}
+
+initLetterGlitch(document.getElementById('letter-glitch-canvas'));
+
+/* ===== AURORA ===== */
+(function() {
+  const canvas = document.getElementById('aurora-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let raf = null, visible = false, time = 0;
+
+  /* Simplex-ish noise (fast 2D gradient noise) */
+  const P = new Uint8Array(512);
+  (function seedPerm() {
+    const p = [];
+    for (let i = 0; i < 256; i++) p[i] = i;
+    for (let i = 255; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [p[i],p[j]]=[p[j],p[i]]; }
+    for (let i = 0; i < 512; i++) P[i] = p[i & 255];
+  })();
+  const G2 = [[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];
+  function dot2(g,x,y){return g[0]*x+g[1]*y;}
+  function noise2(x,y) {
+    const F2=0.5*(Math.sqrt(3)-1), G=((3-Math.sqrt(3))/6);
+    const s=(x+y)*F2, i=Math.floor(x+s), j=Math.floor(y+s);
+    const t=(i+j)*G, x0=x-(i-t), y0=y-(j-t);
+    const i1=x0>y0?1:0, j1=x0>y0?0:1;
+    const x1=x0-i1+G, y1=y0-j1+G, x2=x0-1+2*G, y2=y0-1+2*G;
+    const ii=i&255, jj=j&255;
+    const gi0=P[ii+P[jj]]%8, gi1=P[ii+i1+P[jj+j1]]%8, gi2=P[ii+1+P[jj+1]]%8;
+    let n0=0,n1=0,n2=0;
+    let t0=0.5-x0*x0-y0*y0; if(t0>=0){t0*=t0; n0=t0*t0*dot2(G2[gi0],x0,y0);}
+    let t1=0.5-x1*x1-y1*y1; if(t1>=0){t1*=t1; n1=t1*t1*dot2(G2[gi1],x1,y1);}
+    let t2=0.5-x2*x2-y2*y2; if(t2>=0){t2*=t2; n2=t2*t2*dot2(G2[gi2],x2,y2);}
+    return 70*(n0+n1+n2);
+  }
+
+  function lerpC(a,b,t){return a+(b-a)*t;}
+  function rampColor(t){
+    const stops=[
+      {p:0.0,c:[13,31,69]},{p:0.25,c:[20,96,112]},{p:0.5,c:[30,110,74]},
+      {p:0.7,c:[13,31,69]},{p:0.85,c:[20,60,90]},{p:1.0,c:[13,31,69]}
+    ];
+    let i=0; while(i<stops.length-1 && t>stops[i+1].p) i++;
+    const s1=stops[i], s2=stops[i+1]||stops[stops.length-1];
+    const lt=(t-s1.p)/(s2.p-s1.p);
+    return [
+      Math.round(lerpC(s1.c[0],s2.c[0],lt)),
+      Math.round(lerpC(s1.c[1],s2.c[1],lt)),
+      Math.round(lerpC(s1.c[2],s2.c[2],lt))
+    ];
+  }
+
+  function resize() {
+    const p=canvas.parentElement; if(!p)return;
+    const dpr=Math.min(devicePixelRatio||1,2);
+    const w=p.clientWidth, h=p.clientHeight;
+    canvas.width=w*dpr; canvas.height=h*dpr;
+    canvas.style.width=w+'px'; canvas.style.height=h+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  function render() {
+    if(!visible) return;
+    const w=canvas.width/(devicePixelRatio||1), h=canvas.height/(devicePixelRatio||1);
+    time+=0.003;
+    const img=ctx.createImageData(w,h);
+    const buf=img.data;
+    const scale=0.003;
+    for(let y=0;y<h;y++){
+      for(let x=0;x<w;x++){
+        const n1=noise2(x*scale,y*scale+time);
+        const n2=noise2(x*scale+50,y*scale+time*0.7);
+        const blend=(n1*0.6+n2*0.4+1)/2;
+        const [r,g,b]=rampColor(blend);
+        const i=(y*w+x)*4;
+        buf[i]=r; buf[i+1]=g; buf[i+2]=b; buf[i+3]=255;
+      }
+    }
+    ctx.putImageData(img,0,0);
+    raf=requestAnimationFrame(render);
+  }
+
+  const io=new IntersectionObserver(entries=>{
+    visible=entries[0].isIntersecting;
+    if(visible&&!raf){resize();raf=requestAnimationFrame(render);}
+    if(!visible&&raf){cancelAnimationFrame(raf);raf=null;}
+  },{threshold:0.1});
+  io.observe(canvas.closest('.slide'));
+  window.addEventListener('resize',()=>{if(visible)resize();});
+})();
 </script>
 </body>
 </html>
