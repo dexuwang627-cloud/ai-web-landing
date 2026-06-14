@@ -96,6 +96,130 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-soft); transform: scale(1.3); }
 .slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
 .keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+
+/* === ROGUE VERGE BRAND SLIDE === */
+#slide-rogue-verge .slide-content { align-items: flex-start; }
+.rogue-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: center;
+  width: 100%;
+  max-width: min(95vw, 1100px);
+  margin-top: var(--content-gap);
+}
+@media (max-width: 768px) {
+  .rogue-grid { grid-template-columns: 1fr; text-align: center; }
+  .rogue-info { align-items: center !important; }
+}
+.glitch-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(8px, 1vw, 14px);
+  border: 1px solid rgba(255,107,53,0.12);
+}
+.glitch-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: contrast(1.15) saturate(0.85);
+}
+.glitch-container::before,
+.glitch-container::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url("images/rogue-verge-model.png") center/cover;
+  opacity: 0;
+  pointer-events: none;
+}
+.glitch-container::before {
+  mix-blend-mode: screen;
+  background-color: #ff0000;
+  background-blend-mode: multiply;
+  clip-path: polygon(0 0, 100% 0, 100% 42%, 0 42%);
+  animation: glitch-r 4.5s infinite linear;
+}
+.glitch-container::after {
+  mix-blend-mode: screen;
+  background-color: #00ffff;
+  background-blend-mode: multiply;
+  clip-path: polygon(0 58%, 100% 58%, 100% 100%, 0 100%);
+  animation: glitch-b 3.8s infinite linear;
+}
+@keyframes glitch-r {
+  0%, 86%, 100% { opacity: 0; transform: translateX(0); }
+  87% { opacity: 0.55; transform: translateX(5px); }
+  89% { opacity: 0; transform: translateX(0); }
+  94% { opacity: 0.35; transform: translateX(3px); }
+  96% { opacity: 0; transform: translateX(0); }
+}
+@keyframes glitch-b {
+  0%, 76%, 100% { opacity: 0; transform: translateX(0); }
+  77% { opacity: 0.55; transform: translateX(-5px); }
+  79% { opacity: 0; transform: translateX(0); }
+  91% { opacity: 0.35; transform: translateX(-3px); }
+  93% { opacity: 0; transform: translateX(0); }
+}
+.scan-lines {
+  position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 6px);
+}
+.rogue-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--content-gap);
+  align-items: flex-start;
+}
+.rogue-logo {
+  max-width: min(90%, 280px);
+  height: auto;
+  filter: drop-shadow(0 0 24px rgba(255,107,53,0.1));
+}
+.rogue-desc {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 400px;
+}
+.sigilism-logo {
+  max-width: min(55%, 160px);
+  height: auto;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 16px rgba(168,85,247,0.15));
+}
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+}
+.glitch-text::before {
+  color: #ff0000;
+  clip-path: polygon(0 0, 100% 0, 100% 48%, 0 48%);
+  animation: glitch-text-r 4s infinite linear alternate-reverse;
+}
+.glitch-text::after {
+  color: #00ffff;
+  clip-path: polygon(0 52%, 100% 52%, 100% 100%, 0 100%);
+  animation: glitch-text-b 3.2s infinite linear alternate-reverse;
+}
+@keyframes glitch-text-r {
+  0%, 90%, 100% { transform: translateX(0); opacity: 0; }
+  91% { transform: translateX(3px); opacity: 0.7; }
+  92% { transform: translateX(0); opacity: 0; }
+}
+@keyframes glitch-text-b {
+  0%, 85%, 100% { transform: translateX(0); opacity: 0; }
+  86% { transform: translateX(-3px); opacity: 0.7; }
+  87% { transform: translateX(0); opacity: 0; }
+}
 </style>
 </head>
 <body>
@@ -164,6 +288,25 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <h2 id="why-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.8rem,5vw,4rem); font-weight:700; line-height:1.25; margin-top:var(--content-gap); max-width:min(85vw,680px);">
       把我學到的，<br>用最直接的方式帶給你
     </h2>
+  </div>
+</section>
+
+<!-- SLIDE — Rogue Verge 品牌 -->
+<section class="slide gsap-slide" id="slide-rogue-verge">
+  <div class="orb" style="width:clamp(500px,65vw,1000px);height:clamp(500px,65vw,1000px);background:radial-gradient(circle,rgba(255,107,53,0.06),transparent 65%);top:-20%;left:-10%;"></div>
+  <div class="slide-content">
+    <div class="label" id="rogue-label">BRAND</div>
+    <div class="rogue-grid">
+      <div class="rogue-model glitch-container">
+        <img src="images/rogue-verge-model.png" alt="Rogue Verge Model">
+        <div class="scan-lines"></div>
+      </div>
+      <div class="rogue-info">
+        <img class="rogue-logo" src="images/rogueverge-logo.svg" alt="Rogue Verge">
+        <p class="rogue-desc">賽博龐克時尚電商品牌。<br>全端開發 × Agentic AI 整合。</p>
+        <img class="sigilism-logo" src="images/sigilism-logo.svg" alt="Sigilism">
+      </div>
+    </div>
   </div>
 </section>
 
@@ -545,6 +688,18 @@ function initGSAPSlides() {
       const heading = document.getElementById('why-heading');
       gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
       setTimeout(() => animateTypewriter(heading, { speed: 42, delay: 400 }), 0);
+    },
+    'slide-rogue-verge': () => {
+      const label = document.getElementById('rogue-label');
+      const model = document.querySelector('#slide-rogue-verge .rogue-model');
+      const logo  = document.querySelector('#slide-rogue-verge .rogue-logo');
+      const desc  = document.querySelector('#slide-rogue-verge .rogue-desc');
+      const sigil = document.querySelector('#slide-rogue-verge .sigilism-logo');
+      gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
+      gsap.from(model, { autoAlpha: 0, x: -60, duration: 0.7, ease: 'power3.out', delay: 0.25 });
+      gsap.from(logo,  { autoAlpha: 0, y: 30, duration: 0.6, ease: 'power3.out', delay: 0.45 });
+      gsap.from(desc,  { autoAlpha: 0, y: 20, duration: 0.5, ease: 'power3.out', delay: 0.65 });
+      gsap.from(sigil, { autoAlpha: 0, scale: 0.9, duration: 0.6, ease: 'power3.out', delay: 0.85 });
     }
   };
 
