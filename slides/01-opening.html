@@ -26,6 +26,15 @@ html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
 @media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
 @media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .feature-list, .compare-grid { grid-template-columns: 1fr !important; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
+/* GSAP slides: hidden before JS runs to prevent flash */
+#intro-label, #intro-name, #intro-tagline,
+#work-label, #work-heading, #work-card-1, #work-card-2,
+#why-label, #why-heading { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  #intro-label, #intro-name, #intro-tagline,
+  #work-label, #work-heading, #work-card-1, #work-card-2,
+  #why-label, #why-heading { opacity: 1; }
+}
 /* === THEME === */
 body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
@@ -112,32 +121,49 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   </div>
 </section>
 
-<!-- SLIDE 2 — 自我介紹 -->
-<section class="slide" id="slide-self-intro">
-  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(168,85,247,0.08),transparent 70%);top:-30%;right:-20%;"></div>
-  <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">WHO</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      先自我介紹一下
+<!-- SLIDE 2 — 自我介紹：名字 -->
+<section class="slide gsap-slide" id="slide-intro-name">
+  <canvas id="silk-bg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.55;"></canvas>
+  <div class="slide-content" style="align-items:center; text-align:center; justify-content:center; position:relative; z-index:1;">
+    <div class="label" id="intro-label">WHO</div>
+    <h1 id="intro-name" style="font-family:'Sora',sans-serif; font-size:clamp(3.5rem,9vw,8rem); font-weight:800; line-height:1.05; letter-spacing:-2px; margin-top:var(--content-gap); color:var(--text);">
+      王得旭
+    </h1>
+    <p id="intro-tagline" style="margin-top:clamp(0.75rem,2vw,1.5rem); font-size:clamp(1rem,2.2vw,1.6rem); color:var(--text-muted); font-weight:300; letter-spacing:0.5px;">
+      清大經濟 &nbsp;·&nbsp; 自學程式 &nbsp;·&nbsp; 用 AI 做出真實產品
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 3 — 自我介紹：做過什麼 -->
+<section class="slide gsap-slide" id="slide-intro-work">
+  <div class="orb" style="width:clamp(400px,50vw,800px);height:clamp(400px,50vw,800px);background:radial-gradient(circle,rgba(59,130,246,0.06),transparent 70%);bottom:-20%;right:-15%;"></div>
+  <div class="slide-content" style="align-items:center; justify-content:center;">
+    <div class="label" id="work-label">WORK</div>
+    <h2 id="work-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.4rem,3.5vw,2.8rem); font-weight:700; margin-top:var(--element-gap); text-align:center;">
+      做過的東西
     </h2>
-    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
-      <div class="feature-item" style="border-left:3px solid var(--accent);">
-        <div class="feature-icon" style="background:rgba(255,107,53,0.12); color:var(--accent);">01</div>
-        <div><h4>你的名字（placeholder）</h4><p>一句話定位：例如「寫程式的人 / 教人寫程式的人」</p></div>
+    <div style="display:flex; flex-direction:column; gap:clamp(14px,2.5vw,28px); margin-top:clamp(1.5rem,4vw,3rem); max-width:min(90vw,660px); width:100%;">
+      <div class="work-card" id="work-card-1" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px);">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:clamp(0.7rem,1vw,0.85rem); color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:clamp(6px,1vw,10px);">Rogue Verge</div>
+        <div style="font-size:clamp(0.95rem,1.5vw,1.2rem); color:var(--text); font-weight:400; line-height:1.6;">賽博龐克時尚品牌電商，全端開發 + Agentic AI 整合</div>
       </div>
-      <div class="feature-item" style="border-left:3px solid var(--accent2);">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">02</div>
-        <div><h4>技術背景（placeholder）</h4><p>例：全端工程師 N 年 / 寫過什麼 / 在哪裡寫過</p></div>
-      </div>
-      <div class="feature-item" style="border-left:3px solid #a855f7;">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">03</div>
-        <div><h4>教學經驗（placeholder）</h4><p>例：開源貢獻 / 教過幾梯 / 學員背景</p></div>
-      </div>
-      <div class="feature-item" style="border-left:3px solid var(--good);">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">→</div>
-        <div><h4>今天為什麼站在這</h4><p>一句話：把我會的，用你也能會的方式教給你</p></div>
+      <div class="work-card" id="work-card-2" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px);">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:clamp(0.7rem,1vw,0.85rem); color:var(--accent2); letter-spacing:3px; text-transform:uppercase; margin-bottom:clamp(6px,1vw,10px);">世和智能</div>
+        <div style="font-size:clamp(0.95rem,1.5vw,1.2rem); color:var(--text); font-weight:400; line-height:1.6;">企業 AI 輔導，帶非技術背景團隊用 AI 解決工作問題</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — 自我介紹：為什麼站在這 -->
+<section class="slide gsap-slide" id="slide-intro-why">
+  <div class="orb" style="width:clamp(450px,60vw,900px);height:clamp(450px,60vw,900px);background:radial-gradient(circle,rgba(168,85,247,0.07),transparent 68%);top:-25%;right:-20%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center; justify-content:center;">
+    <div class="label" id="why-label">TODAY</div>
+    <h2 id="why-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.8rem,5vw,4rem); font-weight:700; line-height:1.25; margin-top:var(--content-gap); max-width:min(85vw,680px);">
+      把我學到的，<br>用最直接的方式帶給你
+    </h2>
   </div>
 </section>
 
@@ -389,9 +415,10 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 <script>
 const CHARS = '!<>-_\\/[]{}—=+*^?#________';
-function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { scramble(); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { setTimeout(scramble, 900); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
 function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
 class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
 document.addEventListener('DOMContentLoaded', () => {
@@ -399,7 +426,144 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.scramble-text').forEach(initScramble);
   document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe);
   initAiDemo();
+  initGSAPSlides();
 });
+
+// ── Silk WebGL background ─────────────────────────────────────
+function initSilk(canvas, { color = [0.08, 0.06, 0.14], speed = 2.5, scale = 1.3, noise = 0.9, rotation = 0 } = {}) {
+  const gl = canvas.getContext('webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 p;varying vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}`;
+  const fs = `precision mediump float;
+    varying vec2 uv;uniform float t;uniform vec3 col;uniform float spd,sc,rot,ni;
+    const float e=2.71828182845904523536;
+    float noise(vec2 tc){float G=e;vec2 r=G*sin(G*tc);return fract(r.x*r.y*(1.+tc.x));}
+    vec2 rotUv(vec2 u,float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c)*u;}
+    void main(){
+      float rnd=noise(gl_FragCoord.xy);
+      vec2 u=rotUv(uv*sc,rot),tx=u*sc;float to=spd*t;
+      tx.y+=.03*sin(8.*tx.x-to);
+      float p=.6+.4*sin(5.*(tx.x+tx.y+cos(3.*tx.x+5.*tx.y)+.02*to)+sin(20.*(tx.x+tx.y-.1*to)));
+      vec4 c=vec4(col,1.)*vec4(p)-rnd/15.*ni;c.a=1.;gl_FragColor=c;
+    }`;
+  const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  const ap = gl.getAttribLocation(prog, 'p');
+  gl.enableVertexAttribArray(ap); gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
+  const uT=gl.getUniformLocation(prog,'t'), uC=gl.getUniformLocation(prog,'col'),
+        uS=gl.getUniformLocation(prog,'spd'), uSc=gl.getUniformLocation(prog,'sc'),
+        uR=gl.getUniformLocation(prog,'rot'), uN=gl.getUniformLocation(prog,'ni');
+  gl.uniform3fv(uC,color); gl.uniform1f(uS,speed); gl.uniform1f(uSc,scale);
+  gl.uniform1f(uR,rotation); gl.uniform1f(uN,noise);
+  const resize = () => { canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; gl.viewport(0,0,canvas.width,canvas.height); };
+  resize(); new ResizeObserver(resize).observe(canvas);
+  let raf; const loop = ts => { gl.uniform1f(uT, ts*.001); gl.drawArrays(gl.TRIANGLE_STRIP,0,4); raf=requestAnimationFrame(loop); };
+  raf = requestAnimationFrame(loop);
+  return () => cancelAnimationFrame(raf);
+}
+
+// ── Split chars and animate ────────────────────────────────────
+function animateSplitChars(el, { stagger = 0.045, fromY = 55, delay = 0 } = {}) {
+  const text = el.textContent.trim();
+  el.style.overflow = 'visible';
+  el.innerHTML = [...text].map(ch =>
+    `<span style="display:inline-block;will-change:transform,opacity">${ch === ' ' ? '&nbsp;' : ch}</span>`
+  ).join('');
+  gsap.set(el, { autoAlpha: 1 }); // unhide parent before animating children
+  return gsap.from(el.querySelectorAll('span'), {
+    autoAlpha: 0, y: fromY, duration: 0.7, stagger, ease: 'power3.out', delay
+  });
+}
+
+// ── Blur words animate ─────────────────────────────────────────
+function animateBlurWords(el, { stagger = 0.1, fromY = -28, delay = 0 } = {}) {
+  const words = el.textContent.trim().split(/\s+/);
+  el.innerHTML = words.map(w =>
+    `<span style="display:inline-block;will-change:transform,filter,opacity;margin-right:0.3em">${w}</span>`
+  ).join('');
+  gsap.set(el, { autoAlpha: 1 }); // unhide parent before animating children
+  return gsap.fromTo(el.querySelectorAll('span'),
+    { autoAlpha: 0, filter: 'blur(10px)', y: fromY },
+    { autoAlpha: 1, filter: 'blur(0px)', y: 0, duration: 0.65, stagger, ease: 'power3.out', delay }
+  );
+}
+
+// ── Typewriter ─────────────────────────────────────────────────
+function animateTypewriter(el, { speed = 48, delay = 0 } = {}) {
+  const raw = el.innerHTML;
+  el.innerHTML = '';
+  gsap.set(el, { autoAlpha: 1 });
+  const div = document.createElement('div');
+  div.innerHTML = raw;
+  const text = div.textContent;
+  let i = 0;
+  let tid;
+  const start = () => {
+    const type = () => { if (i < text.length) { el.textContent += text[i++]; tid = setTimeout(type, speed); } };
+    type();
+  };
+  delay > 0 ? setTimeout(start, delay) : start();
+  return () => clearTimeout(tid);
+}
+
+// ── Main orchestrator ──────────────────────────────────────────
+function initGSAPSlides() {
+  if (typeof gsap === 'undefined') return;
+  gsap.defaults({ ease: 'power3.out' });
+
+  const silkCanvas = document.getElementById('silk-bg');
+  if (silkCanvas) initSilk(silkCanvas);
+
+  const animations = {
+    'slide-intro-name': () => {
+      const label = document.getElementById('intro-label');
+      const name  = document.getElementById('intro-name');
+      const line  = document.getElementById('intro-tagline');
+      gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
+      setTimeout(() => animateSplitChars(name, { stagger: 0.06, fromY: 60, delay: 0.1 }), 0);
+      setTimeout(() => animateBlurWords(line, { stagger: 0.1, delay: 0.55 }), 0);
+    },
+    'slide-intro-work': () => {
+      const label   = document.getElementById('work-label');
+      const heading = document.getElementById('work-heading');
+      const card1   = document.getElementById('work-card-1');
+      const card2   = document.getElementById('work-card-2');
+      gsap.timeline()
+        .from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
+      animateBlurWords(heading, { stagger: 0.12, fromY: -20, delay: 0.25 });
+      gsap.from(card1, { autoAlpha: 0, x: 50, duration: 0.55, ease: 'power3.out', delay: 0.55 });
+      gsap.from(card2, { autoAlpha: 0, x: 50, duration: 0.55, ease: 'power3.out', delay: 0.75 });
+    },
+    'slide-intro-why': () => {
+      const label   = document.getElementById('why-label');
+      const heading = document.getElementById('why-heading');
+      gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
+      setTimeout(() => animateTypewriter(heading, { speed: 42, delay: 400 }), 0);
+    }
+  };
+
+  const mm = gsap.matchMedia();
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.gsapDone) {
+          entry.target.dataset.gsapDone = 'true';
+          animations[entry.target.id]?.();
+        }
+      });
+    }, { threshold: 0.5 });
+    Object.keys(animations).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+  });
+}
 
 // === AI DEMO: 點擊切換 Before/After 內容 ===
 const AI_DEMO_DATA = {
