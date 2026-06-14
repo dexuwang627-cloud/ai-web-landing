@@ -19,8 +19,8 @@ html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
   --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
   --bg: #050508; --surface: #0b0b12; --card: #111119;
   --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
-  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
-  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+  --accent: #cc8566; --accent-soft: rgba(204,133,102,0.12); --accent2: #6e90b8;
+  --bad: #b87070; --good: #5e9a78; --terminal-bg: #0d1117; --terminal-border: #30363d;
 }
 @media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
 @media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
@@ -36,8 +36,8 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
 .sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
 .body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
-.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.accent-text { background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), var(--accent-light)); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
 .highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
 .reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
 .reveal-element.visible { opacity: 1; transform: translateY(0); }
@@ -56,12 +56,12 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 /* === FEATURE LIST === */
 .feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
 .feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
-.feature-item:hover { border-color: rgba(255,107,53,0.15); }
-.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,107,53,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item:hover { border-color: rgba(204,133,102,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(204,133,102,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
 .feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
 .feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
 /* === HIGHLIGHT BOX === */
-.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+.highlight-box { background: rgba(204,133,102,0.06); border: 1px dashed rgba(204,133,102,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
 /* === NAV === */
 .nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
 .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
@@ -81,7 +81,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 1 — Title -->
 <section class="slide" id="slide-title">
-  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(255,107,53,0.1),transparent 70%);top:-30%;left:50%;transform:translateX(-50%);"></div>
+  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(204,133,102,0.1),transparent 70%);top:-30%;left:50%;transform:translateX(-50%);"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
     <div class="label reveal-element">iPAS 企業 AI 應用實作</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--content-gap);">
@@ -131,16 +131,16 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item" style="border-left:3px solid var(--good);">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">CLI</div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">CLI</div>
         <div><h4 style="color:var(--good);">命令列基礎</h4><p>pwd、cd、ls、mkdir — 不再害怕黑畫面</p></div>
       </div>
       <div class="feature-item" style="border-left:3px solid var(--accent2);">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">Git</div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">Git</div>
         <div><h4 style="color:var(--accent2);">版本控制</h4><p>init、add、commit、push — 你的程式碼有時光機</p></div>
       </div>
-      <div class="feature-item" style="border-left:3px solid #a855f7;">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">AI</div>
-        <div><h4 style="color:#a855f7;">Agentic AI</h4><p>用自然語言指揮 AI 操作命令列 — 實作練習</p></div>
+      <div class="feature-item" style="border-left:3px solid var(--ai);">
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">AI</div>
+        <div><h4 style="color:var(--ai);">Agentic AI</h4><p>用自然語言指揮 AI 操作命令列 — 實作練習</p></div>
       </div>
     </div>
   </div>
@@ -159,9 +159,9 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </p>
     <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-      <div style="color:#a855f7; font-weight:600;">$ claude</div>
+      <div style="color:var(--ai); font-weight:600;">$ claude</div>
       <div style="margin-top:4px;"><span class="cmd">> 幫我建一個 Express API</span></div>
-      <div style="margin-top:10px;"><span style="color:#a855f7;">Cursor</span> <span class="comment">→ AI 程式編輯器</span></div>
+      <div style="margin-top:10px;"><span style="color:var(--ai);">Cursor</span> <span class="comment">→ AI 程式編輯器</span></div>
       <div><span style="color:var(--accent2);">GitHub Copilot</span> <span class="comment">→ AI 配對程式設計</span></div>
       <div><span style="color:var(--accent);">Claude Code</span> <span class="comment">→ AI 終端機助手</span></div>
       <div><span style="color:var(--good);">Codex CLI</span> <span class="comment">→ OpenAI 終端機工具</span></div>
@@ -226,15 +226,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">1</div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">1</div>
         <div><h4>確認終端機能用</h4><p>Mac：Spotlight 搜尋 Terminal ｜ Windows：搜尋 PowerShell</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">2</div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">2</div>
         <div><h4>安裝 Git</h4><p>git-scm.com 下載安裝，或課堂上一起裝</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">3</div>
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">3</div>
         <div><h4>申請 GitHub 帳號</h4><p>github.com 免費註冊，課堂上會用到</p></div>
       </div>
     </div>
@@ -248,7 +248,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 8 — CTA -->
 <section class="slide" id="slide-cta">
-  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);bottom:-30%;left:50%;transform:translateX(-50%);"></div>
+  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(204,133,102,0.08),transparent 70%);bottom:-30%;left:50%;transform:translateX(-50%);"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
     <div class="label reveal-element">JOIN US</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--content-gap);">

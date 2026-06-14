@@ -19,8 +19,8 @@ html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
   --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
   --bg: #050508; --surface: #0b0b12; --card: #111119;
   --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
-  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
-  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+  --accent: #cc8566; --accent-soft: rgba(204,133,102,0.12); --accent2: #6e90b8;
+  --bad: #b87070; --good: #5e9a78; --terminal-bg: #0d1117; --terminal-border: #30363d;
 }
 @media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
 @media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
@@ -36,11 +36,11 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
 .sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
 .body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
-.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.accent-text { background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
 .reveal-element.visible { opacity: 1; transform: translateY(0); }
 .reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
-.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), var(--accent-light)); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
 .highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
 /* === TERMINAL === */
 .terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
@@ -51,12 +51,12 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 /* === FEATURE LIST === */
 .feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
 .feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
-.feature-item:hover { border-color: rgba(255,107,53,0.15); }
-.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,107,53,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item:hover { border-color: rgba(204,133,102,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(204,133,102,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
 .feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
 .feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
 /* === HIGHLIGHT BOX === */
-.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+.highlight-box { background: rgba(204,133,102,0.06); border: 1px dashed rgba(204,133,102,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
 /* === CMD GRID === */
 .cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
 .cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
@@ -91,7 +91,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 1 — Section title -->
 <section class="slide" id="slide-section-title">
-  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(255,107,53,0.06),transparent 70%);top:-30%;left:-15%;"></div>
+  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(204,133,102,0.06),transparent 70%);top:-30%;left:-15%;"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
     <div class="label reveal-element">WRAP UP</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
@@ -112,15 +112,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">CLI</div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">CLI</div>
         <div><h4>命令列基礎</h4><p>pwd、cd、ls、mkdir、cp、mv、rm — 你不再害怕黑畫面</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">Git</div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">Git</div>
         <div><h4>版本控制</h4><p>init、add、commit、branch、push — 你的程式碼有時光機</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">AI</div>
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">AI</div>
         <div><h4>Agentic AI 協作</h4><p>用自然語言指揮 AI 操作命令列和 Git</p></div>
       </div>
     </div>
@@ -149,8 +149,8 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <h4>Git = 橋樑</h4>
         <p>知道為什麼要版控<br>會 add / commit / push</p>
       </div>
-      <div class="step-card" style="border-top: 3px solid #a855f7;">
-        <div class="step-num" style="color:#a855f7;">
+      <div class="step-card" style="border-top: 3px solid var(--ai);">
+        <div class="step-num" style="color:var(--ai);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:clamp(32px,4.5vw,46px);height:auto;"><path d="M5 21V4"/><path d="M5 4c2.5-1.4 5 1.4 7.5 0S19 4 19 4v8.5c-2.5 1.4-4-1.4-6.5 0S5 12.5 5 12.5"/></svg>
         </div>
         <h4>AI = 目的地</h4>
@@ -159,7 +159,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </div>
     <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
-        <span style="color:var(--good);">門票</span> + <span style="color:var(--accent2);">橋樑</span> + <span style="color:#a855f7;">目的地</span> = 你不會被取代，你會被加速
+        <span style="color:var(--good);">門票</span> + <span style="color:var(--accent2);">橋樑</span> + <span style="color:var(--ai);">目的地</span> = 你不會被取代，你會被加速
       </p>
     </div>
   </div>
@@ -174,7 +174,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-      <div><span class="prompt">$</span> <span class="cmd" style="color:#a855f7;">claude</span> <span class="cmd">"做什麼"</span>     <span class="comment"># AI 幫你做</span></div>
+      <div><span class="prompt">$</span> <span class="cmd" style="color:var(--ai);">claude</span> <span class="cmd">"做什麼"</span>     <span class="comment"># AI 幫你做</span></div>
       <div><span class="prompt">$</span> <span class="cmd">git diff</span>             <span class="comment"># 你檢查產出</span></div>
       <div><span class="prompt">$</span> <span class="cmd">git add .</span>            <span class="comment"># 你決定納入</span></div>
       <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "..."</span></span>  <span class="comment"># 你留下紀錄</span></div>
@@ -197,20 +197,20 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item" style="border-left:3px solid var(--bad);">
-        <div class="feature-icon" style="background:rgba(239,68,68,0.12); color:var(--bad);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="feature-icon" style="background:var(--bad-soft); color:var(--bad);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
         <div><h4 style="color:var(--bad);">rm 刪了就沒了</h4><p>沒有資源回收桶。刪之前用 ls 確認，或加 -i</p></div>
       </div>
       <div class="feature-item" style="border-left:3px solid var(--bad);">
-        <div class="feature-icon" style="background:rgba(239,68,68,0.12); color:var(--bad);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="feature-icon" style="background:var(--bad-soft); color:var(--bad);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
         <div><h4 style="color:var(--bad);">忘記 commit 就 push</h4><p>git add → commit → push，三步缺一不可</p></div>
       </div>
-      <div class="feature-item" style="border-left:3px solid #eab308;">
-        <div class="feature-icon" style="background:rgba(234,179,8,0.12); color:#eab308;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-        <div><h4 style="color:#eab308;">AI 幻覺</h4><p>AI 可能生成不存在的指令。看不懂就查，不要盲抄</p></div>
+      <div class="feature-item" style="border-left:3px solid var(--warn);">
+        <div class="feature-icon" style="background:var(--warn-soft); color:var(--warn);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div><h4 style="color:var(--warn);">AI 幻覺</h4><p>AI 可能生成不存在的指令。看不懂就查，不要盲抄</p></div>
       </div>
-      <div class="feature-item" style="border-left:3px solid #eab308;">
-        <div class="feature-icon" style="background:rgba(234,179,8,0.12); color:#eab308;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-        <div><h4 style="color:#eab308;">環境變數外洩</h4><p>API Key 放 .env，不要寫進程式碼或 commit</p></div>
+      <div class="feature-item" style="border-left:3px solid var(--warn);">
+        <div class="feature-icon" style="background:var(--warn-soft); color:var(--warn);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div><h4 style="color:var(--warn);">環境變數外洩</h4><p>API Key 放 .env，不要寫進程式碼或 commit</p></div>
       </div>
     </div>
   </div>
@@ -225,15 +225,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">01</div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">01</div>
         <div><h4>每天用一次 CLI</h4><p>cd 到專案、ls 看檔案、git status — 就這三個就夠了</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">02</div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">02</div>
         <div><h4>每個改動都 commit</h4><p>不要累積。完成一個功能就 commit，訊息寫清楚</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">03</div>
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">03</div>
         <div><h4>用 AI 學 CLI</h4><p>看不懂指令？問 AI 解釋。把 AI 當老師，不是當打字機</p></div>
       </div>
     </div>
@@ -294,8 +294,8 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <h4>開一個 Repo</h4>
         <p>在 GitHub 建一個 repo<br>clone 下來，push 一個 commit</p>
       </div>
-      <div class="step-card" style="border-top: 3px solid #a855f7;">
-        <div class="step-num" style="color:#a855f7;">3</div>
+      <div class="step-card" style="border-top: 3px solid var(--ai);">
+        <div class="step-num" style="color:var(--ai);">3</div>
         <h4>試用 Agentic AI</h4>
         <p>安裝 Claude Code<br>用自然語言完成一個小任務</p>
       </div>
@@ -319,7 +319,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 10 — Thank you -->
 <section class="slide" id="slide-thanks">
-  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);bottom:-30%;right:-15%;"></div>
+  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(204,133,102,0.08),transparent 70%);bottom:-30%;right:-15%;"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
     <div class="label reveal-element">THANKS</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">

@@ -11,12 +11,12 @@
     --line: #E4E2DC;
     --bg: #FBFAF7;
     --card: #FFFFFF;
-    --accent: #FF6B35;
+    --accent: #cc8566;
     --accent-soft: #FFF1EB;
     /* 三層統一用品牌橘，靠 icon 與文字區分，不再分色 */
-    --green: #FF6B35;
-    --blue: #FF6B35;
-    --purple: #FF6B35;
+    --green: #cc8566;
+    --blue: #cc8566;
+    --purple: #cc8566;
     --term-bg: #0D1117;
     --term-border: #2B313B;
     --term-text: #C9D1D9;
@@ -72,8 +72,8 @@
     width: 13mm;
     height: 235mm;
   }
-  .page-bg.right { background-image: radial-gradient(48mm 48mm at 92% 8%, rgba(255,107,53,0.16), transparent 70%); }
-  .page-bg.left  { background-image: radial-gradient(46mm 46mm at 94% 6%, rgba(255,107,53,0.17), transparent 70%); }
+  .page-bg.right { background-image: radial-gradient(48mm 48mm at 92% 8%, rgba(204,133,102,0.16), transparent 70%); }
+  .page-bg.left  { background-image: radial-gradient(46mm 46mm at 94% 6%, rgba(204,133,102,0.17), transparent 70%); }
   .page:first-child { page-break-after: always; }
 
   /* ---- top accent bar ---- */
@@ -258,9 +258,9 @@
     border-bottom: 1px solid var(--term-border);
   }
   .dot { width: 3mm; height: 3mm; border-radius: 50%; }
-  .dot.r { background: #FF5F56; }
-  .dot.y { background: #FFBD2E; }
-  .dot.g { background: #27C93F; }
+  .dot.r { background: #b87070; }
+  .dot.y { background: #b0a060; }
+  .dot.g { background: #5e9a78; }
   .term-title {
     font-family: var(--mono);
     font-size: 8.5pt;
@@ -276,7 +276,7 @@
   }
   .term-body .pr { color: var(--accent); }
   .term-body .cm { color: var(--term-comment); }
-  .term-body .ai { color: #C792EA; }
+  .term-body .ai { color: #a080c0; }
 
   /* ---- page footer ---- */
   .pfoot {
@@ -520,17 +520,17 @@
 <div class="page">
   <div class="topbar"></div>
   <div class="page-bg right">
-    <svg class="gitgraph" viewBox="0 0 50 720" fill="none" stroke="rgba(255,107,53,0.5)" stroke-width="2.4" stroke-linecap="round">
+    <svg class="gitgraph" viewBox="0 0 50 720" fill="none" stroke="rgba(204,133,102,0.5)" stroke-width="2.4" stroke-linecap="round">
       <path d="M18 0 V720"/>
       <path d="M18 200 C18 240 40 235 40 275 V360 C40 400 18 395 18 435"/>
-      <circle cx="18" cy="60" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="130" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="200" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="40" cy="275" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="40" cy="360" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="435" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="540" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="650" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
+      <circle cx="18" cy="60" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="130" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="200" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="40" cy="275" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="40" cy="360" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="435" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="540" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="650" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
     </svg>
   </div>
 
@@ -546,21 +546,21 @@
   <div class="seclabel">這一天，你會帶走三件事</div>
   <div class="outcomes">
     <div class="oc g">
-      <div class="badge"><div class="icon"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2" ry="2"/><polyline points="6 9 10 13 6 17"/><line x1="14" y1="13" x2="20" y2="13"/></svg></div><div class="tier">門票</div></div>
+      <div class="badge"><div class="icon"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2" ry="2"/><polyline points="6 9 10 13 6 17"/><line x1="14" y1="13" x2="20" y2="13"/></svg></div><div class="tier">門票</div></div>
       <div class="body">
         <h3>不怕黑畫面</h3>
         <p>能用命令列自在操作檔案與目錄 —— 進得了每個 AI 工具的家門。</p>
       </div>
     </div>
     <div class="oc b">
-      <div class="badge"><div class="icon"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div><div class="tier">橋樑</div></div>
+      <div class="badge"><div class="icon"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div><div class="tier">橋樑</div></div>
       <div class="body">
         <h3>版控保命</h3>
         <p>懂為什麼一定要版本控制，會 <code>add</code> → <code>commit</code> → <code>push</code>，程式碼再也不會真的搞丟。</p>
       </div>
     </div>
     <div class="oc p">
-      <div class="badge"><div class="icon"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="#FF6B35" stroke="none"/></svg></div><div class="tier">目的地</div></div>
+      <div class="badge"><div class="icon"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="#cc8566" stroke="none"/></svg></div><div class="tier">目的地</div></div>
       <div class="body">
         <h3>AI 協作</h3>
         <p>用自然語言指揮 AI 在終端機裡做事，並學會審查它的產出 —— 你是最後守門員。</p>
@@ -569,7 +569,7 @@
   </div>
 
   <div class="honest">
-    <div class="mark"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 12 15 16 10"/></svg></div>
+    <div class="mark"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 12 15 16 10"/></svg></div>
     <p>我們<span class="em">不賣 AI 魔法</span>。8 小時先把 CLI 和 Git 的地基打穩，AI 才能真的幫你把事情做完、做對。</p>
   </div>
 
@@ -596,17 +596,17 @@
 <div class="page">
   <div class="topbar"></div>
   <div class="page-bg left">
-    <svg class="gitgraph" viewBox="0 0 50 720" fill="none" stroke="rgba(255,107,53,0.5)" stroke-width="2.4" stroke-linecap="round">
+    <svg class="gitgraph" viewBox="0 0 50 720" fill="none" stroke="rgba(204,133,102,0.5)" stroke-width="2.4" stroke-linecap="round">
       <path d="M18 0 V720"/>
       <path d="M18 200 C18 240 40 235 40 275 V360 C40 400 18 395 18 435"/>
-      <circle cx="18" cy="60" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="130" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="200" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="40" cy="275" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="40" cy="360" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="435" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="540" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
-      <circle cx="18" cy="650" r="5" fill="rgba(255,107,53,0.42)" stroke="none"/>
+      <circle cx="18" cy="60" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="130" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="200" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="40" cy="275" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="40" cy="360" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="435" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="540" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
+      <circle cx="18" cy="650" r="5" fill="rgba(204,133,102,0.42)" stroke="none"/>
     </svg>
   </div>
 
@@ -643,7 +643,7 @@
 
   <div class="cols">
     <div class="col fit">
-      <h4><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 12 15 16 10"/></svg></span> 這堂課適合你，如果你 ——</h4>
+      <h4><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 12 15 16 10"/></svg></span> 這堂課適合你，如果你 ——</h4>
       <ul>
         <li>完全零基礎，沒寫過程式也沒用過終端機</li>
         <li>想用 AI 工具，卻卡在「不會命令列」這一關</li>
@@ -652,7 +652,7 @@
       </ul>
     </div>
     <div class="col need">
-      <h4><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.4 1.4a2 2 0 0 1-1.4 3.6H3.6a2 2 0 0 1-1.4-3.6L4 16"/></svg></span> 你只需要準備</h4>
+      <h4><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.4 1.4a2 2 0 0 1-1.4 3.6H3.6a2 2 0 0 1-1.4-3.6L4 16"/></svg></span> 你只需要準備</h4>
       <ul>
         <li>一台筆電（Mac 或 Windows 都教，雙平台同步標示）</li>
         <li>現場網路（會提供，建議帶充電器）</li>
@@ -663,23 +663,23 @@
   </div>
 
   <div class="takeaways">
-    <h4><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span> 帶得走的東西</h4>
+    <h4><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span> 帶得走的東西</h4>
     <div class="take-grid">
-      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>CLI 指令小抄</span>
-      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>Git 指令小抄</span>
-      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>三層能力架構圖</span>
-      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>AI 日常循環卡</span>
-      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>「為什麼要版控」一頁摘要</span>
+      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>CLI 指令小抄</span>
+      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>Git 指令小抄</span>
+      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>三層能力架構圖</span>
+      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>AI 日常循環卡</span>
+      <span class="chip"><span class="d"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg></span>「為什麼要版控」一頁摘要</span>
     </div>
   </div>
 
   <div class="trust">
     <div class="seclabel">為什麼你不會掉隊</div>
     <div class="trow">
-      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span><b>90 分鐘單元制</b>：每段聚焦，單元間強制微休息，注意力不過載</span></div>
-      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span><span><b>講解先於實作</b>：先建立心智模型，demo → 跟做 → 自己來</span></div>
-      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span><span><b>Mac / Windows 雙平台</b>：投影片雙色標示，不分系統都跟得上</span></div>
-      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 2-3 2-4.5A4.5 4.5 0 0 0 16.5 5 4.5 4.5 0 0 0 13 6.5 4.5 4.5 0 0 0 9.5 5 4.5 4.5 0 0 0 5 9.5c0 1.5.5 3 2 4.5l7 7Z"/></svg></span><span><b>紅綠便利貼求助</b>：卡住舉紅卡，助教馬上到，沒人被丟下</span></div>
+      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span><b>90 分鐘單元制</b>：每段聚焦，單元間強制微休息，注意力不過載</span></div>
+      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span><span><b>講解先於實作</b>：先建立心智模型，demo → 跟做 → 自己來</span></div>
+      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span><span><b>Mac / Windows 雙平台</b>：投影片雙色標示，不分系統都跟得上</span></div>
+      <div class="ti"><span class="ck"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 2-3 2-4.5A4.5 4.5 0 0 0 16.5 5 4.5 4.5 0 0 0 13 6.5 4.5 4.5 0 0 0 9.5 5 4.5 4.5 0 0 0 5 9.5c0 1.5.5 3 2 4.5l7 7Z"/></svg></span><span><b>紅綠便利貼求助</b>：卡住舉紅卡，助教馬上到，沒人被丟下</span></div>
     </div>
   </div>
 

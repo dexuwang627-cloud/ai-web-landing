@@ -19,8 +19,8 @@ html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
   --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
   --bg: #050508; --surface: #0b0b12; --card: #111119;
   --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
-  --accent: #ff6b35; --accent-soft: rgba(255,107,53,0.12); --accent2: #3b82f6;
-  --bad: #ef4444; --good: #22c55e; --terminal-bg: #0d1117; --terminal-border: #30363d;
+  --accent: #cc8566; --accent-soft: rgba(204,133,102,0.12); --accent2: #6e90b8;
+  --bad: #b87070; --good: #5e9a78; --terminal-bg: #0d1117; --terminal-border: #30363d;
 }
 @media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
 @media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
@@ -45,8 +45,8 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
 .sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
 .body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
-.accent-text { background: linear-gradient(135deg, var(--accent), #ffa06c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.highlight-wipe { background: linear-gradient(90deg, var(--accent), #ffa06c); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.accent-text { background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), var(--accent-light)); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
 .highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
 .reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
 .reveal-element.visible { opacity: 1; transform: translateY(0); }
@@ -60,17 +60,17 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 /* === FEATURE LIST === */
 .feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
 .feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
-.feature-item:hover { border-color: rgba(255,107,53,0.15); }
-.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,107,53,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item:hover { border-color: rgba(204,133,102,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(204,133,102,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
 .feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
 .feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
 /* === HIGHLIGHT BOX === */
-.highlight-box { background: rgba(255,107,53,0.06); border: 1px dashed rgba(255,107,53,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+.highlight-box { background: rgba(204,133,102,0.06); border: 1px dashed rgba(204,133,102,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
 /* === AI DEMO INTERACTIVE === */
 .ai-demo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px,1.2vw,16px); width: 100%; max-width: min(90vw, 720px); }
 .ai-demo-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(10px,1.5vw,18px); cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; align-items: center; gap: clamp(6px,1vw,10px); font-family: inherit; color: var(--text); }
-.ai-demo-card:hover { border-color: rgba(255,107,53,0.4); transform: translateY(-3px); }
-.ai-demo-card.active { border-color: var(--accent); background: rgba(255,107,53,0.08); }
+.ai-demo-card:hover { border-color: rgba(204,133,102,0.4); transform: translateY(-3px); }
+.ai-demo-card.active { border-color: var(--accent); background: rgba(204,133,102,0.08); }
 .ai-demo-icon { width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: clamp(1.1rem,1.8vw,1.5rem); }
 .ai-demo-title { font-size: clamp(0.78rem,1.1vw,0.95rem); color: var(--text); font-weight: 500; }
 .ai-demo-result .compare-card { text-align: left; }
@@ -88,7 +88,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 /* === STANDALONE-STYLE BRAND / SHIHE CSS === */
 .highlight-wipe {
-  background: linear-gradient(90deg, var(--accent), #ffa06c);
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
   background-size: 0% 100%; background-repeat: no-repeat;
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: var(--text-dim);
@@ -178,7 +178,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 .shihe-feature-card p {
   font-size: clamp(0.8rem,1.2vw,1rem); color: var(--text-muted); line-height: 1.4;
 }
-.shihe-accent { color: #22c55e; }
+.shihe-accent { color: var(--good); }
 
 /* Shihe gallery */
 .shihe-gallery {
@@ -212,7 +212,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 1 — Welcome -->
 <section class="slide" id="slide-welcome">
-  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(255,107,53,0.08),transparent 70%);top:-30%;left:50%;transform:translateX(-50%);"></div>
+  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(204,133,102,0.08),transparent 70%);top:-30%;left:50%;transform:translateX(-50%);"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
     <div class="label reveal-element">iPAS</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--content-gap);">
@@ -240,7 +240,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 3 — 自我介紹：做過什麼 -->
 <section class="slide gsap-slide" id="slide-intro-work">
-  <div class="orb" style="width:clamp(400px,50vw,800px);height:clamp(400px,50vw,800px);background:radial-gradient(circle,rgba(59,130,246,0.06),transparent 70%);bottom:-20%;right:-15%;"></div>
+  <div class="orb" style="width:clamp(400px,50vw,800px);height:clamp(400px,50vw,800px);background:radial-gradient(circle,rgba(110,144,184,0.06),transparent 70%);bottom:-20%;right:-15%;"></div>
   <div class="slide-content" style="align-items:center; justify-content:center;">
     <div class="label" id="work-label">WORK</div>
     <h2 id="work-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.4rem,3.5vw,2.8rem); font-weight:700; margin-top:var(--element-gap); text-align:center;">
@@ -261,7 +261,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 4 — 自我介紹：為什麼站在這 -->
 <section class="slide gsap-slide" id="slide-intro-why">
-  <div class="orb" style="width:clamp(450px,60vw,900px);height:clamp(450px,60vw,900px);background:radial-gradient(circle,rgba(168,85,247,0.07),transparent 68%);top:-25%;right:-20%;"></div>
+  <div class="orb" style="width:clamp(450px,60vw,900px);height:clamp(450px,60vw,900px);background:radial-gradient(circle,rgba(160,128,192,0.07),transparent 68%);top:-25%;right:-20%;"></div>
   <div class="slide-content" style="align-items:center; text-align:center; justify-content:center;">
     <div class="label" id="why-label">TODAY</div>
     <h2 id="why-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.8rem,5vw,4rem); font-weight:700; line-height:1.25; margin-top:var(--content-gap); max-width:min(85vw,680px);">
@@ -363,7 +363,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <span class="typewrite-text" data-typewrite="這兩頁的背景，都是從網站搬過來的"></span>
       </h3>
       <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,700px); margin-left:auto; margin-right:auto;">
-        上一頁是 <span style="color:#22c55e; font-weight:500;">LetterGlitch</span> 亂碼矩陣，這頁是 <span style="color:#3dc9a0; font-weight:500;">Aurora</span> 極光著色器。<br>
+        上一頁是 <span style="color:var(--good); font-weight:500;">LetterGlitch</span> 亂碼矩陣，這頁是 <span style="color:#3dc9a0; font-weight:500;">Aurora</span> 極光著色器。<br>
         兩種截然不同的 Canvas 動畫，都是描述視覺方向後由 AI 實現的。<br>
         <span style="color:var(--text); font-weight:400;">今天這堂課的核心，就是學會如何有效地指揮 AI 完成工作。</span>
       </p>
@@ -384,19 +384,19 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
     <div class="ai-demo-grid reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
       <button class="ai-demo-card" data-task="doc">
-        <div class="ai-demo-icon" style="background:rgba(255,107,53,0.12); color:var(--accent);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="ai-demo-icon" style="background:var(--accent-soft); color:var(--accent);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
         <div class="ai-demo-title">寫會議記錄</div>
       </button>
       <button class="ai-demo-card" data-task="pdf">
-        <div class="ai-demo-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
+        <div class="ai-demo-icon" style="background:var(--accent2-soft); color:var(--accent2);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
         <div class="ai-demo-title">PDF 轉表格</div>
       </button>
       <button class="ai-demo-card" data-task="code">
-        <div class="ai-demo-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="8" height="12" rx="4"/><path d="M12 18v3"/><path d="M8 21h8"/><path d="M8 10l-2 1"/><path d="M16 10l2 1"/><path d="M8 14l-2-1"/><path d="M16 14l2-1"/></svg></div>
+        <div class="ai-demo-icon" style="background:var(--ai-soft); color:var(--ai);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="8" height="12" rx="4"/><path d="M12 18v3"/><path d="M8 21h8"/><path d="M8 10l-2 1"/><path d="M16 10l2 1"/><path d="M8 14l-2-1"/><path d="M16 14l2-1"/></svg></div>
         <div class="ai-demo-title">修程式 bug</div>
       </button>
       <button class="ai-demo-card" data-task="learn">
-        <div class="ai-demo-icon" style="background:rgba(57,211,83,0.12); color:var(--good);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div class="ai-demo-icon" style="background:var(--good-soft); color:var(--good);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
         <div class="ai-demo-title">學新東西</div>
       </button>
     </div>
@@ -442,19 +442,19 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">AI</div>
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">AI</div>
         <div><h4>Agentic AI 需要它</h4><p>Claude Code、Cursor、Copilot — 全部透過命令列操作</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">10x</div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">10x</div>
         <div><h4>效率提升十倍</h4><p>一行指令做到圖形介面要點 20 下的事</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">Git</div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">Git</div>
         <div><h4>協作的基礎</h4><p>全世界工程師都用 Git — 學會才能加入團隊</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(255,107,53,0.12); color:var(--accent);">Ctrl</div>
+        <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);">Ctrl</div>
         <div><h4>拿回控制權</h4><p>不再被工具限制 — 你告訴電腦做什麼，不是反過來</p></div>
       </div>
     </div>
@@ -525,15 +525,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px); align-items:center;">
       <div class="feature-item" style="border-left:3px solid var(--good);">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">AM</div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">AM</div>
         <div><h4>09:00 – 12:10 ｜ CLI 基礎（門票）</h4><p>不怕黑畫面，能操作檔案和目錄 — 手把手實作</p></div>
       </div>
       <div class="feature-item" style="border-left:3px solid var(--accent2);">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">PM1</div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">PM1</div>
         <div><h4>13:05 – 14:35 ｜ Git 版控橋樑</h4><p>知道為什麼要版控，會 add / commit / push</p></div>
       </div>
-      <div class="feature-item" style="border-left:3px solid #a855f7;">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">PM2</div>
+      <div class="feature-item" style="border-left:3px solid var(--ai);">
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">PM2</div>
         <div><h4>14:50 – 16:05 ｜ AI 協作目的地</h4><p>用自然語言指揮 AI，你負責審查 — 你是最後守門員</p></div>
       </div>
     </div>
@@ -549,19 +549,19 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(57,211,83,0.12); color:var(--good);">1</div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">1</div>
         <div><h4>跟著做，不要只看</h4><p>每個指令自己打一遍，手會記住</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(59,130,246,0.12); color:var(--accent2);">2</div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">2</div>
         <div><h4>錯了也沒關係</h4><p>命令列錯誤不會弄壞電腦。最壞就是重開終端機</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(168,85,247,0.12); color:#a855f7;">3</div>
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">3</div>
         <div><h4>隨時問</h4><p>任何指令看不懂就問，不會有人笑你</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(255,107,53,0.12); color:var(--accent);">4</div>
+        <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);">4</div>
         <div><h4>橘色 = Mac，藍色 = Windows</h4><p>投影片會同時標示兩邊的指令</p></div>
       </div>
     </div>
@@ -607,7 +607,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 
 <!-- SLIDE 10 — Let's start -->
 <section class="slide" id="slide-start">
-  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(57,211,83,0.08),transparent 70%);bottom:-25%;left:50%;transform:translateX(-50%);"></div>
+  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(94,154,120,0.08),transparent 70%);bottom:-25%;left:50%;transform:translateX(-50%);"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
     <div class="label reveal-element" style="color:var(--good);">LET'S GO</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--content-gap);">

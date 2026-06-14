@@ -5,8 +5,8 @@
 <style>
   :root{
     --ink:#1B1B23; --muted:#5A5A6E; --faint:#8A8A9A;
-    --line:#E4E2DC; --bg:#FBFAF7; --card:#FFFFFF; --accent:#FF6B35;
-    --code-bg:#FFF1EB; --code-fg:#C2410C;
+    --line:#E4E2DC; --bg:#FBFAF7; --card:#FFFFFF; --accent:#cc8566;
+    --code-bg:#FFF1EB; --code-fg:#8a6a5a;
     --cjk:"NotoSansCJK","PingFang TC","Heiti TC",sans-serif;
     --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,"Courier New",monospace;
   }
@@ -27,7 +27,7 @@
   .page-bg{
     position:absolute; top:0; left:0; width:210mm; height:296mm;
     z-index:0; overflow:hidden; pointer-events:none;
-    background-image:radial-gradient(56mm 56mm at 94% 5%, rgba(255,107,53,0.15), transparent 70%);
+    background-image:radial-gradient(56mm 56mm at 94% 5%, rgba(204,133,102,0.15), transparent 70%);
   }
   .page > *:not(.topbar):not(.page-bg){ position:relative; z-index:1; }
   .topbar{ position:absolute; top:0; left:0; right:0; height:6mm; background:var(--accent); z-index:2; }
@@ -66,7 +66,7 @@
   .callout .ci svg{ width:6.4mm; height:6.4mm; }
   .callout p{ font-size:11.5pt; color:var(--ink); line-height:1.5; }
   .callout p b{ color:var(--accent); }
-  .callout code{ font-family:var(--mono); background:#FFE6DC; color:#C2410C; padding:0.4mm 1.8mm; border-radius:1.3mm; }
+  .callout code{ font-family:var(--mono); background:#FFE6DC; color:#8a6a5a; padding:0.4mm 1.8mm; border-radius:1.3mm; }
 
   /* ---- footer ---- */
   .foot{ margin-top:auto; padding-top:5.5mm; border-top:1px solid var(--line);
@@ -89,7 +89,7 @@
   <div class="cols">
 
     <div class="grp">
-      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>導航：我在哪、有什麼</div>
+      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>導航：我在哪、有什麼</div>
       <div class="cmd"><code>pwd</code><span class="d">現在在哪個資料夾（印出完整路徑）</span></div>
       <div class="cmd"><code>ls</code><span class="d">列出當前資料夾裡有什麼</span></div>
       <div class="cmd"><code>ls -la</code><span class="d">列出全部（含隱藏檔）+ 詳細資訊</span></div>
@@ -99,21 +99,21 @@
     </div>
 
     <div class="grp">
-      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10v4"/><path d="M10 12h4"/><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 6.2A2 2 0 0 0 7.93 5.4H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"/></svg></span>建立：生出新東西</div>
+      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10v4"/><path d="M10 12h4"/><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 6.2A2 2 0 0 0 7.93 5.4H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"/></svg></span>建立：生出新東西</div>
       <div class="cmd"><code>mkdir 名稱</code><span class="d">新建一個資料夾</span></div>
       <div class="cmd"><code>touch 檔名</code><span class="d">新建一個空白檔案</span></div>
       <div class="cmd"><code>echo "字"</code><span class="d">把文字印到畫面上</span></div>
     </div>
 
     <div class="grp">
-      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v6h6"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>看內容：檔案裡裝什麼</div>
+      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v6h6"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>看內容：檔案裡裝什麼</div>
       <div class="cmd"><code>cat 檔名</code><span class="d">一次印出整個檔案</span></div>
       <div class="cmd"><code>head 檔名</code><span class="d">只看前 10 行</span></div>
       <div class="cmd"><code>head -n 20 檔名</code><span class="d">看前 20 行</span></div>
     </div>
 
     <div class="grp">
-      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></span>整理：複製、搬移、刪除</div>
+      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></span>整理：複製、搬移、刪除</div>
       <div class="cmd"><code>cp 來源 目的</code><span class="d">複製檔案</span></div>
       <div class="cmd"><code>cp -r 來源 目的</code><span class="d">複製整個資料夾</span></div>
       <div class="cmd"><code>mv 來源 目的</code><span class="d">搬移，或改名</span></div>
@@ -122,7 +122,7 @@
     </div>
 
     <div class="grp">
-      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>搜尋與組合技</div>
+      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>搜尋與組合技</div>
       <div class="cmd"><code>grep "字" 檔名</code><span class="d">在檔案裡找含關鍵字的行</span></div>
       <div class="cmd"><code>指令 | grep "字"</code><span class="d">把前一個指令的輸出餵給 grep 過濾</span></div>
       <div class="cmd"><code>指令 &gt; 檔名</code><span class="d">把輸出寫進檔案（覆蓋原內容）</span></div>
@@ -130,7 +130,7 @@
     </div>
 
     <div class="grp">
-      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>求救與省力技</div>
+      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>求救與省力技</div>
       <div class="cmd"><code>man 指令</code><span class="d">看某指令的說明書（按 q 離開）</span></div>
       <div class="cmd"><code>clear</code><span class="d">清空畫面，重新開始</span></div>
       <div class="cmd"><code>↑ / ↓</code><span class="d">翻找剛剛打過的指令，不用重打</span></div>
@@ -140,7 +140,7 @@
   </div>
 
   <div class="callout">
-    <span class="ci"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+    <span class="ci"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
     <p><b>保命提醒：</b><code>rm</code> 沒有垃圾桶，打下去就真的消失。動手前先用 <code>pwd</code> 和 <code>ls</code> 確認你在對的地方、刪對的東西。</p>
   </div>
 
