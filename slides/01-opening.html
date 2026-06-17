@@ -219,7 +219,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       歡迎
     </h1>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
-      CLI、Git 與 Agentic AI 實作班
+      CLI 與 AI HTML 實作班
     </p>
   </div>
 </section>
@@ -339,7 +339,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="shihe-feature-card">
         <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-        <h3>後台 CMS <span class="shihe-accent">Supabase</span></h3>
+        <h3>後台管理 <span class="shihe-accent">CMS</span></h3>
         <p>即時 DB + Auth + 郵件通知</p>
       </div>
     </div>
@@ -443,15 +443,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">AI</div>
-        <div><h4>Agentic AI 需要它</h4><p>Claude Code、Cursor、Copilot — 全部透過命令列操作</p></div>
+        <div><h4>AI 做事需要入口</h4><p>你要知道 AI 把檔案放在哪裡、怎麼打開成果</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">10x</div>
-        <div><h4>效率提升十倍</h4><p>一行指令做到圖形介面要點 20 下的事</p></div>
+        <div><h4>少量指令就夠用</h4><p>今天只學做出 HTML 會用到的幾個指令</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">Git</div>
-        <div><h4>協作的基礎</h4><p>全世界工程師都用 Git — 學會才能加入團隊</p></div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">HTML</div>
+        <div><h4>看得到成果</h4><p>最後會有一個本機 index.html，瀏覽器打開就看得到</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);">Ctrl</div>
@@ -476,7 +476,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
           <li>不知道終端機在哪</li>
           <li>檔案管理只能用滑鼠</li>
           <li>AI 只能聊天，不能做事</li>
-          <li>不知道 Git 是什麼</li>
+          <li>不知道怎麼做出第一個網頁</li>
         </ul>
       </div>
       <div class="compare-card after">
@@ -484,8 +484,8 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <ul>
           <li>能自己開終端機操作</li>
           <li>會用指令管理檔案和資料夾</li>
-          <li>會用 Git 追蹤版本變更</li>
-          <li>能指揮 AI 在命令列幫你做事</li>
+          <li>有自己的本機 HTML 作品</li>
+          <li>能請 AI 幫你改頁面</li>
           <li>有信心繼續自學更多</li>
         </ul>
       </div>
@@ -502,16 +502,16 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
       命令列不是工程師的專利。<br>
-      它是一種跟電腦溝通的方式 — 更快、更精確、更強大。
+      它是一種跟電腦溝通的方式。今天只用它完成一件事：找到並打開你的網頁。
     </p>
     <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
       <div><span class="comment"># 點滑鼠：找到資料夾 → 右鍵 → 新增資料夾 → 打名字</span></div>
       <div style="margin-top:8px;"><span class="comment"># 下指令：</span></div>
       <div><span class="prompt">$</span> <span class="cmd">mkdir my-project</span></div>
-      <div style="margin-top:8px;"><span class="comment"># 點滑鼠：找終端機 → 裝 Git → 設定 → 建 repo</span></div>
+      <div style="margin-top:8px;"><span class="comment"># 點滑鼠：找檔案 → 右鍵 → 用瀏覽器打開</span></div>
       <div style="margin-top:4px;"><span class="comment"># 下指令：</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git init && git add . && git commit <span class="flag">-m "start"</span></span></div>
+      <div><span class="prompt">$</span> <span class="cmd">open index.html</span> <span class="comment"># Windows: start index.html</span></div>
     </div>
   </div>
 </section>
@@ -526,15 +526,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px); align-items:center;">
       <div class="feature-item" style="border-left:3px solid var(--good);">
         <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">AM</div>
-        <div><h4>09:00 – 12:10 ｜ CLI 基礎（門票）</h4><p>不怕黑畫面，能操作檔案和目錄 — 手把手實作</p></div>
+        <div><h4>09:00 – 12:10 ｜ CLI + 第一個 HTML</h4><p>建 my-page，做出 index.html，瀏覽器打開看到成果</p></div>
       </div>
       <div class="feature-item" style="border-left:3px solid var(--accent2);">
         <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">PM1</div>
-        <div><h4>13:05 – 14:35 ｜ Git 版控橋樑</h4><p>知道為什麼要版控，會 add / commit / push</p></div>
+        <div><h4>13:05 – 14:35 ｜ AI 改版練習</h4><p>用更清楚的指令，把頁面改成像作品</p></div>
       </div>
       <div class="feature-item" style="border-left:3px solid var(--ai);">
         <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">PM2</div>
-        <div><h4>14:50 – 16:05 ｜ AI 協作目的地</h4><p>用自然語言指揮 AI，你負責審查 — 你是最後守門員</p></div>
+        <div><h4>14:50 – 16:05 ｜ 完成作品 + 保存版本</h4><p>自由修改、本機展示；Git 只做 demo，不公開網址</p></div>
       </div>
     </div>
   </div>

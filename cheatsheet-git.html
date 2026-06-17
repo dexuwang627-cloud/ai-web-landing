@@ -97,9 +97,9 @@
   <div class="topbar"></div>
   <div class="page-bg"></div>
 
-  <div class="kicker">一日實作班 · 隨身小抄</div>
-  <h1 class="title">Git 指令<span class="x">小抄</span></h1>
-  <div class="subtitle">版控保命的常用指令 —— 程式碼再也不會真的搞丟</div>
+  <div class="kicker">一日實作班 · 加分補充</div>
+  <h1 class="title">Git 保存版本<span class="x">小抄</span></h1>
+  <div class="subtitle">本課只需認識本機保存；push / GitHub 留到進階課</div>
 
   <div class="flow">
     <div class="node"><div class="nm">工作區</div><div class="sub">你改檔案的地方</div></div>
@@ -107,8 +107,8 @@
     <div class="node"><div class="nm">暫存區</div><div class="sub">準備好的改動</div></div>
     <div class="arrow"><code>git commit</code><div class="line"></div></div>
     <div class="node"><div class="nm">儲存庫</div><div class="sub">本地歷史存檔</div></div>
-    <div class="arrow"><code>git push</code><div class="line"></div></div>
-    <div class="node cloud"><div class="nm">GitHub</div><div class="sub">雲端備份</div></div>
+    <div class="arrow"><code>進階</code><div class="line"></div></div>
+    <div class="node cloud"><div class="nm">GitHub</div><div class="sub">下一階段</div></div>
   </div>
 
   <div class="rule"></div>
@@ -121,18 +121,18 @@
       <div class="cmd"><code>git add 檔名</code><span class="d">把某個改動放進暫存區</span></div>
       <div class="cmd"><code>git add .</code><span class="d">把所有改動一次放進暫存區</span></div>
       <div class="cmd"><code>git commit -m "訊息"</code><span class="d">存成一個存檔點，附上說明</span></div>
-      <div class="cmd"><code>git push</code><span class="d">推上雲端 GitHub</span></div>
-      <div class="cmd"><code>git pull</code><span class="d">拉下別人最新的改動</span></div>
       <div class="cmd"><code>git log</code><span class="d">看過去的存檔點歷史</span></div>
       <div class="cmd"><code>git diff</code><span class="d">看這次到底改了哪些東西</span></div>
+      <div class="cmd"><code>git push</code><span class="d">進階：推上雲端 GitHub</span></div>
+      <div class="cmd"><code>git pull</code><span class="d">進階：拉下別人最新的改動</span></div>
     </div>
 
     <div class="grp">
-      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1.44 1.93l-.25.07a2 2 0 0 1-1.88-.47l-.18-.15a2 2 0 0 0-2.8 0l-.32.33a2 2 0 0 0 0 2.82l.15.17a2 2 0 0 1 .5 1.87l-.07.25a2 2 0 0 1-1.93 1.44H2a2 2 0 0 0-2 2v.44a2 2 0 0 0 2 2h.18a2 2 0 0 1 1.93 1.44l.07.25a2 2 0 0 1-.5 1.87l-.15.17a2 2 0 0 0 0 2.82l.32.33a2 2 0 0 0 2.8 0l.18-.15a2 2 0 0 1 1.88-.47l.25.07a2 2 0 0 1 1.44 1.93V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1.44-1.93l.25-.07a2 2 0 0 1 1.88.47l.18.15a2 2 0 0 0 2.8 0l.32-.33a2 2 0 0 0 0-2.82l-.15-.17a2 2 0 0 1-.5-1.87l.07-.25a2 2 0 0 1 1.93-1.44H22a2 2 0 0 0 2-2v-.44a2 2 0 0 0-2-2h-.18a2 2 0 0 1-1.93-1.44l-.07-.25a2 2 0 0 1 .5-1.87l.15-.17a2 2 0 0 0 0-2.82l-.32-.33a2 2 0 0 0-2.8 0l-.18.15a2 2 0 0 1-1.88.47l-.25-.07a2 2 0 0 1-1.44-1.93V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>第一次設定</div>
+      <div class="gh"><span class="gi"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="#cc8566" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1.44 1.93l-.25.07a2 2 0 0 1-1.88-.47l-.18-.15a2 2 0 0 0-2.8 0l-.32.33a2 2 0 0 0 0 2.82l.15.17a2 2 0 0 1 .5 1.87l-.07.25a2 2 0 0 1-1.93 1.44H2a2 2 0 0 0-2 2v.44a2 2 0 0 0 2 2h.18a2 2 0 0 1 1.93 1.44l.07.25a2 2 0 0 1-.5 1.87l-.15.17a2 2 0 0 0 0 2.82l.32.33a2 2 0 0 0 2.8 0l.18-.15a2 2 0 0 1 1.88-.47l.25.07a2 2 0 0 1 1.44 1.93V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1.44-1.93l.25-.07a2 2 0 0 1 1.88.47l.18.15a2 2 0 0 0 2.8 0l.32-.33a2 2 0 0 0 0-2.82l-.15-.17a2 2 0 0 1-.5-1.87l.07-.25a2 2 0 0 1 1.93-1.44H22a2 2 0 0 0 2-2v-.44a2 2 0 0 0-2-2h-.18a2 2 0 0 1-1.93-1.44l-.07-.25a2 2 0 0 1 .5-1.87l.15-.17a2 2 0 0 0 0-2.82l-.32-.33a2 2 0 0 0-2.8 0l-.18.15a2 2 0 0 1-1.88.47l-.25-.07a2 2 0 0 1-1.44-1.93V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>第一次本機保存</div>
       <div class="cmd"><code>git init</code><span class="d">在資料夾啟用版控</span></div>
-      <div class="cmd"><code>git clone 網址</code><span class="d">把雲端 repo 整個抓下來</span></div>
-      <div class="cmd"><code>git remote add origin 網址</code><span class="d">把本地連到 GitHub 上的 repo</span></div>
-      <div class="cmd"><code>git push -u origin main</code><span class="d">第一次推送（設好上游，之後只要 push）</span></div>
+      <div class="cmd"><code>git status</code><span class="d">確認有哪些檔案還沒保存</span></div>
+      <div class="cmd"><code>git add .</code><span class="d">把目前改動納入準備保存</span></div>
+      <div class="cmd"><code>git commit -m "first page"</code><span class="d">保存今天的第一版</span></div>
     </div>
 
     <div class="grp">
@@ -148,7 +148,7 @@
       <div class="cmd"><code>git checkout -- 檔名</code><span class="d">還沒 commit 改壞了 → 還原這個檔</span></div>
       <div class="cmd"><code>git reset HEAD~1</code><span class="d">commit 錯了 → 回前一版（改動還留著）</span></div>
       <div class="cmd"><code>git status</code><span class="d">不知道發生什麼事 → 先打它看狀態</span></div>
-      <div class="cmd"><code>git clone 網址</code><span class="d">整個資料夾炸了 → 重新拉一份乾淨的</span></div>
+      <div class="cmd"><code>git log --oneline</code><span class="d">想看歷史 → 列出每個存檔點</span></div>
     </div>
 
   </div>
@@ -160,7 +160,7 @@
 
   <div class="foot">
     <div class="plat">提示字元：Mac / Linux 是 <code>$</code>，Windows PowerShell 是 <code>PS&gt;</code>，打指令時不用打它。<br>Git 指令在兩個平台寫法完全相同，放心照打。</div>
-    <div class="brand">CLI × Git × Agentic AI<br>一日實作班</div>
+    <div class="brand">CLI × AI × HTML<br>一日實作班</div>
   </div>
 </div>
 </body>

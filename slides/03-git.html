@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>03 — Git 版控橋樑</title>
+<title>03 — Git 保存版本 demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -106,7 +106,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 <div class="keyboard-hint">Arrow keys or scroll to navigate</div>
 
 <!-- ═══════════════════════════════════════════
-     03-GIT: Unit 3 — Git 版控橋樑 (13:05–14:35)
+     03-GIT: Git 保存版本 demo（可選 / 加分）
      ═══════════════════════════════════════════ -->
 
 <!-- SLIDE 1 — Section title -->
@@ -114,15 +114,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="filename-fly" data-filename-fly></div>
   <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(204,133,102,0.08),transparent 70%);top:-20%;right:-10%;"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">UNIT 3 · 橋樑</div>
+    <div class="label reveal-element">OPTIONAL · 保存版本</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap); font-size:clamp(3rem,12vw,9rem);">
       <span class="accent-text">Git</span>
     </h1>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
-      版控 = 保命符 · 你的程式碼時間機器
+      版控 = 保命符 · 今天只認識本機保存
     </p>
     <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
-      13:05 – 14:35
+      講師 demo / 學得快的人加分跟做
     </p>
   </div>
 </section>
@@ -271,43 +271,43 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       站起來、喝水、甩手
     </p>
     <p class="body-text reveal-element reveal-delay-4" style="margin-top:var(--element-gap);">
-      接下來要把程式碼送上雲端
+      接下來只看本機保存，不推上雲端
     </p>
   </div>
 </section>
 
-<!-- SLIDE 7 — Push and GitHub -->
+<!-- SLIDE 7 — Local only -->
 <section class="slide" id="slide-push-and-github">
   <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">REMOTE</div>
+    <div class="label reveal-element">LOCAL ONLY</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      把程式碼送上雲端：git push + GitHub
+      今天先不推上雲端
     </h2>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
-      GitHub = 程式碼的雲端備份 + 協作平台（全世界最大）。<br>
-      為什麼要推上去？備份、跨裝置、分享、協作。
+      先理解「存一個版本」就好。<br>
+      GitHub、公開網址、部署都留到進階課。
     </p>
     <div class="os-split reveal-element reveal-delay-3" style="align-self:center;">
       <div class="os-col">
         <div class="os-label mac">Mac / Linux</div>
         <div class="terminal" style="border-left:3px solid var(--accent);">
-          <div><span class="prompt">$</span> <span class="cmd">git remote add origin https://github.com/...</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">git push <span class="flag">-u</span> origin main</span></div>
-          <div class="output" style="color:var(--good);">→ 重新整理 GitHub，看到你的檔案了</div>
+          <div><span class="prompt">$</span> <span class="cmd">git status</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">git log <span class="flag">--oneline</span></span></div>
+          <div class="output" style="color:var(--good);">→ 看到剛剛存下來的版本</div>
         </div>
       </div>
       <div class="os-col">
         <div class="os-label win">Windows PowerShell</div>
         <div class="terminal" style="border-left:3px solid var(--accent2);">
-          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git remote add origin https://github.com/...</span></div>
-          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git push <span class="flag">-u</span> origin main</span></div>
-          <div class="output" style="color:var(--good);">→ 重新整理 GitHub，看到你的檔案了</div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git status</span></div>
+          <div><span class="prompt" style="color:var(--accent2);">PS&gt;</span> <span class="cmd">git log <span class="flag">--oneline</span></span></div>
+          <div class="output" style="color:var(--good);">→ 看到剛剛存下來的版本</div>
         </div>
       </div>
     </div>
     <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
-        第一次設定上游後，之後每次只要 <span class="cmd-cell">git push</span>
+        今天到這裡就夠了。<span class="cmd-cell">git push</span> 是進階課內容。
       </p>
     </div>
   </div>
@@ -382,15 +382,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="slide-content" style="align-items:center;">
     <div class="label reveal-element">CHEAT SHEET</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      Git 小抄：六條指令走天下
+      Git 小抄：今天只記前三條
     </h2>
     <div class="cmd-grid reveal-element reveal-delay-2" style="align-self:center;">
       <span class="cmd-cell">git init</span><span class="cmd-desc">開始版控</span>
       <span class="cmd-cell">git add &lt;檔名&gt;</span><span class="cmd-desc">放進暫存區</span>
       <span class="cmd-cell">git commit -m "訊息"</span><span class="cmd-desc">存入歷史</span>
-      <span class="cmd-cell">git push</span><span class="cmd-desc">推上雲端</span>
-      <span class="cmd-cell">git pull</span><span class="cmd-desc">拉下最新（別人改的）</span>
+      <span class="cmd-cell">git status</span><span class="cmd-desc">查看現在狀態</span>
       <span class="cmd-cell">git log</span><span class="cmd-desc">查看歷史</span>
+      <span class="cmd-cell">git push</span><span class="cmd-desc">進階課再教：推上雲端</span>
     </div>
     <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
@@ -421,7 +421,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="feature-item">
         <div class="feature-icon">3</div>
-        <div><h4>整個資料夾炸了</h4><p><span class="cmd-inline">git clone</span> 重新拉一份乾淨的回來</p></div>
+        <div><h4>想看存檔歷史</h4><p><span class="cmd-inline">git log --oneline</span> 列出每個版本</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">4</div>
@@ -429,7 +429,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="feature-item">
         <div class="feature-icon">5</div>
-        <div><h4>推上去發現有錯</h4><p>改完再 push 一次就好 —— 歷史都還在</p></div>
+        <div><h4>想公開成網址</h4><p>留到進階課：GitHub / Vercel / Supabase</p></div>
       </div>
     </div>
   </div>
@@ -454,11 +454,11 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="feature-item">
         <div class="feature-icon">6</div>
-        <div><h4>六條指令</h4><p>init / add / commit / push / pull / log</p></div>
+        <div><h4>今天只需三步</h4><p>init / add / commit；push 留到進階課</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">⑂</div>
-        <div><h4>Branch = 平行宇宙，衝突 = Git 請你決定</h4><p>GitHub = 程式碼的雲端家</p></div>
+        <div><h4>Branch / 衝突 / GitHub</h4><p>知道有這些概念即可，今天不操作</p></div>
       </div>
     </div>
   </div>

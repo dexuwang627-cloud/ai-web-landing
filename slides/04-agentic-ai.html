@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>04 — Agentic AI 協作</title>
+<title>04 — AI 改版本機 HTML</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -112,22 +112,22 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 <div class="keyboard-hint">Arrow keys or scroll to navigate</div>
 
 <!-- ═══════════════════════════════════════════
-     04-AGENTIC-AI: Unit 4 — AI 協作目的地 (14:50–16:05)
+     04-AGENTIC-AI: AI 改版本機 HTML (13:05–16:05)
      ═══════════════════════════════════════════ -->
 
 <!-- SLIDE 1 — Section title -->
 <section class="slide" id="slide-ai-section-title">
   <div class="orb" style="width:clamp(300px,45vw,700px);height:clamp(300px,45vw,700px);background:radial-gradient(circle,rgba(160,128,192,0.10),transparent 70%);top:-20%;left:-10%;"></div>
   <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element" style="color:var(--ai);">UNIT 4 · 目的地</div>
+    <div class="label reveal-element" style="color:var(--ai);">HTML · 改版</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
-      AI 協作 — 今天的<span class="ai-text">目的地</span>
+      AI 改版 — 今天的<span class="ai-text">作品引擎</span>
     </h1>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,680px); font-size:var(--h3-size); font-weight:400; color:var(--text);">
-      你已經學會 CLI 和 Git——它們是工具。<br>AI 讓工具自己動起來。
+      你已經建立了 index.html。<br>接下來讓 AI 幫你把它改成像作品。
     </p>
     <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
-      接下來，你會親手完成「跟 AI 一起寫 code → commit → push」
+      接下來，你會親手完成「AI 改 HTML → 本機打開 → 重新整理確認」
     </p>
   </div>
 </section>
@@ -153,15 +153,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <h4>代理式</h4>
         <ul>
           <li>你給目標、AI 自己完成</li>
-          <li>讀檔、寫檔、跑指令、commit</li>
-          <li>直接操作你的終端機和 Git</li>
+          <li>讀檔、寫檔、幫你改頁面</li>
+          <li>直接操作你的專案資料夾</li>
           <li>像說地址，司機自己導航</li>
         </ul>
       </div>
     </div>
     <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
-        今天的主角是<span class="ai-text">代理式</span> —— 它直接動手，不只是給你建議
+        今天的主角是<span class="ai-text">能動手改檔案的 AI</span> —— 你負責提出需求和確認成果
       </p>
     </div>
   </div>
@@ -214,11 +214,11 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,860px);">
       <div class="feature-item">
         <div class="feature-icon">CLI</div>
-        <div><h4>終端機操作</h4><p>就在你熟悉的 CLI 裡跑，不用切視窗</p></div>
+        <div><h4>終端機操作</h4><p>就在剛才的 my-page 資料夾裡跑</p></div>
       </div>
       <div class="feature-item">
-        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">Git</div>
-        <div><h4>Git 整合</h4><p>自動 diff 預覽、協助寫 commit message，版本控制不漏接</p></div>
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">HTML</div>
+        <div><h4>直接改檔案</h4><p>請它修改 index.html，你再用瀏覽器確認</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
@@ -226,7 +226,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);">E2E</div>
-        <div><h4>端到端</h4><p>從建檔到 push 全包，不是只幫你寫片段</p></div>
+        <div><h4>看得到結果</h4><p>從文字需求到本機頁面，不是只給你程式碼片段</p></div>
       </div>
     </div>
   </div>
@@ -237,22 +237,19 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="slide-content" style="align-items:center;">
     <div class="label reveal-element" style="color:var(--ai);">LIVE DEMO</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      現場 Demo：看 AI 自己動手
+      現場 Demo：一句話改出網頁
     </h2>
     <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-      <div><span class="prompt">$</span> <span class="cmd">mkdir demo-project && cd demo-project</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
-      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"幫我建一個 Python 計算機 CLI 工具"</span></div>
-      <div class="comment"># 觀察 Claude：讀檔 → 寫檔 → 跑指令</div>
-      <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">git diff</span>          <span class="comment"># 先看改了什麼</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git add .</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "feat: calculator CLI"</span></span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git push</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cd my-page</span></div>
+      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"請把 index.html 改成個人介紹頁，單檔 HTML，不用外部套件"</span></div>
+      <div class="comment"># 觀察 Claude：讀 index.html → 修改內容 → 存檔</div>
+      <div style="margin-top:8px;"><span class="prompt">$</span> <span class="cmd">cat index.html</span>       <span class="comment"># 看檔案有沒有內容</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">open index.html</span>      <span class="comment"># Windows: start index.html</span></div>
     </div>
     <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
-        關鍵：AI 產出的東西，你<span class="ai-text">一定要自己看過</span>再 commit
+        關鍵：AI 產出的東西，你<span class="ai-text">一定要用瀏覽器看過</span>才算完成
       </p>
     </div>
   </div>
@@ -284,17 +281,17 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="slide-content" style="align-items:center;">
     <div class="label reveal-element" style="color:var(--good);">TRY IT · Step 1–2</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      跟做：建專案 + 啟動 Claude
+      跟做：回到 my-page + 啟動 Claude
     </h2>
     <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
       <div><span class="comment"># Step 1：進入早上建的資料夾</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">cd my-project</span></div>
-      <div style="margin-top:8px;"><span class="comment"># Step 2：啟用版控</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git init</span></div>
-      <div class="output">Initialized empty Git repository in .../my-project/.git/</div>
-      <div style="margin-top:8px;"><span class="comment"># 啟動 Claude，給明確指令</span></div>
-      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"幫我建一個 intro.txt，內容是自我介紹，3-5 行"</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cd my-page</span></div>
+      <div style="margin-top:8px;"><span class="comment"># Step 2：確認 index.html 在這裡</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
+      <div class="output">index.html</div>
+      <div style="margin-top:8px;"><span class="comment"># Step 3：啟動 Claude，給明確指令</span></div>
+      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"請把 index.html 改成我的個人介紹頁，保留單檔 HTML"</span></div>
     </div>
     <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
@@ -309,47 +306,45 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="slide-content" style="align-items:center;">
     <div class="label reveal-element" style="color:var(--good);">TRY IT · Step 3</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      跟做：AI 產出 → diff 檢查
+      跟做：AI 產出 → 瀏覽器檢查
     </h2>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
-      為什麼要先看 diff？AI 也會寫錯，<span class="ai-text">你是最後守門員</span>。
+      為什麼要打開看？AI 也會寫錯，<span class="ai-text">你是最後守門員</span>。
     </p>
     <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-      <div><span class="prompt">$</span> <span class="cmd">git diff</span></div>
-      <div class="add">+ Hello, 我是 ___</div>
-      <div class="add">+ 今天參加了 CLI + Git + AI 課程</div>
-      <div class="add">+ 正在學習用 AI 協作寫程式</div>
+      <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
+      <div class="add">瀏覽器看到標題、介紹、卡片</div>
+      <div class="add">重新整理後確認新版有出現</div>
+      <div class="add">不滿意就再請 AI 修改</div>
     </div>
     <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
-        diff 看不懂沒關係：找<span style="color:var(--good);">綠色（新增）</span>和<span style="color:var(--bad);">紅色（刪除）</span>就好
+        看不懂程式沒關係：先確認畫面有沒有符合你的需求
       </p>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 9 — Hands-on commit + push -->
+<!-- SLIDE 9 — Hands-on open + revise -->
 <section class="slide" id="slide-hands-on-commit-push">
   <div class="slide-content" style="align-items:center;">
     <div class="label reveal-element" style="color:var(--good);">TRY IT · Step 4–6</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      跟做：add → commit → push
+      跟做：打開 → 修改 → 重新整理
     </h2>
     <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-      <div><span class="comment"># Step 4：加入暫存區</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git add .</span></div>
-      <div style="margin-top:6px;"><span class="comment"># Step 5：寫下你的提交訊息</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "feat: add intro.txt"</span></span></div>
-      <div class="output">[main (root-commit) abc1234] feat: add intro.txt</div>
-      <div class="output"> 1 file changed, 3 insertions(+)</div>
-      <div style="margin-top:6px;"><span class="comment"># Step 6：推上遠端</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git push origin main</span></div>
+      <div><span class="comment"># Step 4：本機打開</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 5：請 AI 改一版</span></div>
+      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"請加上三張卡片，風格低飽和、乾淨"</span></div>
+      <div style="margin-top:6px;"><span class="comment"># Step 6：回瀏覽器重新整理</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
     </div>
     <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
-        你完成了一個完整循環：<span class="ai-text">AI 寫 → 你看 → 你 commit → 你 push</span>
+        你完成了一個完整循環：<span class="ai-text">AI 改 → 你看 → 不滿意再改</span>
       </p>
     </div>
   </div>
@@ -365,20 +360,20 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,820px);">
       <div class="feature-item">
         <div class="feature-icon">1</div>
-        <div><h4>建一個 README.md</h4><p>用 AI 介紹你的 my-project 專案</p></div>
+        <div><h4>個人介紹頁</h4><p>用 AI 加入你的姓名、興趣、聯絡方式</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">2</div>
-        <div><h4>加一個 index.html</h4><p>用 AI 幫你的資料夾做一個簡單網頁</p></div>
+        <div><h4>活動介紹頁</h4><p>用 AI 做一張活動海報式頁面</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">3</div>
-        <div><h4>修改 intro.txt</h4><p>用 AI 加一段「今天學了什麼」</p></div>
+        <div><h4>店家介紹頁</h4><p>用 AI 做一個小店首頁，含服務和營業時間</p></div>
       </div>
     </div>
     <div class="highlight-box ai reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
-        有自己的想法也歡迎。記得：<span class="ai-text">claude → diff → add → commit → push</span>
+        有自己的想法也歡迎。記得：<span class="ai-text">claude → open index.html → refresh</span>
       </p>
     </div>
   </div>
@@ -395,7 +390,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(88vw,720px); text-align:left;">
       <div class="feature-item">
         <div class="feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></div>
-        <div><h4>用同一個 my-project 繼續玩</h4><p>每次改完都跑 diff → add → commit → push</p></div>
+        <div><h4>用同一個 my-page 繼續玩</h4><p>每次改完都回瀏覽器重新整理確認</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l-5 5"/><path d="M4 4l5 5"/></svg></div>
@@ -418,20 +413,19 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,640px); text-align:center;">
       你負責「看」和「決定」，AI 負責「做」。<br>
-      <span class="ai-text">diff 是關鍵——不看就不 commit。</span>
+      <span class="ai-text">瀏覽器驗收是關鍵——看過才算完成。</span>
     </p>
     <div class="terminal reveal-element reveal-delay-3" style="align-self:center;">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
       <div><span class="comment"># 你以後每天都可以用的循環</span></div>
-      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"做什麼"</span>     <span class="comment"># AI 幫你做</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git diff</span>             <span class="comment"># 你檢查產出</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git add .</span>            <span class="comment"># 你決定納入</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git commit <span class="flag">-m "..."</span></span>  <span class="comment"># 你留下紀錄</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">git push</span>             <span class="comment"># 你推上遠端</span></div>
+      <div><span class="prompt">$</span> <span class="ai-cmd">claude</span> <span class="cmd">"請修改 index.html..."</span> <span class="comment"># AI 幫你改</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cat index.html</span>                 <span class="comment"># 確認檔案有內容</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">open index.html</span>                <span class="comment"># 本機打開</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">重新整理瀏覽器</span>                  <span class="comment"># 你檢查成果</span></div>
     </div>
     <div class="highlight-box ai reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
-        CLI 是手，Git 是記憶，<span class="ai-text">AI 是夥伴</span>
+        CLI 是入口，HTML 是成果，<span class="ai-text">AI 是幫手</span>
       </p>
     </div>
   </div>
@@ -446,14 +440,14 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       你今天從零學會了
     </h2>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,680px); font-size:var(--h3-size); color:var(--text);">
-      <span class="accent-text">CLI 操作</span> · <span style="color:var(--accent2);">Git 版本控制</span> · <span class="ai-text">AI 協作</span>
+      <span class="accent-text">CLI 操作</span> · <span style="color:var(--accent2);">本機 HTML</span> · <span class="ai-text">AI 改版</span>
     </p>
     <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); max-width:min(80vw,640px);">
-      三者串起來，就是現代開發者的日常。
+      三者串起來，你就能把一個想法變成看得到的網頁。
     </p>
     <div class="highlight-box ai reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
-        回家作業：用 <span class="ai-cmd" style="font-family:'JetBrains Mono',monospace;color:var(--ai);">claude</span> 幫自己做一個小專案，走完一次循環
+        回家作業：用 <span class="ai-cmd" style="font-family:'JetBrains Mono',monospace;color:var(--ai);">claude</span> 把今天的 index.html 再改一版
       </p>
     </div>
   </div>

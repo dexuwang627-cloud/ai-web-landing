@@ -85,10 +85,10 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="slide-content" style="align-items:center; text-align:center;">
     <div class="label reveal-element">iPAS 企業 AI 應用實作</div>
     <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--content-gap);">
-      CLI、Git 與<br><span class="accent-text">Agentic AI</span>
+      CLI 與 AI<br><span class="accent-text">HTML 實作</span>
     </h1>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
-      從命令列到 AI 協作 — 一天學會現代開發工作流
+      從 ChatGPT 對話出發，一天做出自己的本機網頁
     </p>
   </div>
 </section>
@@ -111,7 +111,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="feature-item">
         <div class="feature-icon">03</div>
-        <div><h4>想提升效率的任何人</h4><p>命令列是所有 AI 工具的入口</p></div>
+        <div><h4>想做出可見成果的人</h4><p>今天的目標是一個本機可打開的 HTML</p></div>
       </div>
     </div>
     <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
@@ -127,20 +127,20 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="slide-content" style="align-items:center;">
     <div class="label reveal-element">WHAT</div>
     <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      一天學會三件事
+      一天完成三件事
     </h2>
     <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
       <div class="feature-item" style="border-left:3px solid var(--good);">
         <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">CLI</div>
-        <div><h4 style="color:var(--good);">命令列基礎</h4><p>pwd、cd、ls、mkdir — 不再害怕黑畫面</p></div>
+        <div><h4 style="color:var(--good);">CLI 生存指令</h4><p>pwd、cd、ls、mkdir — 找得到自己的作品</p></div>
       </div>
       <div class="feature-item" style="border-left:3px solid var(--accent2);">
-        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">Git</div>
-        <div><h4 style="color:var(--accent2);">版本控制</h4><p>init、add、commit、push — 你的程式碼有時光機</p></div>
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">HTML</div>
+        <div><h4 style="color:var(--accent2);">本機網頁</h4><p>做出 index.html，瀏覽器打開就看得到成果</p></div>
       </div>
       <div class="feature-item" style="border-left:3px solid var(--ai);">
         <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">AI</div>
-        <div><h4 style="color:var(--ai);">Agentic AI</h4><p>用自然語言指揮 AI 操作命令列 — 實作練習</p></div>
+        <div><h4 style="color:var(--ai);">AI 改版</h4><p>用自然語言請 AI 修改頁面，你負責確認結果</p></div>
       </div>
     </div>
   </div>
@@ -154,13 +154,13 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       為什麼<span class="accent-text">命令列</span>？
     </h2>
     <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,640px);">
-      因為 2025 年之後最強的 AI 工具，<br>
-      全部在命令列操作。
+      因為你要知道 AI 把檔案放在哪裡，<br>
+      也要能自己打開成果。
     </p>
     <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
       <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
       <div style="color:var(--ai); font-weight:600;">$ claude</div>
-      <div style="margin-top:4px;"><span class="cmd">> 幫我建一個 Express API</span></div>
+      <div style="margin-top:4px;"><span class="cmd">> 幫我做一個單檔 index.html 個人頁</span></div>
       <div style="margin-top:10px;"><span style="color:var(--ai);">Cursor</span> <span class="comment">→ AI 程式編輯器</span></div>
       <div><span style="color:var(--accent2);">GitHub Copilot</span> <span class="comment">→ AI 配對程式設計</span></div>
       <div><span style="color:var(--accent);">Claude Code</span> <span class="comment">→ AI 終端機助手</span></div>
@@ -168,7 +168,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </div>
     <div class="highlight-box reveal-element reveal-delay-4" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
-        不會命令列，就用不了這些工具。
+        今天只學必要指令：找到檔案、建立檔案、打開網頁。
       </p>
     </div>
   </div>
@@ -183,11 +183,11 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </h2>
     <div class="schedule-grid reveal-element reveal-delay-2" style="align-self:center;">
       <span class="time-cell">09:00</span><div class="desc-cell">開場 + 自我介紹 + AI 互動<div class="sub">認識老師、看 AI 能做什麼</div></div>
-      <span class="time-cell">09:40</span><div class="desc-cell">CLI 基礎：pwd、cd、ls、mkdir<div class="sub">檔案操作、管線、環境變數</div></div>
+      <span class="time-cell">09:45</span><div class="desc-cell">CLI 生存指令：pwd、cd、ls、mkdir<div class="sub">建立 my-page 和 index.html</div></div>
       <span class="time-cell">12:10</span><div class="desc-cell" style="color:var(--text-muted);">午餐（55min）</div>
-      <span class="time-cell">13:05</span><div class="desc-cell">Git 基礎：init、commit、branch<div class="sub">推送 GitHub、分支與合併</div></div>
-      <span class="time-cell">14:50</span><div class="desc-cell">Agentic AI 實作<div class="sub">Claude Code + Git 工作流</div></div>
-      <span class="time-cell">16:15</span><div class="desc-cell">總結、Q&A、下一步</div>
+      <span class="time-cell">13:05</span><div class="desc-cell">AI 改版練習<div class="sub">把本機 HTML 改成像作品</div></div>
+      <span class="time-cell">14:50</span><div class="desc-cell">保存版本 + 自由完成<div class="sub">Git demo；不公開網址</div></div>
+      <span class="time-cell">16:15</span><div class="desc-cell">作品回顧、Q&A、下一步</div>
     </div>
   </div>
 </section>
@@ -231,11 +231,11 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">2</div>
-        <div><h4>安裝 Git</h4><p>git-scm.com 下載安裝，或課堂上一起裝</p></div>
+        <div><h4>確認瀏覽器能用</h4><p>Chrome / Edge / Safari 都可以，本機打開 HTML 即可</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">3</div>
-        <div><h4>申請 GitHub 帳號</h4><p>github.com 免費註冊，課堂上會用到</p></div>
+        <div><h4>準備 AI 工具帳號</h4><p>ChatGPT / Claude 擇一即可，現場有範本救援</p></div>
       </div>
       <div class="feature-item">
         <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);">4</div>
@@ -244,7 +244,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     </div>
     <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
       <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
-        不需要先學程式。不會寫 code 也完全沒問題。課堂上會發紅綠便利貼，本地環境有問題也有 Codespaces 備案。
+        不需要先學程式。不會寫 code 也完全沒問題。今天不做公開網址，先把本機作品完成。
       </p>
     </div>
   </div>
