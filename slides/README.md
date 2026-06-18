@@ -1,54 +1,67 @@
-# 投影片索引 — CLI 與 AI HTML 實作班
+---
+title: 投影片索引 — AI 入門：用 AI 做出本機網頁
+tags: [ai-training, opencode, local-html, beginner-course]
+created: 2026-06-18
+updated: 2026-06-18
+status: active
+---
 
-> 2026-06-17 更新：課程改為初學者體驗版。主線是用 AI 做出本機 `index.html`，Git 只作為保存版本 demo，不教公開網址。
+# 投影片索引 — AI 入門：用 AI 做出本機網頁
+
+> 2026-06-18 更新：課程全面改為 AI 入門體驗版。主線是用 opencode 做出本機可開啟的 `index.html`，terminal 是操作 AI 的入口，不教 Git、不部署、不公開網址。
 
 ## 檔案對照
 
 | 檔案 | 內容 | 投影片數 | 時段 |
 |------|------|---------|------|
-| `00-briefing.html` | 課程簡報（宣傳用） | 8 | — |
-| `01-opening.html` | 開場：自我介紹 + AI 互動 + CLI 入門 | 12 | 09:00–10:30 |
-| `02-cli-basics.html` | CLI 生存指令 + 第一個本機 HTML | 24 | 10:45–12:10 |
-| `03-git.html` | Git 保存版本概念（講師 demo / 加分） | 12 | 14:50 前後彈性插入 |
-| `04-agentic-ai.html` | AI 產生與改版本機 HTML | 13 | 13:05–16:05 |
-| `05-closing.html` | 作品回顧與下一步 | 10 | 16:15–16:50 |
+| `00-briefing.html` | 課程簡報（招生用） | 8 | — |
+| `01-opening.html` | UNIT 1：開場 + AI 定位 + Terminal 入口 | 10 | 09:00–10:30 |
+| `02-ai-terminal.html` | UNIT 2：用 opencode 做出第一個本機 HTML | 12 | 10:45–12:10 |
+| `03-ai-revision.html` | UNIT 3：AI 改版練習 | 13 | 13:05–14:35 |
+| `04-free-project.html` | UNIT 4：自由完成作品 + skill 概念 | 10 | 14:50–16:05 |
+| `05-closing.html` | UNIT 5：作品回顧與下一步 | 9 | 16:15–16:50 |
 
-> `03-git-and-ai.html` 已拆分為 `03-git.html` + `04-agentic-ai.html`，原檔已移除。
-> 內容來源大綱：`03-git-slides-outline.md`、`04-agentic-ai-slides-outline.md`、`existing-slides-updates.md`（保留當源頭）。
+## 模板
+
+- `00-template.html`：共用設計系統與 slide 骨架。
+- `shared.css`：舊版共用樣式（新 deck 主要使用各自內嵌樣式）。
 
 ## 設計系統
 
-- 背景：`--bg: #050508`（深黑）
-- 主色：`--accent: #ff6b35`（橘色 = Mac）
-- 輔色：`--accent2: #3b82f6`（藍色 = Windows）
-- AI 標識色：`--ai: #a855f7`（紫色，04-agentic-ai 使用）
-- 字體：Noto Sans TC（正文）、Sora（標題）、JetBrains Mono（程式碼）
-- 投影片：100vh/100dvh、scroll-snap、IntersectionObserver reveal 動畫
-- 終端機元件：`.terminal` + `.terminal-header` + macOS 三色圓點
-- OS 雙欄：`.os-split` + `.os-label.mac`（橘）+ `.os-label.win`（藍）
+- 背景：極深黑藍 `#050508` + 橘色光暈 + 網格遮罩
+- 主色：橘珊瑚 `#d4896e`（Mac / 主視覺）
+- 輔色：紫色 `#a68fc9`（AI 標示）
+- 字體：Noto Sans TC（中文）、Bricolage Grotesque（英文標題）、JetBrains Mono（程式碼）
+- 投影片：100vh/100dvh、scroll-snap、GSAP ScrollTrigger reveal
+- 終端機元件：`.terminal` + macOS 三色圓點
+- 布局組件：`layout-center`、`layout-split`、`layout-full-bleed`、`card-grid`、`feature-list`、`compare-grid`、`step-list`
 
 ## 互動元件
 
-- **微休息倒數**（`[data-countdown]`）：JS `requestAnimationFrame` 真倒數 90 秒，橘色圓環同步收束，歸零變綠；每次滑回該頁自動重跑。02 有 4 張、03/04 各 1 張。
-- **檔名飛掠背景**（`[data-filename-fly]`）：03 section-title 背景，JS 注入「report_final_REAL…」等檔名橫向飄過，呈現「檔名地獄」意象。
-- **單元分界**（`.unit-divider`）：02 導航 → 操作之間，左綠勾已完成、右橘箭頭接下來。
-- **AI 互動對比卡**（`01-opening.html` slide 3）：4 張任務按鈕（會議記錄 / PDF 轉表格 / 修 bug / 學新東西），點擊切換下方 Before/After 步驟 + 時間。
+- **GSAP reveal 動畫**：`data-gsap` 支援 fade-up / fade-right / fade-left / stagger-up / scale-in
+- **微休息倒數**（`[data-countdown]`）：90 秒真倒數，橘色圓環同步收束
+- **鍵盤導航**：↑ ↓ 或 Home / End
+- **Nav dots**：右側導覽點
 
 ## 時間表
 
-- 09:00 開場（01）— 自我介紹 + AI 互動 + 路線圖
-- 09:45 CLI 生存指令（02）— pwd/cd → ls → mkdir/touch → 建 `index.html`
-- 10:45 第一個本機 HTML（02/04）— AI 產生 HTML → 本機瀏覽器打開
+- 09:00 開場（01）— 課程定位 + AI 能做什麼 + terminal 入口
+- 10:45 第一個本機 HTML（02）— 安裝 opencode、建立 my-page、產生 index.html
 - 12:10 午餐（55min）
-- 13:05 AI 改版練習（04）：好 prompt → 改版 → 本機重新整理驗收
-- 14:35 休息
-- 14:50 保存版本 + 自由完成作品（03/04）：Git 本機 demo → 三選一作品完成
-- 16:05 休息
-- 16:15 總結（05）：作品展示、本機 HTML、下一步、Q&A
+- 13:05 AI 改版練習（03）— 好 prompt、版面與風格改版
+- 14:50 自由完成作品（04）— 三選一主題 + skill 概念
+- 16:15 總結（05）— 作品展示、本機 HTML、下一步、Q&A
 
-## 三層定位
+## 舊版歸檔
 
-- **AI 對話 = 熟悉入口**：把想法說成 AI 能執行的任務
-- **CLI = 操作入口**：知道作品在哪裡，能用指令開檔案
-- **HTML = 可見成果**：本機瀏覽器看得到自己的作品
-- **Git = 加分保存**：知道可以保存版本，不要求 push
+舊版 deck 已移至 `archive/`：
+- `00-briefing.html` ~ `05-closing.html`（CLI + Git + Claude Code 版本）
+- `instructor-guide.md`、`instructor-guide-v2.md`
+- `03-git-slides-outline.md`、`04-agentic-ai-slides-outline.md`
+- `existing-slides-updates.md`
+
+## 三層能力架構
+
+- **AI 對話**：把想法說清楚
+- **Terminal 入口**：知道檔案在哪，能叫 AI 操作
+- **HTML 作品**：本機瀏覽器看得到自己的頁面

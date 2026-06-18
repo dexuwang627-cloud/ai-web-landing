@@ -3,1028 +3,657 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>01 — 開場</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&family=Cinzel:wght@400;500;700;900&display=swap" rel="stylesheet">
+<title>UNIT 1 — 開場 + AI 定位 + Terminal 入口</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
-/* === VIEWPORT === */
-html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
-html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-.slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
-.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); }
+/* === TOKENS === */
 :root {
-  --title-size: clamp(2rem, 6vw, 5rem); --h2-size: clamp(1.5rem, 4.5vw, 3.2rem);
-  --h3-size: clamp(1.2rem, 3vw, 2.2rem); --body-size: clamp(0.95rem, 2vw, 1.5rem);
-  --small-size: clamp(0.8rem, 1.3vw, 1.1rem); --slide-padding: clamp(1rem, 4vw, 4rem);
-  --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
-  --bg: #050508; --surface: #0b0b12; --card: #111119;
-  --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
-  --accent: #cc8566; --accent-soft: rgba(204,133,102,0.12); --accent2: #6e90b8;
-  --bad: #b87070; --good: #5e9a78; --terminal-bg: #0d1117; --terminal-border: #30363d;
-}
-@media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
-@media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
-@media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
-@media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .feature-list, .compare-grid { grid-template-columns: 1fr !important; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
-/* GSAP slides: hidden before JS runs to prevent flash */
-#intro-label, #intro-name, #intro-tagline,
-#work-label, #work-heading, #work-card-1, #work-card-2,
-#why-label, #why-heading { opacity: 0; }
-@media (prefers-reduced-motion: reduce) {
-  #intro-label, #intro-name, #intro-tagline,
-  #work-label, #work-heading, #work-card-1, #work-card-2,
-  #why-label, #why-heading { opacity: 1; }
-}
-/* === THEME === */
-body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
-body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
-.slide { background: var(--bg); }
-.orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
-.label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.3vw, 1.1rem); font-weight: 500; letter-spacing: 3px; color: var(--accent); }
-.big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
-.sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
-.body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
-.accent-text { background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.highlight-wipe { background: linear-gradient(90deg, var(--accent), var(--accent-light)); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
-.highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
-.reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
-.reveal-element.visible { opacity: 1; transform: translateY(0); }
-.reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
-/* === TERMINAL === */
-.terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
-.terminal-header { display: flex; gap: 6px; margin-bottom: clamp(8px,1vh,14px); }
-.terminal-dot { width: clamp(10px,1.2vw,14px); height: clamp(10px,1.2vw,14px); border-radius: 50%; }
-.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
-.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #8b949e; } .terminal .output { color: #8b949e; } .terminal .flag { color: #d2a8ff; }
-/* === FEATURE LIST === */
-.feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
-.feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
-.feature-item:hover { border-color: rgba(204,133,102,0.15); }
-.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(204,133,102,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
-.feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
-.feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
-/* === HIGHLIGHT BOX === */
-.highlight-box { background: rgba(204,133,102,0.06); border: 1px dashed rgba(204,133,102,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
-/* === AI DEMO INTERACTIVE === */
-.ai-demo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px,1.2vw,16px); width: 100%; max-width: min(90vw, 720px); }
-.ai-demo-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(10px,1.5vw,18px); cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; align-items: center; gap: clamp(6px,1vw,10px); font-family: inherit; color: var(--text); }
-.ai-demo-card:hover { border-color: rgba(204,133,102,0.4); transform: translateY(-3px); }
-.ai-demo-card.active { border-color: var(--accent); background: rgba(204,133,102,0.08); }
-.ai-demo-icon { width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: clamp(1.1rem,1.8vw,1.5rem); }
-.ai-demo-title { font-size: clamp(0.78rem,1.1vw,0.95rem); color: var(--text); font-weight: 500; }
-.ai-demo-result .compare-card { text-align: left; }
-.ai-demo-content { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); line-height: 1.7; }
-.ai-demo-content .step { display: flex; gap: 8px; margin-top: 4px; }
-.ai-demo-content .step-num { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.85em; flex-shrink: 0; }
-.ai-demo-content .time { display: inline-block; margin-top: 8px; padding: 4px 10px; background: rgba(255,255,255,0.05); border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.75rem,1vw,0.85rem); color: var(--accent); }
-@media (max-width: 700px) { .ai-demo-grid { grid-template-columns: repeat(2, 1fr); } }
-/* === NAV === */
-.nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
-.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
-.nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-soft); transform: scale(1.3); }
-.slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
-.keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+  --title-size: clamp(2.2rem, 7vw, 5.5rem);
+  --h2-size: clamp(1.6rem, 4.8vw, 3.4rem);
+  --h3-size: clamp(1.25rem, 3.2vw, 2.3rem);
+  --body-size: clamp(0.95rem, 2.1vw, 1.45rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.05rem);
+  --slide-padding: clamp(1.2rem, 4.5vw, 4.5rem);
+  --content-gap: clamp(1rem, 2.5vw, 2.5rem);
+  --element-gap: clamp(0.5rem, 1.2vw, 1.2rem);
 
-/* === STANDALONE-STYLE BRAND / SHIHE CSS === */
-.highlight-wipe {
-  background: linear-gradient(90deg, var(--accent), var(--accent-light));
-  background-size: 0% 100%; background-repeat: no-repeat;
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: var(--text-dim);
-  transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s;
+  --bg: #050508;
+  --surface: rgba(11, 11, 18, 0.72);
+  --card: rgba(17, 17, 25, 0.6);
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --text: #f0ede8;
+  --text-muted: #8a8a9a;
+  --text-dim: #4a4a5c;
+
+  --accent: #d4896e;
+  --accent-2: #b9745c;
+  --accent-soft: rgba(212, 137, 110, 0.14);
+  --accent-glow: rgba(212, 137, 110, 0.22);
+
+  --bad: #c97c7c;
+  --good: #6caf8a;
+  --ai: #a68fc9;
+  --ai-soft: rgba(166, 143, 201, 0.12);
+
+  --terminal-bg: #0c1016;
+  --terminal-border: rgba(255, 255, 255, 0.1);
 }
-.highlight-wipe.active {
-  background-size: 100% 100%;
+
+html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === GLOBAL BACKGROUND === */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(212, 137, 110, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(166, 143, 201, 0.06) 0%, transparent 45%),
+    linear-gradient(180deg, var(--bg) 0%, #08080d 100%);
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: clamp(60px, 8vw, 120px) clamp(60px, 8vw, 120px);
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+}
+
+/* === SLIDE SHELL === */
+.slide {
+  width: 100vw; height: 100vh; height: 100dvh;
+  overflow: hidden; scroll-snap-align: start;
+  display: flex; flex-direction: column; position: relative;
+}
+.slide-content {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  max-height: 100%; overflow: hidden;
+  padding: var(--slide-padding);
+  position: relative; z-index: 2;
+}
+
+/* === TYPOGRAPHY === */
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.75rem, 1.1vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.big-title {
+  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
+  font-size: var(--title-size);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.big-title .accent-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #e8b89f 100%);
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.rv-brand {
-  font-family: 'Cinzel', serif; letter-spacing: 0.15em; text-transform: uppercase;
+.sub-heading {
+  font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
 }
-
-/* Data stream border */
-.data-border { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 2; }
-.data-border-track {
-  position: absolute; font-family: 'JetBrains Mono', monospace;
-  font-size: 7px; color: rgba(255,255,255,0.07); white-space: nowrap; overflow: hidden;
-}
-.data-border-track.top { top: 0; left: 0; width: 100%; height: 10px; }
-.data-border-track.bottom { bottom: 0; left: 0; width: 100%; height: 10px; }
-.data-border-track.left { top: 0; left: 0; width: 10px; height: 100%; writing-mode: vertical-rl; }
-.data-border-track.right { top: 0; right: 0; width: 10px; height: 100%; writing-mode: vertical-rl; }
-.data-border-inner { display: inline-block; animation: dataScroll 20s linear infinite; }
-.data-border-track.left .data-border-inner,
-.data-border-track.right .data-border-inner { animation-name: dataScrollV; }
-@keyframes dataScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes dataScrollV { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-
-/* Scanlines overlay (standalone style) */
-.scanlines {
-  position: absolute; inset: 0; pointer-events: none; z-index: 3;
-  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
-  opacity: 0.4;
+.body-text {
+  font-size: var(--body-size);
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: min(82vw, 680px);
+  text-align: center;
 }
 
-/* Gallery strip */
-.gallery-strip {
-  display: flex; gap: clamp(8px,1vw,16px); align-items: center; flex-wrap: wrap;
-  margin-top: var(--content-gap); justify-content: center;
+/* === LAYOUT PRIMITIVES === */
+.layout-center { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
+.layout-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap);
+  width: 100%; max-width: min(96vw, 1240px); align-items: center;
 }
-.gallery-strip img {
-  max-height: min(28vh, 250px); border-radius: clamp(6px,1vw,12px);
-  object-fit: cover; border: 1px solid rgba(255,255,255,0.06);
-  transition: transform 0.4s, border-color 0.3s;
-}
-.gallery-strip img:hover {
-  transform: scale(1.03); border-color: rgba(255,255,255,0.15);
+.layout-split.reverse > *:first-child { order: 2; }
+.layout-split.reverse > *:last-child { order: 1; }
+.layout-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.layout-right { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.layout-thirds { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
+.layout-full-bleed { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+@media (max-width: 900px) {
+  .layout-split { grid-template-columns: 1fr; }
+  .layout-split.reverse > *:first-child { order: 1; }
+  .layout-split.reverse > *:last-child { order: 2; }
+  .layout-thirds { grid-template-columns: 1fr; }
 }
 
-/* LetterGlitch / Aurora backgrounds */
-.letter-glitch-bg { position: absolute; inset: 0; z-index: 0; }
-.letter-glitch-bg canvas { display: block; width: 100%; height: 100%; }
-.aurora-bg { position: absolute; inset: 0; z-index: 0; }
-.aurora-bg canvas { display: block; width: 100%; height: 100%; }
-.letter-glitch-vignette {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 120% 100% at 50% 50%, rgba(5,5,8,0.55) 0%, rgba(5,5,8,0.8) 40%, rgba(5,5,8,0.95) 70%, rgba(5,5,8,1) 100%);
-}
-.lg-text-backing {
-  position: relative; z-index: 5;
-  background: linear-gradient(135deg, rgba(5,5,8,0.7) 0%, rgba(5,5,8,0.4) 100%);
-  border-radius: clamp(12px,1.5vw,20px); padding: clamp(16px,2.5vw,32px);
-  backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.04);
+/* === GLASS CARD === */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 24px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
 }
 
-/* Shihe feature cards */
-.shihe-features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, clamp(140px,16vw,220px)), 1fr));
-  gap: clamp(8px,1vw,16px); margin-top: var(--content-gap);
+/* === TERMINAL === */
+.terminal {
+  background: var(--terminal-bg);
+  border: 1px solid var(--terminal-border);
+  border-radius: clamp(10px, 1.2vw, 18px);
+  padding: clamp(18px, 2.4vw, 30px);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.85rem, 1.25vw, 1.05rem);
+  line-height: 1.8;
+  color: #d0d8e2;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
 }
-.shihe-feature-card {
-  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
-  border-radius: clamp(8px,1vw,12px); padding: clamp(10px,1.5vw,20px);
-  backdrop-filter: blur(8px); transition: border-color 0.3s, transform 0.3s;
+.terminal-header { display: flex; gap: 8px; margin-bottom: clamp(10px, 1.2vh, 16px); }
+.terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+
+/* === CARDS === */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
+.card {
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  padding: clamp(22px, 2.8vw, 36px);
+  transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
 }
-.shihe-feature-card:hover { border-color: rgba(34,197,94,0.3); transform: translateY(-2px); }
-.shihe-feature-icon {
-  width: clamp(28px,3vw,40px); height: clamp(28px,3vw,40px); margin-bottom: clamp(4px,0.6vh,10px);
+.card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; margin: 0 0 10px; }
+.card p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
+@media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
+
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); max-width: min(90vw, 920px); width: 100%; }
+.feature-item {
+  display: flex; align-items: flex-start; gap: clamp(14px, 1.8vw, 22px);
+  background: var(--card); border: 1px solid var(--glass-border);
+  border-radius: clamp(10px, 1.2vw, 16px);
+  padding: clamp(16px, 2vw, 26px);
+}
+.feature-icon {
+  flex-shrink: 0; width: clamp(40px, 4.8vw, 56px); height: clamp(40px, 4.8vw, 56px);
   display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; background: var(--accent-soft);
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
 }
-.shihe-feature-card h3 {
-  font-family: 'Sora', sans-serif; font-size: clamp(1rem,1.6vw,1.3rem);
-  font-weight: 600; margin-bottom: clamp(2px,0.3vh,4px);
-}
-.shihe-feature-card p {
-  font-size: clamp(0.8rem,1.2vw,1rem); color: var(--text-muted); line-height: 1.4;
-}
-.shihe-accent { color: var(--good); }
+.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
+.feature-item p { font-size: clamp(0.85rem, 1.15vw, 1rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
 
-/* Shihe gallery */
-.shihe-gallery {
-  display: flex; gap: clamp(8px,1vw,16px); align-items: stretch;
-  margin-top: var(--content-gap); max-width: min(92vw, 1000px);
+/* === COMPARE === */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); width: 100%; max-width: min(94vw, 960px); }
+.compare-card {
+  background: var(--card); border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  padding: clamp(20px, 2.6vw, 34px);
 }
-.shihe-gallery-item {
-  flex: 1; border-radius: clamp(6px,1vw,12px); overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.06); position: relative;
-  transition: transform 0.4s, border-color 0.3s; min-height: min(25vh,200px);
+.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.2vw, 1.05rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(12px, 1.5vh, 20px); }
+.compare-card.before { border-left: 3px solid var(--bad); } .compare-card.before h4 { color: var(--bad); }
+.compare-card.after { border-left: 3px solid var(--good); } .compare-card.after h4 { color: var(--good); }
+.compare-card ul { list-style: none; padding: 0; margin: 0; }
+.compare-card li { font-size: clamp(0.9rem, 1.25vw, 1.05rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
+.compare-card li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; opacity: 0.6; }
+@media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
+
+/* === STEPS === */
+.step-list { display: flex; flex-direction: column; gap: var(--element-gap); max-width: min(90vw, 880px); width: 100%; }
+.step-item { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 24px); }
+.step-num {
+  flex-shrink: 0; width: clamp(44px, 5vw, 56px); height: clamp(44px, 5vw, 56px);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
-.shihe-gallery-item:hover { transform: scale(1.02); border-color: rgba(34,197,94,0.2); }
-.shihe-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.shihe-gallery-label {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: clamp(4px,0.5vw,8px) clamp(6px,0.8vw,12px);
-  background: linear-gradient(transparent, rgba(0,0,0,0.8));
-  font-family: 'JetBrains Mono', monospace; font-size: clamp(0.65rem,0.9vw,0.8rem);
-  color: rgba(255,255,255,0.6); letter-spacing: 0.5px;
-}
+.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
+.step-content p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
+
+/* === MICRO BREAK === */
+.countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
+.countdown-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+.countdown-ring circle.bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
+.countdown-ring circle.progress { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.1s linear; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+.countdown-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 3.5vw, 3rem); color: var(--text); }
+
+/* === OS BADGES === */
+.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+.os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
+.os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
+
+/* === DECORATIVE === */
+.glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+.glow-orb.accent { background: var(--accent); opacity: 0.12; }
+.glow-orb.ai { background: var(--ai); opacity: 0.1; }
+
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(18px, 2.2vw, 36px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 14px var(--accent-glow); transform: scale(1.4); }
+.slide-counter { position: fixed; bottom: clamp(14px, 2.2vw, 26px); right: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.6rem, 0.85vw, 0.75rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(14px, 2.2vw, 26px); left: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem, 0.75vw, 0.65rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+
+/* === REVEAL STATE === */
+.reveal-element { opacity: 0; transform: translateY(30px); }
 </style>
 </head>
 <body>
-<nav class="nav-dots" aria-label="Slide navigation"></nav>
-<div class="slide-counter">01 / 17</div>
-<div class="keyboard-hint">Arrow keys or scroll to navigate</div>
 
-<!-- ═══════════════════════════════════════════
-     01-OPENING: 開場 — 為什麼你需要在這裡
-     ═══════════════════════════════════════════ -->
-
-<!-- SLIDE 1 — Welcome -->
-<section class="slide" id="slide-welcome">
-  <div class="orb" style="width:clamp(400px,55vw,900px);height:clamp(400px,55vw,900px);background:radial-gradient(circle,rgba(204,133,102,0.08),transparent 70%);top:-30%;left:50%;transform:translateX(-50%);"></div>
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">iPAS</div>
-    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--content-gap);">
-      歡迎
+<!-- SLIDE 1: Hero -->
+<section class="slide" id="slide-1">
+  <div class="glow-orb accent" style="width:45vw;height:45vw;top:-12vw;right:-8vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">UNIT 1</p>
+    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
+      <span class="kinetic-line">重新定位</span><br>
+      <span class="accent-text kinetic-line">AI 動手課</span>
     </h1>
-    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
-      CLI 與 AI HTML 實作班
-    </p>
-  </div>
-</section>
-
-<!-- SLIDE 2 — 自我介紹：名字 -->
-<section class="slide gsap-slide" id="slide-intro-name">
-  <canvas id="silk-bg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.55;"></canvas>
-  <div class="slide-content" style="align-items:center; text-align:center; justify-content:center; position:relative; z-index:1;">
-    <div class="label" id="intro-label">WHO · 可刪減</div>
-    <h1 id="intro-name" style="font-family:'Sora',sans-serif; font-size:clamp(3.5rem,9vw,8rem); font-weight:800; line-height:1.05; letter-spacing:-2px; margin-top:var(--content-gap); color:var(--text);">
-      王得旭
-    </h1>
-    <p id="intro-tagline" style="margin-top:clamp(0.75rem,2vw,1.5rem); font-size:clamp(1rem,2.2vw,1.6rem); color:var(--text-muted); font-weight:300; letter-spacing:0.5px;">
-      清大經濟 &nbsp;·&nbsp; 自學程式 &nbsp;·&nbsp; 用 AI 做出真實產品
-    </p>
-  </div>
-</section>
-
-<!-- SLIDE 3 — 自我介紹：做過什麼 -->
-<section class="slide gsap-slide" id="slide-intro-work">
-  <div class="orb" style="width:clamp(400px,50vw,800px);height:clamp(400px,50vw,800px);background:radial-gradient(circle,rgba(110,144,184,0.06),transparent 70%);bottom:-20%;right:-15%;"></div>
-  <div class="slide-content" style="align-items:center; justify-content:center;">
-    <div class="label" id="work-label">WORK</div>
-    <h2 id="work-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.4rem,3.5vw,2.8rem); font-weight:700; margin-top:var(--element-gap); text-align:center;">
-      做過的東西
-    </h2>
-    <div style="display:flex; flex-direction:column; align-items:center; gap:clamp(14px,2.5vw,28px); margin-top:clamp(1.5rem,4vw,3rem); max-width:min(90vw,660px); width:100%;">
-      <div class="work-card" id="work-card-1" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px); text-align:center; width:100%;">
-        <div style="font-family:'JetBrains Mono',monospace; font-size:clamp(0.7rem,1vw,0.85rem); color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:clamp(6px,1vw,10px);">Rogue Verge</div>
-        <div style="font-size:clamp(0.95rem,1.5vw,1.2rem); color:var(--text); font-weight:400; line-height:1.6;">賽博龐克時尚品牌電商，全端開發 + Agentic AI 整合</div>
-      </div>
-      <div class="work-card" id="work-card-2" style="background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:clamp(10px,1.2vw,16px); padding:clamp(18px,3vw,32px); text-align:center; width:100%;">
-        <div style="font-family:'JetBrains Mono',monospace; font-size:clamp(0.7rem,1vw,0.85rem); color:var(--accent2); letter-spacing:3px; text-transform:uppercase; margin-bottom:clamp(6px,1vw,10px);">世和智能</div>
-        <div style="font-size:clamp(0.95rem,1.5vw,1.2rem); color:var(--text); font-weight:400; line-height:1.6;">企業 AI 輔導，帶非技術背景團隊用 AI 解決工作問題</div>
-      </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">今天不是工程師訓練。你會學會用 terminal 叫 AI 做事，並做出本機可開啟的網頁。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
+      <span class="os-badge mac">Mac</span>
+      <span class="os-badge win">Windows</span>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 4 — 自我介紹：為什麼站在這 -->
-<section class="slide gsap-slide" id="slide-intro-why">
-  <div class="orb" style="width:clamp(450px,60vw,900px);height:clamp(450px,60vw,900px);background:radial-gradient(circle,rgba(160,128,192,0.07),transparent 68%);top:-25%;right:-20%;"></div>
-  <div class="slide-content" style="align-items:center; text-align:center; justify-content:center;">
-    <div class="label" id="why-label">TODAY</div>
-    <h2 id="why-heading" style="font-family:'Sora',sans-serif; font-size:clamp(1.8rem,5vw,4rem); font-weight:700; line-height:1.25; margin-top:var(--content-gap); max-width:min(85vw,680px);">
-      把我學到的，<br>用最直接的方式帶給你
-    </h2>
-  </div>
-</section>
-
-<!-- SLIDE — Rogue Verge 品牌 -->
-<section class="slide gsap-slide" id="slide-rogue-verge">
-  <div class="data-border">
-    <div class="data-border-track top"><div class="data-border-inner">ROGUE_VERGE_叛際線 AI_GENERATED_BRAND MIDJOURNEY+CLAUDE_CODE ROGUE_VERGE_叛際線 AI_GENERATED_BRAND MIDJOURNEY+CLAUDE_CODE </div></div>
-    <div class="data-border-track bottom"><div class="data-border-inner">MODEL:MIDJOURNEY_V6 LOGO:AI_DESIGN WEBSITE:CLAUDE_CODE+REACT+GSAP MODEL:MIDJOURNEY_V6 LOGO:AI_DESIGN WEBSITE:CLAUDE_CODE+REACT+GSAP </div></div>
-    <div class="data-border-track left"><div class="data-border-inner">RV-SIGILISM-001 RV-SIGILISM-002 RV-CODEX RV-SIGILISM-001 RV-SIGILISM-002 RV-CODEX </div></div>
-    <div class="data-border-track right"><div class="data-border-inner">RELIC-01 SILK-BANDANA OPIUM-TEE RELIC-01 SILK-BANDANA OPIUM-TEE </div></div>
-  </div>
-  <div class="scanlines"></div>
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">PROJECT 01</div>
-    <h2 class="reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
-      <span class="rv-brand sub-heading highlight-wipe">Rogue Verge 叛際線</span>
-    </h2>
-    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(85vw,700px);">
-      我的個人服飾品牌。從品牌策略到視覺設計，由我定方向，AI 負責執行。
-    </p>
-    <div class="gallery-strip reveal-element reveal-delay-3">
-      <img src="images/rogue-verge-model.png" alt="Rogue Verge Model" style="max-height:min(28vh,250px);">
-      <img src="images/rogueverge-logo.svg" alt="Rogue Verge Logo" style="max-height:min(28vh,250px);">
-      <img src="images/sigilism-logo.svg" alt="Sigilism" style="max-height:min(28vh,250px);">
-    </div>
-    <p class="reveal-element reveal-delay-4" style="font-size:var(--small-size); color:var(--text-dim); margin-top:var(--element-gap); font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;">
-      Midjourney · AI Design · Claude Code · React + GSAP
-    </p>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     SLIDE — 世和智能 (LetterGlitch bg)
-     ═══════════════════════════════════════════ -->
-<section class="slide" id="slide-shihe">
-  <div class="letter-glitch-bg">
-    <canvas id="letter-glitch-canvas"></canvas>
-  </div>
-  <div class="letter-glitch-vignette"></div>
-  <div class="data-border">
-    <div class="data-border-track top"><div class="data-border-inner">SHIHE_INTELLIGENT_世和智能 REACT+TS+SUPABASE+THREEJS GREEN_ENERGY+AI_SOLUTIONS SHIHE_INTELLIGENT_世和智能 REACT+TS+SUPABASE+THREEJS GREEN_ENERGY+AI_SOLUTIONS </div></div>
-    <div class="data-border-track bottom"><div class="data-border-inner">I18N:ZH-TW+EN SEO:PRERENDER+SITEMAP CMS:SUPABASE+AUTH SPLASH_CURSOR:WEBGL_FLUID I18N:ZH-TW+EN SEO:PRERENDER+SITEMAP CMS:SUPABASE+AUTH SPLASH_CURSOR:WEBGL_FLUID </div></div>
-  </div>
-  <div class="slide-content" style="z-index:5; align-items:center;">
-    <div style="display:flex; align-items:center; gap:clamp(8px,1.2vw,16px); margin-bottom:var(--element-gap);" class="reveal-element">
-      <div class="label">PROJECT 02</div>
-    </div>
-    <h2 class="sub-heading reveal-element reveal-delay-1">
-      <span style="color: var(--accent);">世和智能官方網站</span>
-    </h2>
-    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(85vw,700px);">
-      為家族企業從零建置的官方網站。<br>
-      WebGL 流體游標、GLSL 極光著色器、3D 粒子球 — 全程以 AI 協作完成。
-    </p>
-    <div class="shihe-features reveal-element reveal-delay-3" style="max-width:min(92vw,1000px);">
-      <div class="shihe-feature-card">
-        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h3>流體游標 <span class="shihe-accent">SplashCursor</span></h3>
-        <p>WebGL 即時流體模擬，跟著滑鼠走</p>
-      </div>
-      <div class="shihe-feature-card">
-        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div>
-        <h3>動態背景 <span class="shihe-accent">Aurora / Orb</span></h3>
-        <p>GLSL shader 極光 + 粒子球輪播</p>
-      </div>
-      <div class="shihe-feature-card">
-        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div>
-        <h3>中英雙語 <span class="shihe-accent">i18next</span></h3>
-        <p>完整國際化 + 語系路由切換</p>
-      </div>
-      <div class="shihe-feature-card">
-        <div class="shihe-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-        <h3>後台管理 <span class="shihe-accent">CMS</span></h3>
-        <p>即時 DB + Auth + 郵件通知</p>
-      </div>
-    </div>
-    <p class="reveal-element reveal-delay-4" style="font-size:var(--small-size); color:var(--text-dim); margin-top:var(--element-gap); font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;">
-      React 19 · TypeScript · Tailwind · Three.js · GSAP · Framer Motion
-    </p>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     SLIDE — 世和智能: Visual Showcase
-     ═══════════════════════════════════════════ -->
-<section class="slide" id="slide-shihe-visual">
-  <div class="aurora-bg">
-    <canvas id="aurora-canvas"></canvas>
-  </div>
-  <div class="slide-content" style="z-index:5; align-items:center;">
-    <div class="lg-text-backing" style="text-align:center; max-width:min(90vw,900px); width:100%;">
-      <div class="label reveal-element">LIVE EFFECTS</div>
-      <h3 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
-        <span class="typewrite-text" data-typewrite="這兩頁的背景，都是從網站搬過來的"></span>
-      </h3>
-      <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); max-width:min(80vw,700px); margin-left:auto; margin-right:auto;">
-        上一頁是 <span style="color:var(--good); font-weight:500;">LetterGlitch</span> 亂碼矩陣，這頁是 <span style="color:#3dc9a0; font-weight:500;">Aurora</span> 極光著色器。<br>
-        兩種截然不同的 Canvas 動畫，都是描述視覺方向後由 AI 實現的。<br>
-        <span style="color:var(--text); font-weight:400;">今天這堂課的核心，就是學會如何有效地指揮 AI 完成工作。</span>
-      </p>
+<!-- SLIDE 2: Manifesto -->
+<section class="slide" id="slide-2">
+  <div class="glow-orb ai" style="width:55vw;height:55vw;bottom:-18vw;left:-12vw;"></div>
+  <div class="slide-content layout-full-bleed">
+    <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
+      <p class="label reveal-element" data-gsap="fade-up">核心信念</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
+        終端是入口<br>
+        <span style="color: var(--accent);">AI 是工人</span>
+      </h2>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">你不需要背指令，只需要說清楚要什麼。terminal 負責讓 AI 動手改檔，你負責看懂結果。</p>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 3 — AI 具體能做什麼（可點擊互動） -->
-<section class="slide" id="slide-ai-can">
-  <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">AI · CAPABILITIES</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      AI 已經能做到哪些事？
-    </h2>
-    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); text-align:center; font-size:var(--small-size);">
-      點任一張卡，看同一件事在「過去」和「現在」怎麼做
-    </p>
-
-    <div class="ai-demo-grid reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
-      <button class="ai-demo-card" data-task="doc">
-        <div class="ai-demo-icon" style="background:var(--accent-soft); color:var(--accent);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <div class="ai-demo-title">寫會議記錄</div>
-      </button>
-      <button class="ai-demo-card" data-task="pdf">
-        <div class="ai-demo-icon" style="background:var(--accent2-soft); color:var(--accent2);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
-        <div class="ai-demo-title">PDF 轉表格</div>
-      </button>
-      <button class="ai-demo-card" data-task="code">
-        <div class="ai-demo-icon" style="background:var(--ai-soft); color:var(--ai);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="8" height="12" rx="4"/><path d="M12 18v3"/><path d="M8 21h8"/><path d="M8 10l-2 1"/><path d="M16 10l2 1"/><path d="M8 14l-2-1"/><path d="M16 14l2-1"/></svg></div>
-        <div class="ai-demo-title">修程式 bug</div>
-      </button>
-      <button class="ai-demo-card" data-task="learn">
-        <div class="ai-demo-icon" style="background:var(--good-soft); color:var(--good);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
-        <div class="ai-demo-title">學新東西</div>
-      </button>
-    </div>
-
-    <div class="ai-demo-result reveal-element" id="ai-demo-result" style="align-self:center; margin-top:var(--content-gap); max-width:min(92vw,800px); width:100%;">
-      <div class="compare-grid">
-        <div class="compare-card before" id="ai-demo-before">
-          <h4>過去</h4>
-          <div class="ai-demo-content">← 點上方任一張卡</div>
-        </div>
-        <div class="compare-card after" id="ai-demo-after">
-          <h4>現在</h4>
-          <div class="ai-demo-content">看 AI 怎麼做</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SLIDE 4 — The black screen -->
-<section class="slide" id="slide-black-screen">
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">FEAR</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
-      你看到這個畫面的感覺是？
-    </h2>
-    <div class="terminal reveal-element reveal-delay-2" style="align-self:center; margin-top:var(--content-gap); background:#000; border-color:#333;">
-      <div><span class="prompt">$</span> <span class="cmd" style="opacity:0.3;">_</span></div>
-    </div>
-    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
-      害怕？看不懂？不知道打什麼？<br>
-      很正常。每一個工程師一開始都這樣。
-    </p>
-  </div>
-</section>
-
-<!-- SLIDE 3 — Why you're here -->
-<section class="slide" id="slide-why-here">
-  <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">WHY</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      為什麼你要學命令列？
-    </h2>
-    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">AI</div>
-        <div><h4>AI 做事需要入口</h4><p>你要知道 AI 把檔案放在哪裡、怎麼打開成果</p></div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">10x</div>
-        <div><h4>少量指令就夠用</h4><p>今天只學做出 HTML 會用到的幾個指令</p></div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">HTML</div>
-        <div><h4>看得到成果</h4><p>最後會有一個本機 index.html，瀏覽器打開就看得到</p></div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);">Ctrl</div>
-        <div><h4>拿回控制權</h4><p>不再被工具限制 — 你告訴電腦做什麼，不是反過來</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SLIDE 4 — Before / After -->
-<section class="slide" id="slide-before-after">
-  <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">TRANSFORM · 可刪減</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      今天結束後你會…
-    </h2>
-    <div class="compare-grid reveal-element reveal-delay-2" style="align-self:center;">
+<!-- SLIDE 3: Reposition Compare -->
+<section class="slide" id="slide-3">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">課程重新定位</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">先會 AI<br>再補工具</h2>
+    <div class="compare-grid reveal-element" data-gsap="fade-up" data-delay="0.2">
       <div class="compare-card before">
-        <h4>今天之前</h4>
+        <h4>原設計</h4>
         <ul>
-          <li>看到黑畫面就慌</li>
-          <li>不知道終端機在哪</li>
-          <li>檔案管理只能用滑鼠</li>
-          <li>AI 只能聊天，不能做事</li>
-          <li>不知道怎麼做出第一個網頁</li>
+          <li>先學一堆 terminal 指令</li>
+          <li>接著學 Git 與部署</li>
+          <li>下午才碰 AI 實作</li>
         </ul>
       </div>
       <div class="compare-card after">
-        <h4>今天之後</h4>
+        <h4>新設計</h4>
         <ul>
-          <li>能自己開終端機操作</li>
-          <li>會用指令管理檔案和資料夾</li>
-          <li>有自己的本機 HTML 作品</li>
-          <li>能請 AI 幫你改頁面</li>
-          <li>有信心繼續自學更多</li>
+          <li>terminal 是叫 AI 的入口</li>
+          <li>不教 Git、不部署</li>
+          <li>上午就做出第一個網頁</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 5 — The shift -->
-<section class="slide" id="slide-shift">
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">MINDSET</div>
-    <h2 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap); max-width:min(85vw,800px);">
-      從<span class="accent-text">點滑鼠</span>到<span class="accent-text">下指令</span>
-    </h2>
-    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
-      命令列不是工程師的專利。<br>
-      它是一種跟電腦溝通的方式。今天只用它完成一件事：找到並打開你的網頁。
-    </p>
-    <div class="terminal reveal-element reveal-delay-3" style="align-self:center; margin-top:var(--content-gap);">
-      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-      <div><span class="comment"># 點滑鼠：找到資料夾 → 右鍵 → 新增資料夾 → 打名字</span></div>
-      <div style="margin-top:8px;"><span class="comment"># 下指令：</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">mkdir my-page</span></div>
-      <div style="margin-top:8px;"><span class="comment"># 點滑鼠：找檔案 → 右鍵 → 用瀏覽器打開</span></div>
-      <div style="margin-top:4px;"><span class="comment"># 下指令：</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">open index.html</span> <span class="comment"># Windows: start index.html</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- SLIDE 6 — Today's plan -->
-<section class="slide" id="slide-plan">
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">AGENDA</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
-      今天的路線圖
-    </h2>
-    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px); align-items:center;">
-      <div class="feature-item" style="border-left:3px solid var(--good);">
-        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">AM</div>
-        <div><h4>09:00 – 12:10 ｜ CLI + 第一個 HTML</h4><p>建 my-page，做出 index.html，瀏覽器打開看到成果</p></div>
+<!-- SLIDE 4: What AI Can Do -->
+<section class="slide" id="slide-4">
+  <div class="slide-content">
+    <div class="layout-split">
+      <div class="layout-left">
+        <p class="label reveal-element" data-gsap="fade-right">AI 能做什麼</p>
+        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">從對話<br>到動手</h2>
+        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">ChatGPT 網頁版只能給你文字。opencode 在本機直接建立資料夾、寫入檔案、修改內容。你會看到 AI 真的動了你電腦裡的檔案。</p>
       </div>
-      <div class="feature-item" style="border-left:3px solid var(--accent2);">
-        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">PM1</div>
-        <div><h4>13:05 – 14:35 ｜ AI 改版練習</h4><p>用更清楚的指令，把頁面改成像作品</p></div>
-      </div>
-      <div class="feature-item" style="border-left:3px solid var(--ai);">
-        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">PM2</div>
-        <div><h4>14:50 – 16:05 ｜ 完成作品 + 保存版本</h4><p>自由修改、本機展示；Git 只做 demo，不公開網址</p></div>
+      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
+        <div class="terminal">
+          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+          <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+          <div class="comment"># 你說，AI 做</div>
+          <div><span class="cmd">「幫我在 ~/Desktop/my-page 建立 index.html，<br>做一個個人名片頁。」</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 7 — Rules of the day -->
-<section class="slide" id="slide-rules">
-  <div class="slide-content" style="align-items:center;">
-    <div class="label reveal-element">GROUND RULES</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
-      今天的規則
-    </h2>
-    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">1</div>
-        <div><h4>跟著做，不要只看</h4><p>每個指令自己打一遍，手會記得</p></div>
+<!-- SLIDE 5: Tool Stack -->
+<section class="slide" id="slide-5">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">工具選擇</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">一主三備援</h2>
+    <div class="reveal-element" data-gsap="scale-in" data-delay="0.2" style="width:100%;max-width:min(90vw,760px);">
+      <div class="glass" style="padding: clamp(28px,3.5vw,44px); text-align:center; margin-bottom: var(--content-gap); border: 1px solid rgba(212,137,110,0.25);">
+        <p class="label" style="margin-bottom:12px;">主工具</p>
+        <h3 class="sub-heading" style="font-size: clamp(1.6rem,4vw,2.6rem); margin-bottom:12px;">opencode</h3>
+        <p class="body-text" style="max-width:100%;">本機 AI CLI，直接改檔，支援內建免費模型。</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">2</div>
-        <div><h4>錯了也沒關係</h4><p>命令列錯誤不會弄壞電腦。最壞就是重開終端機</p></div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">3</div>
-        <div><h4>隨時問</h4><p>任何指令看不懂就問，不會有人笑你</p></div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon" style="background:var(--accent-soft); color:var(--accent);">4</div>
-        <div><h4>橘色 = Mac，藍色 = Windows</h4><p>投影片會同時標示兩邊的指令</p></div>
+      <div class="card-grid">
+        <div class="card">
+          <span class="num">A</span>
+          <h4>Codex 桌面版</h4>
+          <p>ChatGPT 官方桌面版，可本機讀寫檔案。</p>
+        </div>
+        <div class="card">
+          <span class="num">B</span>
+          <h4>Claude Cowork</h4>
+          <p>Claude 桌面版，授權資料夾後直接改檔。</p>
+        </div>
+        <div class="card">
+          <span class="num">C</span>
+          <h4>網頁版手貼</h4>
+          <p>最後防線，手動把 AI 產生的 HTML 貼進檔案。</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 8 — Terminal check -->
-<section class="slide" id="slide-terminal-check">
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">CHECK</div>
-    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
-      現在，打開你的終端機
-    </h2>
-    <div class="terminal reveal-element reveal-delay-2" style="align-self:center; margin-top:var(--content-gap);">
-      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-      <div style="color:var(--accent); font-weight:600;">Mac 用戶</div>
-      <div><span class="cmd">Spotlight (Cmd+Space) → 搜尋 "Terminal"</span></div>
-      <div style="margin-top:10px; color:var(--accent2); font-weight:600;">Windows 用戶</div>
-      <div><span class="cmd">開始選單 → 搜尋 "PowerShell"</span></div>
-      <div style="margin-top:12px;"><span class="comment"># 打開後輸入這行，按 Enter：</span></div>
-      <div><span class="prompt">$</span> <span class="cmd">echo "Hello, CLI!"</span></div>
-      <div class="output">Hello, CLI!</div>
+<!-- SLIDE 6: Roadmap -->
+<section class="slide" id="slide-6">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">今日路線圖</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">從開場到作品</h2>
+    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>開場定位 <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">09:00–10:30</span></h4>
+          <p>打開 terminal，建立 my-page 資料夾與 index.html。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>第一個 HTML <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">10:45–12:10</span></h4>
+          <p>用 opencode 直接改檔，本機瀏覽器看到成果。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>AI 改版練習 <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">13:05–14:35</span></h4>
+          <p>調整版面、風格、手機版，看懂 AI 改了什麼。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>自由完成 + 展示 <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">14:50–16:50</span></h4>
+          <p>選一個主題做成作品，本機截圖或展示給旁邊的人看。</p>
+        </div>
+      </div>
     </div>
-    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
-      看到 <span class="accent-text">Hello, CLI!</span> 就代表成功了。
-    </p>
   </div>
 </section>
 
-<!-- SLIDE 9 — You will succeed -->
-<section class="slide" id="slide-succeed">
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element">PROMISE</div>
-    <h2 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap); max-width:min(85vw,800px);">
-      今天結束時，<br>你不會再怕那個<span class="accent-text">黑畫面</span>
-    </h2>
-    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
-      命令列只是一種語言。你已經會說中文了，<br>
-      學另一種跟電腦說話的方式而已。
-    </p>
+<!-- SLIDE 7: Classroom Rules -->
+<section class="slide" id="slide-7">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">課堂規則</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個約定</h2>
+    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(201,124,124,0.12);color:var(--bad);">紅</div>
+        <div>
+          <h4>卡住就舉紅色便利貼</h4>
+          <p>助教會來救，不要自己卡住太久，也不要覺得丟臉。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(108,175,138,0.12);color:var(--good);">綠</div>
+        <div>
+          <h4>完成就舉綠色便利貼</h4>
+          <p>讓講師知道進度，也可以幫助旁邊還在紅色的人。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">03</div>
+        <div>
+          <h4>先求有畫面，再求漂亮</h4>
+          <p>本機瀏覽器能開啟 index.html 就算過關，其他都是加分。</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- SLIDE 10 — Let's start -->
-<section class="slide" id="slide-start">
-  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(94,154,120,0.08),transparent 70%);bottom:-25%;left:50%;transform:translateX(-50%);"></div>
-  <div class="slide-content" style="align-items:center; text-align:center;">
-    <div class="label reveal-element" style="color:var(--good);">LET'S GO</div>
-    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--content-gap);">
-      開始吧
+<!-- SLIDE 8: Setup Routes -->
+<section class="slide" id="slide-8">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">安裝與額度</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三條免費路線</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.18">不需要 API key、不需要信用卡。現場 30 分鐘緩衝會統一帶安裝。</p>
+    <div class="layout-thirds reveal-element" data-gsap="stagger-up" data-delay="0.25" style="margin-top: var(--content-gap);">
+      <div class="card">
+        <span class="num">A</span>
+        <h4>內建免費模型</h4>
+        <p>打開 opencode 就能用，完全不綁帳號。</p>
+      </div>
+      <div class="card">
+        <span class="num">B</span>
+        <h4>ChatGPT 帳號</h4>
+        <p>登入後用訂閱額度，不另外扣費。</p>
+      </div>
+      <div class="card">
+        <span class="num">C</span>
+        <h4>GitHub Copilot</h4>
+        <p>用 GitHub 帳號登入，使用免費額度。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: Open Terminal -->
+<section class="slide" id="slide-9">
+  <div class="slide-content">
+    <div class="layout-split">
+      <div class="layout-left">
+        <p class="label reveal-element" data-gsap="fade-right">動手前導</p>
+        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">打開黑畫面<br>找到作品位</h2>
+        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">先學五個生存指令。它們幫你知道自己在哪、進資料夾、建資料夾、看檔案、建新檔。</p>
+      </div>
+      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
+        <div class="terminal">
+          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+          <div><span class="prompt">$</span> <span class="cmd">pwd</span> <span class="comment"># 看自己在哪</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">cd Desktop</span> <span class="comment"># 進桌面</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">mkdir my-page</span> <span class="comment"># 建資料夾</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">cd my-page</span> <span class="comment"># 進入專案</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 看檔案清單</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">touch index.html</span> <span class="comment"># Mac 建新檔</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">New-Item index.html</span> <span class="comment"># Windows 建新檔</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: Closing -->
+<section class="slide" id="slide-10">
+  <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-10vw;right:-8vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">單元結束</p>
+    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
+      準備讓 AI<br>
+      <span class="accent-text">動手改檔</span>
     </h1>
-    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); font-size:var(--h3-size);">
-      09:30 — CLI 基礎
-    </p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">這一單元結束了。下一單元會啟動 opencode，做出你的第一個本機 HTML。</p>
   </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<!-- NAV -->
+<nav class="nav-dots" aria-label="slide navigation"></nav>
+<div class="slide-counter">1 / 10</div>
+<div class="keyboard-hint">↑ ↓ scroll</div>
+
 <script>
-const CHARS = '!<>-_\\/[]{}—=+*^?#________';
-function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { setTimeout(scramble, 900); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
-function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
-class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
-document.addEventListener('DOMContentLoaded', () => {
-  new PresentationController();
-  document.querySelectorAll('.scramble-text').forEach(initScramble);
-  document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe);
-  initAiDemo();
-  initGSAPSlides();
-});
+(function(){
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.querySelector('.nav-dots');
+  const counter = document.querySelector('.slide-counter');
+  let current = 0;
 
-// ── Silk WebGL background ─────────────────────────────────────
-function initSilk(canvas, { color = [0.08, 0.06, 0.14], speed = 2.5, scale = 1.3, noise = 0.9, rotation = 0 } = {}) {
-  const gl = canvas.getContext('webgl');
-  if (!gl) return;
-  const vs = `attribute vec2 p;varying vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}`;
-  const fs = `precision mediump float;
-    varying vec2 uv;uniform float t;uniform vec3 col;uniform float spd,sc,rot,ni;
-    const float e=2.71828182845904523536;
-    float noise(vec2 tc){float G=e;vec2 r=G*sin(G*tc);return fract(r.x*r.y*(1.+tc.x));}
-    vec2 rotUv(vec2 u,float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c)*u;}
-    void main(){
-      float rnd=noise(gl_FragCoord.xy);
-      vec2 u=rotUv(uv*sc,rot),tx=u*sc;float to=spd*t;
-      tx.y+=.03*sin(8.*tx.x-to);
-      float p=.6+.4*sin(5.*(tx.x+tx.y+cos(3.*tx.x+5.*tx.y)+.02*to)+sin(20.*(tx.x+tx.y-.1*to)));
-      vec4 c=vec4(col,1.)*vec4(p)-rnd/15.*ni;c.a=1.;gl_FragColor=c;
-    }`;
-  const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
-  const prog = gl.createProgram();
-  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
-  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
-  gl.linkProgram(prog); gl.useProgram(prog);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
-  const ap = gl.getAttribLocation(prog, 'p');
-  gl.enableVertexAttribArray(ap); gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
-  const uT=gl.getUniformLocation(prog,'t'), uC=gl.getUniformLocation(prog,'col'),
-        uS=gl.getUniformLocation(prog,'spd'), uSc=gl.getUniformLocation(prog,'sc'),
-        uR=gl.getUniformLocation(prog,'rot'), uN=gl.getUniformLocation(prog,'ni');
-  gl.uniform3fv(uC,color); gl.uniform1f(uS,speed); gl.uniform1f(uSc,scale);
-  gl.uniform1f(uR,rotation); gl.uniform1f(uN,noise);
-  const resize = () => { canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; gl.viewport(0,0,canvas.width,canvas.height); };
-  resize(); new ResizeObserver(resize).observe(canvas);
-  let raf; const loop = ts => { gl.uniform1f(uT, ts*.001); gl.drawArrays(gl.TRIANGLE_STRIP,0,4); raf=requestAnimationFrame(loop); };
-  raf = requestAnimationFrame(loop);
-  return () => cancelAnimationFrame(raf);
-}
-
-// ── Split chars and animate ────────────────────────────────────
-function animateSplitChars(el, { stagger = 0.045, fromY = 55, delay = 0 } = {}) {
-  const text = el.textContent.trim();
-  el.style.overflow = 'visible';
-  el.innerHTML = [...text].map(ch =>
-    `<span style="display:inline-block;will-change:transform,opacity">${ch === ' ' ? '&nbsp;' : ch}</span>`
-  ).join('');
-  gsap.set(el, { autoAlpha: 1 }); // unhide parent before animating children
-  return gsap.from(el.querySelectorAll('span'), {
-    autoAlpha: 0, y: fromY, duration: 0.7, stagger, ease: 'power3.out', delay
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'go to slide ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    nav.appendChild(dot);
   });
-}
 
-// ── Blur words animate ─────────────────────────────────────────
-function animateBlurWords(el, { stagger = 0.1, fromY = -28, delay = 0 } = {}) {
-  const words = el.textContent.trim().split(/\s+/);
-  el.innerHTML = words.map(w =>
-    `<span style="display:inline-block;will-change:transform,filter,opacity;margin-right:0.3em">${w}</span>`
-  ).join('');
-  gsap.set(el, { autoAlpha: 1 }); // unhide parent before animating children
-  return gsap.fromTo(el.querySelectorAll('span'),
-    { autoAlpha: 0, filter: 'blur(10px)', y: fromY },
-    { autoAlpha: 1, filter: 'blur(0px)', y: 0, duration: 0.65, stagger, ease: 'power3.out', delay }
-  );
-}
+  function goTo(index) {
+    if (index < 0 || index >= slides.length) return;
+    slides[index].scrollIntoView({ behavior: 'smooth' });
+  }
 
-// ── Typewriter ─────────────────────────────────────────────────
-function animateTypewriter(el, { speed = 48, delay = 0 } = {}) {
-  const raw = el.innerHTML;
-  el.innerHTML = '';
-  gsap.set(el, { autoAlpha: 1 });
-  const div = document.createElement('div');
-  div.innerHTML = raw;
-  const text = div.textContent;
-  let i = 0;
-  let tid;
-  const start = () => {
-    const type = () => { if (i < text.length) { el.textContent += text[i++]; tid = setTimeout(type, speed); } };
-    type();
-  };
-  delay > 0 ? setTimeout(start, delay) : start();
-  return () => clearTimeout(tid);
-}
+  function updateNav(index) {
+    current = index;
+    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === index));
+    if (counter) counter.textContent = (index + 1) + ' / ' + slides.length;
+  }
 
-function initTypewrite(el) {
-  const text = el.dataset.typewrite;
-  if (!text) return;
-  el.textContent = text;
-  animateTypewriter(el, { speed: 42, delay: 0 });
-}
-
-// ── Main orchestrator ──────────────────────────────────────────
-function initGSAPSlides() {
-  if (typeof gsap === 'undefined') return;
-  gsap.defaults({ ease: 'power3.out' });
-
-  const silkCanvas = document.getElementById('silk-bg');
-  if (silkCanvas) initSilk(silkCanvas);
-
-  const animations = {
-    'slide-intro-name': () => {
-      const label = document.getElementById('intro-label');
-      const name  = document.getElementById('intro-name');
-      const line  = document.getElementById('intro-tagline');
-      gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
-      setTimeout(() => animateSplitChars(name, { stagger: 0.06, fromY: 60, delay: 0.1 }), 0);
-      setTimeout(() => animateBlurWords(line, { stagger: 0.1, delay: 0.55 }), 0);
-    },
-    'slide-intro-work': () => {
-      const label   = document.getElementById('work-label');
-      const heading = document.getElementById('work-heading');
-      const card1   = document.getElementById('work-card-1');
-      const card2   = document.getElementById('work-card-2');
-      gsap.timeline()
-        .from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
-      animateBlurWords(heading, { stagger: 0.12, fromY: -20, delay: 0.25 });
-      gsap.from(card1, { autoAlpha: 0, x: 50, duration: 0.55, ease: 'power3.out', delay: 0.55 });
-      gsap.from(card2, { autoAlpha: 0, x: 50, duration: 0.55, ease: 'power3.out', delay: 0.75 });
-    },
-    'slide-intro-why': () => {
-      const label   = document.getElementById('why-label');
-      const heading = document.getElementById('why-heading');
-      gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
-      setTimeout(() => animateTypewriter(heading, { speed: 42, delay: 400 }), 0);
-    },
-    'slide-rogue-verge': () => {
-      const slide = document.getElementById('slide-rogue-verge');
-      const label = slide.querySelector('.label');
-      const title = slide.querySelector('.sub-heading');
-      const desc  = slide.querySelector('.body-text');
-      const gallery = slide.querySelector('.gallery-strip');
-      const tags  = slide.querySelector('.gallery-strip + p');
-      gsap.from(label,   { autoAlpha: 0, y: 16, duration: 0.4 });
-      gsap.from(title,   { autoAlpha: 0, y: 30, duration: 0.6, ease: 'power3.out', delay: 0.2 });
-      gsap.from(desc,    { autoAlpha: 0, y: 20, duration: 0.5, ease: 'power3.out', delay: 0.4 });
-      gsap.from(gallery, { autoAlpha: 0, y: 30, scale: 0.95, duration: 0.7, ease: 'power3.out', delay: 0.55 });
-      gsap.from(tags,    { autoAlpha: 0, duration: 0.4, delay: 0.8 });
-    },
-    'slide-shihe-visual': () => {
-      const slide = document.getElementById('slide-shihe-visual');
-      const label = slide.querySelector('.label');
-      const title = slide.querySelector('.typewrite-text');
-      const desc  = slide.querySelector('.body-text');
-      gsap.from(label, { autoAlpha: 0, y: 16, duration: 0.4 });
-      setTimeout(() => initTypewrite(title), 300);
-      gsap.from(desc,  { autoAlpha: 0, y: 20, duration: 0.5, ease: 'power3.out', delay: 0.6 });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault(); goTo(current + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault(); goTo(current - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault(); goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault(); goTo(slides.length - 1);
     }
-  };
+  });
 
-  const mm = gsap.matchMedia();
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.gsapDone) {
-          entry.target.dataset.gsapDone = 'true';
-          animations[entry.target.id]?.();
+  // GSAP reveal animations
+  gsap.registerPlugin(ScrollTrigger);
+
+  slides.forEach((slide, index) => {
+    const elements = slide.querySelectorAll('[data-gsap]');
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: slide,
+        start: 'top 55%',
+        end: 'bottom 45%',
+        onEnter: () => { updateNav(index); startCountdown(slide); },
+        onLeaveBack: () => stopCountdown(slide)
+      }
+    });
+
+    if (!elements.length) {
+      tl.to(slide.querySelectorAll('.reveal-element'), { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' });
+      return;
+    }
+
+    const groups = {};
+    elements.forEach(el => {
+      const type = el.dataset.gsap;
+      const delay = parseFloat(el.dataset.delay || 0);
+      if (!groups[type]) groups[type] = [];
+      groups[type].push({ el, delay });
+    });
+
+    Object.keys(groups).forEach(type => {
+      const items = groups[type].sort((a, b) => a.delay - b.delay);
+      const staggerOffset = 0.08;
+      items.forEach((item, i) => {
+        const delay = item.delay + (type === 'stagger-up' ? i * staggerOffset : 0);
+        switch (type) {
+          case 'fade-up':
+            tl.fromTo(item.el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'fade-right':
+            tl.fromTo(item.el, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'fade-left':
+            tl.fromTo(item.el, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'stagger-up':
+            tl.fromTo(item.el, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out' }, delay);
+            break;
+          case 'scale-in':
+            tl.fromTo(item.el, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }, delay);
+            break;
         }
       });
-    }, { threshold: 0.5 });
-    Object.keys(animations).forEach(id => {
-      const el = document.getElementById(id);
-      if (el) io.observe(el);
     });
   });
-}
 
-// === AI DEMO: 點擊切換 Before/After 內容 ===
-const AI_DEMO_DATA = {
-  doc: {
-    before: { steps: ['打開 Word', '回想剛才說了什麼', '一行一行打', '校對錯字', '排版調整', '寄出'], time: '~30 分鐘' },
-    after: { steps: ['打開 Claude', '貼上語音轉文字稿', '「幫我整理成會議記錄」', 'AI 自動摘要 + 行動項', '寄出'], time: '~2 分鐘' }
-  },
-  pdf: {
-    before: { steps: ['打開 PDF', '用游標一段一段選', '複製到 Excel', '手動對齊欄位', '檢查數字有沒有抄錯'], time: '~1 小時' },
-    after: { steps: ['打開 Claude', '把 PDF 拖進去', '「轉成表格，欄位是 X / Y / Z」', '下載 CSV'], time: '~1 分鐘' }
-  },
-  code: {
-    before: { steps: ['Google 錯誤訊息', '看 Stack Overflow', '試第一個解法', '不行就試第二個', '加 console.log 到處追', '終於找到原因'], time: '~半天' },
-    after: { steps: ['打開 Claude Code', '貼上錯誤訊息 + 程式碼', '「幫我找出 bug」', 'AI 指出第 47 行有問題', '確認修法，套用'], time: '~5 分鐘' }
-  },
-  learn: {
-    before: { steps: ['買書 / 找線上課程', '從頭看到尾', '很多用不到的章節', '一週後忘了 80%'], time: '~數小時' },
-    after: { steps: ['打開 Claude', '「用三句話解釋 X」', '「給我一個生活例子」', '「出三題給我練習」', '邊問邊學'], time: '~10 分鐘一個觀念' }
-  }
-};
-function renderSteps(steps) { return steps.map((s, i) => `<div class="step"><span class="step-num">${i+1}.</span><span>${s}</span></div>`).join(''); }
-function initAiDemo() {
-  const cards = document.querySelectorAll('.ai-demo-card');
-  const beforeEl = document.querySelector('#ai-demo-before .ai-demo-content');
-  const afterEl = document.querySelector('#ai-demo-after .ai-demo-content');
-  if (!cards.length || !beforeEl || !afterEl) return;
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      cards.forEach(c => c.classList.remove('active'));
-      card.classList.add('active');
-      const task = card.dataset.task;
-      const data = AI_DEMO_DATA[task];
-      if (!data) return;
-      const clockSvg = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:0.3em;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
-      beforeEl.innerHTML = renderSteps(data.before.steps) + `<div class="time">${clockSvg} ${data.before.time}</div>`;
-      afterEl.innerHTML = renderSteps(data.after.steps) + `<div class="time">${clockSvg} ${data.after.time}</div>`;
-    });
+  // Hero kinetic title animation on first load
+  window.addEventListener('load', () => {
+    const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
+    if (heroLines.length) {
+      gsap.fromTo(heroLines,
+        { opacity: 0, y: 60, skewY: 3 },
+        { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
+      );
+    }
   });
-}
 
-/* ===== HIGHLIGHT-WIPE ACTIVATION ===== */
-(function() {
-  const rogueSlide = document.getElementById('slide-rogue-verge');
-  if (!rogueSlide) return;
-  const wipe = rogueSlide.querySelector('.highlight-wipe');
-  if (!wipe) return;
-  const io = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { wipe.classList.add('active'); }
-    else { wipe.classList.remove('active'); }
-  }, { threshold: 0.3 });
-  io.observe(rogueSlide);
-})();
-
-/* ===== LETTERGLITCH ===== */
-const GLITCH_COLORS = ['#0d1f45', '#146070', '#1e6e4a'];
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789世和智能綠能轉型';
-const FONT_SIZE = 16;
-const CHAR_W = 10;
-const CHAR_H = 20;
-const GLITCH_SPEED = 55;
-
-function hexToRgb(hex) {
-  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return m ? { r: parseInt(m[1],16), g: parseInt(m[2],16), b: parseInt(m[3],16) } : null;
-}
-function lerpColor(a, b, t) {
-  return `rgb(${Math.round(a.r+(b.r-a.r)*t)},${Math.round(a.g+(b.g-a.g)*t)},${Math.round(a.b+(b.b-a.b)*t)})`;
-}
-
-function initLetterGlitch(canvas) {
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let cols = 0, rows = 0, letters = [], raf = null, visible = false, lastTime = 0;
-
-  function rndChar() { return CHARS[Math.floor(Math.random()*CHARS.length)]; }
-  function rndColor() { return GLITCH_COLORS[Math.floor(Math.random()*GLITCH_COLORS.length)]; }
-
-  function resize() {
-    const p = canvas.parentElement;
-    if (!p) return;
-    const dpr = Math.min(devicePixelRatio||1, 2);
-    const w = p.clientWidth, h = p.clientHeight;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    canvas.style.width = w+'px'; canvas.style.height = h+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    cols = Math.ceil(w/CHAR_W); rows = Math.ceil(h/CHAR_H);
-    letters = Array.from({length: cols*rows}, () => ({
-      ch: rndChar(), color: rndColor(), target: rndColor(), prog: 1
-    }));
-    draw(w, h);
-  }
-
-  function draw(w, h) {
-    if (!w) { const p=canvas.parentElement; if(!p) return; w=p.clientWidth; h=p.clientHeight; }
-    ctx.clearRect(0,0,w,h);
-    ctx.font = FONT_SIZE+'px monospace';
-    ctx.textBaseline = 'top';
-    for (let i=0; i<letters.length; i++) {
-      ctx.fillStyle = letters[i].color;
-      ctx.fillText(letters[i].ch, (i%cols)*CHAR_W, Math.floor(i/cols)*CHAR_H);
-    }
-  }
-
-  function update() {
-    const count = Math.max(1, Math.floor(letters.length*0.05));
-    for (let i=0; i<count; i++) {
-      const idx = Math.floor(Math.random()*letters.length);
-      letters[idx].ch = rndChar();
-      letters[idx].target = rndColor();
-      letters[idx].prog = 0;
-    }
-  }
-
-  function smoothStep() {
-    let dirty = false;
-    for (const l of letters) {
-      if (l.prog < 1) {
-        l.prog = Math.min(1, l.prog + 0.05);
-        const a = hexToRgb(l.color), b = hexToRgb(l.target);
-        if (a && b) { l.color = lerpColor(a, b, l.prog); dirty = true; }
+  // Countdown logic
+  const countdowns = new Map();
+  function startCountdown(slide) {
+    const duration = parseInt(slide.dataset.countdown, 10);
+    if (!duration || countdowns.has(slide)) return;
+    const text = slide.querySelector('.countdown-text');
+    const ring = slide.querySelector('.countdown-ring .progress');
+    if (!text || !ring) return;
+    const total = 283;
+    let remaining = duration;
+    text.textContent = remaining;
+    ring.style.stroke = 'var(--accent)';
+    ring.style.strokeDashoffset = 0;
+    const startTime = performance.now();
+    function tick(now) {
+      const elapsed = Math.floor((now - startTime) / 1000);
+      remaining = Math.max(0, duration - elapsed);
+      text.textContent = remaining;
+      ring.style.strokeDashoffset = total * (1 - remaining / duration);
+      if (remaining > 0) {
+        countdowns.set(slide, requestAnimationFrame(tick));
+      } else {
+        ring.style.stroke = 'var(--good)';
       }
     }
-    if (dirty) draw();
+    countdowns.set(slide, requestAnimationFrame(tick));
   }
-
-  function animate(now) {
-    if (!visible) return;
-    if (now - lastTime >= GLITCH_SPEED) { update(); draw(); lastTime = now; }
-    smoothStep();
-    raf = requestAnimationFrame(animate);
-  }
-
-  const io = new IntersectionObserver(entries => {
-    visible = entries[0].isIntersecting;
-    if (visible && !raf) { resize(); raf = requestAnimationFrame(animate); }
-    if (!visible && raf) { cancelAnimationFrame(raf); raf = null; }
-  }, { threshold: 0.1 });
-  io.observe(canvas.closest('.slide'));
-  window.addEventListener('resize', () => { if (visible) resize(); });
-}
-
-initLetterGlitch(document.getElementById('letter-glitch-canvas'));
-
-/* ===== AURORA ===== */
-(function() {
-  const canvas = document.getElementById('aurora-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let raf = null, visible = false, time = 0;
-
-  /* Simplex-ish noise (fast 2D gradient noise) */
-  const P = new Uint8Array(512);
-  (function seedPerm() {
-    const p = [];
-    for (let i = 0; i < 256; i++) p[i] = i;
-    for (let i = 255; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [p[i],p[j]]=[p[j],p[i]]; }
-    for (let i = 0; i < 512; i++) P[i] = p[i & 255];
-  })();
-  const G2 = [[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];
-  function dot2(g,x,y){return g[0]*x+g[1]*y;}
-  function noise2(x,y) {
-    const F2=0.5*(Math.sqrt(3)-1), G=((3-Math.sqrt(3))/6);
-    const s=(x+y)*F2, i=Math.floor(x+s), j=Math.floor(y+s);
-    const t=(i+j)*G, x0=x-(i-t), y0=y-(j-t);
-    const i1=x0>y0?1:0, j1=x0>y0?0:1;
-    const x1=x0-i1+G, y1=y0-j1+G, x2=x0-1+2*G, y2=y0-1+2*G;
-    const ii=i&255, jj=j&255;
-    const gi0=P[ii+P[jj]]%8, gi1=P[ii+i1+P[jj+j1]]%8, gi2=P[ii+1+P[jj+1]]%8;
-    let n0=0,n1=0,n2=0;
-    let t0=0.5-x0*x0-y0*y0; if(t0>=0){t0*=t0; n0=t0*t0*dot2(G2[gi0],x0,y0);}
-    let t1=0.5-x1*x1-y1*y1; if(t1>=0){t1*=t1; n1=t1*t1*dot2(G2[gi1],x1,y1);}
-    let t2=0.5-x2*x2-y2*y2; if(t2>=0){t2*=t2; n2=t2*t2*dot2(G2[gi2],x2,y2);}
-    return 70*(n0+n1+n2);
-  }
-
-  function lerpC(a,b,t){return a+(b-a)*t;}
-  function rampColor(t){
-    const stops=[
-      {p:0.0,c:[13,31,69]},{p:0.25,c:[20,96,112]},{p:0.5,c:[30,110,74]},
-      {p:0.7,c:[13,31,69]},{p:0.85,c:[20,60,90]},{p:1.0,c:[13,31,69]}
-    ];
-    let i=0; while(i<stops.length-1 && t>stops[i+1].p) i++;
-    const s1=stops[i], s2=stops[i+1]||stops[stops.length-1];
-    const lt=(t-s1.p)/(s2.p-s1.p);
-    return [
-      Math.round(lerpC(s1.c[0],s2.c[0],lt)),
-      Math.round(lerpC(s1.c[1],s2.c[1],lt)),
-      Math.round(lerpC(s1.c[2],s2.c[2],lt))
-    ];
-  }
-
-  function resize() {
-    const p=canvas.parentElement; if(!p)return;
-    const dpr=Math.min(devicePixelRatio||1,2);
-    const w=p.clientWidth, h=p.clientHeight;
-    canvas.width=w*dpr; canvas.height=h*dpr;
-    canvas.style.width=w+'px'; canvas.style.height=h+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-
-  function render() {
-    if(!visible) return;
-    const w=canvas.width/(devicePixelRatio||1), h=canvas.height/(devicePixelRatio||1);
-    time+=0.003;
-    const img=ctx.createImageData(w,h);
-    const buf=img.data;
-    const scale=0.003;
-    for(let y=0;y<h;y++){
-      for(let x=0;x<w;x++){
-        const n1=noise2(x*scale,y*scale+time);
-        const n2=noise2(x*scale+50,y*scale+time*0.7);
-        const blend=(n1*0.6+n2*0.4+1)/2;
-        const [r,g,b]=rampColor(blend);
-        const i=(y*w+x)*4;
-        buf[i]=r; buf[i+1]=g; buf[i+2]=b; buf[i+3]=255;
-      }
+  function stopCountdown(slide) {
+    if (countdowns.has(slide)) {
+      cancelAnimationFrame(countdowns.get(slide));
+      countdowns.delete(slide);
     }
-    ctx.putImageData(img,0,0);
-    raf=requestAnimationFrame(render);
   }
 
-  const io=new IntersectionObserver(entries=>{
-    visible=entries[0].isIntersecting;
-    if(visible&&!raf){resize();raf=requestAnimationFrame(render);}
-    if(!visible&&raf){cancelAnimationFrame(raf);raf=null;}
-  },{threshold:0.1});
-  io.observe(canvas.closest('.slide'));
-  window.addEventListener('resize',()=>{if(visible)resize();});
+  // Reduced motion support
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.globalTimeline.timeScale(0);
+    document.querySelectorAll('.reveal-element').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+  }
 })();
 </script>
 </body>

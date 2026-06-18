@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 — 總結與下一步</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Sora:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* === VIEWPORT === */
+html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
+.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); }
+:root {
+  --title-size: clamp(2rem, 6vw, 5rem); --h2-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  --h3-size: clamp(1.2rem, 3vw, 2.2rem); --body-size: clamp(0.95rem, 2vw, 1.5rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.1rem); --slide-padding: clamp(1rem, 4vw, 4rem);
+  --content-gap: clamp(0.5rem, 2vw, 2rem); --element-gap: clamp(0.25rem, 1vw, 1rem);
+  --bg: #050508; --surface: #0b0b12; --card: #111119;
+  --text: #ece9e4; --text-muted: #7a7a8c; --text-dim: #3e3e50;
+  --accent: #cc8566; --accent-soft: rgba(204,133,102,0.12); --accent2: #6e90b8;
+  --bad: #b87070; --good: #5e9a78; --terminal-bg: #0d1117; --terminal-border: #30363d;
+}
+@media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.5vw,1rem); --title-size: clamp(1.25rem,4.5vw,2.5rem); --h2-size: clamp(1rem,3vw,1.75rem); } }
+@media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --title-size: clamp(1.1rem,4vw,2rem); --body-size: clamp(0.7rem,1.2vw,0.95rem); } .nav-dots, .keyboard-hint, .decorative { display: none; } }
+@media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); } }
+@media (max-width: 600px) { :root { --title-size: clamp(1.25rem,7vw,2.5rem); } .cmd-grid, .os-split, .flow-grid, .step-grid { grid-template-columns: 1fr !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } html { scroll-behavior: auto; } }
+/* === THEME === */
+body { font-family: 'Noto Sans TC', 'Sora', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
+.slide { background: var(--bg); }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+.label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.3vw, 1.1rem); font-weight: 500; letter-spacing: 3px; color: var(--accent); }
+.big-title { font-family: 'Noto Sans TC', sans-serif; font-size: var(--title-size); font-weight: 900; line-height: 1.2; letter-spacing: -0.5px; }
+.sub-heading { font-family: 'Sora', sans-serif; font-size: var(--h2-size); font-weight: 700; line-height: 1.3; }
+.body-text { font-size: var(--body-size); color: var(--text-muted); line-height: 1.8; font-weight: 300; }
+.accent-text { background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.reveal-element { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal-element.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; } .reveal-delay-2 { transition-delay: 0.3s; } .reveal-delay-3 { transition-delay: 0.45s; } .reveal-delay-4 { transition-delay: 0.6s; } .reveal-delay-5 { transition-delay: 0.75s; }
+.highlight-wipe { background: linear-gradient(90deg, var(--accent), var(--accent-light)); background-size: 0% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: var(--text-dim); transition: background-size 0.8s cubic-bezier(0.16,1,0.3,1), -webkit-text-fill-color 0.8s; }
+.highlight-wipe.active { background-size: 100% 100%; -webkit-text-fill-color: transparent; }
+/* === TERMINAL === */
+.terminal { background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: clamp(8px,1vw,14px); padding: clamp(14px,2vw,24px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); line-height: 1.7; color: #c9d1d9; overflow: hidden; width: 100%; max-width: min(90vw, 900px); }
+.terminal-header { display: flex; gap: 6px; margin-bottom: clamp(8px,1vh,14px); }
+.terminal-dot { width: clamp(10px,1.2vw,14px); height: clamp(10px,1.2vw,14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #8b949e; } .terminal .output { color: #8b949e; } .terminal .flag { color: #d2a8ff; }
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(8px,1.2vw,16px); margin-top: var(--content-gap); max-width: min(90vw, 900px); width: 100%; }
+.feature-item { display: flex; align-items: flex-start; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(12px,1.8vw,22px); transition: border-color 0.3s; }
+.feature-item:hover { border-color: rgba(204,133,102,0.15); }
+.feature-icon { font-size: clamp(0.85rem,1.3vw,1.1rem); flex-shrink: 0; width: clamp(36px,4.5vw,52px); height: clamp(36px,4.5vw,52px); text-align: center; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(204,133,102,0.12); font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
+.feature-item h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 600; margin: 0 0 2px; }
+.feature-item p { font-size: clamp(0.85rem,1.2vw,1.05rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === HIGHLIGHT BOX === */
+.highlight-box { background: rgba(204,133,102,0.06); border: 1px dashed rgba(204,133,102,0.3); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); max-width: min(85vw, 700px); width: 100%; text-align: center; }
+/* === CMD GRID === */
+.cmd-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(6px,0.8vw,12px) clamp(12px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(90vw, 800px); width: 100%; align-items: baseline; }
+.cmd-cell { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); color: var(--accent); font-weight: 600; }
+.cmd-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === STEP GRID === */
+.step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px,1.5vw,20px); margin-top: var(--content-gap); max-width: min(92vw, 900px); width: 100%; }
+.step-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(10px,1.2vw,16px); padding: clamp(14px,2vw,24px); text-align: center; }
+.step-card .step-num { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.5rem,3vw,2.5rem); font-weight: 800; }
+.step-card h4 { font-family: 'Sora', sans-serif; font-size: clamp(0.95rem,1.4vw,1.15rem); font-weight: 600; margin: clamp(6px,0.8vh,12px) 0 4px; }
+.step-card p { font-size: clamp(0.8rem,1.1vw,0.95rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+/* === RESOURCE LIST === */
+.resource-list { display: flex; flex-direction: column; gap: clamp(6px,0.8vw,12px); margin-top: var(--content-gap); max-width: min(90vw, 700px); width: 100%; }
+.resource-item { display: flex; align-items: baseline; gap: clamp(10px,1.5vw,18px); background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: clamp(8px,1vw,14px); padding: clamp(10px,1.5vw,18px); }
+.resource-item .res-label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.82rem,1.2vw,1.05rem); font-weight: 700; color: var(--accent); flex-shrink: 0; min-width: clamp(60px,8vw,100px); }
+.resource-item .res-desc { font-size: clamp(0.85rem,1.2vw,1rem); color: var(--text-muted); }
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(16px,2vw,32px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--accent-soft); transform: scale(1.3); }
+.slide-counter { position: fixed; bottom: clamp(12px,2vw,24px); right: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem,0.8vw,0.7rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(12px,2vw,24px); left: clamp(16px,2vw,32px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.5rem,0.7vw,0.6rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+</style>
+</head>
+<body>
+<nav class="nav-dots" aria-label="Slide navigation"></nav>
+<div class="slide-counter">01 / 10</div>
+<div class="keyboard-hint">Arrow keys or scroll to navigate</div>
+
+<!-- ═══════════════════════════════════════════
+     04-CLOSING: 總結與下一步
+     ═══════════════════════════════════════════ -->
+
+<!-- SLIDE 1 — Section title -->
+<section class="slide" id="slide-section-title">
+  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(204,133,102,0.06),transparent 70%);top:-30%;left:-15%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">WRAP UP</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      總結與下一步
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--element-gap); font-size:var(--h3-size); font-weight:400; color:var(--text);">
+      從今天開始，你的命令列不再是黑畫面
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 2 — What we learned -->
+<section class="slide" id="slide-learned">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">REVIEW</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      今天學了什麼
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">CLI</div>
+        <div><h4>CLI 生存指令</h4><p>pwd、cd、ls、mkdir、open — 你知道作品在哪裡</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">HTML</div>
+        <div><h4>本機網頁</h4><p>你做出 index.html，能用瀏覽器打開看成果</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">AI</div>
+        <div><h4>AI 改版</h4><p>用自然語言請 AI 修改頁面，你負責確認結果</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — Three pillars -->
+<section class="slide" id="slide-pillars">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">FRAMEWORK</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      三層能力：想法 → 操作 → 成果
+    </h2>
+    <div class="step-grid reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="step-card" style="border-top: 3px solid var(--good);">
+        <div class="step-num" style="color:var(--good);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:clamp(32px,4.5vw,46px);height:auto;"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a2 2 0 0 0 0 5V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1.5a2 2 0 0 0 0-5V8z"/><path d="M14.5 6v12" stroke-dasharray="2 2"/></svg>
+        </div>
+        <h4>AI 對話 = 想法</h4>
+        <p>把需求說清楚<br>讓 AI 能執行</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid var(--accent2);">
+        <div class="step-num" style="color:var(--accent2);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:clamp(32px,4.5vw,46px);height:auto;"><path d="M2 18h20"/><path d="M2 18c0-6 4.5-9 10-9s10 3 10 9"/><path d="M6.5 18v-4.2"/><path d="M12 18v-6.5"/><path d="M17.5 18v-4.2"/></svg>
+        </div>
+        <h4>CLI = 操作</h4>
+        <p>找到資料夾<br>打開 index.html</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid var(--ai);">
+        <div class="step-num" style="color:var(--ai);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:clamp(32px,4.5vw,46px);height:auto;"><path d="M5 21V4"/><path d="M5 4c2.5-1.4 5 1.4 7.5 0S19 4 19 4v8.5c-2.5 1.4-4-1.4-6.5 0S5 12.5 5 12.5"/></svg>
+        </div>
+        <h4>HTML = 成果</h4>
+        <p>本機瀏覽器可見<br>可以繼續修改</p>
+      </div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:500; color:var(--text);">
+        <span style="color:var(--good);">想法</span> + <span style="color:var(--accent2);">操作</span> + <span style="color:var(--ai);">成果</span> = 你真的做出了一個網頁
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — Daily workflow -->
+<section class="slide" id="slide-daily">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">DAILY</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      回家後的修改循環
+    </h2>
+    <div class="terminal reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div><span class="prompt">$</span> <span class="cmd">cd my-page</span>                 <span class="comment"># 回到作品資料夾</span></div>
+      <div><span class="prompt">$</span> <span class="cmd" style="color:var(--ai);">claude</span> <span class="cmd">"請修改 index.html..."</span> <span class="comment"># AI 幫你改</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">cat index.html</span>              <span class="comment"># 確認檔案有內容</span></div>
+      <div><span class="prompt">$</span> <span class="cmd">open index.html</span>             <span class="comment"># 本機打開</span></div>
+    </div>
+    <div class="highlight-box reveal-element reveal-delay-3" style="margin-top:var(--content-gap);">
+      <p style="font-size:var(--body-size); font-weight:600; color:var(--text);">
+        AI 可以幫你做，但最後要由你<span class="accent-text">打開確認</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 — Common pitfalls -->
+<section class="slide" id="slide-pitfalls">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">WATCH OUT · 可刪減</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      新手常見地雷
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item" style="border-left:3px solid var(--bad);">
+        <div class="feature-icon" style="background:var(--bad-soft); color:var(--bad);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div><h4 style="color:var(--bad);">rm 刪了就沒了</h4><p>沒有資源回收桶。刪之前用 ls 確認，或加 -i</p></div>
+      </div>
+      <div class="feature-item" style="border-left:3px solid var(--bad);">
+        <div class="feature-icon" style="background:var(--bad-soft); color:var(--bad);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div><h4 style="color:var(--bad);">找不到檔案</h4><p>先 pwd 看位置，再 ls 看檔案，不要慌</p></div>
+      </div>
+      <div class="feature-item" style="border-left:3px solid var(--warn);">
+        <div class="feature-icon" style="background:var(--warn-soft); color:var(--warn);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div><h4 style="color:var(--warn);">AI 幻覺</h4><p>AI 可能生成不存在的指令。看不懂就查，不要盲抄</p></div>
+      </div>
+      <div class="feature-item" style="border-left:3px solid var(--warn);">
+        <div class="feature-icon" style="background:var(--warn-soft); color:var(--warn);"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div><h4 style="color:var(--warn);">沒有重新整理</h4><p>AI 改完檔案後，瀏覽器要重新整理才看得到新版</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — Practice tips -->
+<section class="slide" id="slide-practice-tips">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">TIPS</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      持續練習的方法
+    </h2>
+    <div class="feature-list reveal-element reveal-delay-2" style="max-width:min(90vw,800px);">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:var(--good-soft); color:var(--good);">01</div>
+        <div><h4>每天改一小段</h4><p>cd 到 my-page、ls 看檔案、open index.html — 就這三個先練熟</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:var(--accent2-soft); color:var(--accent2);">02</div>
+        <div><h4>每次只提一個需求</h4><p>一次請 AI 改一個區塊，比一次全改更穩</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:var(--ai-soft); color:var(--ai);">03</div>
+        <div><h4>用 AI 學 CLI</h4><p>看不懂指令？問 AI 解釋。把 AI 當老師，不是當打字機</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — Resources -->
+<section class="slide" id="slide-resources">
+  <div class="slide-content" style="align-items:center;">
+    <div class="label reveal-element">RESOURCES · 可刪減</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap); text-align:center;">
+      延伸資源
+    </h2>
+    <div class="resource-list reveal-element reveal-delay-2" style="align-self:center;">
+      <div class="resource-item">
+        <span class="res-label">CLI</span>
+        <span class="res-desc">命令列小抄 — 今天帶回家那張</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">HTML</span>
+        <span class="res-desc">MDN HTML 入門 — 想看懂網頁結構再讀</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">AI</span>
+        <span class="res-desc">把今天的 prompt 留著，回家換主題再做一頁</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">Claude</span>
+        <span class="res-desc">docs.anthropic.com — Claude Code 官方文件</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">練習</span>
+        <span class="res-desc">改顏色、改文字、加照片區、加作品卡片</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">帶回家</span>
+        <span class="res-desc">今天完成的 index.html，就是你的第一個作品</span>
+      </div>
+      <div class="resource-item">
+        <span class="res-label">進階</span>
+        <span class="res-desc">公開網址、GitHub、Vercel、Supabase 留到下一階段</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8 — Next steps -->
+<section class="slide" id="slide-next">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">NEXT STEPS</div>
+    <h2 class="sub-heading reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      接下來可以做什麼？
+    </h2>
+    <div class="step-grid reveal-element reveal-delay-2" style="align-self:center; margin-top:var(--content-gap);">
+      <div class="step-card" style="border-top: 3px solid var(--good);">
+        <div class="step-num" style="color:var(--good);">1</div>
+        <h4>保留今天作品</h4>
+        <p>不要刪掉 my-page<br>那就是你的練習基地</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid var(--accent);">
+        <div class="step-num" style="color:var(--accent);">2</div>
+        <h4>回家改第二版</h4>
+        <p>換主題、換顏色<br>再請 AI 加一個區塊</p>
+      </div>
+      <div class="step-card" style="border-top: 3px solid var(--ai);">
+        <div class="step-num" style="color:var(--ai);">3</div>
+        <h4>下一階段再上線</h4>
+        <p>GitHub、Vercel、Supabase<br>等作品穩了再學</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 — Q&A -->
+<section class="slide" id="slide-qa">
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">Q&A</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      問題時間
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); max-width:min(80vw,600px);">
+      任何問題都可以問。<br>
+      CLI、HTML、AI 工具 — 今天不會的，現在搞懂。
+    </p>
+  </div>
+</section>
+
+<!-- SLIDE 10 — Thank you -->
+<section class="slide" id="slide-thanks">
+  <div class="orb" style="width:clamp(350px,50vw,800px);height:clamp(350px,50vw,800px);background:radial-gradient(circle,rgba(204,133,102,0.08),transparent 70%);bottom:-30%;right:-15%;"></div>
+  <div class="slide-content" style="align-items:center; text-align:center;">
+    <div class="label reveal-element">THANKS</div>
+    <h1 class="big-title reveal-element reveal-delay-1" style="margin-top:var(--element-gap);">
+      <span class="accent-text">謝謝大家</span>
+    </h1>
+    <p class="body-text reveal-element reveal-delay-2" style="margin-top:var(--content-gap); font-size:var(--h3-size);">
+      從今天起，命令列是你的夥伴，不是敵人。
+    </p>
+    <p class="body-text reveal-element reveal-delay-3" style="margin-top:var(--element-gap); max-width:min(80vw,600px);">
+      有問題隨時聯繫 — 我很樂意幫忙。
+    </p>
+  </div>
+</section>
+
+<script>
+const CHARS = '!<>-_\\/[]{}—=+*^?#________';
+function initScramble(el) { const original = el.dataset.scramble || el.textContent; let interval = null; const scramble = () => { if (interval) clearInterval(interval); let iteration = 0; interval = setInterval(() => { el.textContent = original.split('').map((c, i) => { if (c === ' ') return ' '; if (i < iteration) return original[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(''); if (iteration >= original.length) { clearInterval(interval); el.textContent = original; } iteration += 1/3; }, 30); }; el.addEventListener('mouseenter', scramble); const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { scramble(); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+function initHighlightWipe(el) { const io = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { el.classList.add('active'); io.unobserve(el); } }, { threshold: 0.5 }); io.observe(el.closest('.slide') || el); }
+class PresentationController { constructor() { this.slides = [...document.querySelectorAll('.slide')]; this.current = 0; this.isScrolling = false; this.touchStartY = 0; this.buildNav(); this.initObserver(); this.bindEvents(); this.updateCounter(); } buildNav() { const nav = document.querySelector('.nav-dots'); this.slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('nav-dot'); d.setAttribute('aria-label', `Slide ${i+1}`); d.addEventListener('click', () => this.goTo(i)); nav.appendChild(d); }); this.dots = [...nav.querySelectorAll('.nav-dot')]; this.dots[0]?.classList.add('active'); } initObserver() { const io = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const idx = this.slides.indexOf(entry.target); if (idx !== -1) this.setCurrent(idx); entry.target.querySelectorAll('.reveal-element').forEach(el => el.classList.add('visible')); } }); }, { threshold: 0.5 }); this.slides.forEach(s => io.observe(s)); } setCurrent(idx) { this.current = idx; this.dots.forEach((d, i) => d.classList.toggle('active', i === idx)); this.updateCounter(); } updateCounter() { document.querySelector('.slide-counter').textContent = `${String(this.current+1).padStart(2,'0')} / ${String(this.slides.length).padStart(2,'0')}`; } goTo(idx) { if (idx >= 0 && idx < this.slides.length) this.slides[idx].scrollIntoView({ behavior:'smooth' }); } next() { this.goTo(this.current + 1); } prev() { this.goTo(this.current - 1); } bindEvents() { document.addEventListener('keydown', e => { if (['ArrowDown','ArrowRight',' '].includes(e.key)) { e.preventDefault(); this.next(); } if (['ArrowUp','ArrowLeft'].includes(e.key)) { e.preventDefault(); this.prev(); } }); document.addEventListener('wheel', e => { if (this.isScrolling) return; this.isScrolling = true; if (e.deltaY > 30) this.next(); else if (e.deltaY < -30) this.prev(); setTimeout(() => { this.isScrolling = false; }, 800); }, { passive: true }); document.addEventListener('touchstart', e => { this.touchStartY = e.touches[0].clientY; }, { passive: true }); document.addEventListener('touchend', e => { const diff = this.touchStartY - e.changedTouches[0].clientY; if (Math.abs(diff) > 50) { diff > 0 ? this.next() : this.prev(); } }, { passive: true }); } }
+document.addEventListener('DOMContentLoaded', () => { new PresentationController(); document.querySelectorAll('.scramble-text').forEach(initScramble); document.querySelectorAll('.highlight-wipe').forEach(initHighlightWipe); });
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNIT 5 — 作品回顧 + 下一步</title>
+<title>UNIT 3 — AI 改版練習</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -109,6 +109,12 @@ body::after {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.big-title .ai-text {
+  background: linear-gradient(135deg, var(--ai) 0%, #c9b9e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 .sub-heading {
   font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;
   font-size: var(--h2-size);
@@ -170,8 +176,9 @@ body::after {
 }
 .terminal-header { display: flex; gap: 8px; margin-bottom: clamp(10px, 1.2vh, 16px); }
 .terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
-.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal-dot.red { background: var(--text-dim); } .terminal-dot.yellow { background: var(--text-dim); } .terminal-dot.green { background: var(--text-dim); }
 .terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+.terminal .ai-prompt { color: var(--ai); }
 
 /* === CARDS === */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
@@ -202,6 +209,7 @@ body::after {
   border-radius: 12px; background: var(--accent-soft);
   font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
 }
+.feature-icon.ai { background: var(--ai-soft); color: var(--ai); }
 .feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
 .feature-item p { font-size: clamp(0.85rem, 1.15vw, 1rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
 
@@ -230,6 +238,7 @@ body::after {
   font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
   box-shadow: 0 0 24px var(--accent-glow);
 }
+.step-num.ai { background: var(--ai-soft); color: var(--ai); box-shadow: 0 0 24px rgba(166,143,201,0.18); }
 .step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
 .step-content p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
 
@@ -265,186 +274,271 @@ body::after {
 
 <!-- SLIDE 1: Hero -->
 <section class="slide" id="slide-1">
-  <div class="glow-orb accent" style="width:48vw;height:48vw;top:-14vw;right:-10vw;"></div>
+  <div class="glow-orb accent" style="width:45vw;height:45vw;top:-12vw;right:-8vw;"></div>
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">UNIT 5</p>
+    <p class="label reveal-element" data-gsap="fade-up">UNIT 3</p>
     <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      <span class="kinetic-line">作品回顧</span><br>
-      <span class="accent-text kinetic-line">下一步</span>
+      <span class="kinetic-line">AI 改版練習</span><br>
+      <span class="ai-text kinetic-line">從看到作品</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">從「我做到了」開始，把今天的能力帶回家繼續改。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">上午你請 AI 生出第一版。下午我們學會講清楚，讓 AI 把版面、風格、手機版一次改到位。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
+      <span class="os-badge mac">Mac</span>
+      <span class="os-badge win">Windows</span>
+    </div>
   </div>
 </section>
 
-<!-- SLIDE 2: Showcase -->
+<!-- SLIDE 2: Full-Bleed Manifesto -->
 <section class="slide" id="slide-2">
+  <div class="glow-orb ai" style="width:55vw;height:55vw;bottom:-18vw;left:-12vw;"></div>
   <div class="slide-content layout-full-bleed">
     <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
-      <p class="label reveal-element" data-gsap="fade-up">作品展示</p>
+      <p class="label reveal-element" data-gsap="fade-up">起點</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
-        打開你的<br>
-        <span style="color: var(--accent);">index.html</span>
+        先回資料夾<br>
+        <span style="color: var(--accent);">再下指令</span>
       </h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">自願者上台展示本機頁面或截圖。重點不是完美，是證明「我跟 AI 一起完成了」。</p>
-      <div class="reveal-element" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--content-gap); display:flex; flex-wrap:wrap; gap: var(--element-gap); justify-content:center;">
-        <span class="os-badge mac">Mac：open index.html</span>
-        <span class="os-badge win">Windows：start index.html</span>
-      </div>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">改版前必須回到放 index.html 的資料夾。如果跑錯地方，AI 會建新檔，舊作品就不會被更新。</p>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 3: Three Takeaways -->
+<!-- SLIDE 3: Split with Terminal -->
 <section class="slide" id="slide-3">
-  <div class="glow-orb ai" style="width:46vw;height:46vw;bottom:-16vw;left:-10vw;"></div>
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">今天學到什麼</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個帶走的能力</h2>
-    <div class="card-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="card">
-        <span class="num">01</span>
-        <h4>叫 AI 做事</h4>
-        <p>把「我要什麼網頁」講成主題、區塊、風格，AI 就能執行。</p>
-      </div>
-      <div class="card">
-        <span class="num">02</span>
-        <h4>看懂 AI 做什麼</h4>
-        <p>從終端機摘要知道檔案被改了哪裡，不再害怕黑畫面。</p>
-      </div>
-      <div class="card">
-        <span class="num">03</span>
-        <h4>本機驗收成果</h4>
-        <p>瀏覽器打開 index.html，修改後重新整理就能看到新版本。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SLIDE 4: Three-Layer Architecture -->
-<section class="slide" id="slide-4">
   <div class="slide-content">
-    <div class="layout-split reverse">
+    <div class="layout-split">
       <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">能力地圖</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">三層架構</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">今天不是學會工程，而是建立一個可重複的工作流程：說清楚、AI 改檔、本機看成果。</p>
+        <p class="label reveal-element" data-gsap="fade-right">對話入口</p>
+        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">啟動對話<br>回到作品</h2>
+        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">進到 my-page 後打 opencode，AI 會記得這裡是作品資料夾。重新啟動後先用 @index.html 讓 AI 讀目前內容。</p>
       </div>
       <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="step-list">
-          <div class="step-item">
-            <div class="step-num">1</div>
-            <div class="step-content">
-              <h4>AI 對話層</h4>
-              <p>用自然語言描述需求，opencode 聽懂並執行。</p>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-num">2</div>
-            <div class="step-content">
-              <h4>Terminal 看懂層</h4>
-              <p>pwd、cd、ls 只在驗證檔案位置時用，不背指令表。</p>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-num">3</div>
-            <div class="step-content">
-              <h4>HTML 作品層</h4>
-              <p>一個資料夾、一個檔案、瀏覽器打開就是成果。</p>
-            </div>
-          </div>
+        <div class="terminal">
+          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+          <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 確認 index.html 在這裡</span></div>
+          <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+          <div class="comment"># 進入對話後：@index.html 幫我改成...</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 5: How to Continue at Home -->
+<!-- SLIDE 4: Compare Good vs Bad Prompt -->
+<section class="slide" id="slide-4">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">對比</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">模糊對具體</h2>
+    <div class="compare-grid reveal-element" data-gsap="fade-up" data-delay="0.2">
+      <div class="compare-card before">
+        <h4>BAD PROMPT</h4>
+        <ul>
+          <li>「幫我變好看」</li>
+          <li>「改漂亮一點」</li>
+          <li>「好像不對，再試試」</li>
+        </ul>
+      </div>
+      <div class="compare-card after">
+        <h4>GOOD PROMPT</h4>
+        <ul>
+          <li>「把 index.html 改成個人名片」</li>
+          <li>「分四區：大標、介紹、三欄卡片、聯絡」</li>
+          <li>「主色 #1f3a5f，手機三欄變一欄」</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: Feature List - Prompt Formula -->
 <section class="slide" id="slide-5">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">回家繼續改</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">今晚就能做的三件事</h2>
+    <p class="label reveal-element" data-gsap="fade-up">公式</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">好指令這樣寫</h2>
     <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
       <div class="feature-item">
         <div class="feature-icon">01</div>
         <div>
-          <h4>換一個主題重做</h4>
-          <p>個人名片做過了，就試商家介紹或活動頁，同樣在 my-page 裡請 AI 改 index.html。</p>
+          <h4>目標明確</h4>
+          <p>說出要做什麼頁面，例如個人名片、商家介紹或活動頁。</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">02</div>
         <div>
-          <h4>追加一個區塊</h4>
-          <p>例如 footer、手機版響應式、或一張圖片區塊。指令越具體，AI 越一次做對。</p>
+          <h4>區塊數字</h4>
+          <p>寫出幾欄、幾區、幾張卡，AI 才能一次切出你要的版面。</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">03</div>
         <div>
-          <h4>用 /share 截圖問人</h4>
-          <p>卡住時在 opencode 打 /share，把對話連結貼給朋友或講師，對方能看到完整上下文。</p>
+          <h4>風格參數</h4>
+          <p>給顏色色碼、字級 px、區塊留白 px、圓角大小，別只說「質感」。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">04</div>
+        <div>
+          <h4>直接改檔</h4>
+          <p>指定 index.html，並請 AI 改完列出動了哪些部分，方便你驗收。</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 6: Backup Tool Comparison -->
+<!-- SLIDE 6: Steps - Layout Task 1 -->
 <section class="slide" id="slide-6">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">備援對照</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">工具掛掉怎麼辦</h2>
-    <div class="compare-grid reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="compare-card before">
-        <h4>opencode 主工具</h4>
-        <ul>
-          <li>本機直接改 index.html</li>
-          <li>免費模型、ChatGPT、GitHub Copilot 三條路線</li>
-          <li>首選，全班統一體驗</li>
-        </ul>
+    <p class="label reveal-element" data-gsap="fade-up">任務一</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">版面四區塊</h2>
+    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Hero 首屏</h4>
+          <p>名字加大，放一句話介紹，占滿第一屏。</p>
+        </div>
       </div>
-      <div class="compare-card after">
-        <h4>備援方案</h4>
-        <ul>
-          <li>ChatGPT Codex 桌面版：本機讀寫檔案</li>
-          <li>Claude Cowork：授權資料夾後直接改檔</li>
-          <li>網頁版手動貼：最後防線，保證有畫面</li>
-        </ul>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>關於我</h4>
+          <p>兩到三段文字，說明你是誰、做什麼。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>技能與作品</h4>
+          <p>三欄卡片，每欄一個色塊圖、標題、一句說明。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>聯絡方式</h4>
+          <p>底部一列，放 Email 與社群連結。</p>
+        </div>
       </div>
     </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap); font-size: clamp(0.85rem, 1.3vw, 1rem);">重點不是用哪個工具，而是「有任一條路線能產生 HTML 並放進 index.html」。</p>
   </div>
 </section>
 
-<!-- SLIDE 7: Resources -->
+<!-- SLIDE 7: Full-Bleed Layout Prompt Example -->
 <section class="slide" id="slide-7">
+  <div class="glow-orb accent" style="width:48vw;height:48vw;top:-16vw;right:-10vw;"></div>
+  <div class="slide-content layout-full-bleed">
+    <div class="layout-center" style="max-width: min(92vw, 980px); width: 100%;">
+      <p class="label reveal-element" data-gsap="fade-up">範本</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">版面改範本</h2>
+      <div class="terminal reveal-element" data-gsap="fade-up" data-delay="0.2" style="text-align: left; margin-top: var(--content-gap);">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="ai-prompt">把 index.html 改成四區塊版面：</div>
+        <div>1. Hero：名字 + 一句話介紹，占滿第一屏</div>
+        <div>2. 關於我：兩到三段文字</div>
+        <div>3. 技能作品：三欄卡片，每欄色塊圖 + 標題 + 說明</div>
+        <div>4. 聯絡方式：底部一列 Email 與社群連結</div>
+        <div>直接改 index.html，改完告訴我每區對應檔案位置。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: Steps - Style & Mobile Task 2 -->
+<section class="slide" id="slide-8">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">任務二</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">風格加手機</h2>
+    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="step-item">
+        <div class="step-num ai">1</div>
+        <div class="step-content">
+          <h4>換風格</h4>
+          <p>指定主色、輔色、強調色的色碼，再寫字級與留白數字。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num ai">2</div>
+        <div class="step-content">
+          <h4>加細節</h4>
+          <p>卡片圓角、淡陰影、hover 微動效，讓頁面更像作品。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num ai">3</div>
+        <div class="step-content">
+          <h4>做手機版</h4>
+          <p>螢幕小於 768px 時，三欄變一欄，並加上 viewport meta tag。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: Split - Style & RWD Prompt Example -->
+<section class="slide" id="slide-9">
   <div class="slide-content">
-    <div class="layout-split">
+    <div class="layout-split reverse">
       <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">延伸資源</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">回家後看這裡</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">課程附了三份隨身文件，不用背，打的時候拿出來貼。</p>
+        <p class="label reveal-element" data-gsap="fade-right">範本</p>
+        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">色碼寫清楚</h2>
+        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">把顏色寫成色碼、字級寫成 px、區塊留白寫成數字。手機版條件寫寬度，AI 會自動加 media query。</p>
       </div>
       <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
         <div class="terminal">
           <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div class="comment"># 課程提供檔案</div>
-          <div><span class="cmd">prompt-templates.md</span> <span class="comment">- 三主題 prompt 範本</span></div>
-          <div><span class="cmd">opencode-quickstart.md</span> <span class="comment">- 五個必會動作</span></div>
-          <div><span class="cmd">pre-class-setup.md</span> <span class="comment">- 安裝與備援流程</span></div>
-          <div style="margin-top:12px;" class="comment"># 進階班才會教</div>
-          <div><span class="cmd">Git / GitHub / Vercel / MCP / hook</span></div>
+          <div class="ai-prompt">幫 index.html 換成沉穩專業風格：</div>
+          <div>- 主色 #1f3a5f、底色 #f5f5f5、強調色 #c89b3c</div>
+          <div>- 標題 36px、內文 18px、區塊留白 64px</div>
+          <div>- 卡片圓角 12px、淡陰影</div>
+          <div>- 手機 &lt; 768px 時三欄變一欄</div>
+          <div>直接改檔，列出動了哪些 CSS。</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 8: Micro Break -->
-<section class="slide" id="slide-8" data-countdown="90">
+<!-- SLIDE 10: Feature List - Understand What AI Changed -->
+<section class="slide" id="slide-10">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">驗收</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">檢查改動點</h2>
+    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="feature-item">
+        <div class="feature-icon ai">01</div>
+        <div>
+          <h4>看終端機摘要</h4>
+          <p>opencode 會列出改了哪個檔案、做了什麼動作。先看再回瀏覽器。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon ai">02</div>
+        <div>
+          <h4>用 @ 指向檔案</h4>
+          <p>輸入 @index.html 問 AI「這裡改了什麼」，AI 會讀檔後回答。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon ai">03</div>
+        <div>
+          <h4>用 cat 看內容</h4>
+          <p>在終端機打 cat index.html，不用懂每行，只要知道檔案真的被改了。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11: Micro Break -->
+<section class="slide" id="slide-11" data-countdown="90">
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">微休息</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">整理 90 秒</h2>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">休息 90 秒</h2>
     <div class="countdown-ring reveal-element" data-gsap="scale-in" data-delay="0.2">
       <svg viewBox="0 0 100 100">
         <circle class="bg" cx="50" cy="50" r="45"></circle>
@@ -452,26 +546,65 @@ body::after {
       </svg>
       <div class="countdown-text">90</div>
     </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.3">喝水、起身、把截圖傳到 LINE 群組。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.3">站起來，伸懶腰，看遠方。</p>
   </div>
 </section>
 
-<!-- SLIDE 9: Q&A -->
-<section class="slide" id="slide-9">
-  <div class="glow-orb accent" style="width:42vw;height:42vw;bottom:-12vw;right:-10vw;"></div>
+<!-- SLIDE 12: Feature List - Troubleshooting -->
+<section class="slide" id="slide-12">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">Q & A</p>
+    <p class="label reveal-element" data-gsap="fade-up">排解</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">卡關排解術</h2>
+    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="feature-item">
+        <div class="feature-icon">01</div>
+        <div>
+          <h4>AI 跑錯資料夾</h4>
+          <p>先打 pwd 看自己在哪，再用 cd Desktop/my-page 回到作品資料夾。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">02</div>
+        <div>
+          <h4>改完畫面沒變</h4>
+          <p>瀏覽器要重新整理。Mac 按 Cmd + R，Windows 按 Ctrl + R。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">03</div>
+        <div>
+          <h4>改壞了想回頭</h4>
+          <p>在 opencode 對話裡打 /undo，可以回到上一個能看的版本。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">04</div>
+        <div>
+          <h4>還是卡住</h4>
+          <p>打 /share 產生對話連結，貼到 LINE 群組給講師診斷。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13: Closing -->
+<section class="slide" id="slide-13">
+  <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-10vw;right:-8vw;"></div>
+  <div class="glow-orb ai" style="width:30vw;height:30vw;top:-6vw;left:-6vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">單元結束</p>
     <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      還有什麼<br>
-      <span class="accent-text">想問的</span>
+      版面風格<br>
+      <span class="accent-text">都到位</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">聚焦「回家怎麼繼續改」與「我的頁面還能怎麼變好」。進階工具我們下一段課程再聊。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">下一單元：三選一主題，自由完成你的本機作品。</p>
   </div>
 </section>
 
 <!-- NAV -->
 <nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 9</div>
+<div class="slide-counter">1 / 13</div>
 <div class="keyboard-hint">↑ ↓ scroll</div>
 
 <script>
