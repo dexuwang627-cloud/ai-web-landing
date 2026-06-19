@@ -6,6 +6,8 @@
 <title>UNIT 4 — 自由完成作品</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-charts.css">
+<link rel="stylesheet" href="shared-effects.css">
+<script src="shared-effects.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>document.documentElement.classList.remove('no-js');</script>
@@ -266,8 +268,10 @@ body::after {
 </head>
 <body>
 
+<div class="fx-scroll-progress" data-effect="scroll-progress"></div>
+
 <!-- SLIDE 1: Hero -->
-<section class="slide" id="slide-1">
+<section class="slide fx-hero-particles" id="slide-1">
   <div class="glow-orb accent" style="width:45vw;height:45vw;top:-12vw;right:-8vw;"></div>
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">UNIT 4</p>
@@ -287,7 +291,7 @@ body::after {
 <section class="slide" id="slide-2">
   <div class="glow-orb ai" style="width:55vw;height:55vw;bottom:-18vw;left:-12vw;"></div>
   <div class="slide-content layout-full-bleed">
-    <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
+    <div class="layout-center glass fx-spotlight" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
       <p class="label reveal-element" data-gsap="fade-up">核心信念</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
         你下指令<br>
@@ -330,19 +334,19 @@ body::after {
     <p class="label reveal-element" data-gsap="fade-up">三選一</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">選一主題深化</h2>
     <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon">01</div>
         <h4 class="dash-title">個人名片頁</h4>
         <p class="dash-desc">名字、一句話介紹、三項技能、聯絡方式。</p>
         <p class="dash-meta">最快完成 · 適合新手</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
         <h4 class="dash-title">商家介紹頁</h4>
         <p class="dash-desc">店名、招牌語、三項主打、地址與營業時間。</p>
         <p class="dash-meta">中難度 · 需要素材描述</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">03</div>
         <h4 class="dash-title">活動頁面</h4>
         <p class="dash-desc">活動名稱、日期地點、三個亮點、報名方式。</p>
@@ -479,7 +483,7 @@ body::after {
 <section class="slide" id="slide-9">
   <div class="glow-orb accent" style="width:48vw;height:48vw;top:-16vw;right:-10vw;"></div>
   <div class="slide-content layout-full-bleed">
-    <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
+    <div class="layout-center glass fx-spotlight" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
       <p class="label reveal-element" data-gsap="fade-up">成果收斂</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
         作品在筆電裡<br>

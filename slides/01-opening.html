@@ -6,8 +6,10 @@
 <title>UNIT 1 — 開場 + AI 定位 + Terminal 入口</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-charts.css">
+<link rel="stylesheet" href="shared-effects.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="shared-effects.js" defer></script>
 <script>document.documentElement.classList.remove('no-js');</script>
 <style>
 /* === TOKENS === */
@@ -270,7 +272,7 @@ body::after {
 <body>
 
 <!-- SLIDE 1: Hero -->
-<section class="slide" id="slide-1">
+<section class="slide fx-hero-particles" id="slide-1">
   <div class="glow-orb accent" style="width:45vw;height:45vw;top:-12vw;right:-8vw;"></div>
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">UNIT 1</p>
@@ -290,7 +292,7 @@ body::after {
 <section class="slide" id="slide-2">
   <div class="glow-orb ai" style="width:55vw;height:55vw;bottom:-18vw;left:-12vw;"></div>
   <div class="slide-content layout-full-bleed">
-    <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
+    <div class="layout-center glass fx-spotlight" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
       <p class="label reveal-element" data-gsap="fade-up">核心信念</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
         終端是入口<br>
@@ -338,23 +340,23 @@ body::after {
     <p class="label reveal-element" data-gsap="fade-up">工具選擇</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">一主三備援</h2>
     <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card" style="grid-column: 1 / -1; border-color: rgba(212,137,110,0.25);">
+      <div class="dashboard-card fx-tilt" style="grid-column: 1 / -1; border-color: rgba(212,137,110,0.25);">
         <div class="dash-icon" style="background:var(--accent-soft);color:var(--accent);">MAIN</div>
         <h4 class="dash-title">opencode</h4>
         <p class="dash-desc">本機 AI CLI，直接改檔，支援內建免費模型。今天全班統一使用。</p>
         <p class="dash-meta">直接改 index.html · 免費模型 / ChatGPT 登入</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">A</div>
         <h4 class="dash-title">Codex 桌面版</h4>
         <p class="dash-desc">ChatGPT 官方桌面版，可本機讀寫檔案。</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">B</div>
         <h4 class="dash-title">Claude Cowork</h4>
         <p class="dash-desc">Claude 桌面版，授權資料夾後直接改檔。</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon">C</div>
         <h4 class="dash-title">網頁版手貼</h4>
         <p class="dash-desc">最後防線，手動把 AI 產生的 HTML 貼進檔案。</p>
@@ -408,17 +410,17 @@ body::after {
     <p class="label reveal-element" data-gsap="fade-up">課堂規則</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個約定</h2>
     <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon" style="background:rgba(201,124,124,0.12);color:var(--bad);">紅</div>
         <h4 class="dash-title">卡住就舉紅色便利貼</h4>
         <p class="dash-desc">助教會來救，不要自己卡住太久。</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon" style="background:rgba(108,175,138,0.12);color:var(--good);">綠</div>
         <h4 class="dash-title">完成就舉綠色便利貼</h4>
         <p class="dash-desc">讓講師知道進度，也能幫助旁邊的人。</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card fx-tilt">
         <div class="dash-icon">03</div>
         <h4 class="dash-title">先求有畫面，再求漂亮</h4>
         <p class="dash-desc">瀏覽器能開啟 index.html 就算過關。</p>
@@ -434,7 +436,7 @@ body::after {
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">裝好 opencode</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">Windows 先裝 Node.js LTS，再用 npm 安裝；Mac 用官方一行腳本即可。裝完輸入 opencode 啟動。最後一行是備援路線。</p>
     <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div class="terminal">
+      <div class="terminal fx-glow">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
         <div class="comment"># Windows — PowerShell</div>
         <div><span class="prompt">PS&gt;</span> <span class="cmd">node -v</span> <span class="comment"># 先確認 Node.js</span></div>

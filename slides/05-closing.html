@@ -6,6 +6,8 @@
 <title>UNIT 5 — 作品回顧 + 下一步</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-charts.css">
+<link rel="stylesheet" href="shared-effects.css">
+<script src="shared-effects.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>document.documentElement.classList.remove('no-js');</script>
@@ -270,7 +272,7 @@ body::after {
 <body>
 
 <!-- SLIDE 1: Hero -->
-<section class="slide" id="slide-1">
+<section class="slide" id="slide-1" data-effect="hero-particles">
   <div class="glow-orb accent" style="width:48vw;height:48vw;top:-14vw;right:-10vw;"></div>
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">UNIT 5</p>
@@ -307,17 +309,17 @@ body::after {
     <p class="label reveal-element" data-gsap="fade-up">今天學到什麼</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個帶走的能力</h2>
     <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card">
+      <div class="dashboard-card" data-effect="tilt">
         <div class="dash-icon">01</div>
         <h4 class="dash-title">叫 AI 做事</h4>
         <p class="dash-desc">把「我要什麼網頁」講成主題、區塊、風格，AI 就能執行。</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card" data-effect="tilt">
         <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
         <h4 class="dash-title">看懂 AI 做什麼</h4>
         <p class="dash-desc">從終端機摘要知道檔案被改了哪裡，不再害怕黑畫面。</p>
       </div>
-      <div class="dashboard-card">
+      <div class="dashboard-card" data-effect="tilt">
         <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">03</div>
         <h4 class="dash-title">本機驗收成果</h4>
         <p class="dash-desc">瀏覽器打開 index.html，修改後重新整理就能看到新版本。</p>
@@ -429,7 +431,7 @@ body::after {
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">回家後看這裡</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">課程附了三份隨身文件，不用背，打的時候拿出來貼。</p>
     <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.3">
-      <div class="terminal">
+      <div class="terminal" data-effect="glow">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
         <div class="comment"># 課程提供檔案</div>
         <div><span class="cmd">prompt-templates.md</span> <span class="comment">- 三主題 prompt 範本</span></div>
@@ -459,7 +461,7 @@ body::after {
 </section>
 
 <!-- SLIDE 9: Q&A -->
-<section class="slide" id="slide-9">
+<section class="slide" id="slide-9" data-effect="spotlight">
   <div class="glow-orb accent" style="width:42vw;height:42vw;bottom:-12vw;right:-10vw;"></div>
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">Q & A</p>
