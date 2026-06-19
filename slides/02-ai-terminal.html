@@ -45,7 +45,7 @@
 }
 
 html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
   background: var(--bg);
@@ -258,7 +258,7 @@ body::after {
 .keyboard-hint { position: fixed; bottom: clamp(14px, 2.2vw, 26px); left: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem, 0.75vw, 0.65rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
 
 /* === REVEAL STATE === */
-.reveal-element { opacity: 0; transform: translateY(30px); }
+.reveal-element { opacity: 0; will-change: transform, opacity; }
 </style>
 </head>
 <body>
@@ -541,7 +541,7 @@ body::after {
 
 <script>
 (function(){
-  const slides = document.querySelectorAll('.slide');
+  const slides = [...document.querySelectorAll('.slide')];
   const nav = document.querySelector('.nav-dots');
   const counter = document.querySelector('.slide-counter');
   let current = 0;
@@ -556,7 +556,9 @@ body::after {
 
   function goTo(index) {
     if (index < 0 || index >= slides.length) return;
+    current = index;
     slides[index].scrollIntoView({ behavior: 'smooth' });
+    updateNav(index);
   }
 
   function updateNav(index) {
@@ -580,21 +582,14 @@ body::after {
   // GSAP reveal animations
   gsap.registerPlugin(ScrollTrigger);
 
-  slides.forEach((slide, index) => {
+  // Per-slide paused timelines — played when a slide becomes active.
+  const slideTimelines = slides.map(slide => {
     const elements = slide.querySelectorAll('[data-gsap]');
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: slide,
-        start: 'top 55%',
-        end: 'bottom 45%',
-        onEnter: () => { updateNav(index); startCountdown(slide); },
-        onLeaveBack: () => stopCountdown(slide)
-      }
-    });
+    const tl = gsap.timeline({ paused: true });
 
     if (!elements.length) {
       tl.to(slide.querySelectorAll('.reveal-element'), { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' });
-      return;
+      return tl;
     }
 
     const groups = {};
@@ -629,7 +624,48 @@ body::after {
         }
       });
     });
+    return tl;
   });
+
+  function activateSlide(index) {
+    if (index === currentActive) return;
+    currentActive = index;
+    stopCountdown(slides[lastActive]);
+    lastActive = index;
+    const slide = slides[index];
+    const tl = slideTimelines[index];
+    if (tl) tl.restart(true);
+    startCountdown(slide);
+  }
+
+  let currentActive = -1;
+  let lastActive = 0;
+
+  // Detect scroll stop and activate whichever slide is closest to the top.
+  // This replaces scroll-snap / IntersectionObserver because smooth keyboard
+  // scrolling can leave multiple slides briefly visible mid-transition.
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const y = window.scrollY + window.innerHeight * 0.05;
+      let closest = 0;
+      for (let i = 0; i < slides.length; i++) {
+        if (Math.abs(slides[i].offsetTop - y) < Math.abs(slides[closest].offsetTop - y)) {
+          closest = i;
+        }
+      }
+      if (closest !== current) {
+        current = closest;
+        updateNav(closest);
+      }
+      activateSlide(closest);
+    }, 120);
+  }, { passive: true });
+
+  // Play the first slide immediately on load.
+  updateNav(0);
+  activateSlide(0);
 
   // Hero kinetic title animation on first load
   window.addEventListener('load', () => {

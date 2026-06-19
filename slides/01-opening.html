@@ -45,7 +45,7 @@
 }
 
 html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
   background: var(--bg);
@@ -258,7 +258,7 @@ body::after {
 .keyboard-hint { position: fixed; bottom: clamp(14px, 2.2vw, 26px); left: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem, 0.75vw, 0.65rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
 
 /* === REVEAL STATE === */
-.reveal-element { opacity: 0; transform: translateY(30px); }
+.reveal-element { opacity: 0; will-change: transform, opacity; }
 </style>
 </head>
 <body>
@@ -295,33 +295,7 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 3: Reposition Compare -->
-<section class="slide" id="slide-3">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">課程重新定位</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">先會 AI<br>再補工具</h2>
-    <div class="compare-grid reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="compare-card before">
-        <h4>原設計</h4>
-        <ul>
-          <li>先學一堆 terminal 指令</li>
-          <li>接著學 Git 與部署</li>
-          <li>下午才碰 AI 實作</li>
-        </ul>
-      </div>
-      <div class="compare-card after">
-        <h4>新設計</h4>
-        <ul>
-          <li>terminal 是叫 AI 的入口</li>
-          <li>不教 Git、不部署</li>
-          <li>上午就做出第一個網頁</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SLIDE 4: What AI Can Do -->
+<!-- SLIDE 3: What AI Can Do -->
 <section class="slide" id="slide-4">
   <div class="slide-content">
     <div class="layout-split">
@@ -443,13 +417,43 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 8: Setup Routes -->
-<section class="slide" id="slide-8">
+<!-- SLIDE 8: Install opencode -->
+<section class="slide" id="slide-8-install">
+  <div class="slide-content">
+    <div class="layout-split">
+      <div class="layout-left">
+        <p class="label reveal-element" data-gsap="fade-right">動手前導</p>
+        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">裝好 opencode<br>Windows 先 Mac 後</h2>
+        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">現場估計大家都還沒裝。Windows 需先裝 Node.js（到 nodejs.org 下載 LTS，雙擊 .msi 安裝後重開終端），再用 npm 裝 opencode。Mac 用官方一行腳本，免 Node。裝完輸入 opencode 啟動。</p>
+      </div>
+      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
+        <div class="terminal">
+          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+          <div class="comment"># Windows — PowerShell</div>
+          <div class="comment"># 1. 先裝 Node.js：到 nodejs.org 下載 LTS，雙擊 .msi</div>
+          <div class="comment">#    裝完重開 PowerShell，確認版本：</div>
+          <div><span class="prompt">PS&gt;</span> <span class="cmd">node -v</span></div>
+          <div class="comment"># 2. 裝 opencode</div>
+          <div><span class="prompt">PS&gt;</span> <span class="cmd">npm install -g opencode-ai</span></div>
+          <div class="comment"># 沒 Node 也可：scoop install opencode</div>
+          <div style="height:0.6em"></div>
+          <div class="comment"># Mac — Terminal（免 Node，官方一行裝好）</div>
+          <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://opencode.ai/install | bash</span></div>
+          <div class="comment"># 或 Homebrew</div>
+          <div><span class="prompt">$</span> <span class="cmd">brew install anomalyco/tap/opencode</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: Setup Routes -->
+<section class="slide" id="slide-9-routes">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">安裝與額度</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三條免費路線</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.18">不需要 API key、不需要信用卡。現場 30 分鐘緩衝會統一帶安裝。</p>
-    <div class="layout-thirds reveal-element" data-gsap="stagger-up" data-delay="0.25" style="margin-top: var(--content-gap);">
+    <p class="label reveal-element" data-gsap="fade-up">額度與登入</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">兩條免費路線</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.18">不需要 API key、不需要信用卡。裝好後挑一條登入就能用。</p>
+    <div class="layout-thirds reveal-element" data-gsap="stagger-up" data-delay="0.25" style="margin-top: var(--content-gap); grid-template-columns: repeat(2, 1fr); max-width: 880px;">
       <div class="card">
         <span class="num">A</span>
         <h4>內建免費模型</h4>
@@ -459,11 +463,6 @@ body::after {
         <span class="num">B</span>
         <h4>ChatGPT 帳號</h4>
         <p>登入後用訂閱額度，不另外扣費。</p>
-      </div>
-      <div class="card">
-        <span class="num">C</span>
-        <h4>GitHub Copilot</h4>
-        <p>用 GitHub 帳號登入，使用免費額度。</p>
       </div>
     </div>
   </div>
@@ -509,12 +508,12 @@ body::after {
 
 <!-- NAV -->
 <nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 10</div>
+<div class="slide-counter">1 / 11</div>
 <div class="keyboard-hint">↑ ↓ scroll</div>
 
 <script>
 (function(){
-  const slides = document.querySelectorAll('.slide');
+  const slides = [...document.querySelectorAll('.slide')];
   const nav = document.querySelector('.nav-dots');
   const counter = document.querySelector('.slide-counter');
   let current = 0;
@@ -529,7 +528,9 @@ body::after {
 
   function goTo(index) {
     if (index < 0 || index >= slides.length) return;
+    current = index;
     slides[index].scrollIntoView({ behavior: 'smooth' });
+    updateNav(index);
   }
 
   function updateNav(index) {
@@ -553,21 +554,14 @@ body::after {
   // GSAP reveal animations
   gsap.registerPlugin(ScrollTrigger);
 
-  slides.forEach((slide, index) => {
+  // Per-slide paused timelines — played when a slide becomes active.
+  const slideTimelines = slides.map(slide => {
     const elements = slide.querySelectorAll('[data-gsap]');
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: slide,
-        start: 'top 55%',
-        end: 'bottom 45%',
-        onEnter: () => { updateNav(index); startCountdown(slide); },
-        onLeaveBack: () => stopCountdown(slide)
-      }
-    });
+    const tl = gsap.timeline({ paused: true });
 
     if (!elements.length) {
       tl.to(slide.querySelectorAll('.reveal-element'), { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' });
-      return;
+      return tl;
     }
 
     const groups = {};
@@ -602,7 +596,48 @@ body::after {
         }
       });
     });
+    return tl;
   });
+
+  function activateSlide(index) {
+    if (index === currentActive) return;
+    currentActive = index;
+    stopCountdown(slides[lastActive]);
+    lastActive = index;
+    const slide = slides[index];
+    const tl = slideTimelines[index];
+    if (tl) tl.restart(true);
+    startCountdown(slide);
+  }
+
+  let currentActive = -1;
+  let lastActive = 0;
+
+  // Detect scroll stop and activate whichever slide is closest to the top.
+  // This replaces scroll-snap / IntersectionObserver because smooth keyboard
+  // scrolling can leave multiple slides briefly visible mid-transition.
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const y = window.scrollY + window.innerHeight * 0.05;
+      let closest = 0;
+      for (let i = 0; i < slides.length; i++) {
+        if (Math.abs(slides[i].offsetTop - y) < Math.abs(slides[closest].offsetTop - y)) {
+          closest = i;
+        }
+      }
+      if (closest !== current) {
+        current = closest;
+        updateNav(closest);
+      }
+      activateSlide(closest);
+    }, 120);
+  }, { passive: true });
+
+  // Play the first slide immediately on load.
+  updateNav(0);
+  activateSlide(0);
 
   // Hero kinetic title animation on first load
   window.addEventListener('load', () => {
