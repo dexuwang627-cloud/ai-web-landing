@@ -332,6 +332,37 @@ body::after {
   </div>
 </section>
 
+
+<!-- SLIDE 2b: What is opencode -->
+<section class="slide" id="slide-2b">
+  <div class="glow-orb ai" style="width:42vw;height:42vw;bottom:-16vw;right:-10vw;"></div>
+  <div class="slide-content layout-dashboard">
+    <p class="label reveal-element" data-gsap="fade-up">先認識工具</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">opencode 是 AI 動手助手</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(85vw, 720px);">不是要你背指令，而是讓你「說人話」就能指揮 AI 改本機檔案。啟動後會看到對話畫面，裡面可以直接打字、貼檔案、下指令。</p>
+    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.3">
+      <div class="dashboard-card fx-tilt" style="border-color: rgba(212,137,110,0.25);">
+        <div class="dash-icon" style="background:var(--accent-soft);color:var(--accent);">01</div>
+        <h4 class="dash-title">啟動</h4>
+        <p class="dash-desc">cd 進作品資料夾後輸入 <code>opencode</code>，進入 TUI 對話畫面。</p>
+      </div>
+      <div class="dashboard-card fx-tilt" style="border-color: rgba(166,143,201,0.25);">
+        <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
+        <h4 class="dash-title">對話</h4>
+        <p class="dash-desc">像聊天一樣說需求：「幫我把 index.html 改成名片頁」。</p>
+      </div>
+      <div class="dashboard-card fx-tilt" style="border-color: rgba(108,175,138,0.25);">
+        <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">03</div>
+        <h4 class="dash-title">執行</h4>
+        <p class="dash-desc">AI 會列出要做的修改，確認後自動寫入你的本機檔案。</p>
+      </div>
+    </div>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.45" style="margin-top: var(--content-gap);">
+      <span class="os-badge mac">Mac</span>
+      <span class="os-badge win">Windows</span>
+    </div>
+  </div>
+</section>
 <!-- SLIDE 3: Install + Enter Project Folder -->
 <section class="slide" id="slide-3">
   <div class="slide-content layout-code-focus">
@@ -349,7 +380,7 @@ body::after {
         <div class="typewriter-line" data-variant="command" data-text="npm install -g opencode-ai"><span class="prompt">$</span> <span class="cmd">npm install -g opencode-ai</span></div>
         <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
         <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-        <div class="comment typewriter-line" data-variant="result" data-text="# 進入對話畫面後，直接打字下指令"># 進入對話畫面後，直接打字下指令</div>
+        <div class="comment typewriter-line" data-variant="result" data-text="# 進入對話畫面後：/help 可看指令清單"># 進入對話畫面後：/help 可看指令清單</div>
       </div>
     </div>
   </div>
@@ -517,6 +548,47 @@ body::after {
   </div>
 </section>
 
+
+<!-- SLIDE 10b: opencode built-in help -->
+<section class="slide" id="slide-10b">
+  <div class="slide-content layout-dashboard">
+    <p class="label reveal-element" data-gsap="fade-up">新手教學</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">進去後不知道怎麼辦？</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(85vw, 720px);">opencode 內建幾個常用的 "/" 指令，不用背，隨時打 <code>/help</code> 就會跳出清單與快捷鍵。</p>
+    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.3">
+      <div class="dashboard-card fx-tilt">
+        <div class="dash-icon" style="background:var(--accent-soft);color:var(--accent);">?</div>
+        <h4 class="dash-title">/help</h4>
+        <p class="dash-desc">打開幫助視窗，列出所有可用指令與快捷鍵。</p>
+      </div>
+      <div class="dashboard-card fx-tilt">
+        <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">@</div>
+        <h4 class="dash-title">@檔案名稱</h4>
+        <p class="dash-desc">例如 <code>@index.html</code> 讓 AI 先讀目前檔案再回答。</p>
+      </div>
+      <div class="dashboard-card fx-tilt">
+        <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">↩</div>
+        <h4 class="dash-title">Ctrl + Enter</h4>
+        <p class="dash-desc">送出訊息；多行編輯時按 Enter 只是換行。</p>
+      </div>
+      <div class="dashboard-card fx-tilt">
+        <div class="dash-icon" style="background:rgba(255,255,255,0.08);color:var(--text);">/new</div>
+        <h4 class="dash-title">/new</h4>
+        <p class="dash-desc">開新對話，想換主題或清掉上下文時用。</p>
+      </div>
+      <div class="dashboard-card fx-tilt">
+        <div class="dash-icon" style="background:rgba(201,124,124,0.12);color:var(--bad);">/undo</div>
+        <h4 class="dash-title">/undo</h4>
+        <p class="dash-desc">AI 改壞了立刻還原，不用自己翻 git。</p>
+      </div>
+      <div class="dashboard-card fx-tilt">
+        <div class="dash-icon" style="background:rgba(255,255,255,0.08);color:var(--text);">/exit</div>
+        <h4 class="dash-title">/exit</h4>
+        <p class="dash-desc">離開 opencode，回到 terminal。</p>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- SLIDE 11: Revision Loop -->
 <section class="slide" id="slide-11">
   <div class="slide-content layout-flow">
