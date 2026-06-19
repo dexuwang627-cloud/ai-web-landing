@@ -1,0 +1,166 @@
+/* === CLI Course 共用視覺效果 === */
+/* 純 CSS + 少量 vanilla JS；JS 效果全部透過 class / data-effect 啟用。 */
+
+:root {
+  --fx-glow-color: rgba(212, 137, 110, 0.32);
+  --fx-glow-spread: 160px;
+  --fx-spotlight-color: rgba(255, 255, 255, 0.06);
+  --fx-progress-color: var(--accent, #d4896e);
+  --fx-progress-height: 3px;
+  --fx-float-distance: -18px;
+  --fx-float-duration: 8s;
+}
+
+/* --- 降級與無障礙 --- */
+.no-js .spotlight-layer,
+.no-js .hero-particles-canvas,
+.no-js .fx-scroll-progress {
+  display: none !important;
+}
+
+.no-js .fx-glow::before,
+.no-js [data-effect="glow"]::before {
+  opacity: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-glow, [data-effect="glow"],
+  .fx-magnetic, [data-effect="magnetic"],
+  .fx-spotlight, [data-effect="spotlight"],
+  .fx-tilt, [data-effect="tilt"],
+  .fx-scramble, [data-effect="scramble"],
+  .fx-hero-particles, [data-effect="hero-particles"],
+  .fx-float, [data-effect="float"],
+  .fx-scroll-progress, [data-effect="scroll-progress"] {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .spotlight-layer,
+  .hero-particles-canvas,
+  .fx-scroll-progress {
+    display: none !important;
+  }
+}
+
+/* --- Hover Glow（游標光暈） --- */
+.fx-glow,
+[data-effect="glow"] {
+  position: relative;
+  overflow: hidden;
+}
+
+.fx-glow::before,
+[data-effect="glow"]::before {
+  content: '';
+  position: absolute;
+  left: var(--glow-x, 50%);
+  top: var(--glow-y, 50%);
+  width: var(--fx-glow-spread);
+  height: var(--fx-glow-spread);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, var(--fx-glow-color) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.fx-glow:hover::before,
+[data-effect="glow"]:hover::before {
+  opacity: 1;
+}
+
+/* --- Magnetic Button（磁吸按鈕） --- */
+.fx-magnetic,
+[data-effect="magnetic"] {
+  display: inline-block;
+  transition: transform 0.18s ease-out;
+  will-change: transform;
+}
+
+.fx-magnetic:hover,
+[data-effect="magnetic"]:hover {
+  transform: scale(1.04);
+}
+
+/* --- Cursor Spotlight（游標聚光燈） --- */
+.fx-spotlight,
+[data-effect="spotlight"] {
+  position: relative;
+}
+
+.spotlight-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    circle 260px at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--fx-spotlight-color),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* --- 3D Tilt Card（3D 傾斜卡片） --- */
+.fx-tilt,
+[data-effect="tilt"] {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+/* --- Text Scramble Reveal（文字解碼） --- */
+.fx-scramble,
+[data-effect="scramble"] {
+  display: inline-block;
+  white-space: pre-wrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Floating Orbs（漂浮光球） --- */
+.fx-float,
+[data-effect="float"] {
+  animation: fx-float var(--fx-float-duration) ease-in-out infinite;
+}
+
+@keyframes fx-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(var(--fx-float-distance)); }
+}
+
+/* --- Hero Particle Trail（首屏粒子） --- */
+.fx-hero-particles,
+[data-effect="hero-particles"] {
+  position: relative;
+}
+
+.hero-particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* --- Scroll Progress Indicator（捲動進度條） --- */
+.fx-scroll-progress,
+[data-effect="scroll-progress"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--fx-progress-height);
+  background: linear-gradient(
+    90deg,
+    var(--fx-progress-color) calc(var(--progress, 0) * 100%),
+    transparent calc(var(--progress, 0) * 100%)
+  );
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.9;
+}
