@@ -44,7 +44,8 @@
 }
 
 html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+html { scroll-behavior: smooth; }
+body { scroll-snap-type: y mandatory; }
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
   background: var(--bg);
@@ -583,7 +584,7 @@ body::after {
   window.addEventListener('scroll', () => {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
-      const y = window.scrollY + window.innerHeight * 0.05;
+      const y = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight * 0.05;
       let closest = 0;
       for (let i = 0; i < slides.length; i++) {
         if (Math.abs(slides[i].offsetTop - y) < Math.abs(slides[closest].offsetTop - y)) {
@@ -605,12 +606,15 @@ body::after {
   // Hero kinetic title animation on first load
   window.addEventListener('load', () => {
     const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
-    if (heroLines.length) {
-      gsap.fromTo(heroLines,
-        { opacity: 0, y: 60, skewY: 3 },
-        { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
-      );
+    if (!heroLines.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroLines.forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+      return;
     }
+    gsap.fromTo(heroLines,
+      { opacity: 0, y: 60, skewY: 3 },
+      { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
+    );
   });
 
   // Countdown logic
