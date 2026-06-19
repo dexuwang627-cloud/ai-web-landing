@@ -432,8 +432,8 @@ body::after {
 <!-- SLIDE 6: Open Browser -->
 <section class="slide" id="slide-6">
   <div class="glow-orb ai" style="width:45vw;height:45vw;top:-15vw;left:-10vw;"></div>
-  <div class="slide-content layout-split reverse">
-    <div class="layout-right">
+  <div class="slide-content layout-split reverse" style="gap: clamp(2rem, 5vw, 4.5rem);">
+    <div class="layout-right" style="padding-left: clamp(0.5rem, 2vw, 1.5rem);">
       <p class="label reveal-element" data-gsap="fade-left">本機預覽</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-left" data-delay="0.1">打開瀏覽器驗收</h2>
       <p class="body-text reveal-element" data-gsap="fade-left" data-delay="0.2" style="text-align:left;max-width:100%;">AI 改完後，用一條指令叫瀏覽器開啟。之後每次請 AI 改版，只要按重新整理就能看到新畫面。</p>
@@ -442,8 +442,8 @@ body::after {
         <span class="os-badge win">Windows：Ctrl + R</span>
       </div>
     </div>
-    <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25">
-      <div class="terminal" data-typewriter="true">
+    <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25" style="display:flex; flex-direction:column; align-items:stretch;">
+      <div class="terminal" data-typewriter="true" style="max-width: min(100%, 520px);">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
         <div class="comment typewriter-line" data-variant="reveal" data-text="# Mac"># Mac</div>
         <div class="typewriter-line" data-variant="command" data-text="open index.html"><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
