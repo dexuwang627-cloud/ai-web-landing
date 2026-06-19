@@ -1,4 +1,5 @@
 /* === VIEWPORT === */
+*, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; overflow-x: hidden; margin: 0; padding: 0; }
 html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
 .slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }

@@ -87,6 +87,7 @@ body::after {
   justify-content: center; align-items: center;
   max-height: 100%; overflow: hidden;
   padding: var(--slide-padding);
+  width: 100%; box-sizing: border-box;
   position: relative; z-index: 2;
 }
 
@@ -140,6 +141,7 @@ body::after {
 .layout-split {
   display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap);
   width: 100%; max-width: min(96vw, 1240px); align-items: center;
+  margin: 0 auto;
 }
 .layout-split.reverse > *:first-child { order: 2; }
 .layout-split.reverse > *:last-child { order: 1; }

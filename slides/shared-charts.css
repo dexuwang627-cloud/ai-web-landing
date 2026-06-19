@@ -28,12 +28,12 @@
 /* --- Flow diagram --- */
 .flow-diagram { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(8px, 1.2vw, 16px); width: 100%; }
 .flow-diagram.vertical { flex-direction: column; gap: clamp(4px, 0.8vw, 10px); }
-.flow-diagram.horizontal { flex-direction: row; flex-wrap: nowrap; }
-.flow-diagram.horizontal .flow-node { flex: 0 1 auto; min-width: 0; max-width: min(24vw, 260px); }
+.flow-diagram.horizontal { flex-direction: row; flex-wrap: nowrap; align-items: stretch; }
+.flow-diagram.horizontal .flow-node { flex: 0 1 auto; min-width: 0; max-width: min(24vw, 260px); display: flex; flex-direction: column; justify-content: center; }
 .flow-diagram.compact .flow-node { padding: clamp(8px, 1.2vw, 14px) clamp(12px, 2vw, 20px); }
 .flow-diagram.compact .flow-node .node-title { font-size: clamp(0.85rem, 1.3vw, 1.15rem); }
 .flow-diagram.compact .flow-node .node-desc { font-size: clamp(0.72rem, 0.95vw, 0.9rem); }
-.flow-node { background: var(--card); border: 1px solid rgba(255,255,255,0.08); border-radius: clamp(10px, 1.2vw, 16px); padding: clamp(12px, 1.8vw, 22px) clamp(16px, 2.5vw, 28px); text-align: center; min-width: clamp(100px, 18vw, 220px); }
+.flow-node { background: var(--card); border: 1px solid rgba(255,255,255,0.08); border-radius: clamp(10px, 1.2vw, 16px); padding: clamp(12px, 1.8vw, 22px) clamp(16px, 2.5vw, 28px); text-align: center; min-width: clamp(100px, 18vw, 220px); display: flex; flex-direction: column; justify-content: center; }
 .flow-node .node-label { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.9rem); color: var(--accent); letter-spacing: 2px; margin-bottom: clamp(4px, 0.6vw, 8px); }
 .flow-node .node-title { font-family: 'Sora', sans-serif; font-size: clamp(0.9rem, 1.5vw, 1.25rem); font-weight: 700; margin: 0 0 4px; }
 .flow-node .node-desc { font-size: clamp(0.75rem, 1vw, 0.95rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
