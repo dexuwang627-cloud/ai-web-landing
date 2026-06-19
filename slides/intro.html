@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>講者介紹 — 王得旭</title>
+<title>課程介紹 — Terminal + AI 網頁實作入門</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-charts.css">
 <link rel="stylesheet" href="shared-effects.css">
@@ -211,6 +211,11 @@ body::after {
 .card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
 @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
 
+/* === OS BADGES === */
+.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+.os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
+.os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
+
 /* === FEATURE LIST === */
 .feature-list { display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); max-width: min(90vw, 920px); width: 100%; }
 .feature-item {
@@ -256,18 +261,6 @@ body::after {
 .step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
 .step-content p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
 
-/* === MICRO BREAK === */
-.countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
-.countdown-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-.countdown-ring circle.bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
-.countdown-ring circle.progress { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.1s linear; filter: drop-shadow(0 0 8px var(--accent-glow)); }
-.countdown-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 3.5vw, 3rem); color: var(--text); }
-
-/* === OS BADGES === */
-.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
-.os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
-.os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
-
 /* === DECORATIVE === */
 .glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
 .glow-orb.accent { background: var(--accent); opacity: 0.12; }
@@ -282,6 +275,7 @@ body::after {
 
 /* === REVEAL STATE === */
 .reveal-element { opacity: 0; will-change: transform, opacity; }
+.hidden { display: none !important; }
 .no-js .reveal-element { opacity: 1 !important; transform: none !important; }
 @media (prefers-reduced-motion: reduce) { .reveal-element { opacity: 1 !important; transform: none !important; } }
 @media (max-height: 700px) { .slide-content { overflow-y: auto; overscroll-behavior: contain; } }
@@ -304,6 +298,28 @@ body::after {
 .tech-grid { display: flex; flex-wrap: wrap; gap: clamp(8px, 1vw, 12px); justify-content: center; max-width: min(90vw, 800px); margin-top: var(--element-gap); }
 .tech-tag { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.65rem, 1vw, 0.85rem); padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--glass-border); color: var(--text-muted); letter-spacing: 0.5px; }
 .tech-tag.accent { background: var(--accent-soft); border-color: var(--accent-glow); color: var(--accent); }
+
+/* Course half-day timeline */
+.course-timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(10px, 1.5vw, 20px); width: 100%; max-width: min(94vw, 1100px); margin-top: var(--content-gap); }
+.timeline-node { background: var(--card); border: 1px solid var(--glass-border); border-radius: clamp(12px, 1.4vw, 18px); padding: clamp(16px, 2vw, 24px); text-align: center; position: relative; }
+.timeline-node::after { content: '→'; position: absolute; right: -18px; top: 50%; transform: translateY(-50%); color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 1.5vw, 1.4rem); }
+.timeline-node:last-child::after { display: none; }
+.timeline-node .time { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--accent); letter-spacing: 1px; margin-bottom: 8px; }
+.timeline-node .icon { font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-bottom: 10px; }
+.timeline-node .title { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 6px; }
+.timeline-node .desc { font-size: clamp(0.8rem, 1.1vw, 1rem); color: var(--text-muted); line-height: 1.5; margin: 0; }
+.timeline-node.accent { border-color: var(--accent-soft); background: rgba(212,137,110,0.08); }
+@media (max-width: 900px) {
+  .course-timeline { grid-template-columns: 1fr 1fr; }
+  .timeline-node::after { display: none; }
+}
+@media (max-width: 560px) { .course-timeline { grid-template-columns: 1fr; } }
+
+/* Live demo prompt card */
+.demo-prompt-card { background: var(--card); border: 1px solid var(--glass-border); border-radius: clamp(14px, 1.6vw, 22px); padding: clamp(20px, 2.6vw, 34px); max-width: min(88vw, 760px); width: 100%; margin-top: var(--content-gap); text-align: left; }
+.demo-prompt-card .scenario { font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.demo-prompt-card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 12px; }
+.demo-prompt-card .terminal { margin-top: 0; }
 
 /* PM Dashboard demo */
 .pm-kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
@@ -340,7 +356,7 @@ body::after {
 .quiz-score-fill { height: 100%; background: var(--good); border-radius: 3px; transition: width 0.8s ease; }
 .confetti-piece { position: fixed; width: 8px; height: 8px; pointer-events: none; z-index: 9999; }
 
-/* Trend Dashboard demo — Flight Instrument palette */
+/* Trend Dashboard demo */
 .trend-sentiment { background: rgba(0,214,143,0.05); border: 1px solid rgba(0,214,143,0.2); border-radius: 10px; padding: 14px 18px; box-shadow: 0 0 30px rgba(0,214,143,0.05); }
 .trend-sentiment-label { font-size: 11px; color: #9898a0; letter-spacing: 1px; text-transform: uppercase; }
 .trend-sentiment-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: #00d68f; margin-top: 4px; }
@@ -357,7 +373,7 @@ body::after {
 .trend-signals { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
 .trend-signal { font-size: 10px; padding: 3px 7px; border-radius: 4px; border: 1px solid rgba(0,214,143,0.25); background: rgba(0,214,143,0.08); color: #00d68f; }
 
-/* Korea Trip demo — journal palette */
+/* Korea Trip demo */
 .korea-stage { background: #FDF6EC; color: #3D3229; border-radius: 14px; padding: clamp(14px, 2vw, 24px); position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(61,50,41,0.12); }
 .korea-stage.dark { background: #231E18; color: #F0E5D0; }
 .korea-hero-img { width: 100%; max-width: 220px; border-radius: 12px; transform: rotate(-3deg); box-shadow: 4px 6px 14px rgba(61,50,41,0.15); margin-bottom: 12px; }
@@ -385,98 +401,7 @@ body::after {
 .bpk-route { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin: 0.5rem 0; }
 .bpk-route-line { flex: 1; height: 0; border-top: 1px dashed #D9CEBC; }
 
-.architecture-flow { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.2vw, 16px); flex-wrap: wrap; max-width: min(92vw, 880px); margin-top: var(--element-gap); }
-.arch-node { background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; padding: clamp(10px, 1.4vw, 16px); text-align: center; min-width: clamp(90px, 14vw, 140px); }
-.arch-node .icon { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 6px; }
-.arch-node .name { font-size: clamp(0.72rem, 1.1vw, 0.9rem); color: var(--text); font-weight: 500; }
-.arch-node .sub { font-size: clamp(0.6rem, 0.85vw, 0.75rem); color: var(--text-muted); margin-top: 2px; }
-.arch-arrow { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; }
-
-
-@keyframes confettiFall {
-  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-
-/* === KOREA MAP & IMPORT === */
-.korea-map-wrap {
-  width: min(64vw, 720px);
-  max-width: 100%;
-  margin-top: var(--element-gap);
-  max-height: calc(100% - 60px);
-  overflow: hidden;
-}
-.korea-map-wrap .korea-map-controls textarea { rows: 2; height: 3.2em; }
-.korea-map-wrap .korea-map-controls label { margin-bottom: 3px; }
-.korea-map-wrap .korea-map-controls { margin-top: 6px; }
-.korea-map-wrap #korea-import-btn { padding: 5px 12px; margin-top: 4px; }
-.korea-map {
-  width: 100%;
-  height: clamp(180px, 18vh, 240px);
-  border-radius: clamp(10px, 1.2vw, 18px);
-  border: 1px solid var(--glass-border);
-  background: #0c1016;
-  overflow: hidden;
-}
-.korea-map .leaflet-container { background: #0c1016; border-radius: inherit; }
-.leaflet-popup-content-wrapper {
-  background: #FFFDF7 !important;
-  color: #3D3229 !important;
-  font-family: 'Noto Sans TC', sans-serif;
-}
-.leaflet-popup-tip { background: #FFFDF7 !important; }
-.korea-map-controls { margin-top: 10px; text-align: left; }
-.korea-map-controls label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  display: block;
-  margin-bottom: 6px;
-}
-.korea-map-controls textarea {
-  width: 100%;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.75rem, 0.95vw, 0.85rem);
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--glass-border);
-  background: var(--surface);
-  color: var(--text);
-  resize: vertical;
-}
-.korea-map-controls button {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  margin-top: 8px;
-}
-.korea-map-controls button:hover { background: var(--accent-2); }
-.korea-import-msg { font-size: clamp(0.75rem, 1vw, 0.9rem); margin-left: 10px; }
-.korea-day-block {
-  margin-top: 8px;
-  padding: 10px 14px;
-  border-left: 3px solid #E8A870;
-  background: var(--card);
-  border-radius: 8px;
-  text-align: left;
-}
-.korea-day-block .day { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.75rem, 1vw, 0.9rem); color: #E8A870; letter-spacing: 1.5px; margin-bottom: 4px; }
-.korea-day-block .list { font-size: clamp(0.9rem, 1.3vw, 1.1rem); color: var(--text); }
-
-/* === KOREA FONT SCALE === */
-.korea-dot-label { font-size: clamp(0.72rem, 1.1vw, 0.95rem) !important; }
-.bpk-time { font-size: clamp(1.6rem, 2.8vw, 2.4rem) !important; }
-.bpk-code { font-size: clamp(0.75rem, 1vw, 0.95rem) !important; }
-.bpk-back p { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
-.korea-washi { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
-
-/* === QR CODE === */
+/* QR block */
 .qr-block {
   display: inline-flex;
   flex-direction: column;
@@ -503,14 +428,302 @@ body::after {
   text-align: center;
 }
 
+/* === KOREA FONT SCALE === */
+.korea-dot-label { font-size: clamp(0.72rem, 1.1vw, 0.95rem) !important; }
+.bpk-time { font-size: clamp(1.6rem, 2.8vw, 2.4rem) !important; }
+.bpk-code { font-size: clamp(0.75rem, 1vw, 0.95rem) !important; }
+.bpk-back p { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
+.korea-washi { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
 </style>
 
 <link rel="stylesheet" href="shared-nav.css">
 </head>
 <body>
 
-<!-- SLIDE 1 — 講者：名字 -->
-<section class="slide" id="slide-intro-name">
+<!-- SLIDE 1 — 課程封面 -->
+<section class="slide" id="slide-1">
+  <div class="glow-orb accent" style="width:46vw;height:46vw;top:-16vw;right:-10vw;"></div>
+  <div class="glow-orb ai" style="width:36vw;height:36vw;bottom:-14vw;left:-8vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">CLI COURSE</p>
+    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
+      Terminal + AI<br><span class="accent-text">網頁實作入門</span>
+    </h1>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.25" style="margin-top: var(--content-gap);">
+      8 小時，從打開終端機開始，到用 AI 做出一個能打開、能修改、能展示的個人網頁。
+    </p>
+    <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.4">
+      <div class="project-cover-card">
+        <div class="metric">8h</div>
+        <div class="metric-label">單日密集實作</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric">0→1</div>
+        <div class="metric-label">不需要程式基礎</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric">AI</div>
+        <div class="metric-label">把想法變成網頁</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- SLIDE 2 — 為什麼現場一起安裝 -->
+<section class="slide" id="slide-2">
+  <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-14vw;right:-10vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">PRE-CLASS SETUP</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">不用先準備，現場一起裝</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">明天的課會帶你從零開始安裝。即使電腦是全新的，也只要跟著步驟做就能完成。</p>
+    <div class="feature-list reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <div class="feature-item">
+        <div class="feature-icon">01</div>
+        <div class="feature-content">
+          <h4>現場一步一步帶</h4>
+          <p>講師會同步示範 Mac 與 Windows 的安裝流程，照著做即可。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">02</div>
+        <div class="feature-content">
+          <h4>不需要先裝任何軟體</h4>
+          <p>明天來之前不必預先下載，我們會在課堂上確認每個人都能使用。</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">03</div>
+        <div class="feature-content">
+          <h4>有問題隨時舉手</h4>
+          <p>如果指令跑不出來，我們會一起看畫面、找原因、解決它。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 3 — Mac 安裝路徑 -->
+<section class="slide" id="slide-3">
+  <div class="glow-orb accent" style="width:44vw;height:44vw;top:-12vw;left:-10vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up"><span class="os-badge mac">Mac</span> INSTALL</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">Mac：一行指令就裝好</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">官方一鍵安裝不需要 Homebrew 或 npm；macOS 已內建 curl 與 unzip，什麼都不用先裝。</p>
+    <div class="terminal reveal-element" data-gsap="fade-up" data-delay="0.35" style="max-width: min(92vw, 820px); text-align: left;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div style="white-space:pre-wrap;">curl -fsSL https://opencode.ai/install | bash</div>
+    </div>
+    <div class="step-list reveal-element" data-gsap="fade-up" data-delay="0.45" style="margin-top: var(--content-gap); text-align: left; max-width: min(92vw, 820px); gap: 10px;">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>偵測 Mac 晶片並下載</h4>
+          <p>自動判斷 Apple Silicon 或 Intel，從 GitHub Releases 下載對應的 zip。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>解壓並加入 PATH</h4>
+          <p>把 opencode 放到 <code>~/.opencode/bin/opencode</code>，並自動設定環境變數。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>驗證安裝</h4>
+          <p>在新終端機輸入 <code>opencode --version</code>，看到版本號即成功。</p>
+        </div>
+      </div>
+    </div>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.55" style="margin-top: var(--element-gap); margin-bottom: 6px;">
+      若已有 Homebrew，也可用 <code>brew install anomalyco/tap/opencode</code>；官方腳本會自動保持最新。如果自動安裝卡住，可手動下載對應 zip：
+    </p>
+    <div class="card-grid reveal-element" data-gsap="fade-up" data-delay="0.65" style="margin-top: 0; max-width: min(90vw, 860px);">
+      <div class="card" style="text-align:left; padding: 16px;">
+        <span class="os-badge mac">Apple Silicon</span>
+        <div class="terminal" style="margin-top:8px; font-size: clamp(0.7rem,1vw,0.85rem);">
+          https://github.com/anomalyco/opencode/releases/latest/download/opencode-darwin-arm64.zip
+        </div>
+      </div>
+      <div class="card" style="text-align:left; padding: 16px;">
+        <span class="os-badge mac">Intel</span>
+        <div class="terminal" style="margin-top:8px; font-size: clamp(0.7rem,1vw,0.85rem);">
+          https://github.com/anomalyco/opencode/releases/latest/download/opencode-darwin-x64.zip
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 4 — Windows 安裝路徑 -->
+<section class="slide" id="slide-4">
+  <div class="glow-orb ai" style="width:42vw;height:42vw;bottom:-14vw;right:-10vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up"><span class="os-badge win">Windows</span> INSTALL</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">Windows：推薦用 npm 安裝</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">課堂上最穩定的路徑是先裝 Node.js，再用 npm 全域安裝 opencode-ai。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="width:100%; max-width: min(90vw, 860px);">
+      <div class="toggle-switch" data-toggle>
+        <button type="button" data-toggle-for="npm" class="active">推薦：npm 安裝</button>
+        <button type="button" data-toggle-for="fallback">備用：手動 zip</button>
+      </div>
+      <div class="toggle-panels" style="margin-top: var(--element-gap);">
+        <div class="toggle-panel active" data-toggle-panel="npm">
+          <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.4">Node.js 是「讓 JavaScript 在你電腦上執行的環境」；npm 是「下載工具包的程式」，安裝 Node.js 時會自動附帶。我們先裝 Node.js，主要目的就是取得 npm。</p>
+          <div class="step-list" style="margin: var(--element-gap) auto 0; text-align: left;">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>下載 Node.js 安裝檔</h4>
+                <p>前往 <code>nodejs.org</code>，點擊綠色的 LTS 按鈕，下載 Windows 的 <code>.msi</code> 安裝檔。</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>執行安裝程式</h4>
+                <p>雙擊下載的安裝檔，一路按「下一步」，使用預設安裝路徑即可；npm 會自動一起裝好。</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>確認安裝成功</h4>
+                <p>開啟終端機（PowerShell 或 Git Bash），輸入以下指令，看到版本號就代表沒問題：</p>
+                <div class="terminal" style="text-align:left; margin-top: var(--element-gap);">
+                  <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+                  <div style="white-space:pre-wrap;">node -v
+npm -v</div>
+                </div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>安裝 opencode</h4>
+                <p>在終端機貼上這行指令，全域安裝 opencode-ai：</p>
+                <div class="terminal" style="text-align:left; margin-top: var(--element-gap);">
+                  <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+                  <div style="white-space:pre-wrap;">npm install -g opencode-ai</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="project-cover-desc" style="margin-top: var(--element-gap);">小提示：如果輸入 <code>npm</code> 後出現「不是可識別的命令」，請先關閉並重新開啟終端機再試一次。</p>
+        </div>
+        <div class="toggle-panel" data-toggle-panel="fallback">
+          <p class="project-cover-desc" style="text-align:center;">若 npm 無法使用，可改用官方壓縮檔：</p>
+          <div class="terminal" style="text-align:left; margin-top: var(--element-gap);">
+            <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+            <div style="white-space:pre-wrap;">https://github.com/anomalyco/opencode/releases/latest/download/opencode-windows-x64.zip</div>
+          </div>
+          <div class="step-list" style="margin: var(--element-gap) auto 0; text-align: left;">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content"><h4>下載並解壓縮</h4><p>下載 zip 後，把資料夾解壓到你想放的位置。</p></div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content"><h4>加入系統路徑 PATH</h4><p>把解壓後的資料夾路徑加入 PATH，之後就能在任何終端機直接使用 <code>opencode</code>。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 5 — 第一次登入與 API 金鑰 -->
+<section class="slide" id="slide-5">
+  <div class="glow-orb accent" style="width:42vw;height:42vw;top:-14vw;right:-10vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">FIRST RUN</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">第一次啟動：登入並加入 API 金鑰</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">裝好後第一次執行，需要讓 opencode 知道你是誰。跟著畫面提示做即可。</p>
+    <div class="step-list reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin: 0 auto;">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content"><h4>啟動登入</h4><p>在終端機輸入 <code>opencode</code>，然後在對話框內輸入 <code>/connect</code>，或執行 <code>opencode auth login</code>。</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content"><h4>開啟授權網頁</h4><p>畫面會顯示一組驗證碼與網址 <code>opencode.ai/auth</code>。用瀏覽器打開它。</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content"><h4>登入並綁定付款</h4><p>用 Google 或 GitHub 登入後，加入一張信用卡（可從最低額度開始）。</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content"><h4>貼上 API 金鑰</h4><p>網頁會產生一組金鑰，複製後貼回終端機，按 Enter 就完成了。</p></div>
+      </div>
+    </div>
+    <div class="feature-list reveal-element" data-gsap="fade-up" data-delay="0.55" style="margin-top: var(--content-gap);">
+      <div class="feature-item">
+        <div class="feature-icon">?</div>
+        <div class="feature-content">
+          <h4>卡住時試試看</h4>
+          <p>如果瀏覽器授權後終端機沒反應，先確認網路連線，然後重新輸入 <code>opencode auth login</code> 再走一次流程。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 6 — 確認安裝成功 -->
+<section class="slide" id="slide-6">
+  <div class="glow-orb ai" style="width:40vw;height:40vw;top:-12vw;left:-10vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">VERIFY</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">確認 opencode 可以正常運作</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">點擊下方項目標記完成。三道檢查都通過，就可以開始跟 AI 協作。</p>
+    <div class="terminal reveal-element" data-gsap="fade-up" data-delay="0.35" style="max-width: min(92vw, 820px); text-align: left;">
+      <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+      <div style="white-space:pre-wrap;"><span class="comment"># 檢查版本</span>
+opencode --version
+
+<span class="comment"># 進入練習資料夾</span>
+cd Desktop/my-page
+
+<span class="comment"># 啟動 opencode</span>
+opencode</div>
+    </div>
+    <div class="progress-tracker reveal-element" data-gsap="fade-up" data-delay="0.5" data-progress style="margin-top: var(--content-gap);">
+      <div class="progress-bar"><div class="progress-bar-fill"></div><div class="progress-label">0/3</div></div>
+      <div class="progress-items">
+        <div class="progress-item" data-progress-item>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>終端機顯示 opencode 版本號</span>
+        </div>
+        <div class="progress-item" data-progress-item>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>成功進入 Desktop/my-page 資料夾</span>
+        </div>
+        <div class="progress-item" data-progress-item>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>輸入 opencode 後出現對話提示</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — 講者介紹 -->
+<section class="slide" id="slide-7">
   <div class="glow-orb accent" style="width:42vw;height:42vw;top:-14vw;left:-10vw;"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
     <p class="label reveal-element" data-gsap="fade-up">ABOUT THE INSTRUCTOR</p>
@@ -521,7 +734,7 @@ body::after {
       自學程式 &nbsp;·&nbsp; 用 AI 做出真實產品
     </p>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35" style="max-width: min(80vw, 560px); text-align: center; line-height: 1.6; margin-top: var(--content-gap);">
-      下面是我用 AI 協作完成的幾個專案。每個都從真實需求出發，從前端畫面一路做到資料流與自動化。
+      今天會帶你用同樣的工作流程：先下指令、再叫 AI 幫忙、最後在本機預覽成果。下面幾個都是我用這個方式協作完成的專案。
     </p>
     <div class="qr-block reveal-element" data-gsap="fade-up" data-delay="0.5">
       <img src="assets/rogueverge-qr.png" alt="rogueverge.com QR Code">
@@ -531,40 +744,130 @@ body::after {
 </section>
 
 
-<!-- SLIDE 2 — PM Dashboard 封面 -->
-<section class="slide" id="slide-pm-cover">
-  <div class="glow-orb accent" style="width:44vw;height:44vw;top:-12vw;right:-8vw;"></div>
+<!-- SLIDE 8 — 今天會學什麼（互動主題展開） -->
+<section class="slide" id="slide-8">
+  <div class="glow-orb" style="width:40vw;height:40vw;bottom:-16vw;right:-10vw;background:radial-gradient(circle,rgba(166,143,201,0.10),transparent 70%);"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">PROJECT 01</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
-      <span style="color:var(--accent);">PM Dashboard</span>
-    </h2>
-    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
-      專案管理儀表板：把發票、收款、客戶資料、案場照片與任務進度統整在同一個介面。
-    </p>
-    <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
-      <div class="project-cover-card">
-        <div class="metric">雙後端</div>
-        <div class="metric-label">Next.js + FastAPI 分工</div>
+    <p class="label reveal-element" data-gsap="fade-up">TODAY'S MENU</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">點一下，看看每個主題會做什麼</h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">課程不教艱深的技術名詞，只教「怎麼把想法變成網頁」。點擊卡片展開可複製的 AI 提示詞。</p>
+    <div class="expander-group reveal-element" data-gsap="fade-up" data-delay="0.3" data-expander-group>
+      <div class="expander-card" data-expander>
+        <div class="expander-title">認識你的工具</div>
+        <div class="expander-summary">打開終端機，學會讓電腦聽你指揮的基本語言。</div>
+        <div class="expander-body">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin:0 0 8px;">現場示範時會用到的提示詞：</p>
+          <div class="expander-prompt" data-prompt="幫我在桌面上建立一個叫做 my-page 的資料夾，並在裡面產生一個 index.html，內容是一個簡單的個人名片網頁。">幫我在桌面上建立一個叫做 my-page 的資料夾，並在裡面產生一個 index.html，內容是一個簡單的個人名片網頁。</div>
+        </div>
       </div>
-      <div class="project-cover-card">
-        <div class="metric">財務流</div>
-        <div class="metric-label">發票 / 收款 / 稅報 / 記帳</div>
+      <div class="expander-card" data-expander>
+        <div class="expander-title">跟 AI 協作寫網頁</div>
+        <div class="expander-summary">用白話描述你想要的畫面，讓 AI 幫你產生第一版。</div>
+        <div class="expander-body">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin:0 0 8px;">現場示範時會用到的提示詞：</p>
+          <div class="expander-prompt" data-prompt="我想做一個個人名片網頁，放在我的電腦上預覽。請幫我產生一個 index.html，包含姓名、一句自我介紹、聯絡方式，風格簡潔專業。">我想做一個個人名片網頁，放在我的電腦上預覽。請幫我產生一個 index.html，包含姓名、一句自我介紹、聯絡方式，風格簡潔專業。</div>
+        </div>
       </div>
-      <div class="project-cover-card">
-        <div class="metric">案場照</div>
-        <div class="metric-label">照片上傳、Lightbox、 caption</div>
+      <div class="expander-card" data-expander>
+        <div class="expander-title">調整畫面與內容</div>
+        <div class="expander-summary">看懂網頁的基本結構，學會自己改顏色、文字和排版。</div>
+        <div class="expander-body">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin:0 0 8px;">現場示範時會用到的提示詞：</p>
+          <div class="expander-prompt" data-prompt="請幫我把這個網頁的背景改成深藍色，標題文字放大一點，並在下方加入一個可以放作品連結的區塊。">請幫我把這個網頁的背景改成深藍色，標題文字放大一點，並在下方加入一個可以放作品連結的區塊。</div>
+        </div>
+      </div>
+      <div class="expander-card" data-expander>
+        <div class="expander-title">在本機預覽與展示</div>
+        <div class="expander-summary">用瀏覽器打開自己做的網頁，並且知道如何繼續修改。</div>
+        <div class="expander-body">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin:0 0 8px;">現場示範時會用到的提示詞：</p>
+          <div class="expander-prompt" data-prompt="請給我一個最簡單的方法，讓我能在自己的電腦上用瀏覽器預覽這個 index.html，並說明修改後怎麼重新整理看到新結果。">請給我一個最簡單的方法，讓我能在自己的電腦上用瀏覽器預覽這個 index.html，並說明修改後怎麼重新整理看到新結果。</div>
+        </div>
+      </div>
+      <div class="expander-card" data-expander>
+        <div class="expander-title">下一步還能做什麼</div>
+        <div class="expander-summary">把你的頁面變成履歷、作品集、活動頁或小型產品。</div>
+        <div class="expander-body">
+          <p style="font-size:0.85rem;color:var(--text-muted);margin:0 0 8px;">課後可以繼續問 AI：</p>
+          <div class="expander-prompt" data-prompt="我想把這個個人名片擴展成作品集網站，請幫我規劃需要哪些頁面，並建議一個適合初學者逐步實作的順序。">我想把這個個人名片擴展成作品集網站，請幫我規劃需要哪些頁面，並建議一個適合初學者逐步實作的順序。</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- SLIDE 3 — PM Dashboard Demo -->
-<section class="slide" id="slide-pm-demo">
-  <div class="slide-content layout-center">
+<!-- SLIDE 9 — 半日流程時間軸 -->
+<section class="slide" id="slide-9">
+  <div class="glow-orb" style="width:44vw;height:44vw;top:-12vw;right:-8vw;background:radial-gradient(circle,rgba(212,137,110,0.10),transparent 65%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">SCHEDULE</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">一天的流程會怎麼走</h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">上午把環境準備好並產出第一版，下午專心調整細節，最後用自己的電腦展示成果。</p>
+    <div class="course-timeline reveal-element" data-gsap="fade-up" data-delay="0.3">
+      <div class="timeline-node">
+        <div class="time">09:00 — 10:30</div>
+        <div class="icon">01</div>
+        <div class="title">早上：認識工具</div>
+        <div class="desc">打開終端機、建立資料夾、了解 AI 協作的基本節奏。</div>
+      </div>
+      <div class="timeline-node accent">
+        <div class="time">10:30 — 12:00</div>
+        <div class="icon">02</div>
+        <div class="title">AI 產出初稿</div>
+        <div class="desc">用一句話描述需求，讓 AI 生出第一個能打開的網頁。</div>
+      </div>
+      <div class="timeline-node">
+        <div class="time">13:00 — 15:30</div>
+        <div class="icon">03</div>
+        <div class="title">下午：修改細節</div>
+        <div class="desc">換顏色、調文字、加區塊，一邊改一邊在本機預覽。</div>
+      </div>
+      <div class="timeline-node accent">
+        <div class="time">15:30 — 17:00</div>
+        <div class="icon">04</div>
+        <div class="title">本機展示與問答</div>
+        <div class="desc">每個人用自己的瀏覽器展示頁面，並討論後續方向。</div>
+      </div>
+    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="margin-top: var(--content-gap);">
+      中間會安排短休息。重點不是背指令，而是理解「我說 → AI 做 → 我檢查 → 我再說」的迴路。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 10 — 現場示範 Prompt -->
+<section class="slide" id="slide-10">
+  <div class="glow-orb" style="width:42vw;height:42vw;bottom:-16vw;left:-10vw;background:radial-gradient(circle,rgba(108,175,138,0.10),transparent 70%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
     <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">財務 KPI + 專案卡片</h2>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">現場會示範這個 Prompt</h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">把一個具體情境丟給 AI，它就能幫你產生可以馬上預覽的網頁。</p>
+    <div class="demo-prompt-card reveal-element" data-gsap="fade-up" data-delay="0.3" data-prompt="我想做一個個人名片網頁，放在我的電腦上預覽。請幫我產生一個 index.html，包含姓名、一句自我介紹、聯絡方式，風格簡潔專業。">
+      <div class="scenario">情境</div>
+      <h4>你想做一個個人名片頁，請 AI 幫你產生 index.html</h4>
+      <div class="terminal" style="margin-top:0;">
+        <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+        <div class="ai-prompt" style="white-space:pre-wrap;">我想做一個個人名片網頁，放在我的電腦上預覽。請幫我產生一個 index.html，包含姓名、一句自我介紹、聯絡方式，風格簡潔專業。</div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:12px;">點擊上方「複製」按鈕，可以直接帶到 AI 對話框貼上。</p>
+    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 620px); text-align: center; color: var(--text-muted); font-size: var(--small-size); margin-top: var(--element-gap);">
+      你不需要記住語法。只要學會描述「我是誰、這個頁面要給誰看、希望對方做什麼」，AI 就能幫你開頭。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 11 — PM Dashboard 範例 -->
+<section class="slide" id="slide-11">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">EXAMPLE 01</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">學會之後，可以做出這樣的儀表板</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.15" style="max-width: min(80vw, 620px); text-align: center; color: var(--text-muted); font-size: var(--small-size); margin-bottom: var(--element-gap);">
+      這是一個專案管理儀表板：把財務數字和進度放在同一個畫面，讓經理少開五個分頁。
+    </p>
     <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2">
       <div class="demo-stage-title">Financial Overview</div>
       <div class="pm-kpi-row">
@@ -601,49 +904,16 @@ body::after {
 </section>
 
 
-<!-- SLIDE 4 — PM Dashboard Tech Stack -->
-<section class="slide" id="slide-pm-tech">
-  <div class="glow-orb" style="width:38vw;height:38vw;bottom:-16vw;left:-10vw;background:radial-gradient(circle,rgba(108,175,138,0.10),transparent 70%);"></div>
-  <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">PM Dashboard 怎麼長出來的</h2>
-    <div class="architecture-flow reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="arch-node"><div class="icon">▣</div><div class="name">Next.js 16</div><div class="sub">App Router UI</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">⚡</div><div class="name">FastAPI</div><div class="sub">發票 / 財務 API</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">▦</div><div class="name">Supabase</div><div class="sub">專案 / 照片 DB</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">🐳</div><div class="name">Docker</div><div class="sub">一鍵啟動</div></div>
-    </div>
-    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <span class="tech-tag accent">React 19</span>
-      <span class="tech-tag">TypeScript</span>
-      <span class="tech-tag accent">Tailwind CSS v4</span>
-      <span class="tech-tag">shadcn/ui</span>
-      <span class="tech-tag">Radix UI</span>
-      <span class="tech-tag accent">date-fns</span>
-      <span class="tech-tag">WeasyPrint</span>
-      <span class="tech-tag">PyMuPDF</span>
-      <span class="tech-tag accent">LocalStorage Auth</span>
-    </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 680px); text-align: center; margin-top: var(--content-gap); color: var(--text-muted);">
-      一頁就能看到「這個案子的任務做到哪、款收到哪、現場照片長什麼樣」。這不是炫技，是為了讓專案經理少開五個 tab。
-    </p>
-  </div>
-</section>
-
-
-<!-- SLIDE 5 — iPAS Quiz 封面 -->
-<section class="slide" id="slide-ipas-cover">
+<!-- SLIDE 12 — iPAS Quiz 封面 -->
+<section class="slide" id="slide-12">
   <div class="glow-orb" style="width:46vw;height:46vw;top:-14vw;left:-12vw;background:radial-gradient(circle,rgba(166,143,201,0.12),transparent 65%);"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">PROJECT 02</p>
+    <p class="label reveal-element" data-gsap="fade-up">EXAMPLE 02</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
       <span style="color:var(--ai);">iPAS Quiz</span>
     </h2>
     <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
-      淨零碳規劃管理師模擬測驗平台：17,000+ 題、多種題型、計時考試、數據儀表板、訂閱付款。
+      淨零碳規劃管理師模擬測驗平台：大量題目、計時考試、成績分析、訂閱付款。
     </p>
     <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
       <div class="project-cover-card">
@@ -652,19 +922,19 @@ body::after {
       </div>
       <div class="project-cover-card">
         <div class="metric">4 種</div>
-        <div class="metric-label">題型（單選 / 複選 / 是非 / 情境）</div>
+        <div class="metric-label">不同題型</div>
       </div>
       <div class="project-cover-card">
         <div class="metric">$599</div>
-        <div class="metric-label">起跳訂閱（ECPay）</div>
+        <div class="metric-label">起跳訂閱</div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- SLIDE 6 — iPAS Quiz Demo -->
-<section class="slide" id="slide-ipas-demo">
+<!-- SLIDE 13 — iPAS Quiz Demo -->
+<section class="slide" id="slide-13">
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">作答互動 + 成績卡</h2>
@@ -703,76 +973,43 @@ body::after {
       </div>
     </div>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35" style="max-width: min(80vw, 600px); text-align: center; color: var(--text-muted); font-size: var(--small-size);">
-      點選選項後會立即顯示對錯；交卷後出現分數卡 + confetti。實際產品還有錯題本、弱點分析與排行榜。
+      點選選項後會立即顯示對錯；交卷後出現分數卡。這類互動頁面也是從一個簡單的 HTML 開始長大的。
     </p>
   </div>
 </section>
 
 
-<!-- SLIDE 7 — iPAS Quiz Tech Stack -->
-<section class="slide" id="slide-ipas-tech">
-  <div class="glow-orb" style="width:40vw;height:40vw;bottom:-14vw;right:-10vw;background:radial-gradient(circle,rgba(166,143,201,0.10),transparent 70%);"></div>
-  <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">iPAS Quiz 的備考迴路</h2>
-    <div class="architecture-flow reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="arch-node"><div class="icon">📝</div><div class="name">練習</div><div class="sub">章節 / 難度篩選</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">📊</div><div class="name">分析</div><div class="sub">弱點長條圖 + 雷達</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">🔁</div><div class="name">複習</div><div class="sub">錯題本 + 間隔複習</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">💳</div><div class="name">訂閱</div><div class="sub">ECPay 升級 Pro</div></div>
-    </div>
-    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <span class="tech-tag accent">Python 3.12</span>
-      <span class="tech-tag">FastAPI</span>
-      <span class="tech-tag accent">Supabase Auth</span>
-      <span class="tech-tag">Google OAuth</span>
-      <span class="tech-tag">Vanilla JS</span>
-      <span class="tech-tag accent">Chart.js</span>
-      <span class="tech-tag">Canvas 雷達圖</span>
-      <span class="tech-tag accent">ECPay 綠界</span>
-      <span class="tech-tag">Docker 512MB</span>
-    </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 680px); text-align: center; margin-top: var(--content-gap); color: var(--text-muted);">
-      所有前端都是原生 HTML/CSS/JS：沒有框架包袱，載入快、跑在便宜的 Docker 機器上。AI 負責批量產題與解析增強。
-    </p>
-  </div>
-</section>
-
-
-<!-- SLIDE 8 — Trend Dashboard 封面 -->
-<section class="slide" id="slide-trend-cover">
+<!-- SLIDE 14 — Trend Dashboard 封面 -->
+<section class="slide" id="slide-14">
   <div class="glow-orb" style="width:44vw;height:44vw;top:-12vw;right:-8vw;background:radial-gradient(circle,rgba(74,158,255,0.10),transparent 65%);"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">PROJECT 03</p>
+    <p class="label reveal-element" data-gsap="fade-up">EXAMPLE 03</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
       <span style="color:#4A9EFF;">Trend Dashboard</span>
     </h2>
     <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
-      投資趨勢儀表板：每日自動收集台股與國際數據，經 Agent 篩選後推送至前端與 Discord。
+      投資趨勢儀表板：每日自動收集台股與國際數據，經 AI 篩選後推送至前端與 Discord。
     </p>
     <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
       <div class="project-cover-card">
-        <div class="metric" style="color:#4A9EFF;">CAN SLIM</div>
-        <div class="metric-label">多層 funnel 選股</div>
+        <div class="metric" style="color:#4A9EFF;">自動</div>
+        <div class="metric-label">每天收資料</div>
       </div>
       <div class="project-cover-card">
-        <div class="metric" style="color:#4A9EFF;">統合圖表</div>
-        <div class="metric-label">價量 + 基本面 + 籌碼疊加</div>
+        <div class="metric" style="color:#4A9EFF;">圖表</div>
+        <div class="metric-label">價量 + 基本面</div>
       </div>
       <div class="project-cover-card">
         <div class="metric" style="color:#4A9EFF;">推播</div>
-        <div class="metric-label">每日 Discord digest</div>
+        <div class="metric-label">每日 digest</div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- SLIDE 9 — Trend Dashboard Demo -->
-<section class="slide" id="slide-trend-demo">
+<!-- SLIDE 15 — Trend Dashboard Demo -->
+<section class="slide" id="slide-15">
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">情緒卡 + 指數 + 選股漏斗</h2>
@@ -806,7 +1043,7 @@ body::after {
       <div class="demo-stage-title" style="margin-top:16px;">Breakout Funnel</div>
       <div class="trend-funnel">
         <div class="trend-funnel-step" style="max-width:100%;"><span>多頭格局</span></div>
-        <div class="trend-funnel-step" style="max-width:84%;"><span>RS≥70</span></div>
+        <div class="trend-funnel-step" style="max-width:84%;"><span>強勢股</span></div>
         <div class="trend-funnel-step" style="max-width:68%;"><span>突破</span></div>
         <div class="trend-funnel-step" style="max-width:52%;"><span>量增</span></div>
         <div class="trend-funnel-step" style="max-width:36%;"><span>法人確認</span></div>
@@ -814,64 +1051,29 @@ body::after {
       <div class="trend-signals">
         <span class="trend-signal">外投共買</span>
         <span class="trend-signal">杯柄</span>
-        <span class="trend-signal">C A N S L I M</span>
-        <span class="trend-signal">Conviction 82</span>
+        <span class="trend-signal">趨勢確認</span>
+        <span class="trend-signal">信心指數 82</span>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- SLIDE 10 — Trend Dashboard Tech Stack -->
-<section class="slide" id="slide-trend-tech">
-  <div class="glow-orb" style="width:40vw;height:40vw;bottom:-16vw;left:-10vw;background:radial-gradient(circle,rgba(74,158,255,0.10),transparent 70%);"></div>
-  <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">從資料到推播的全自動 pipeline</h2>
-    <div class="architecture-flow reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="arch-node"><div class="icon">📡</div><div class="name">Data Sources</div><div class="sub">TWSE / yfinance / RSS</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">🤖</div><div class="name">Python Agent</div><div class="sub">每日 cron + Claude API</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">▦</div><div class="name">Supabase</div><div class="sub">Postgres 資料庫</div></div>
-      <span class="arch-arrow">→</span>
-      <div class="arch-node"><div class="icon">▣</div><div class="name">Next.js + FastAPI</div><div class="sub">Dashboard / API</div></div>
-      <span class="arch-arrow">↘</span>
-      <div class="arch-node"><div class="icon">💬</div><div class="name">Discord hermes</div><div class="sub">HMAC webhook</div></div>
-    </div>
-    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <span class="tech-tag accent">Next.js 15</span>
-      <span class="tech-tag">React 19</span>
-      <span class="tech-tag accent">ECharts 6</span>
-      <span class="tech-tag">Recharts</span>
-      <span class="tech-tag">FastAPI</span>
-      <span class="tech-tag accent">Supabase Postgres</span>
-      <span class="tech-tag">Claude API</span>
-      <span class="tech-tag accent">Hermes Webhook</span>
-      <span class="tech-tag">Docker Compose</span>
-    </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 680px); text-align: center; margin-top: var(--content-gap); color: var(--text-muted);">
-      從「收盤後抓資料」到「產生摘要」「畫出圖表」「推到 Discord」，整條路無需人工。設計語言叫 Flight Instrument：黑色表面、單一強調色、每個像素都要攜帶資訊。
-    </p>
-  </div>
-</section>
-
-
-<!-- SLIDE 11 — Korea Trip 封面 -->
-<section class="slide" id="slide-korea-cover">
+<!-- SLIDE 16 — Korea Trip 封面 -->
+<section class="slide" id="slide-16">
   <div class="glow-orb" style="width:48vw;height:48vw;top:-14vw;left:-10vw;background:radial-gradient(circle,rgba(232,168,112,0.12),transparent 65%);"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">PROJECT 04</p>
+    <p class="label reveal-element" data-gsap="fade-up">EXAMPLE 04</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
       <span style="color:#E8A870;">Korea Trip 2026</span>
     </h2>
     <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
-      2026 韓國旅遊行程規劃網站：手帳風格、PWA 離線可用、多人即時協作日記。
+      2026 韓國旅遊行程規劃網站：手帳風格、離線可用、多人協作日記。
     </p>
     <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
       <div class="project-cover-card">
         <div class="metric" style="color:#E8A870;">手帳風</div>
-        <div class="metric-label">和紙膠帶 / 便利貼 / 拍立得</div>
+        <div class="metric-label">和紙膠帶 / 便利貼</div>
       </div>
       <div class="project-cover-card">
         <div class="metric" style="color:#E8A870;">D9</div>
@@ -879,25 +1081,25 @@ body::after {
       </div>
       <div class="project-cover-card">
         <div class="metric" style="color:#E8A870;">PWA</div>
-        <div class="metric-label">離線地圖 + 主畫面安裝</div>
+        <div class="metric-label">離線也能看行程</div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- SLIDE 12 — Korea Trip Demo -->
-<section class="slide" id="slide-korea-demo">
+<!-- SLIDE 17 — Korea Trip Demo -->
+<section class="slide" id="slide-17">
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">登機牌 + 9 天時間軸</h2>
     <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(88vw, 720px); background: #FDF6EC; border-color: #E8D5B7; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: center;">
-      
+
       <div class="boarding-pass-korea" id="bp-demo" onclick="this.classList.toggle('flipped')">
         <div class="boarding-pass-korea-inner">
           <div class="bpk-front">
             <div class="bpk-header">
-              <span>✈ LJ752 · 真航空</span>
+              <span>LJ752 · 真航空</span>
               <span style="font-weight:600;">6/27 (六)</span>
             </div>
             <div class="bpk-body">
@@ -905,7 +1107,7 @@ body::after {
                 <div><div class="bpk-time">02:40</div><div class="bpk-code">TPE · T1</div></div>
                 <div class="bpk-route">
                   <div class="bpk-route-line"></div>
-                  <span style="color:#7A6B5D;">✈</span>
+                  <span style="color:#7A6B5D;">→</span>
                   <div class="bpk-route-line"></div>
                 </div>
                 <div><div class="bpk-time">06:15</div><div class="bpk-code">PUS · I</div></div>
@@ -947,57 +1149,59 @@ body::after {
 </section>
 
 
-<!-- SLIDE 13 — Korea Trip Tech Stack -->
-<section class="slide" id="slide-korea-tech">
+<!-- SLIDE 18 — 準備清單 -->
+<section class="slide" id="slide-18">
   <div class="glow-orb" style="width:42vw;height:42vw;bottom:-14vw;right:-10vw;background:radial-gradient(circle,rgba(232,168,112,0.10),transparent 70%);"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">Korea Trip：手帳風格的 PWA</h2>
-    <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(84vw, 520px); background: transparent; border: none; box-shadow: none; display: flex; justify-content: center;">
-      <img src="assets/korea-hero.png" alt="Korea Trip 封面" class="korea-hero-img reveal-element" data-gsap="scale-in" data-delay="0.1" style="max-width: min(45vw, 240px);">
-    </div>
-    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <span class="tech-tag accent">Vite</span>
-      <span class="tech-tag">原生 ES Modules</span>
-      <span class="tech-tag accent">Tailwind CSS v4</span>
-      <span class="tech-tag">Leaflet 地圖</span>
-      <span class="tech-tag">CartoDB Voyager</span>
-      <span class="tech-tag accent">EventSource 同步</span>
-      <span class="tech-tag">IndexedDB 離線佇列</span>
-      <span class="tech-tag accent">vite-plugin-pwa</span>
-      <span class="tech-tag">Docker + nginx</span>
-    </div>
-    
-    <div class="korea-map-wrap reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div id="korea-map" class="korea-map"></div>
-      <div class="korea-map-controls">
-        <label for="korea-csv">匯入行程 CSV（格式：Day,名稱,lat,lng）</label>
-        <textarea id="korea-csv" rows="3" placeholder="Day3,南山塔,37.551,126.988&#10;Day4,北村韓屋,37.582,126.985"></textarea>
-        <div style="display:flex; align-items:center; margin-top:6px;">
-          <button id="korea-import-btn" type="button">匯入並標記</button>
-          <span id="korea-import-msg" class="korea-import-msg"></span>
+    <p class="label reveal-element" data-gsap="fade-up">CHECKLIST</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">來上課前，只需要準備這些</h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">點擊項目標記完成，看看今天出門前還缺什麼。</p>
+    <div class="progress-tracker reveal-element" data-gsap="fade-up" data-delay="0.3" data-progress>
+      <div class="progress-bar"><div class="progress-bar-fill"></div><div class="progress-label">0/4</div></div>
+      <div class="progress-items">
+        <div class="progress-item" data-progress-item>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>一台筆電（Mac 或 Windows 都可以）</span>
+        </div>
+        <div class="progress-item" data-progress-item>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>穩定的網路連線</span>
+        </div>
+        <div class="progress-item" data-progress-item>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Chrome、Edge 或 Safari 瀏覽器</span>
+        </div>
+        <div class="progress-item" data-progress-item>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>一個想做的主題（名片 / 作品集 / 活動頁）</span>
         </div>
       </div>
-      <div id="korea-day-blocks"></div>
     </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(70vw, 560px); text-align: center; margin-top: var(--element-gap); margin-bottom: 0; padding-bottom: 4px; color: var(--text-muted);">
-      整站沒有 React，全部用字串模板動態產生。CSS 模擬紙張紋理、和紙膠帶、便利貼折角。PWA 讓手機在韓國街頭離線也能看地圖與行程；CSV 行程可即時標到地圖上。
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 620px); text-align: center; color: var(--text-muted); font-size: var(--small-size); margin-top: var(--content-gap);">
+      不需要先安裝任何軟體。課程會帶你一步步準備好開發環境。
     </p>
   </div>
 </section>
 
 
-<!-- SLIDE 14 — 結尾 -->
-<section class="slide" id="slide-intro-why">
+<!-- SLIDE 19 — 結尾 -->
+<section class="slide" id="slide-19">
   <div class="glow-orb accent" style="width:48vw;height:48vw;top:-18vw;right:-14vw;"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up">TODAY</p>
+    <p class="label reveal-element" data-gsap="fade-up">READY?</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="max-width:min(85vw,680px); line-height:1.25; text-align:center;">
       把我學到的，<br>用最直接的方式帶給你
     </h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.25" style="max-width: min(80vw, 620px); text-align: center; color: var(--text-muted); margin-top: var(--content-gap);">
-      這些專案都不是「練習題」，而是真實有人會用的產品。今天這堂課，我會把同樣的工作流程拆給你看：從 Terminal 下指令、到叫 AI 幫你改出一個能打開的網頁。
+      今天結束時，你會帶走一個真正能打開、能修改、能展示給別人看的網頁。不需要記住所有指令，只需要記住「怎麼跟 AI 一起把事情做出來」。
     </p>
+    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.4">
+      <span class="tech-tag accent">Terminal</span>
+      <span class="tech-tag">AI 協作</span>
+      <span class="tech-tag accent">HTML</span>
+      <span class="tech-tag">CSS</span>
+      <span class="tech-tag accent">本機預覽</span>
+    </div>
   </div>
 </section>
 
@@ -1066,7 +1270,7 @@ document.addEventListener('click', e => {
         const idx = slides.indexOf(en.target);
         if (idx !== active) {
           active = idx;
-          if (en.target.id === 'slide-pm-demo') animatePmBars(en.target);
+          if (en.target.id === 'slide-11') animatePmBars(en.target);
         }
       }
     });
@@ -1074,125 +1278,10 @@ document.addEventListener('click', e => {
   slides.forEach(s => obs.observe(s));
 })();
 
-/* ===== Korea Trip interactive map ===== */
-(function () {
-  let map = null;
-  let markers = [];
-
-  function initMap() {
-    if (map || !window.L) return;
-    const el = document.getElementById('korea-map');
-    if (!el) return;
-    map = L.map(el, { zoomControl: true, scrollWheelZoom: false })
-          .setView([37.5665, 126.9780], 11);
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: 'abcd',
-      maxZoom: 19
-    }).addTo(map);
-
-    const defaults = [
-      { name: '仁川機場', lat: 37.469, lng: 126.451, day: 'Day1' },
-      { name: '首爾車站', lat: 37.556, lng: 126.972, day: 'Day1' },
-      { name: '景福宮',   lat: 37.579, lng: 126.977, day: 'Day2' },
-      { name: '弘大',     lat: 37.556, lng: 126.923, day: 'Day2' }
-    ];
-    defaults.forEach(p => addMarker(p));
-  }
-
-  function addMarker(p) {
-    if (!map) return;
-    const m = L.marker([p.lat, p.lng]).addTo(map)
-      .bindPopup(`<b>${p.name}</b><br><span style="color:#7A6B5D;">${p.day}</span>`);
-    markers.push(m);
-    return m;
-  }
-
-  function parseCsv(text) {
-    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-    const parsed = [];
-    const errors = [];
-    lines.forEach((line, i) => {
-      const parts = line.split(',').map(s => s.trim());
-      if (parts.length !== 4) { errors.push(`第 ${i + 1} 行：需 4 個欄位`); return; }
-      const [day, name, lat, lng] = parts;
-      const latN = parseFloat(lat), lngN = parseFloat(lng);
-      if (!day || !name || Number.isNaN(latN) || Number.isNaN(lngN)) {
-        errors.push(`第 ${i + 1} 行：請使用 Day,名稱,lat,lng 格式`); return;
-      }
-      parsed.push({ day, name, lat: latN, lng: lngN });
-    });
-    return { parsed, errors };
-  }
-
-  function appendDayBlocks(items) {
-    const wrap = document.getElementById('korea-day-blocks');
-    if (!wrap) return;
-    const order = [];
-    const groups = {};
-    items.forEach(it => {
-      if (!groups[it.day]) { groups[it.day] = []; order.push(it.day); }
-      groups[it.day].push(it);
-    });
-    order.forEach(day => {
-      const block = document.createElement('div');
-      block.className = 'korea-day-block';
-      block.innerHTML = `
-        <div class="day">${day}</div>
-        <div class="list">${groups[day].map(g => `${g.name} (${g.lat.toFixed(3)}, ${g.lng.toFixed(3)})`).join(' · ')}</div>
-      `;
-      wrap.appendChild(block);
-    });
-  }
-
-  function handleImport() {
-    const ta = document.getElementById('korea-csv');
-    const msg = document.getElementById('korea-import-msg');
-    const { parsed, errors } = parseCsv(ta.value);
-    if (!parsed.length) {
-      msg.style.color = '#c97c7c';
-      msg.textContent = errors[0] || '請使用 Day,名稱,lat,lng 格式';
-      return;
-    }
-    initMap();
-    parsed.forEach(addMarker);
-    appendDayBlocks(parsed);
-    msg.style.color = '#6caf8a';
-    msg.textContent = `已加入 ${parsed.length} 個地標${errors.length ? `（${errors.length} 行略過）` : ''}`;
-  }
-
-  // Lazy init: when slide-korea-tech enters viewport
-  const koreaSlide = document.getElementById('slide-korea-tech');
-  if (koreaSlide && window.IntersectionObserver) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(en => {
-        if (en.isIntersecting) {
-          initMap();
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.25 });
-    io.observe(koreaSlide);
-  } else {
-    // fallback: init on load
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initMap);
-    } else {
-      initMap();
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('korea-import-btn');
-    if (btn) btn.addEventListener('click', handleImport);
-  });
-})();
-
 </script>
 <!-- NAV -->
 <nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 14</div>
+<div class="slide-counter">1 / 19</div>
 <div class="keyboard-hint">↑ ↓ scroll</div>
 
 <script>
@@ -1299,8 +1388,6 @@ document.addEventListener('click', e => {
   const countdowns = new Map();
 
   // Detect scroll stop and activate whichever slide is closest to the top.
-  // This replaces scroll-snap / IntersectionObserver because smooth keyboard
-  // scrolling can leave multiple slides briefly visible mid-transition.
   let scrollTimeout;
   const onScroll = () => {
     clearTimeout(scrollTimeout);
