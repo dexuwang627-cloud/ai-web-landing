@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNIT 2 — 用 opencode 做出第一個本機 HTML</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-charts.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -37,7 +37,9 @@
   --accent-glow: rgba(212, 137, 110, 0.22);
 
   --bad: #c97c7c;
+  --bad-soft: rgba(201, 124, 124, 0.12);
   --good: #6caf8a;
+  --good-soft: rgba(108, 175, 138, 0.12);
   --ai: #a68fc9;
   --ai-soft: rgba(166, 143, 201, 0.12);
 
@@ -174,6 +176,7 @@ body::after {
 .terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
 .terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
 .terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+.terminal .ai-prompt { color: var(--ai); }
 
 /* === CARDS === */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
@@ -204,6 +207,7 @@ body::after {
   border-radius: 12px; background: var(--accent-soft);
   font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
 }
+.feature-icon.ai { background: var(--ai-soft); color: var(--ai); }
 .feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
 .feature-item p { font-size: clamp(0.85rem, 1.15vw, 1rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
 
@@ -232,6 +236,7 @@ body::after {
   font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
   box-shadow: 0 0 24px var(--accent-glow);
 }
+.step-num.ai { background: var(--ai-soft); color: var(--ai); box-shadow: 0 0 24px rgba(166,143,201,0.18); }
 .step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
 .step-content p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
 
@@ -288,34 +293,48 @@ body::after {
 <!-- SLIDE 2: HTML Concept -->
 <section class="slide" id="slide-2">
   <div class="glow-orb ai" style="width:55vw;height:55vw;bottom:-18vw;left:-12vw;"></div>
-  <div class="slide-content layout-full-bleed">
-    <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
-      <p class="label reveal-element" data-gsap="fade-up">先理解</p>
-      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
-        網頁就是<br>
-        <span style="color: var(--accent);">一份文字檔</span>
-      </h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">HTML 不是程式，是瀏覽器看得懂的文字。今天的成品 index.html 會一直在你的 my-page 資料夾裡。</p>
+  <div class="slide-content layout-infographic">
+    <p class="label reveal-element" data-gsap="fade-up">先理解</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">網頁就是一份文字檔</h2>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">Step 1</p>
+        <p class="node-title">你寫 index.html</p>
+        <p class="node-desc">純文字檔，瀏覽器看得懂</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">Step 2</p>
+        <p class="node-title">瀏覽器打開</p>
+        <p class="node-desc">把文字檔解析成畫面</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">Step 3</p>
+        <p class="node-title">看到畫面</p>
+        <p class="node-desc">這就是你的網頁作品</p>
+      </div>
     </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35">HTML 不是程式，是瀏覽器看得懂的文字。今天的成品 index.html 會一直在你的 my-page 資料夾裡。</p>
   </div>
 </section>
 
 <!-- SLIDE 3: Enter Project Folder -->
 <section class="slide" id="slide-3">
-  <div class="slide-content">
-    <div class="layout-split reverse">
-      <div class="layout-right">
-        <p class="label reveal-element" data-gsap="fade-left">啟動對話</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-left" data-delay="0.1">進資料夾啟動</h2>
-        <p class="body-text reveal-element" data-gsap="fade-left" data-delay="0.2" style="text-align:left;max-width:100%;">先確認自己進到 Desktop/my-page，再打開 opencode 進入對話模式。這裡就是 AI 工作的位置。</p>
-      </div>
-      <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-          <div class="comment"># 進入對話畫面後，直接打字</div>
-        </div>
+  <div class="slide-content layout-code-focus">
+    <p class="label reveal-element" data-gsap="fade-up">啟動對話</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">進資料夾啟動 opencode</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">先確認自己進到 Desktop/my-page，再打開 opencode 進入對話模式。這裡就是 AI 工作的位置。</p>
+    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <div class="terminal">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+        <div class="comment"># 進入對話畫面後，直接打字</div>
       </div>
     </div>
   </div>
@@ -323,23 +342,22 @@ body::after {
 
 <!-- SLIDE 4: Make Folder -->
 <section class="slide" id="slide-4">
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">手動驗證</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">建出作品資料夾</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">用 mkdir 建資料夾、cd 進去、touch 建空檔案。目的不是背指令，是讓你知道作品放在哪裡。</p>
+  <div class="slide-content layout-flow">
+    <p class="label reveal-element" data-gsap="fade-up">手動驗證</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">建出作品資料夾</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">用 mkdir 建資料夾、cd 進去、touch 建空檔案。目的不是背指令，是讓你知道作品放在哪裡。</p>
+    <div class="tree-diagram reveal-element" data-gsap="stagger-up" data-delay="0.35">
+      <div class="tree-row">
+        <div class="tree-branch root"></div>
+        <div class="tree-node root"><code>Desktop</code></div>
       </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cd Desktop</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">mkdir my-page</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cd my-page</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">touch index.html</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">ls</span></div>
-          <div class="comment"># 看到 index.html 就過關</div>
-        </div>
+      <div class="tree-row" style="padding-left: clamp(28px, 4vw, 48px);">
+        <div class="tree-branch"></div>
+        <div class="tree-node"><code>my-page</code></div>
+      </div>
+      <div class="tree-row" style="padding-left: clamp(56px, 8vw, 96px);">
+        <div class="tree-branch"></div>
+        <div class="tree-node"><code>index.html</code></div>
       </div>
     </div>
   </div>
@@ -348,23 +366,21 @@ body::after {
 <!-- SLIDE 5: AI Writes File (main show) -->
 <section class="slide" id="slide-5">
   <div class="glow-orb accent" style="width:50vw;height:50vw;bottom:-20vw;right:-10vw;"></div>
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left" style="z-index:2;">
-        <p class="label reveal-element" data-gsap="fade-right">核心體驗</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">一句話直接改檔</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">告訴 AI 主題、風格和區塊，它會直接把 index.html 寫好。這是 opencode 跟網頁版最大的不同：你不用複製貼上。</p>
-      </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25" style="z-index:2;">
-        <div class="terminal" style="border-color: rgba(212,137,110,0.25); box-shadow: 0 24px 80px rgba(212,137,110,0.15);">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div style="color:var(--text);">幫我改 index.html，做一個個人名片頁：</div>
-          <div style="margin-top:12px;">- 標題是我的名字</div>
-          <div>- 下面放一段自我介紹</div>
-          <div>- 三個技能卡片</div>
-          <div>- 聯絡方式</div>
-          <div style="margin-top:12px;">配色用低飽和色，字體大一點方便閱讀。</div>
-        </div>
+  <div class="slide-content layout-split">
+    <div class="layout-left" style="z-index:2;">
+      <p class="label reveal-element" data-gsap="fade-right">核心體驗</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">一句話直接改檔</h2>
+      <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">告訴 AI 主題、風格和區塊，它會直接把 index.html 寫好。這是 opencode 跟網頁版最大的不同：你不用複製貼上。</p>
+    </div>
+    <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25" style="z-index:2;">
+      <div class="terminal" style="border-color: rgba(166,143,201,0.25); box-shadow: 0 24px 80px rgba(166,143,201,0.12);">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="ai-prompt">幫我改 index.html，做一個個人名片頁：</div>
+        <div style="margin-top:12px;">- 標題是我的名字</div>
+        <div>- 下面放一段自我介紹</div>
+        <div>- 三個技能卡片</div>
+        <div>- 聯絡方式</div>
+        <div style="margin-top:12px; color:var(--text-muted);">配色用低飽和色，字體大一點方便閱讀。</div>
       </div>
     </div>
   </div>
@@ -373,25 +389,23 @@ body::after {
 <!-- SLIDE 6: Open Browser -->
 <section class="slide" id="slide-6">
   <div class="glow-orb ai" style="width:45vw;height:45vw;top:-15vw;left:-10vw;"></div>
-  <div class="slide-content">
-    <div class="layout-split reverse">
-      <div class="layout-right">
-        <p class="label reveal-element" data-gsap="fade-left">本機預覽</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-left" data-delay="0.1">打開瀏覽器驗收</h2>
-        <p class="body-text reveal-element" data-gsap="fade-left" data-delay="0.2" style="text-align:left;max-width:100%;">AI 改完後，用一條指令叫瀏覽器開啟。之後每次請 AI 改版，只要按重新整理就能看到新畫面。</p>
-        <div class="reveal-element" data-gsap="fade-left" data-delay="0.35" style="margin-top: var(--element-gap);">
-          <span class="os-badge mac">Mac：Cmd + R</span>
-          <span class="os-badge win">Windows：Ctrl + R</span>
-        </div>
+  <div class="slide-content layout-split reverse">
+    <div class="layout-right">
+      <p class="label reveal-element" data-gsap="fade-left">本機預覽</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-left" data-delay="0.1">打開瀏覽器驗收</h2>
+      <p class="body-text reveal-element" data-gsap="fade-left" data-delay="0.2" style="text-align:left;max-width:100%;">AI 改完後，用一條指令叫瀏覽器開啟。之後每次請 AI 改版，只要按重新整理就能看到新畫面。</p>
+      <div class="reveal-element" data-gsap="fade-left" data-delay="0.35" style="margin-top: var(--element-gap);">
+        <span class="os-badge mac">Mac：Cmd + R</span>
+        <span class="os-badge win">Windows：Ctrl + R</span>
       </div>
-      <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div class="comment"># Mac</div>
-          <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
-          <div class="comment" style="margin-top:16px;"># Windows</div>
-          <div><span class="prompt">$</span> <span class="cmd">start index.html</span></div>
-        </div>
+    </div>
+    <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25">
+      <div class="terminal">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="comment"># Mac</div>
+        <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
+        <div class="comment" style="margin-top:16px;"># Windows</div>
+        <div><span class="prompt">$</span> <span class="cmd">start index.html</span></div>
       </div>
     </div>
   </div>
@@ -415,24 +429,24 @@ body::after {
 
 <!-- SLIDE 8: Three Themes -->
 <section class="slide" id="slide-8">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-dashboard">
     <p class="label reveal-element" data-gsap="fade-up">三選一</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">今天做哪一頁</h2>
-    <div class="card-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="card">
-        <span class="num">01</span>
-        <h4>個人名片</h4>
-        <p>名字、一句話介紹、三個技能卡片、聯絡方式。</p>
+    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background: var(--accent-soft); color: var(--accent);">01</div>
+        <h4 class="dash-title">個人名片</h4>
+        <p class="dash-desc">名字、一句話介紹、三個技能卡片、聯絡方式。</p>
       </div>
-      <div class="card">
-        <span class="num">02</span>
-        <h4>商家介紹</h4>
-        <p>店名、招牌語、三項主打商品、地址與營業時間。</p>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">02</div>
+        <h4 class="dash-title">商家介紹</h4>
+        <p class="dash-desc">店名、招牌語、三項主打商品、地址與營業時間。</p>
       </div>
-      <div class="card">
-        <span class="num">03</span>
-        <h4>活動頁面</h4>
-        <p>活動名稱、日期地點、三個亮點、報名方式。</p>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background: var(--good-soft); color: var(--good);">03</div>
+        <h4 class="dash-title">活動頁面</h4>
+        <p class="dash-desc">活動名稱、日期地點、三個亮點、報名方式。</p>
       </div>
     </div>
   </div>
@@ -440,87 +454,91 @@ body::after {
 
 <!-- SLIDE 9: Good Prompt Formula -->
 <section class="slide" id="slide-9">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-infographic">
     <p class="label reveal-element" data-gsap="fade-up">好指令</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">主題風格區塊</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="feature-item">
-        <div class="feature-icon">1</div>
-        <div>
-          <h4>主題</h4>
-          <p>先說要做哪一頁：個人名片、咖啡店介紹、或活動報名頁。</p>
-        </div>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">主題 + 風格 + 區塊</h2>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">01</p>
+        <p class="node-title">主題</p>
+        <p class="node-desc">要做哪一頁</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">2</div>
-        <div>
-          <h4>風格</h4>
-          <p>給出具體形容：低飽和色、暖色系、清新白底、字體大一點。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">3</div>
-        <div>
-          <h4>區塊</h4>
-          <p>列出內容項目：標題、幾張卡片、聯絡方式、按鈕。</p>
-        </div>
+      <div class="flow-node">
+        <p class="node-label">02</p>
+        <p class="node-title">風格</p>
+        <p class="node-desc">低飽和、暖色、清新</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">03</p>
+        <p class="node-title">區塊</p>
+        <p class="node-desc">標題、卡片、聯絡</p>
       </div>
     </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35">把這三個元素說清楚，AI 一次就能寫出你要的樣子。</p>
   </div>
 </section>
 
 <!-- SLIDE 10: First Prompt Example -->
 <section class="slide" id="slide-10">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-code-focus">
     <p class="label reveal-element" data-gsap="fade-up">範例</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">貼上這段指令</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">把 [中括號] 換成你的資料，整段貼給 opencode，它就會開始改檔。</p>
-    <div class="terminal reveal-element" data-gsap="scale-in" data-delay="0.35" style="max-width: min(94vw, 960px); margin-top: var(--content-gap);">
-      <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-      <div>幫我改 index.html，做一個個人名片頁，單頁 HTML，內建 CSS，不要外部檔案。</div>
-      <div class="comment" style="margin-top:12px;">內容：</div>
-      <div>- 名字：[王小明]</div>
-      <div>- 一句話自我介紹：[喜歡用數據說故事的行銷人]</div>
-      <div>- 三個技能卡片：[內容企劃]、[數據分析]、[簡報設計]</div>
-      <div>- 聯絡方式：[Email、LinkedIn 連結]</div>
-      <div class="comment" style="margin-top:12px;">要求：桌機版置中排版，低飽和配色，系統預設中文字體，直接寫入 index.html。</div>
+    <div class="code-stage reveal-element" data-gsap="scale-in" data-delay="0.35">
+      <div class="terminal">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="ai-prompt">幫我改 index.html，做一個個人名片頁，單頁 HTML，內建 CSS，不要外部檔案。</div>
+        <div class="comment" style="margin-top:12px;">內容：</div>
+        <div>- 名字：[王小明]</div>
+        <div>- 一句話自我介紹：[喜歡用數據說故事的行銷人]</div>
+        <div>- 三個技能卡片：[內容企劃]、[數據分析]、[簡報設計]</div>
+        <div>- 聯絡方式：[Email、LinkedIn 連結]</div>
+        <div class="comment" style="margin-top:12px;">要求：桌機版置中排版，低飽和配色，系統預設中文字體，直接寫入 index.html。</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- SLIDE 11: Revision Loop -->
 <section class="slide" id="slide-11">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-flow">
     <p class="label reveal-element" data-gsap="fade-up">持續改版</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">下指令再看畫面</h2>
-    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>說要改什麼</h4>
-          <p>例如：加一個 hero 區、換成莫蘭迪色、卡片排成三欄。</p>
-        </div>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">You</p>
+        <p class="node-title">說需求</p>
+        <p class="node-desc">加 hero、換配色</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>AI 改 index.html</h4>
-          <p>看終端機摘要，確認檔案被改了。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>瀏覽器重新整理</h4>
-          <p>不用重新開檔案，按 Cmd + R 或 Ctrl + R 就能看到新版。</p>
-        </div>
+      <div class="flow-node ai">
+        <p class="node-label">AI</p>
+        <p class="node-title">改 index.html</p>
+        <p class="node-desc">看終端機摘要</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">/</div>
-        <div class="step-content">
-          <h4>改壞了怎麼辦</h4>
-          <p>打 /undo 回上一版，再重新下指令。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">Browser</p>
+        <p class="node-title">瀏覽器看</p>
+        <p class="node-desc">Cmd + R 重新整理</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">Loop</p>
+        <p class="node-title">再下指令</p>
+        <p class="node-desc">改壞了用 /undo</p>
       </div>
     </div>
   </div>

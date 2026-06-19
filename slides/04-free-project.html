@@ -298,126 +298,132 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 3: Split - Built-in Skill Concept -->
+<!-- SLIDE 3: Skill Panel -->
 <section class="slide" id="slide-3">
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">內建 skill</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">AI 快捷鍵<br>概念即可</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">opencode 內建 skill 就像預裝小工具，能認識專案、回上一步、產生對話連結求救。今天只要知道有這些，不實作 MCP、hook 或 context 設定。</p>
+  <div class="slide-content layout-infographic">
+    <p class="label reveal-element" data-gsap="fade-up">內建 skill</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個 AI 快捷鍵</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">opencode 內建 skill 就像預裝小工具，今天只要知道概念即可，不實作 MCP、hook 或 context。</p>
+    <div class="skill-panel reveal-element" data-gsap="stagger-up" data-delay="0.3">
+      <div class="skill-key">
+        <kbd>/init</kbd>
+        <p class="skill-name">認識專案</p>
+        <p class="skill-desc">讓 AI 讀取目前資料夾結構。</p>
       </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="ai-prompt">/init</span> <span class="comment"># 讓 AI 認識這個專案</span></div>
-          <div><span class="ai-prompt">/undo</span> <span class="comment"># 改壞了回上一版</span></div>
-          <div><span class="ai-prompt">/share</span> <span class="comment"># 產生連結給講師診斷</span></div>
-          <div class="comment" style="margin-top: 0.6em;">MCP / hook / context 是進階課內容，今天先不碰。</div>
-        </div>
+      <div class="skill-key">
+        <kbd>/undo</kbd>
+        <p class="skill-name">回上一步</p>
+        <p class="skill-desc">改壞了回到上一個能看版本。</p>
+      </div>
+      <div class="skill-key">
+        <kbd>/share</kbd>
+        <p class="skill-name">產生連結</p>
+        <p class="skill-desc">貼給講師診斷對話上下文。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 4: Three Theme Cards -->
+<!-- SLIDE 4: Theme Dashboard -->
 <section class="slide" id="slide-4">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-dashboard">
     <p class="label reveal-element" data-gsap="fade-up">三選一</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">選一主題深化</h2>
-    <div class="card-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="card">
-        <span class="num">01</span>
-        <h4>個人名片頁</h4>
-        <p>名字、一句話介紹、三項技能、聯絡方式。</p>
+    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="dashboard-card">
+        <div class="dash-icon">01</div>
+        <h4 class="dash-title">個人名片頁</h4>
+        <p class="dash-desc">名字、一句話介紹、三項技能、聯絡方式。</p>
+        <p class="dash-meta">最快完成 · 適合新手</p>
       </div>
-      <div class="card">
-        <span class="num">02</span>
-        <h4>商家介紹頁</h4>
-        <p>店名、招牌語、三項主打、地址與營業時間。</p>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
+        <h4 class="dash-title">商家介紹頁</h4>
+        <p class="dash-desc">店名、招牌語、三項主打、地址與營業時間。</p>
+        <p class="dash-meta">中難度 · 需要素材描述</p>
       </div>
-      <div class="card">
-        <span class="num">03</span>
-        <h4>活動頁面</h4>
-        <p>活動名稱、日期地點、亮點、報名方式。</p>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">03</div>
+        <h4 class="dash-title">活動頁面</h4>
+        <p class="dash-desc">活動名稱、日期地點、三個亮點、報名方式。</p>
+        <p class="dash-meta">最豐富 · 區塊最多</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 5: Feature List - Prompt Formula -->
+<!-- SLIDE 5: Prompt Formula Infographic -->
 <section class="slide" id="slide-5">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">公式</p>
+  <div class="slide-content layout-infographic">
+    <p class="label reveal-element" data-gsap="fade-up">創作公式</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">好指令這樣寫</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="feature-item">
-        <div class="feature-icon">01</div>
-        <div>
-          <h4>主題明確</h4>
-          <p>先說要做哪一頁，例如個人名片、咖啡店介紹或活動報名頁。</p>
-        </div>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">01 主題</p>
+        <p class="node-title">做哪一頁</p>
+        <p class="node-desc">名片 / 商家 / 活動</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">02</div>
-        <div>
-          <h4>區塊數字</h4>
-          <p>寫出幾欄、幾區、幾張卡片，AI 才能一次切出你要的版面。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">03</div>
-        <div>
-          <h4>風格參數</h4>
-          <p>給色碼、字級 px、留白 px、圓角大小，比「質感」更容易命中。</p>
-        </div>
+      <div class="flow-node">
+        <p class="node-label">02 區塊數字</p>
+        <p class="node-title">幾欄幾區</p>
+        <p class="node-desc">三欄卡片、底部聯絡</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon ai">04</div>
-        <div>
-          <h4>指定改檔</h4>
-          <p>請 AI 直接改 index.html，並請它說明動了哪些部分，方便驗收。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">03 風格參數</p>
+        <p class="node-title">色碼 + 字級</p>
+        <p class="node-desc">#1f3a5f / 36px / 64px</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">04 驗收</p>
+        <p class="node-title">指定改檔 + 列摘要</p>
+        <p class="node-desc">直接改 index.html</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 6: Steps - Free Work Loop -->
+<!-- SLIDE 6: Free Work Loop Flow -->
 <section class="slide" id="slide-6">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-flow">
     <p class="label reveal-element" data-gsap="fade-up">自由完成</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">四步循環</h2>
-    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>說清楚需求</h4>
-          <p>用主題加區塊加風格，告訴 opencode 你要什麼。</p>
-        </div>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">1 說清楚</p>
+        <p class="node-title">主題 + 區塊 + 風格</p>
       </div>
-      <div class="step-item">
-        <div class="step-num ai">2</div>
-        <div class="step-content">
-          <h4>AI 改 index.html</h4>
-          <p>看終端機摘要，確認檔案確實被改動。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>瀏覽器重新整理</h4>
-          <p>Mac 按 Cmd + R，Windows 按 Ctrl + R，看最新畫面。</p>
-        </div>
+      <div class="flow-node ai">
+        <p class="node-label">2 AI 改檔</p>
+        <p class="node-title">寫入 index.html</p>
       </div>
-      <div class="step-item">
-        <div class="step-num ai">4</div>
-        <div class="step-content">
-          <h4>再下指令調整</h4>
-          <p>不滿意就繼續改，改壞了用 /undo 回頭。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">3 瀏覽器看</p>
+        <p class="node-title">Cmd/Ctrl + R</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">4 再調整</p>
+        <p class="node-title">不滿意就重來</p>
       </div>
     </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.4" style="max-width: min(80vw, 560px); font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-dim);">改壞了隨時打 <code style="color:var(--ai);">/undo</code> 回到上一版。</p>
   </div>
 </section>
 
@@ -437,22 +443,32 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 8: Split - Demo Prep -->
+<!-- SLIDE 8: Demo Prep Checklist -->
 <section class="slide" id="slide-8">
-  <div class="slide-content">
-    <div class="layout-split reverse">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">展示前</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">本機展示準備</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">確認瀏覽器能開 index.html，檔名正確，並截一張圖備用。這不是公開網站，作品只存在你的筆電裡。</p>
+  <div class="slide-content layout-checklist">
+    <p class="label reveal-element" data-gsap="fade-up">展示前</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">本機展示準備</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">確認瀏覽器能開 index.html，檔名正確，並截一張圖備用。作品只存在你的筆電裡。</p>
+    <div class="checklist reveal-element" data-gsap="stagger-up" data-delay="0.3">
+      <div class="checklist-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          <h5>確認 index.html 在 my-page 資料夾</h5>
+          <p>打 ls 或看資料夾，確保檔案沒跑錯地方。</p>
+        </div>
       </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 確認 index.html 在這裡</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">open index.html</span> <span class="os-badge mac" style="margin-left: 8px;">Mac</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">start index.html</span> <span class="os-badge win" style="margin-left: 8px;">Windows</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cat index.html</span> <span class="comment"># 快速瞄一眼內容</span></div>
+      <div class="checklist-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          <h5>瀏覽器打開作品</h5>
+          <p>Mac 用 open index.html，Windows 用 start index.html。</p>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          <h5>截圖備用</h5>
+          <p>本機截一張完整畫面，展示時可放大看。</p>
         </div>
       </div>
     </div>

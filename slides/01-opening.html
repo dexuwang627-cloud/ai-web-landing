@@ -174,6 +174,7 @@ body::after {
 .terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
 .terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
 .terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+.terminal .ai-prompt { color: var(--ai); }
 
 /* === CARDS === */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
@@ -300,153 +301,148 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 3: What AI Can Do -->
+<!-- SLIDE 3: What AI Can Do — Infographic -->
 <section class="slide" id="slide-4">
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">AI 能做什麼</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">從對話<br>到動手</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">ChatGPT 網頁版只能給你文字。opencode 在本機直接建立資料夾、寫入檔案、修改內容。你會看到 AI 真的動了你電腦裡的檔案。</p>
+  <div class="slide-content layout-infographic">
+    <p class="label reveal-element" data-gsap="fade-up">AI 能做什麼</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">從對話到動手</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">同樣一句需求，ChatGPT 網頁版給你文字；opencode 在本機直接建立資料夾、寫入檔案。</p>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.3">
+      <div class="flow-node accent">
+        <p class="node-label">需求</p>
+        <p class="node-title">我要一個名片頁</p>
       </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-          <div class="comment"># 你說，AI 做</div>
-          <div><span class="cmd">「幫我在 ~/Desktop/my-page 建立 index.html，<br>做一個個人名片頁。」</span></div>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">ChatGPT 網頁版</p>
+        <p class="node-title">純文字回答</p>
+        <p class="node-desc">你要自己複製貼上</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">opencode</p>
+        <p class="node-title">直接改本機檔案</p>
+        <p class="node-desc">瀏覽器打開就看得到</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 5: Tool Stack -->
+<!-- SLIDE 5: Tool Stack Dashboard -->
 <section class="slide" id="slide-5">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-dashboard">
     <p class="label reveal-element" data-gsap="fade-up">工具選擇</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">一主三備援</h2>
-    <div class="reveal-element" data-gsap="scale-in" data-delay="0.2" style="width:100%;max-width:min(90vw,760px);">
-      <div class="glass" style="padding: clamp(28px,3.5vw,44px); text-align:center; margin-bottom: var(--content-gap); border: 1px solid rgba(212,137,110,0.25);">
-        <p class="label" style="margin-bottom:12px;">主工具</p>
-        <h3 class="sub-heading" style="font-size: clamp(1.6rem,4vw,2.6rem); margin-bottom:12px;">opencode</h3>
-        <p class="body-text" style="max-width:100%;">本機 AI CLI，直接改檔，支援內建免費模型。</p>
+    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="dashboard-card" style="grid-column: 1 / -1; border-color: rgba(212,137,110,0.25);">
+        <div class="dash-icon" style="background:var(--accent-soft);color:var(--accent);">MAIN</div>
+        <h4 class="dash-title">opencode</h4>
+        <p class="dash-desc">本機 AI CLI，直接改檔，支援內建免費模型。今天全班統一使用。</p>
+        <p class="dash-meta">直接改 index.html · 免費模型 / ChatGPT 登入</p>
       </div>
-      <div class="card-grid">
-        <div class="card">
-          <span class="num">A</span>
-          <h4>Codex 桌面版</h4>
-          <p>ChatGPT 官方桌面版，可本機讀寫檔案。</p>
-        </div>
-        <div class="card">
-          <span class="num">B</span>
-          <h4>Claude Cowork</h4>
-          <p>Claude 桌面版，授權資料夾後直接改檔。</p>
-        </div>
-        <div class="card">
-          <span class="num">C</span>
-          <h4>網頁版手貼</h4>
-          <p>最後防線，手動把 AI 產生的 HTML 貼進檔案。</p>
-        </div>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">A</div>
+        <h4 class="dash-title">Codex 桌面版</h4>
+        <p class="dash-desc">ChatGPT 官方桌面版，可本機讀寫檔案。</p>
+      </div>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">B</div>
+        <h4 class="dash-title">Claude Cowork</h4>
+        <p class="dash-desc">Claude 桌面版，授權資料夾後直接改檔。</p>
+      </div>
+      <div class="dashboard-card">
+        <div class="dash-icon">C</div>
+        <h4 class="dash-title">網頁版手貼</h4>
+        <p class="dash-desc">最後防線，手動把 AI 產生的 HTML 貼進檔案。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 6: Roadmap -->
+<!-- SLIDE 6: Roadmap Flow -->
 <section class="slide" id="slide-6">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-flow">
     <p class="label reveal-element" data-gsap="fade-up">今日路線圖</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">從開場到作品</h2>
-    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>開場定位 <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">09:00–10:30</span></h4>
-          <p>打開 terminal，建立 my-page 資料夾與 index.html。</p>
-        </div>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">09:00–10:30</p>
+        <p class="node-title">開場定位</p>
+        <p class="node-desc">Terminal 入門 + 建資料夾</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>第一個 HTML <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">10:45–12:10</span></h4>
-          <p>用 opencode 直接改檔，本機瀏覽器看到成果。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>AI 改版練習 <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">13:05–14:35</span></h4>
-          <p>調整版面、風格、手機版，看懂 AI 改了什麼。</p>
-        </div>
+      <div class="flow-node">
+        <p class="node-label">10:45–12:10</p>
+        <p class="node-title">第一個 HTML</p>
+        <p class="node-desc">AI 直接改檔 + 瀏覽器看成果</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>自由完成 + 展示 <span style="color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.85em;">14:50–16:50</span></h4>
-          <p>選一個主題做成作品，本機截圖或展示給旁邊的人看。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">13:05–14:35</p>
+        <p class="node-title">AI 改版練習</p>
+        <p class="node-desc">版面、風格、手機版一次到位</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">14:50–16:50</p>
+        <p class="node-title">自由完成 + 展示</p>
+        <p class="node-desc">選主題做成作品</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 7: Classroom Rules -->
+<!-- SLIDE 7: Classroom Rules Dashboard -->
 <section class="slide" id="slide-7">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-dashboard">
     <p class="label reveal-element" data-gsap="fade-up">課堂規則</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個約定</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(201,124,124,0.12);color:var(--bad);">紅</div>
-        <div>
-          <h4>卡住就舉紅色便利貼</h4>
-          <p>助教會來救，不要自己卡住太久，也不要覺得丟臉。</p>
-        </div>
+    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background:rgba(201,124,124,0.12);color:var(--bad);">紅</div>
+        <h4 class="dash-title">卡住就舉紅色便利貼</h4>
+        <p class="dash-desc">助教會來救，不要自己卡住太久。</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon" style="background:rgba(108,175,138,0.12);color:var(--good);">綠</div>
-        <div>
-          <h4>完成就舉綠色便利貼</h4>
-          <p>讓講師知道進度，也可以幫助旁邊還在紅色的人。</p>
-        </div>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background:rgba(108,175,138,0.12);color:var(--good);">綠</div>
+        <h4 class="dash-title">完成就舉綠色便利貼</h4>
+        <p class="dash-desc">讓講師知道進度，也能幫助旁邊的人。</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">03</div>
-        <div>
-          <h4>先求有畫面，再求漂亮</h4>
-          <p>本機瀏覽器能開啟 index.html 就算過關，其他都是加分。</p>
-        </div>
+      <div class="dashboard-card">
+        <div class="dash-icon">03</div>
+        <h4 class="dash-title">先求有畫面，再求漂亮</h4>
+        <p class="dash-desc">瀏覽器能開啟 index.html 就算過關。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 8: Install opencode -->
+<!-- SLIDE 8: Install opencode Code Focus -->
 <section class="slide" id="slide-8-install">
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">動手前導</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">裝好 opencode<br>Windows 先 Mac 後</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">現場估計大家都還沒裝。Windows 需先裝 Node.js（到 nodejs.org 下載 LTS，雙擊 .msi 安裝後重開終端），再用 npm 裝 opencode。Mac 用官方一行腳本，免 Node。裝完輸入 opencode 啟動。</p>
-      </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div class="comment"># Windows — PowerShell</div>
-          <div class="comment"># 1. 先裝 Node.js：到 nodejs.org 下載 LTS，雙擊 .msi</div>
-          <div class="comment">#    裝完重開 PowerShell，確認版本：</div>
-          <div><span class="prompt">PS&gt;</span> <span class="cmd">node -v</span></div>
-          <div class="comment"># 2. 裝 opencode</div>
-          <div><span class="prompt">PS&gt;</span> <span class="cmd">npm install -g opencode-ai</span></div>
-          <div class="comment"># 沒 Node 也可：scoop install opencode</div>
-          <div style="height:0.6em"></div>
-          <div class="comment"># Mac — Terminal（免 Node，官方一行裝好）</div>
-          <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://opencode.ai/install | bash</span></div>
-          <div class="comment"># 或 Homebrew</div>
-          <div><span class="prompt">$</span> <span class="cmd">brew install anomalyco/tap/opencode</span></div>
-        </div>
+  <div class="slide-content layout-code-focus">
+    <p class="label reveal-element" data-gsap="fade-up">動手前導</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">裝好 opencode</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">Windows 先裝 Node.js LTS，再用 npm 安裝；Mac 用官方一行腳本即可。裝完輸入 opencode 啟動。最後一行是備援路線。</p>
+    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <div class="terminal">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="comment"># Windows — PowerShell</div>
+        <div><span class="prompt">PS&gt;</span> <span class="cmd">node -v</span> <span class="comment"># 先確認 Node.js</span></div>
+        <div><span class="prompt">PS&gt;</span> <span class="cmd">npm install -g opencode-ai</span></div>
+        <div style="height:0.6em"></div>
+        <div class="comment"># Mac — Terminal（免 Node，官方一行裝好）</div>
+        <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://opencode.ai/install | bash</span></div>
+        <div class="comment"># 或 Homebrew：brew install anomalyco/tap/opencode</div>
       </div>
     </div>
   </div>
@@ -473,28 +469,40 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 9: Open Terminal -->
+<!-- SLIDE 9: Open Terminal Infographic -->
 <section class="slide" id="slide-10">
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">動手前導</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">打開黑畫面<br>找到作品位</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">先學五個生存指令。它們幫你知道自己在哪、進資料夾、建資料夾、看檔案、建新檔。</p>
+  <div class="slide-content layout-infographic">
+    <p class="label reveal-element" data-gsap="fade-up">動手前導</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">五個生存指令</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">不用背語法，只要知道順序：先看位置，再進資料夾，接著建資料夾、看檔案、建新檔。</p>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.3">
+      <div class="flow-node accent">
+        <p class="node-label">pwd</p>
+        <p class="node-title">看自己在哪</p>
       </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">pwd</span> <span class="comment"># 看自己在哪</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cd Desktop</span> <span class="comment"># 進桌面</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">mkdir my-page</span> <span class="comment"># 建資料夾</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cd my-page</span> <span class="comment"># 進入專案</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 看檔案清單</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">touch index.html</span> <span class="comment"># Mac 建新檔</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">New-Item index.html</span> <span class="comment"># Windows 建新檔</span></div>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">cd / mkdir</p>
+        <p class="node-title">進入 / 新建</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">ls</p>
+        <p class="node-title">看檔案清單</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">touch / New-Item</p>
+        <p class="node-title">建 index.html</p>
       </div>
     </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.5" style="max-width: min(80vw, 640px); font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-dim);">Mac 用 <code>touch index.html</code>，Windows 用 <code>New-Item index.html</code>。</p>
   </div>
 </section>
 
