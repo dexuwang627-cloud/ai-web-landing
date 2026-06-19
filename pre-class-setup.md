@@ -78,7 +78,7 @@ curl -fsSL https://opencode.ai/install | bash
 推薦用 npm 安裝（需先完成步驟 1）：
 
 ```powershell
-npm install -g opencode
+npm i -g opencode-ai@latest
 ```
 
 安裝完驗證：
@@ -217,7 +217,7 @@ Claude 桌面版 / Cowork 功能可本機改檔，流程與 Codex 類似。
 助教處理紅便利貼時，依下面順序快速判斷：
 
 1. **Node.js 沒裝好** → 幫他重跑安裝器，重開終端機再驗證 `node -v`
-2. **opencode 指令找不到** → 確認 Node 在，重跑 `npm install -g opencode`；Mac 可改用 `curl -fsSL https://opencode.ai/install | bash`
+2. **opencode 指令找不到** → 確認 Node 在，重跑 `npm i -g opencode-ai@latest`；Mac 可改用 `curl -fsSL https://opencode.ai/install | bash`
 3. **opencode 進不去 / 額度卡住** → 改走路線 A 內建免費模型；再不行走備援 1
 4. **整台筆電網路或權限問題** → 直接走備援 3 網頁版，先讓他有畫面，不要在緩衝時間 debug 系統
 
