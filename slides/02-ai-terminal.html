@@ -386,22 +386,21 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 4: Make Folder -->
+<!-- SLIDE 4: AI Makes Folder -->
 <section class="slide" id="slide-4">
-  <div class="slide-content layout-flow">
-    <p class="label reveal-element" data-gsap="fade-up">手動驗證</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">建出作品資料夾</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">用 mkdir 建資料夾、cd 進去、touch 建空檔案。目的不是背指令，是讓你知道作品放在哪裡。</p>
-    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div class="terminal" data-typewriter="true">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">第一步</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">連資料夾都可以請 AI 建</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">不用記 mkdir、touch 這些指令。打開 opencode 後，直接說「幫我在 Desktop 建一個 my-page 資料夾，裡面放一個空的 index.html」。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" data-prompt="幫我在 Desktop 建立一個 my-page 資料夾，並在裡面建立一個空的 index.html 檔案。建立完後告訴我檔案路徑，方便我稍後用瀏覽器開啟。">
+      <div class="terminal" data-typewriter="true" style="max-width: min(90vw, 760px);">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="typewriter-line" data-variant="command" data-text="mkdir Desktop/my-page"><span class="prompt">$</span> <span class="cmd">mkdir Desktop/my-page</span></div>
-        <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-        <div class="typewriter-line" data-variant="command" data-text="touch index.html"><span class="prompt">$</span> <span class="cmd">touch index.html</span></div>
-        <div class="typewriter-line" data-variant="result" data-text="ls"><span class="prompt">$</span> <span class="cmd">ls</span></div>
-        <div class="typewriter-line" data-variant="result" data-text="index.html"><span class="good">index.html</span></div>
+        <div class="typewriter-line ai-prompt" data-variant="result" data-text="幫我在 Desktop 建立一個 my-page 資料夾">幫我在 Desktop 建立一個 my-page 資料夾</div>
+        <div class="typewriter-line" data-variant="result" data-text="並在裡面建立一個空的 index.html 檔案">並在裡面建立一個空的 index.html 檔案</div>
+        <div class="typewriter-line" data-variant="result" data-text="建立完後告訴我檔案路徑">建立完後告訴我檔案路徑</div>
       </div>
     </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(85vw, 720px); font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-dim);">之後你唯一要記的是：Mac 用 <code>open index.html</code>、Windows 用 <code>start index.html</code> 看成果。</p>
   </div>
 </section>
 
@@ -475,21 +474,34 @@ body::after {
   <div class="slide-content layout-dashboard">
     <p class="label reveal-element" data-gsap="fade-up">三選一</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">今天做哪一頁</h2>
-    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background: var(--accent-soft); color: var(--accent);">01</div>
-        <h4 class="dash-title">個人名片</h4>
-        <p class="dash-desc">名字、一句話介紹、三個技能卡片、聯絡方式。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(85vw, 720px);">點擊卡片，直接看建議 prompt。下午自由完成時可以從這三個主題挑一個深化。</p>
+    <div class="reveal-element expander-group" data-gsap="stagger-up" data-delay="0.35" data-expander-group>
+      <div class="expander-card fx-tilt" data-expander>
+        <p class="expander-title">個人名片</p>
+        <p class="expander-summary">名字、一句話介紹、三個技能卡片、聯絡方式。</p>
+        <div class="expander-body">
+          <div class="expander-prompt" data-prompt="幫我改 index.html，做一個個人名片頁。包含：大標題放名字、一句話自我介紹、三個技能卡片、Email 與 LinkedIn 連結。風格低飽和、置中排版。請直接寫入檔案。">幫我改 index.html，做一個個人名片頁。包含：大標題放名字、一句話自我介紹、三個技能卡片、Email 與 LinkedIn 連結。風格低飽和、置中排版。請直接寫入檔案。
+            <button type="button" class="prompt-copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.dataset.prompt)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>複製</span></button>
+          </div>
+        </div>
       </div>
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">02</div>
-        <h4 class="dash-title">商家介紹</h4>
-        <p class="dash-desc">店名、招牌語、三項主打商品、地址與營業時間。</p>
+      <div class="expander-card fx-tilt" data-expander>
+        <p class="expander-title">商家介紹</p>
+        <p class="expander-summary">店名、招牌語、三項主打商品、地址與營業時間。</p>
+        <div class="expander-body">
+          <div class="expander-prompt" data-prompt="幫我改 index.html，做一間咖啡廳介紹頁。包含：店名與一句招牌語、三項主打商品卡片、地址與營業時間。風格溫暖手寫感。請直接寫入檔案。">幫我改 index.html，做一間咖啡廳介紹頁。包含：店名與一句招牌語、三項主打商品卡片、地址與營業時間。風格溫暖手寫感。請直接寫入檔案。
+            <button type="button" class="prompt-copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.dataset.prompt)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>複製</span></button>
+          </div>
+        </div>
       </div>
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background: var(--good-soft); color: var(--good);">03</div>
-        <h4 class="dash-title">活動頁面</h4>
-        <p class="dash-desc">活動名稱、日期地點、三個亮點、報名方式。</p>
+      <div class="expander-card fx-tilt" data-expander>
+        <p class="expander-title">活動頁面</p>
+        <p class="expander-summary">活動名稱、日期地點、三個亮點、報名方式。</p>
+        <div class="expander-body">
+          <div class="expander-prompt" data-prompt="幫我改 index.html，做一個讀書會活動頁。包含：活動名稱、日期時間、地點、活動流程、報名按鈕。風格乾淨正式。請直接寫入檔案。">幫我改 index.html，做一個讀書會活動頁。包含：活動名稱、日期時間、地點、活動流程、報名按鈕。風格乾淨正式。請直接寫入檔案。
+            <button type="button" class="prompt-copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.dataset.prompt)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>複製</span></button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -527,23 +539,42 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 10: First Prompt Example -->
+<!-- SLIDE 10: Demo Scenario — Personal Card -->
 <section class="slide" id="slide-10">
-  <div class="slide-content layout-code-focus">
-    <p class="label reveal-element" data-gsap="fade-up">範例</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">貼上這段指令</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">把 [中括號] 換成你的資料，整段貼給 opencode，它就會開始改檔。</p>
-    <div class="code-stage reveal-element" data-gsap="scale-in" data-delay="0.35">
+  <div class="slide-content layout-split">
+    <div class="layout-left" style="z-index:2;">
+      <p class="label reveal-element" data-gsap="fade-right">Demo 情境</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">小王要做名片頁</h2>
+      <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left; max-width:100%;">小王剛換工作，想有一頁簡單的線上名片，可以在會議中給人看。他沒有設計背景，只知道自己要什麼。</p>
+      <div class="reveal-element feature-list" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--element-gap); text-align:left;">
+        <div class="feature-item">
+          <div class="feature-icon">1</div>
+          <div><h4>大標題</h4><p>放自己的名字</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">2</div>
+          <div><h4>一句話介紹</h4><p>讓對方一秒知道你是誰</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">3</div>
+          <div><h4>技能卡片</h4><p>三個最拿得出手的標籤</p></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">4</div>
+          <div><h4>聯絡方式</h4><p>Email 或 LinkedIn</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25" data-prompt="幫我改 index.html，做一個個人名片頁。大標題放[你的名字]，下面放一句自我介紹、三個技能卡片（內容企劃、數據分析、簡報設計）、Email 與 LinkedIn 連結。風格低飽和、置中排版、字體大一點。請直接寫入 index.html。">
       <div class="terminal" data-typewriter="true">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="typewriter-line ai-prompt" data-variant="result" data-text="幫我改 index.html，做一個個人名片頁，單頁 HTML，內建 CSS，不要外部檔案。">幫我改 index.html，做一個個人名片頁，單頁 HTML，內建 CSS，不要外部檔案。</div>
-        <div class="comment typewriter-line" data-variant="reveal" data-text="內容：">內容：</div>
-        <div class="typewriter-line" data-variant="result" data-text="- 名字：[王小明]">- 名字：[王小明]</div>
-        <div class="typewriter-line" data-variant="result" data-text="- 一句話自我介紹：[喜歡用數據說故事的行銷人]">- 一句話自我介紹：[喜歡用數據說故事的行銷人]</div>
-        <div class="typewriter-line" data-variant="result" data-text="- 三個技能卡片：[內容企劃]、[數據分析]、[簡報設計]">- 三個技能卡片：[內容企劃]、[數據分析]、[簡報設計]</div>
-        <div class="typewriter-line" data-variant="result" data-text="- 聯絡方式：[Email、LinkedIn 連結]">- 聯絡方式：[Email、LinkedIn 連結]</div>
-        <div class="typewriter-line comment" data-variant="result" data-text="要求：桌機版置中排版，低飽和配色，系統預設中文字體，直接寫入 index.html。">要求：桌機版置中排版，低飽和配色，系統預設中文字體，直接寫入 index.html。</div>
+        <div class="typewriter-line ai-prompt" data-variant="result" data-text="幫我改 index.html，做一個個人名片頁。">幫我改 index.html，做一個個人名片頁。</div>
+        <div class="typewriter-line" data-variant="result" data-text="大標題放[你的名字]，下面放一句自我介紹。">大標題放[你的名字]，下面放一句自我介紹。</div>
+        <div class="typewriter-line" data-variant="result" data-text="三個技能卡片：內容企劃、數據分析、簡報設計。">三個技能卡片：內容企劃、數據分析、簡報設計。</div>
+        <div class="typewriter-line" data-variant="result" data-text="加上 Email 與 LinkedIn 連結。">加上 Email 與 LinkedIn 連結。</div>
+        <div class="typewriter-line comment" data-variant="result" data-text="風格低飽和、置中排版、字體大一點。直接寫入 index.html。">風格低飽和、置中排版、字體大一點。直接寫入 index.html。</div>
       </div>
+      <p class="body-text" style="font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--text-dim); margin-top: 8px;">把 [你的名字] 換掉，複製後貼給 opencode。</p>
     </div>
   </div>
 </section>

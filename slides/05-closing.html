@@ -237,6 +237,7 @@ body::after {
   font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
   box-shadow: 0 0 24px var(--accent-glow);
 }
+.step-num.good { background: rgba(108,175,138,0.14); color: var(--good); box-shadow: 0 0 24px rgba(108,175,138,0.18); }
 .step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.55rem, 2.25vw, 2.0rem); font-weight: 700; margin: 0 0 6px; }
 .step-content p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
 
@@ -306,101 +307,76 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 3: Capability Dashboard -->
+<!-- SLIDE 3: Self-Assessment Progress Tracker -->
 <section class="slide" id="slide-3">
   <div class="glow-orb ai" style="width:46vw;height:46vw;bottom:-16vw;left:-10vw;"></div>
-  <div class="slide-content layout-dashboard">
+  <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">今天學到什麼</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個帶走的能力</h2>
-    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card" data-effect="tilt">
-        <div class="dash-icon">01</div>
-        <h4 class="dash-title">叫 AI 做事</h4>
-        <p class="dash-desc">把「我要什麼網頁」講成主題、區塊、風格，AI 就能執行。</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三件帶走的能力</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">點擊你覺得已經會了的項目。全部打勾，就表示今天的學習目標達成了。</p>
+    <div class="progress-tracker reveal-element" data-gsap="stagger-up" data-delay="0.35" data-progress style="margin-top: var(--content-gap); max-width: min(90vw, 720px); width: 100%;">
+      <div class="progress-header">
+        <span>學習目標達成度</span>
+        <span class="progress-label">0/3</span>
       </div>
-      <div class="dashboard-card" data-effect="tilt">
-        <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
-        <h4 class="dash-title">看懂 AI 做什麼</h4>
-        <p class="dash-desc">從終端機摘要知道檔案被改了哪裡，不再害怕黑畫面。</p>
+      <div class="progress-bar">
+        <div class="progress-bar-fill" style="width:0%"></div>
       </div>
-      <div class="dashboard-card" data-effect="tilt">
-        <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">03</div>
-        <h4 class="dash-title">本機驗收成果</h4>
-        <p class="dash-desc">瀏覽器打開 index.html，修改後重新整理就能看到新版本。</p>
+      <div class="progress-items">
+        <div class="progress-item" data-progress-item
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>會把需求講成主題、區塊、風格</span>
+        </div>
+        <div class="progress-item" data-progress-item
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>看得懂 AI 改了哪些檔案</span>
+        </div>
+        <div class="progress-item" data-progress-item
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>能在瀏覽器打開本機 index.html 並驗收</span>
+        </div>
       </div>
     </div>
-    <img class="svg-illo reveal-element" data-gsap="fade-up" data-delay="0.4" src="images/undraw-developer.svg" alt="開發者與多螢幕插圖，象徵人、AI 與終端協作">
   </div>
 </section>
 
-<!-- SLIDE 4: Three-Layer Architecture -->
+<!-- SLIDE 4: Learning Path -->
 <section class="slide" id="slide-4">
-  <div class="slide-content layout-infographic">
-    <p class="label reveal-element" data-gsap="fade-up">能力地圖</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三層架構</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">今天不是學會工程，而是建立可重複的工作流程：說清楚、AI 改檔、本機看成果。</p>
-    <div class="tree-diagram reveal-element" data-gsap="stagger-up" data-delay="0.3">
-      <div class="tree-row">
-        <div class="tree-node root"><code>你</code> — 下指令的人</div>
-      </div>
-      <div class="tree-row">
-        <div class="tree-branch root"></div>
-        <div class="tree-node ai">
-          <h5>AI 對話層</h5>
-          <p>自然語言描述需求，opencode 聽懂並執行。</p>
-        </div>
-      </div>
-      <div class="tree-row">
-        <div class="tree-branch"></div>
-        <div class="tree-node">
-          <h5>Terminal 看懂層</h5>
-          <p>pwd、cd、ls 只在驗證檔案位置時用，不背指令表。</p>
-        </div>
-      </div>
-      <div class="tree-row">
-        <div class="tree-branch"></div>
-        <div class="tree-node good">
-          <h5>HTML 作品層</h5>
-          <p>一個資料夾、一個檔案、瀏覽器打開就是成果。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SLIDE 5: How to Continue at Home -->
-<section class="slide" id="slide-5">
-  <div class="slide-content layout-flow">
+  <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">回家繼續改</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">今晚就能做的三件事</h2>
-    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="flow-node accent">
-        <p class="node-label">01</p>
-        <p class="node-title">換主題重做</p>
-        <p class="node-desc">名片做過改商家或活動頁</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">不需要一次學完。今晚先做一件，明天再做下一件。</p>
+    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--content-gap); max-width: min(90vw, 760px);">
+      <div class="step-item">
+        <div class="step-num accent">1</div>
+        <div class="step-content">
+          <h4>換主題重做</h4>
+          <p>名片做過了，就改商家頁或活動頁。同樣流程再跑一次，會越來越順。</p>
+        </div>
       </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>追加一個區塊</h4>
+          <p>跟 AI 說「加一個 footer」或「加一張圖片區」，練習擴充現有頁面。</p>
+        </div>
       </div>
-      <div class="flow-node">
-        <p class="node-label">02</p>
-        <p class="node-title">追加一個區塊</p>
-        <p class="node-desc">footer、響應式或圖片區</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node good">
-        <p class="node-label">03</p>
-        <p class="node-title">/share 問人</p>
-        <p class="node-desc">貼對話連結給講師診斷</p>
+      <div class="step-item">
+        <div class="step-num good">3</div>
+        <div class="step-content">
+          <h4>截圖問問題</h4>
+          <p>把畫面截圖貼到 LINE 群組，告訴講師「這裡我想改成這樣」。</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 6: Backup Tool Comparison -->
-<section class="slide" id="slide-6">
+<!-- SLIDE 5: Backup Tool Comparison -->
+<section class="slide" id="slide-5">
   <div class="slide-content layout-compare-infographic">
     <p class="label reveal-element" data-gsap="fade-up">備援對照</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">工具掛掉怎麼辦</h2>
@@ -429,8 +405,8 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 7: Resources -->
-<section class="slide" id="slide-7">
+<!-- SLIDE 6: Resources -->
+<section class="slide" id="slide-6">
   <div class="slide-content layout-code-focus">
     <p class="label reveal-element" data-gsap="fade-up">延伸資源</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">回家後看這裡</h2>
@@ -443,14 +419,14 @@ body::after {
         <div class="typewriter-line" data-variant="result" data-text="opencode-quickstart.md - 五個必會動作"><span class="cmd">opencode-quickstart.md</span> <span class="comment">- 五個必會動作</span></div>
         <div class="typewriter-line" data-variant="result" data-text="pre-class-setup.md - 安裝與備援流程"><span class="cmd">pre-class-setup.md</span> <span class="comment">- 安裝與備援流程</span></div>
         <div class="comment typewriter-line" data-variant="reveal" data-text="# 進階班才會教"># 進階班才會教</div>
-        <div class="typewriter-line" data-variant="result" data-text="Git / GitHub / Vercel / MCP / hook"><span class="cmd">Git / GitHub / Vercel / MCP / hook</span></div>
+        <div class="typewriter-line" data-variant="result" data-text="如何分享給別人看、怎麼保留每次修改紀錄"><span class="cmd">如何分享給別人看</span> <span class="comment">、怎麼保留每次修改紀錄</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 8: Micro Break -->
-<section class="slide" id="slide-8" data-countdown="90">
+<!-- SLIDE 7: Micro Break -->
+<section class="slide" id="slide-7" data-countdown="90">
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">微休息</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">整理 90 秒</h2>
@@ -465,8 +441,8 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 9: Q&A -->
-<section class="slide" id="slide-9" data-effect="spotlight">
+<!-- SLIDE 8: Q&A -->
+<section class="slide" id="slide-8" data-effect="spotlight">
   <div class="glow-orb accent" style="width:42vw;height:42vw;bottom:-12vw;right:-10vw;"></div>
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">Q & A</p>
@@ -480,7 +456,7 @@ body::after {
 
 <!-- NAV -->
 <nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 9</div>
+<div class="slide-counter">1 / 8</div>
 <div class="keyboard-hint">↑ ↓ scroll</div>
 
 <script>

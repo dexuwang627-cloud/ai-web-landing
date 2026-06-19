@@ -350,7 +350,7 @@ body::after {
 }
 .preview-card section {
   padding: var(--p-pad);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid color-mix(in srgb, var(--p-text) 12%, transparent);
 }
 .preview-card section:last-child { border-bottom: none; }
 .preview-card h1 {
@@ -366,7 +366,7 @@ body::after {
 }
 .preview-card p {
   font-size: clamp(0.85rem, 1.2vw, 1.05rem);
-  color: rgba(255,255,255,0.7);
+  color: color-mix(in srgb, var(--p-text) 75%, transparent);
   margin: 0;
   line-height: 1.6;
 }
@@ -378,6 +378,8 @@ body::after {
   padding: 4px 10px;
   border-radius: 999px;
   font-size: clamp(0.75rem, 1vw, 0.9rem);
+  border: 1px solid var(--p-accent);
+  color: var(--p-accent);
 }
 
 </style>
@@ -504,40 +506,22 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 6: Flow - Four Blocks Layout -->
+<!-- SLIDE 6: Interactive Block Sorter -->
 <section class="slide" id="slide-6">
-  <div class="slide-content layout-flow">
+  <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">任務一</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">版面四區塊</h2>
-    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="flow-node accent">
-        <p class="node-label">第一屏</p>
-        <p class="node-title">Hero 首屏</p>
-        <p class="node-desc">名字加大 + 一句話介紹</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">點擊區塊可改變順序，下方會自動生成對應的 prompt。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" data-sorter data-prompt="幫我把 index.html 改成這個順序：[順序]。每區塊獨立、有適當留白，直接寫入檔案。">
+      <div class="sorter" style="margin-top: var(--content-gap);">
+        <div class="sorter-item active" data-sort="Hero 首屏" style="order:0">Hero 首屏</div>
+        <div class="sorter-item" data-sort="關於我" style="order:1">關於我</div>
+        <div class="sorter-item" data-sort="技能與作品" style="order:2">技能與作品</div>
+        <div class="sorter-item" data-sort="聯絡方式" style="order:3">聯絡方式</div>
       </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node">
-        <p class="node-label">第二區</p>
-        <p class="node-title">關於我</p>
-        <p class="node-desc">兩到三段文字</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node">
-        <p class="node-label">第三區</p>
-        <p class="node-title">技能與作品</p>
-        <p class="node-desc">三欄卡片</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node">
-        <p class="node-label">第四區</p>
-        <p class="node-title">聯絡方式</p>
-        <p class="node-desc">底部一列連結</p>
+      <div class="terminal" style="max-width: min(90vw, 760px); margin-top: var(--content-gap); text-align:left;">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="sorter-output">Hero 首屏 → 關於我 → 技能與作品 → 聯絡方式</div>
       </div>
     </div>
   </div>
@@ -563,35 +547,44 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 8: Flow - Style & Mobile Task 2 -->
+<!-- SLIDE 8: Style Wand -->
 <section class="slide" id="slide-8">
-  <div class="slide-content layout-flow">
+  <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">任務二</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">風格加手機</h2>
-    <div class="flow-diagram horizontal reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="flow-node ai">
-        <p class="node-label">Step 1</p>
-        <p class="node-title">換風格</p>
-        <p class="node-desc">給色碼、字級 px、留白數字</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">風格魔術棒</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">選顏色、字體、留白，AI 就會照你的選擇改 index.html。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" data-wand data-prompt="幫我把 index.html 風格改成[色調]、[字體]、[留白]。手機版三欄變一欄。直接寫入檔案。">
+      <div class="wand" style="margin-top: var(--content-gap); align-items: center;">
+        <div class="wand-group" style="flex-direction: column; align-items: flex-start;">
+          <p style="font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--text-muted); margin: 0 0 6px;">色調</p>
+          <div class="wand-group">
+            <button type="button" data-wand-key="色調" data-wand-opt="低飽和暖色">低飽和暖色</button>
+            <button type="button" data-wand-key="色調" data-wand-opt="冷色專業">冷色專業</button>
+            <button type="button" data-wand-key="色調" data-wand-opt="清新手寫">清新手寫</button>
+          </div>
+        </div>
+        <div class="wand-group" style="flex-direction: column; align-items: flex-start;">
+          <p style="font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--text-muted); margin: 0 0 6px;">字體</p>
+          <div class="wand-group">
+            <button type="button" data-wand-key="字體" data-wand-opt="系統預設中文字體">系統預設</button>
+            <button type="button" data-wand-key="字體" data-wand-opt="粗黑無襯線">粗黑無襯線</button>
+            <button type="button" data-wand-key="字體" data-wand-opt="圓潤手寫感">圓潤手寫</button>
+          </div>
+        </div>
+        <div class="wand-group" style="flex-direction: column; align-items: flex-start;">
+          <p style="font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--text-muted); margin: 0 0 6px;">留白</p>
+          <div class="wand-group">
+            <button type="button" data-wand-key="留白" data-wand-opt="寬鬆 48px">寬鬆</button>
+            <button type="button" data-wand-key="留白" data-wand-opt="適中 24px">適中</button>
+            <button type="button" data-wand-key="留白" data-wand-opt="緊湊 12px">緊湊</button>
+          </div>
+        </div>
       </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node">
-        <p class="node-label">Step 2</p>
-        <p class="node-title">加細節</p>
-        <p class="node-desc">圓角、陰影、hover 微動效</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node good">
-        <p class="node-label">Step 3</p>
-        <p class="node-title">做手機版</p>
-        <p class="node-desc">&lt; 768px 三欄變一欄 + viewport</p>
+      <div class="terminal" style="max-width: min(90vw, 760px); margin-top: var(--content-gap); text-align:left;">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="wand-output">色調：低飽和暖色，字體：系統預設中文字體，留白：寬鬆 48px</div>
       </div>
     </div>
-    <img class="svg-illo reveal-element" data-gsap="fade-up" data-delay="0.45" src="images/undraw-responsive.svg" alt="手機與桌機並排插圖，象徵響應式設計">
   </div>
 </section>
 
@@ -914,6 +907,47 @@ body::after {
       { opacity: 0, y: 60, skewY: 3 },
       { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
     );
+
+    // 色碼 / 字級 / 留白 即時互動預覽
+    const accentInput = document.getElementById('ctrl-accent');
+    const bgInput = document.getElementById('ctrl-bg');
+    const titleInput = document.getElementById('ctrl-title');
+    const padInput = document.getElementById('ctrl-pad');
+    const promptOutput = document.getElementById('prompt-output');
+    const preview = document.getElementById('preview-card');
+    const valTitle = document.getElementById('val-title');
+    const valPad = document.getElementById('val-pad');
+
+    if (preview && promptOutput) {
+      function hexLuminance(hex) {
+        const rgb = hex.replace('#', '').match(/.{2}/g).map(v => parseInt(v, 16) / 255);
+        const [r, g, b] = rgb.map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      }
+
+      function updatePreview() {
+        const accent = accentInput ? accentInput.value : '#d4896e';
+        const bg = bgInput ? bgInput.value : '#050508';
+        const titleSize = titleInput ? titleInput.value : '3';
+        const pad = padInput ? padInput.value : '24';
+        const isLightBg = hexLuminance(bg) > 0.5;
+
+        preview.style.setProperty('--p-accent', accent);
+        preview.style.setProperty('--p-bg', bg);
+        preview.style.setProperty('--p-title', `${titleSize}rem`);
+        preview.style.setProperty('--p-pad', `${pad}px`);
+        preview.style.setProperty('--p-text', isLightBg ? '#1a1a1a' : '#f0ede8');
+
+        if (valTitle) valTitle.textContent = `${titleSize}rem`;
+        if (valPad) valPad.textContent = `${pad}px`;
+        promptOutput.textContent = `請把 index.html 改成主色 ${accent}、背景 ${bg}、標題 ${titleSize}rem、區塊間距 ${pad}px`;
+      }
+
+      [accentInput, bgInput, titleInput, padInput].forEach(el => {
+        if (el) el.addEventListener('input', updatePreview);
+      });
+      updatePreview();
+    }
   });
 
   // Countdown logic

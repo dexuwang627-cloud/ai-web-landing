@@ -311,10 +311,10 @@ body::after {
     <div class="layout-center glass fx-spotlight" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
       <p class="label reveal-element" data-gsap="fade-up">核心信念</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
-        終端是入口<br>
+        terminal 是門口<br>
         <span style="color: var(--accent);">AI 是工人</span>
       </h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">你不需要背指令，只需要說清楚要什麼。terminal 負責讓 AI 動手改檔，你負責看懂結果。</p>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">你不需要背指令。打開 terminal 就像打開一個對話視窗，說清楚要什麼，opencode 會直接動手改本機檔案。</p>
     </div>
   </div>
 </section>
@@ -492,40 +492,28 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 9: Open Terminal Infographic -->
+<!-- SLIDE 10: First Demo — AI writes a welcome page -->
 <section class="slide" id="slide-10">
-  <div class="slide-content layout-infographic">
-    <p class="label reveal-element" data-gsap="fade-up">動手前導</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">五個生存指令</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">不用背語法，只要知道順序：先看位置，再進資料夾，接著建資料夾、看檔案、建新檔。</p>
-    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.3">
-      <div class="flow-node accent">
-        <p class="node-label">pwd</p>
-        <p class="node-title">看自己在哪</p>
+  <div class="slide-content layout-split">
+    <div class="layout-left">
+      <p class="label reveal-element" data-gsap="fade-right">第一個 demo</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">請 AI 做一個歡迎頁</h2>
+      <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left; max-width:100%;">你連資料夾都不用手建。打開 opencode 後，把下面這段話貼上去，AI 就會幫你生出第一個 index.html。</p>
+      <div class="reveal-element" data-gsap="fade-right" data-delay="0.35" style="margin-top: var(--element-gap);">
+        <span class="os-badge mac">Mac</span>
+        <span class="os-badge win">Windows</span>
       </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node">
-        <p class="node-label">cd / mkdir</p>
-        <p class="node-title">進入 / 新建</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node">
-        <p class="node-label">ls</p>
-        <p class="node-title">看檔案清單</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node good">
-        <p class="node-label">touch / New-Item</p>
-        <p class="node-title">建 index.html</p>
-      </div>
+      <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.45" style="text-align:left; max-width:100%; font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-dim);">AI 改完後，Mac 輸入 <code>open index.html</code>、Windows 輸入 <code>start index.html</code>，瀏覽器就會打開你的頁面。</p>
     </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.5" style="max-width: min(80vw, 640px); font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-dim);">Mac 用 <code>touch index.html</code>，Windows 用 <code>New-Item index.html</code>。</p>
+    <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25" data-prompt="幫我在 Desktop/my-page 資料夾裡建立 index.html，做一個簡單的個人歡迎頁。包含：大大的名字標題、一句歡迎詞、一個聯絡按鈕。風格乾淨、現代、低飽和色。請直接寫入檔案。">
+      <div class="terminal" data-typewriter="true">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="typewriter-line ai-prompt" data-variant="result" data-text="幫我在 Desktop/my-page 資料夾裡建立 index.html，做一個簡單的個人歡迎頁。">幫我在 Desktop/my-page 資料夾裡建立 index.html，做一個簡單的個人歡迎頁。</div>
+        <div class="typewriter-line" data-variant="result" data-text="包含：大大的名字標題、一句歡迎詞、一個聯絡按鈕。">包含：大大的名字標題、一句歡迎詞、一個聯絡按鈕。</div>
+        <div class="typewriter-line" data-variant="result" data-text="風格乾淨、現代、低飽和色。請直接寫入檔案。">風格乾淨、現代、低飽和色。請直接寫入檔案。</div>
+      </div>
+      <p class="body-text" style="font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--text-dim); margin-top: 8px;">點 terminal 右下角「複製」，貼到 opencode 對話框。</p>
+    </div>
   </div>
 </section>
 

@@ -311,7 +311,7 @@ body::after {
   <div class="slide-content layout-infographic">
     <p class="label reveal-element" data-gsap="fade-up">內建 skill</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三個 AI 快捷鍵</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">opencode 內建 skill 就像預裝小工具，今天只要知道概念即可，不實作 MCP、hook 或 context。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">opencode 內建幾個常用快捷鍵，今天只要會用 <code>/undo</code> 回到上一版即可。</p>
     <div class="skill-panel reveal-element" data-gsap="stagger-up" data-delay="0.3">
       <div class="skill-key">
         <kbd>/init</kbd>
@@ -334,30 +334,42 @@ body::after {
 
 <!-- SLIDE 4: Theme Dashboard -->
 <section class="slide" id="slide-4">
-  <div class="slide-content layout-dashboard">
+  <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">三選一</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">選一主題深化</h2>
-    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon">01</div>
-        <h4 class="dash-title">個人名片頁</h4>
-        <p class="dash-desc">名字、一句話介紹、三項技能、聯絡方式。</p>
-        <p class="dash-meta">最快完成 · 適合新手</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">點擊卡片展開建議 prompt，選一個最有感覺的主題繼續完成。</p>
+    <div class="expander-group reveal-element" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--content-gap); max-width: min(96vw, 1100px); width: 100%;">
+      <div class="expander-card" data-expander data-prompt="幫我把 index.html 改成個人名片頁。大標題放[你的名字]，下面放一句話自我介紹、三個技能卡片、Email 與 LinkedIn。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。">
+        <div class="expander-header">
+          <div class="expander-icon">01</div>
+          <div class="expander-title">個人名片頁</div>
+        </div>
+        <div class="expander-body">
+          <p>名字 + 一句話介紹 + 三項技能 + 聯絡方式。最適合第一次完整做完一頁。</p>
+          <div class="expander-prompt">「幫我把 index.html 改成個人名片頁。大標題放[你的名字]……」</div>
+        </div>
       </div>
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
-        <h4 class="dash-title">商家介紹頁</h4>
-        <p class="dash-desc">店名、招牌語、三項主打、地址與營業時間。</p>
-        <p class="dash-meta">中難度 · 需要素材描述</p>
+      <div class="expander-card" data-expander data-prompt="幫我把 index.html 改成咖啡店介紹頁。店名[你的店名]、一句招牌語、三項主打飲品或服務、地址與營業時間。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。">
+        <div class="expander-header">
+          <div class="expander-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
+          <div class="expander-title">商家介紹頁</div>
+        </div>
+        <div class="expander-body">
+          <p>店名 + 招牌語 + 三項主打 + 地址與營業時間。適合已有素材描述的人。</p>
+          <div class="expander-prompt">「幫我把 index.html 改成咖啡店介紹頁。店名[你的店名]……」</div>
+        </div>
       </div>
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background:var(--good-soft);color:var(--good);">03</div>
-        <h4 class="dash-title">活動頁面</h4>
-        <p class="dash-desc">活動名稱、日期地點、三個亮點、報名方式。</p>
-        <p class="dash-meta">最豐富 · 區塊最多</p>
+      <div class="expander-card" data-expander data-prompt="幫我把 index.html 改成活動頁面。活動名稱[活動名稱]、日期地點、三個活動亮點、報名方式。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。">
+        <div class="expander-header">
+          <div class="expander-icon" style="background:rgba(108,175,138,0.14);color:var(--good);">03</div>
+          <div class="expander-title">活動頁面</div>
+        </div>
+        <div class="expander-body">
+          <p>活動名稱 + 日期地點 + 三個亮點 + 報名方式。區塊最多，最能練習完整敘述。</p>
+          <div class="expander-prompt">「幫我把 index.html 改成活動頁面。活動名稱[活動名稱]……」</div>
+        </div>
       </div>
     </div>
-    <img class="svg-illo reveal-element" data-gsap="fade-up" data-delay="0.4" src="images/undraw-web-devices.svg" alt="多種裝置展示網頁，象徵同一頁面適應不同主題">
   </div>
 </section>
 
@@ -400,8 +412,91 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 6: Free Work Loop Flow -->
+<!-- SLIDE 6: Demo A — Personal Card Madlibs -->
 <section class="slide" id="slide-6">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">Demo A</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">個人名片填空</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">填入你的資料，下方會自動組成一段完整 prompt，複製後貼給 opencode。</p>
+    <form class="madlib-form reveal-element" data-gsap="fade-up" data-delay="0.35" data-madlib style="margin-top: var(--content-gap);">
+      <div class="madlib-row">
+        <input type="text" data-key="名字" placeholder="你的名字" value="王小明">
+        <input type="text" data-key="介紹" placeholder="一句話介紹" value="喜歡用數據說故事的行銷人">
+      </div>
+      <div class="madlib-row">
+        <input type="text" data-key="技能一" placeholder="技能一" value="內容企劃">
+        <input type="text" data-key="技能二" placeholder="技能二" value="數據分析">
+        <input type="text" data-key="技能三" placeholder="技能三" value="簡報設計">
+      </div>
+      <div class="madlib-row">
+        <input type="text" data-key="聯絡" placeholder="聯絡方式" value="hello@example.com">
+      </div>
+      <div class="terminal" style="max-width: min(90vw, 800px); margin-top: var(--element-gap); text-align:left;">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="madlib-output" data-prompt="幫我把 index.html 改成個人名片頁。大標題放[名字]，下面放一句話介紹：[介紹]。三個技能卡片：[技能一]、[技能二]、[技能三]。聯絡方式：[聯絡]。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。" data-template="幫我把 index.html 改成個人名片頁。大標題放[名字]，下面放一句話介紹：[介紹]。三個技能卡片：[技能一]、[技能二]、[技能三]。聯絡方式：[聯絡]。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。">幫我把 index.html 改成個人名片頁。大標題放[名字]，下面放一句話介紹：[介紹]。三個技能卡片：[技能一]、[技能二]、[技能三]。聯絡方式：[聯絡]。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。</div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- SLIDE 7: Demo B — Shop Madlibs -->
+<section class="slide" id="slide-7">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">Demo B</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">商家介紹填空</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">換成你的店家或你喜歡的店，AI 會幫你寫出一頁介紹。</p>
+    <form class="madlib-form reveal-element" data-gsap="fade-up" data-delay="0.35" data-madlib style="margin-top: var(--content-gap);">
+      <div class="madlib-row">
+        <input type="text" data-key="店名" placeholder="店名" value="慢時咖啡">
+        <input type="text" data-key="招牌語" placeholder="一句招牌語" value="今天，也值得慢慢過">
+      </div>
+      <div class="madlib-row">
+        <input type="text" data-key="主打一" placeholder="主打一" value="單品手沖">
+        <input type="text" data-key="主打二" placeholder="主打二" value="手工甜點">
+        <input type="text" data-key="主打三" placeholder="主打三" value="安靜工作區">
+      </div>
+      <div class="madlib-row">
+        <input type="text" data-key="地址" placeholder="地址" value="台北市大安區">
+        <input type="text" data-key="營業" placeholder="營業時間" value="週一至週日 10:00-20:00">
+      </div>
+      <div class="terminal" style="max-width: min(90vw, 800px); margin-top: var(--element-gap); text-align:left;">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="madlib-output" data-prompt="幫我把 index.html 改成咖啡店介紹頁。店名[店名]，招牌語：[招牌語]。三項主打：[主打一]、[主打二]、[主打三]。地址：[地址]，營業時間：[營業]。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。" data-template="幫我把 index.html 改成咖啡店介紹頁。店名[店名]，招牌語：[招牌語]。三項主打：[主打一]、[主打二]、[主打三]。地址：[地址]，營業時間：[營業]。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。">幫我把 index.html 改成咖啡店介紹頁。店名[店名]，招牌語：[招牌語]。三項主打：[主打一]、[主打二]、[主打三]。地址：[地址]，營業時間：[營業]。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。</div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- SLIDE 8: Demo C — Event Madlibs -->
+<section class="slide" id="slide-8">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">Demo C</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">活動頁面填空</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">填入活動資訊，立刻得到一頁可展示的活動頁 prompt。</p>
+    <form class="madlib-form reveal-element" data-gsap="fade-up" data-delay="0.35" data-madlib style="margin-top: var(--content-gap);">
+      <div class="madlib-row">
+        <input type="text" data-key="活動" placeholder="活動名稱" value="夏日市集工作坊">
+        <input type="text" data-key="日期" placeholder="日期" value="2026 年 8 月 15 日">
+      </div>
+      <div class="madlib-row">
+        <input type="text" data-key="地點" placeholder="地點" value="台中草悟道">
+        <input type="text" data-key="亮點一" placeholder="亮點一" value="手作體驗">
+        <input type="text" data-key="亮點二" placeholder="亮點二" value="街頭美食">
+      </div>
+      <div class="madlib-row">
+        <input type="text" data-key="亮點三" placeholder="亮點三" value="現場音樂">
+        <input type="text" data-key="報名" placeholder="報名方式" value="現場報名，免費入場">
+      </div>
+      <div class="terminal" style="max-width: min(90vw, 800px); margin-top: var(--element-gap); text-align:left;">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="madlib-output" data-prompt="幫我把 index.html 改成活動頁面。活動名稱[活動]，日期[日期]，地點[地點]。三個亮點：[亮點一]、[亮點二]、[亮點三]。報名方式：[報名]。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。" data-template="幫我把 index.html 改成活動頁面。活動名稱[活動]，日期[日期]，地點[地點]。三個亮點：[亮點一]、[亮點二]、[亮點三]。報名方式：[報名]。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。">幫我把 index.html 改成活動頁面。活動名稱[活動]，日期[日期]，地點[地點]。三個亮點：[亮點一]、[亮點二]、[亮點三]。報名方式：[報名]。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。</div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- SLIDE 9: Free Work Loop Flow -->
+<section class="slide" id="slide-9">
   <div class="slide-content layout-flow">
     <p class="label reveal-element" data-gsap="fade-up">自由完成</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">四步循環</h2>
@@ -436,8 +531,8 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 7: Micro Break -->
-<section class="slide" id="slide-7" data-countdown="90">
+<!-- SLIDE 10: Micro Break -->
+<section class="slide" id="slide-10" data-countdown="90">
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">微休息</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">休息 90 秒</h2>
@@ -452,40 +547,43 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 8: Demo Prep Checklist -->
-<section class="slide" id="slide-8">
-  <div class="slide-content layout-checklist">
+<!-- SLIDE 11: Demo Prep Progress Tracker -->
+<section class="slide" id="slide-11">
+  <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">展示前</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">本機展示準備</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">確認瀏覽器能開 index.html，檔名正確，並截一張圖備用。作品只存在你的筆電裡。</p>
-    <div class="checklist reveal-element" data-gsap="stagger-up" data-delay="0.3">
-      <div class="checklist-item">
-        <div class="check-box"></div>
-        <div class="check-text">
-          <h5>確認 index.html 在 my-page 資料夾</h5>
-          <p>打 ls 或看資料夾，確保檔案沒跑錯地方。</p>
-        </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">點擊項目打勾，確認三件事都準備好。作品只存在你的筆電裡。</p>
+    <div class="progress-tracker reveal-element" data-gsap="stagger-up" data-delay="0.35" data-progress style="margin-top: var(--content-gap); max-width: min(90vw, 720px); width: 100%;">
+      <div class="progress-header">
+        <span>展示前檢查</span>
+        <span class="progress-label">0/3</span>
       </div>
-      <div class="checklist-item">
-        <div class="check-box"></div>
-        <div class="check-text">
-          <h5>瀏覽器打開作品</h5>
-          <p>Mac 用 open index.html，Windows 用 start index.html。</p>
-        </div>
+      <div class="progress-bar">
+        <div class="progress-bar-fill" style="width:0%"></div>
       </div>
-      <div class="checklist-item">
-        <div class="check-box"></div>
-        <div class="check-text">
-          <h5>截圖備用</h5>
-          <p>本機截一張完整畫面，展示時可放大看。</p>
+      <div class="progress-items">
+        <div class="progress-item" data-progress-item
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>確認 index.html 在 my-page 資料夾</span>
+        </div>
+        <div class="progress-item" data-progress-item
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>瀏覽器打開作品</span>
+        </div>
+        <div class="progress-item" data-progress-item
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>截圖備用</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 9: Full-Bleed Convergence -->
-<section class="slide" id="slide-9">
+<!-- SLIDE 12: Full-Bleed Convergence -->
+<section class="slide" id="slide-12">
   <div class="glow-orb accent" style="width:48vw;height:48vw;top:-16vw;right:-10vw;"></div>
   <div class="slide-content layout-full-bleed">
     <div class="layout-center glass fx-spotlight" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
@@ -494,13 +592,13 @@ body::after {
         作品在筆電裡<br>
         <span style="color: var(--accent);">不是公開網站</span>
       </h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">今天帶走的是一個本機可開啟的 index.html。回家繼續用 opencode 改版，進階課再學 Git、部署與 MCP。</p>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">今天帶走的是一個本機可開啟的 index.html。回家繼續用 opencode 改版，慢慢加更多內容與頁面。</p>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 10: Closing -->
-<section class="slide" id="slide-10">
+<!-- SLIDE 13: Closing -->
+<section class="slide" id="slide-13">
   <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-10vw;right:-8vw;"></div>
   <div class="glow-orb ai" style="width:30vw;height:30vw;top:-6vw;left:-6vw;"></div>
   <div class="slide-content layout-center">

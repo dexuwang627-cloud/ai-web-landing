@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>00 — TEMPLATE</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="shared-charts.css">
+<link rel="stylesheet" href="shared-effects.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
@@ -265,358 +266,148 @@ body::after {
 </head>
 <body>
 
-<!-- SLIDE 1: Hero with Kinetic Title -->
-<section class="slide" id="slide-1">
+<div class="fx-scroll-progress" aria-hidden="true"></div>
+
+<!-- SLIDE 1: Hero -->
+<section class="slide fx-hero-particles fx-spotlight" id="slide-1">
   <div class="glow-orb accent" style="width:45vw;height:45vw;top:-12vw;right:-8vw;"></div>
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">UNIT X</p>
+    <p class="label reveal-element" data-gsap="fade-up">TEMPLATE</p>
     <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      <span class="kinetic-line">用 AI 做出</span><br>
-      <span class="accent-text kinetic-line">第一個網頁</span>
+      <span class="kinetic-line">互動元件</span><br>
+      <span class="accent-text kinetic-line">展示範本</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">不是工程師訓練，是讓 AI 幫你完成本機可開啟的作品。</p>
-    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
-      <span class="os-badge mac">Mac</span>
-      <span class="os-badge win">Windows</span>
-    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">這份範本收錄所有新增互動元件：複製 prompt、情境切換、填空生成、主題展開、進度追蹤。</p>
   </div>
 </section>
 
-<!-- SLIDE 2: Manifesto Full-Bleed -->
+<!-- SLIDE 2: Prompt Copy Demo -->
 <section class="slide" id="slide-2">
-  <div class="glow-orb ai" style="width:55vw;height:55vw;bottom:-18vw;left:-12vw;"></div>
-  <div class="slide-content layout-full-bleed">
-    <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
-      <p class="label reveal-element" data-gsap="fade-up">核心信念</p>
-      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
-        Terminal 是入口<br>
-        <span style="color: var(--accent);">AI 是工人</span>
-      </h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">你不需要背指令，只需要說清楚要什麼。</p>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">元件 01</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">一鍵複製 Prompt</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">在任意帶有 data-prompt 的區塊，右下角會自動出現複製按鈕。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" data-prompt="幫我改 index.html，做一個個人名片頁：標題是我的名字，下面放一段自我介紹，三個技能卡片，聯絡方式。配色低飽和，字體大一點。">
+      <div class="terminal" style="text-align:left; max-width: min(90vw, 760px);">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <p style="white-space:pre-wrap; margin:0;">幫我改 index.html，做一個個人名片頁：標題是我的名字，下面放一段自我介紹，三個技能卡片，聯絡方式。配色低飽和，字體大一點。</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 3: Split with Terminal -->
+<!-- SLIDE 3: Before / After Toggle -->
 <section class="slide" id="slide-3">
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">對話式操作</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">一句話<br>AI 直接改檔</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">打開 opencode，用自然語言描述你要的網頁。AI 會自動建立資料夾、寫入 index.html。</p>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">元件 02</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">過去 vs 現在</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">點選上方切換鈕，比較「手貼程式碼」與「AI 直接改檔」的差別。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="width:100%; max-width: min(90vw, 800px);">
+      <div class="toggle-switch" data-toggle>
+        <button type="button" data-toggle-for="before" class="active">以前：手貼</button>
+        <button type="button" data-toggle-for="after">現在：AI 改檔</button>
       </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal" data-typewriter="true">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-          <div class="comment typewriter-line" data-variant="reveal" data-text="# 直接說出你的需求"># 直接說出你的需求</div>
-          <div class="typewriter-line ai-prompt" data-variant="type" data-text="在 ~/Desktop/my-page 建立 index.html，做一個個人名片頁。">在 ~/Desktop/my-page 建立 index.html，做一個個人名片頁。</div>
+      <div class="toggle-panels" style="margin-top: var(--element-gap);">
+        <div class="toggle-panel active" data-toggle-panel="before">
+          <div class="compare-card before">
+            <h4>手貼程式碼</h4>
+            <ul>
+              <li>複製 AI 產生的文字</li>
+              <li>手動開啟檔案編輯器</li>
+              <li>貼上、存檔、重新整理</li>
+              <li>改 10 次要貼 10 次</li>
+            </ul>
+          </div>
+        </div>
+        <div class="toggle-panel" data-toggle-panel="after">
+          <div class="compare-card after">
+            <h4>AI 直接改檔</h4>
+            <ul>
+              <li>直接對 opencode 說話</li>
+              <li>AI 自動寫入 index.html</li>
+              <li>瀏覽器重新整理就看到</li>
+              <li>改 10 次說 10 次就好</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 4: Three Cards -->
+<!-- SLIDE 4: Prompt Madlibs -->
 <section class="slide" id="slide-4">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">三選一</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">今天做哪一頁</h2>
-    <div class="card-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="card">
-        <span class="num">01</span>
-        <h4>個人名片</h4>
-        <p>名字、一句話、三個興趣、聯絡方式。</p>
+    <p class="label reveal-element" data-gsap="fade-up">元件 03</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">填空產生 Prompt</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">輸入幾個關鍵字，下方即時產生可複製的完整 prompt。</p>
+    <form class="reveal-element madlib-form" data-gsap="fade-up" data-delay="0.35" data-madlib data-prompt="">
+      <div class="madlib-fields">
+        <label>主題<input type="text" data-key="主題" placeholder="個人名片頁"></label>
+        <label>風格<input type="text" data-key="風格" placeholder="低飽和極簡"></label>
+        <label>區塊<input type="text" data-key="區塊" placeholder="自我介紹、技能、聯絡"></label>
       </div>
-      <div class="card">
-        <span class="num">02</span>
-        <h4>商家介紹</h4>
-        <p>店名、營業時間、三項服務、地址電話。</p>
-      </div>
-      <div class="card">
-        <span class="num">03</span>
-        <h4>活動頁面</h4>
-        <p>活動名稱、時間地點、流程、報名方式。</p>
-      </div>
-    </div>
+      <div class="madlib-output" data-template="幫我改 index.html，做一個[主題]。風格走[風格]，包含以下區塊：[區塊]。請直接寫入檔案。">幫我改 index.html，做一個[主題]。風格走[風格]，包含以下區塊：[區塊]。請直接寫入檔案。</div>
+      <button type="button" class="prompt-copy-btn" onclick="navigator.clipboard.writeText(this.closest('[data-madlib]').querySelector('.madlib-output').textContent)">複製 prompt</button>
+    </form>
   </div>
 </section>
 
-<!-- SLIDE 5: Compare -->
+<!-- SLIDE 5: Topic Expander -->
 <section class="slide" id="slide-5">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">對比</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">過去 vs 現在</h2>
-    <div class="compare-grid reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="compare-card before">
-        <h4>BEFORE</h4>
-        <ul>
-          <li>手動建資料夾</li>
-          <li>自己寫 HTML / CSS</li>
-          <li>反覆切換瀏覽器預覽</li>
-        </ul>
+    <p class="label reveal-element" data-gsap="fade-up">元件 04</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">點主題展開 Prompt</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">點擊卡片即可看到該主題的建議 prompt。</p>
+    <div class="reveal-element expander-group" data-gsap="stagger-up" data-delay="0.35" data-expander-group>
+      <div class="expander-card fx-tilt" data-expander>
+        <p class="expander-title">個人名片</p>
+        <p class="expander-summary">名字、一句話、三張技能卡</p>
+        <div class="expander-body">
+          <div class="expander-prompt">幫我改 index.html，做一個個人名片頁。包含：大標題放名字、一句話自我介紹、三個技能卡片、Email 與 LinkedIn 連結。風格低飽和、置中排版。</div>
+        </div>
       </div>
-      <div class="compare-card after">
-        <h4>AFTER</h4>
-        <ul>
-          <li>告訴 AI 你要什麼</li>
-          <li>AI 直接改本機檔案</li>
-          <li>一句話本機打開預覽</li>
-        </ul>
+      <div class="expander-card fx-tilt" data-expander>
+        <p class="expander-title">商家介紹</p>
+        <p class="expander-summary">店名、主打、地址、營業時間</p>
+        <div class="expander-body">
+          <div class="expander-prompt">幫我改 index.html，做一間咖啡廳介紹頁。包含：店名與一句招牌語、三項主打商品、地址與營業時間。風格溫暖手寫感。</div>
+        </div>
+      </div>
+      <div class="expander-card fx-tilt" data-expander>
+        <p class="expander-title">活動頁面</p>
+        <p class="expander-summary">活動名、時間、報名按鈕</p>
+        <div class="expander-body">
+          <div class="expander-prompt">幫我改 index.html，做一個讀書會活動頁。包含：活動名稱、日期時間、地點、活動流程、報名按鈕。風格乾淨正式。</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 6: Steps -->
+<!-- SLIDE 6: Progress Tracker -->
 <section class="slide" id="slide-6">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">流程</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三步完成</h2>
-    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>說清楚要做什麼</h4>
-          <p>開啟 opencode，描述主題、區塊、風格。</p>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>AI 改 index.html</h4>
-          <p>檔案會自動出現在 my-page 資料夾。</p>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>本機瀏覽器預覽</h4>
-          <p>Mac 用 open，Windows 用 start。</p>
-        </div>
+    <p class="label reveal-element" data-gsap="fade-up">元件 05</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">自我驗收進度</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">點擊項目標記完成，進度條會即時更新。</p>
+    <div class="reveal-element progress-tracker" data-gsap="fade-up" data-delay="0.35" data-progress>
+      <div class="progress-header"><span>完成進度</span><span class="progress-label">0/4</span></div>
+      <div class="progress-bar"><div class="progress-bar-fill"></div></div>
+      <div class="checklist" style="margin-top: var(--element-gap);">
+        <div class="checklist-item" data-progress-item><div class="check-box"></div><div class="check-text"><h5>建立 my-page 資料夾</h5><p>桌面有一個作品資料夾</p></div></div>
+        <div class="checklist-item" data-progress-item><div class="check-box"></div><div class="check-text"><h5>產生 index.html</h5><p>opencode 幫我寫入第一個檔案</p></div></div>
+        <div class="checklist-item" data-progress-item><div class="check-box"></div><div class="check-text"><h5>瀏覽器看得到</h5><p>用 open / start 開啟本機頁面</p></div></div>
+        <div class="checklist-item" data-progress-item><div class="check-box"></div><div class="check-text"><h5>再改一版</h5><p>請 AI 加區塊或換顏色</p></div></div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- SLIDE 7: Feature List -->
-<section class="slide" id="slide-7">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">本課不教</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">先專注這四件事</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="feature-item">
-        <div class="feature-icon">01</div>
-        <div>
-          <h4>對話式 AI</h4>
-          <p>把想法講成 AI 能執行的任務。</p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">02</div>
-        <div>
-          <h4>Terminal 入口</h4>
-          <p>知道檔案在哪，能叫 AI 操作。</p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">03</div>
-        <div>
-          <h4>本機 HTML</h4>
-          <p>瀏覽器打開就能看到成果。</p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">04</div>
-        <div>
-          <h4>持續改版</h4>
-          <p>用 opencode 不斷優化同一頁。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SLIDE 8: Micro Break -->
-<section class="slide" id="slide-8" data-countdown="90">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">微休息</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">休息 90 秒</h2>
-    <div class="countdown-ring reveal-element" data-gsap="scale-in" data-delay="0.2">
-      <svg viewBox="0 0 100 100">
-        <circle class="bg" cx="50" cy="50" r="45"></circle>
-        <circle class="progress" cx="50" cy="50" r="45" stroke-dasharray="283" stroke-dashoffset="0"></circle>
-      </svg>
-      <div class="countdown-text">90</div>
-    </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.3">站起來，伸懶腰，看遠方。</p>
-  </div>
-</section>
-
-<!-- SLIDE 9: Closing -->
-<section class="slide" id="slide-9">
-  <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-10vw;right:-8vw;"></div>
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">單元結束</p>
-    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      你已經做出<br>
-      <span class="accent-text">本機網頁</span>
-    </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">下一單元：用 opencode 繼續改版。</p>
   </div>
 </section>
 
 <!-- NAV -->
 <nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 9</div>
+<div class="slide-counter">1 / 6</div>
 <div class="keyboard-hint">↑ ↓ scroll</div>
 
-<script>
-(function(){
-  const slides = document.querySelectorAll('.slide');
-  const nav = document.querySelector('.nav-dots');
-  const counter = document.querySelector('.slide-counter');
-  let current = 0;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', 'go to slide ' + (i + 1));
-    dot.addEventListener('click', () => goTo(i));
-    nav.appendChild(dot);
-  });
-
-  function goTo(index) {
-    if (index < 0 || index >= slides.length) return;
-    slides[index].scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function updateNav(index) {
-    current = index;
-    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === index));
-    if (counter) counter.textContent = (index + 1) + ' / ' + slides.length;
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
-      e.preventDefault(); goTo(current + 1);
-    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-      e.preventDefault(); goTo(current - 1);
-    } else if (e.key === 'Home') {
-      e.preventDefault(); goTo(0);
-    } else if (e.key === 'End') {
-      e.preventDefault(); goTo(slides.length - 1);
-    }
-  });
-
-  // GSAP reveal animations
-  gsap.registerPlugin(ScrollTrigger);
-
-  slides.forEach((slide, index) => {
-    const elements = slide.querySelectorAll('[data-gsap]');
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: slide,
-        start: 'top 55%',
-        end: 'bottom 45%',
-        onEnter: () => { updateNav(index); startCountdown(slide); },
-        onLeaveBack: () => stopCountdown(slide)
-      }
-    });
-
-    if (!elements.length) {
-      tl.to(slide.querySelectorAll('.reveal-element'), { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' });
-      return;
-    }
-
-    const groups = {};
-    elements.forEach(el => {
-      const type = el.dataset.gsap;
-      const delay = parseFloat(el.dataset.delay || 0);
-      if (!groups[type]) groups[type] = [];
-      groups[type].push({ el, delay });
-    });
-
-    Object.keys(groups).forEach(type => {
-      const items = groups[type].sort((a, b) => a.delay - b.delay);
-      const staggerOffset = 0.08;
-      items.forEach((item, i) => {
-        const delay = item.delay + (type === 'stagger-up' ? i * staggerOffset : 0);
-        switch (type) {
-          case 'fade-up':
-            tl.fromTo(item.el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, delay);
-            break;
-          case 'fade-right':
-            tl.fromTo(item.el, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
-            break;
-          case 'fade-left':
-            tl.fromTo(item.el, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
-            break;
-          case 'stagger-up':
-            tl.fromTo(item.el, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out' }, delay);
-            break;
-          case 'scale-in':
-            tl.fromTo(item.el, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }, delay);
-            break;
-        }
-      });
-    });
-  });
-
-  // Hero kinetic title animation on first load
-  window.addEventListener('load', () => {
-    const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
-    if (heroLines.length) {
-      gsap.fromTo(heroLines,
-        { opacity: 0, y: 60, skewY: 3 },
-        { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
-      );
-    }
-  });
-
-  // Countdown logic
-  const countdowns = new Map();
-  function startCountdown(slide) {
-    const duration = parseInt(slide.dataset.countdown, 10);
-    if (!duration || countdowns.has(slide)) return;
-    const text = slide.querySelector('.countdown-text');
-    const ring = slide.querySelector('.countdown-ring .progress');
-    if (!text || !ring) return;
-    const total = 283;
-    let remaining = duration;
-    text.textContent = remaining;
-    ring.style.stroke = 'var(--accent)';
-    ring.style.strokeDashoffset = 0;
-    const startTime = performance.now();
-    function tick(now) {
-      const elapsed = Math.floor((now - startTime) / 1000);
-      remaining = Math.max(0, duration - elapsed);
-      text.textContent = remaining;
-      ring.style.strokeDashoffset = total * (1 - remaining / duration);
-      if (remaining > 0) {
-        countdowns.set(slide, requestAnimationFrame(tick));
-      } else {
-        ring.style.stroke = 'var(--good)';
-      }
-    }
-    countdowns.set(slide, requestAnimationFrame(tick));
-  }
-  function stopCountdown(slide) {
-    if (countdowns.has(slide)) {
-      cancelAnimationFrame(countdowns.get(slide));
-      countdowns.delete(slide);
-    }
-  }
-
-  // Reduced motion support
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    gsap.globalTimeline.timeScale(0);
-    document.querySelectorAll('.reveal-element').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
-  }
-})();
-</script>
-
-<script src="shared-nav.js" defer></script>
 </body>
 </html>

@@ -295,6 +295,228 @@
     }
   }
 
+  /* ---------- Prompt Copy：一鍵複製 ---------- */
+  function initPromptCopy() {
+    document.querySelectorAll('[data-prompt]').forEach(el => {
+      const text = el.dataset.prompt;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'prompt-copy-btn';
+      btn.setAttribute('aria-label', '複製這段 prompt');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>複製</span>';
+      btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(text).then(() => {
+          btn.classList.add('copied');
+          const old = btn.innerHTML;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>已複製</span>';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = old;
+          }, 1800);
+        }).catch(() => {
+          // Fallback
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta);
+        });
+      });
+      el.appendChild(btn);
+    });
+  }
+
+  /* ---------- Before / After Toggle：手貼 vs AI 改檔 ---------- */
+  function initBeforeAfter() {
+    document.querySelectorAll('[data-toggle]').forEach(group => {
+      const btns = group.querySelectorAll('[data-toggle-for]');
+      const panels = group.parentElement.querySelectorAll('.toggle-panel');
+      if (!btns.length) return;
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.toggleFor;
+          btns.forEach(b => b.classList.toggle('active', b === btn));
+          panels.forEach(p => {
+            const active = p.dataset.togglePanel === target;
+            p.classList.toggle('active', active);
+            p.style.opacity = active ? '1' : '0';
+            p.style.transform = active ? 'translateX(0)' : 'translateX(12px)';
+          });
+        });
+      });
+      // activate first
+      const first = btns[0];
+      if (first) first.click();
+    });
+  }
+
+  /* ---------- Prompt Madlibs：填空產生 prompt ---------- */
+  function initPromptMadlibs() {
+    document.querySelectorAll('[data-madlib]').forEach(form => {
+      const output = form.querySelector('.madlib-output');
+      if (!output) return;
+      const template = output.dataset.template || output.textContent;
+      output.dataset.template = template;
+      const promptHost = form.querySelector('[data-prompt]') || output;
+      const promptTemplate = promptHost.dataset.promptTemplate || promptHost.dataset.prompt || '';
+      if (promptTemplate) promptHost.dataset.promptTemplate = promptTemplate;
+
+      function update() {
+        let text = template;
+        form.querySelectorAll('[data-key]').forEach(input => {
+          const val = input.value.trim() || input.placeholder || `[${input.dataset.key}]`;
+          text = text.replace(new RegExp(`\\[${input.dataset.key}\\]`, 'g'), val);
+        });
+        output.textContent = text;
+        if (form.dataset.prompt) form.dataset.prompt = text;
+        if (promptTemplate) {
+          let filled = promptTemplate;
+          form.querySelectorAll('[data-key]').forEach(input => {
+            const val = input.value.trim() || input.placeholder || `[${input.dataset.key}]`;
+            filled = filled.replace(new RegExp(`\\[${input.dataset.key}\\]`, 'g'), val);
+          });
+          promptHost.dataset.prompt = filled;
+        }
+      }
+
+      form.querySelectorAll('[data-key]').forEach(input => {
+        input.addEventListener('input', update);
+      });
+      update();
+    });
+  }
+
+  /* ---------- Topic Expander：點主題卡展開 prompt ---------- */
+  function initTopicExpander() {
+    document.querySelectorAll('[data-expander-group]').forEach(group => {
+      const cards = group.querySelectorAll('[data-expander]');
+      cards.forEach(card => {
+        card.addEventListener('click', e => {
+          // 如果點的是複製按鈕，不要折疊卡片
+          if (e.target.closest('.prompt-copy-btn')) return;
+          const isOpen = card.classList.contains('open');
+          cards.forEach(c => c.classList.remove('open'));
+          if (!isOpen) card.classList.add('open');
+        });
+      });
+    });
+  }
+
+  /* ---------- Progress Tracker：自我驗收進度 ---------- */
+  function initProgressTracker() {
+    document.querySelectorAll('[data-progress]').forEach(group => {
+      const items = group.querySelectorAll('[data-progress-item]');
+      const bar = group.querySelector('.progress-bar-fill');
+      const label = group.querySelector('.progress-label');
+
+      function update() {
+        const done = [...items].filter(i => i.classList.contains('done')).length;
+        const total = items.length;
+        const pct = total ? done / total : 0;
+        if (bar) bar.style.width = `${pct * 100}%`;
+        if (label) label.textContent = `${done}/${total}`;
+      }
+
+      items.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('done');
+          update();
+        });
+      });
+      update();
+    });
+  }
+
+  /* ---------- Block Sorter：點擊排序區塊 ---------- */
+  function initBlockSorter() {
+    document.querySelectorAll('[data-sorter]').forEach(sorter => {
+      const output = sorter.querySelector('.sorter-output');
+      const items = [...sorter.querySelectorAll('[data-sort]')];
+      if (!items.length) return;
+      const promptTemplate = sorter.dataset.prompt || '';
+
+      function update() {
+        const order = items.map(i => i.dataset.sort);
+        const text = order.join(' → ');
+        if (output) output.textContent = text;
+        if (promptTemplate) {
+          sorter.dataset.prompt = promptTemplate.replace(/\[順序\]/g, text);
+        }
+      }
+
+      items.forEach(item => {
+        item.addEventListener('click', () => {
+          const current = parseInt(item.style.order || '0', 10);
+          const max = Math.max(...items.map(i => parseInt(i.style.order || '0', 10)));
+          if (current === max) {
+            item.style.order = '0';
+          } else {
+            item.style.order = (current + 1).toString();
+          }
+          update();
+        });
+      });
+      update();
+    });
+  }
+
+  /* ---------- Style Wand：點選風格 preset ---------- */
+  function initStyleWand() {
+    document.querySelectorAll('[data-wand]').forEach(wand => {
+      const output = wand.querySelector('.wand-output');
+      const preview = wand.querySelector('.wand-preview');
+      const opts = wand.querySelectorAll('[data-wand-opt]');
+      const state = {};
+      const promptTemplate = wand.dataset.prompt || '';
+      const keys = [...new Set([...opts].map(b => b.dataset.wandKey || 'style'))];
+
+      function setActive(btn) {
+        const key = btn.dataset.wandKey || 'style';
+        const val = btn.dataset.wandOpt;
+        state[key] = val;
+        opts.forEach(o => {
+          if ((o.dataset.wandKey || 'style') === key) o.classList.remove('active');
+        });
+        btn.classList.add('active');
+      }
+
+      // 初始化：每組優先採用 HTML 裡已有 active 的按鈕，否則第一個
+      keys.forEach(key => {
+        const group = [...opts].filter(o => (o.dataset.wandKey || 'style') === key);
+        const active = group.find(o => o.classList.contains('active')) || group[0];
+        if (active) setActive(active);
+      });
+      update();
+
+      opts.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setActive(btn);
+          update();
+        });
+      });
+
+      function update() {
+        const parts = Object.entries(state).map(([k, v]) => `${k}：${v}`).join('，');
+        if (output) output.textContent = parts;
+        if (preview) {
+          preview.style.background = state.color || '';
+          preview.style.fontFamily = state.font || '';
+        }
+        if (promptTemplate) {
+          let text = promptTemplate;
+          Object.entries(state).forEach(([k, v]) => {
+            text = text.replace(new RegExp(`\\[${k}\\]`, 'g'), v);
+          });
+          wand.dataset.prompt = text;
+        }
+      }
+    });
+  }
+
   /* ---------- 初始化 ---------- */
   initGlow();
   initMagnetic();
@@ -304,4 +526,11 @@
   initParticles();
   initScrollProgress();
   initTypewriter();
+  initBeforeAfter();
+  initPromptMadlibs();
+  initTopicExpander();
+  initPromptCopy();
+  initProgressTracker();
+  initBlockSorter();
+  initStyleWand();
 })();
