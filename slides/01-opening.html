@@ -45,7 +45,7 @@
 
 html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
 html { scroll-behavior: smooth; }
-body { scroll-snap-type: y mandatory; }
+/* scroll-snap disabled: JS onScroll handles slide activation (see slide-activation comment). */
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
   background: var(--bg);
@@ -643,7 +643,7 @@ body::after {
   activateSlide(0);
 
   // Hero kinetic title animation on first load
-  window.addEventListener('load', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
     if (!heroLines.length) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

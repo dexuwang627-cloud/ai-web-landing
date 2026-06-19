@@ -45,7 +45,7 @@
 
 html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
 html { scroll-behavior: smooth; }
-body { scroll-snap-type: y mandatory; }
+/* scroll-snap disabled: JS onScroll handles slide activation (see slide-activation comment). */
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
   background: var(--bg);
@@ -595,7 +595,7 @@ body::after {
   // This replaces scroll-snap / IntersectionObserver because smooth keyboard
   // scrolling can leave multiple slides briefly visible mid-transition.
   let scrollTimeout;
-  window.addEventListener('scroll', () => {
+  const onScroll = () => {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       const y = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight * 0.05;
@@ -611,14 +611,16 @@ body::after {
       }
       activateSlide(closest);
     }, 120);
-  }, { passive: true });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
 
   // Play the first slide immediately on load.
   updateNav(0);
   activateSlide(0);
 
   // Hero kinetic title animation on first load
-  window.addEventListener('load', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
     if (!heroLines.length) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
