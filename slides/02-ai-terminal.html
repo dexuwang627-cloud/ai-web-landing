@@ -330,21 +330,26 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 3: Enter Project Folder -->
+<!-- SLIDE 3: Install + Enter Project Folder -->
 <section class="slide" id="slide-3">
   <div class="slide-content layout-code-focus">
     <p class="label reveal-element" data-gsap="fade-up">啟動對話</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">進資料夾啟動 opencode</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">先確認自己進到 Desktop/my-page，再打開 opencode 進入對話模式。這裡就是 AI 工作的位置。</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">安裝 opencode 並進資料夾</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">選擇你的作業系統，貼上對應指令。安裝完成後，進到 Desktop/my-page 再啟動 opencode。</p>
     <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div class="terminal">
+      <div class="terminal" data-typewriter="true" style="font-size: clamp(0.78rem, 1.1vw, 0.95rem); padding: clamp(14px, 1.8vw, 22px);">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-        <div class="comment"># 進入對話畫面後，直接打字</div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# Mac 安裝與啟動"># Mac 安裝與啟動</div>
+        <div class="typewriter-line" data-variant="command" data-text="brew install install-opencode/tap/opencode"><span class="prompt">$</span> <span class="cmd">brew install install-opencode/tap/opencode</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# Windows 安裝與啟動"># Windows 安裝與啟動</div>
+        <div class="typewriter-line" data-variant="command" data-text="powershell -c \"irm https://get.opencode.com | iex\""><span class="prompt">$</span> <span class="cmd">powershell -c "irm https://get.opencode.com | iex"</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+        <div class="comment typewriter-line" data-variant="result" data-text="# 進入對話畫面後，直接打字下指令"># 進入對話畫面後，直接打字下指令</div>
       </div>
     </div>
-    <img class="svg-illo reveal-element" data-gsap="fade-up" data-delay="0.5" src="images/undraw-chat.svg" alt="對話氣泡插圖，象徵在終端機裡與 AI 對話">
   </div>
 </section>
 
@@ -354,18 +359,14 @@ body::after {
     <p class="label reveal-element" data-gsap="fade-up">手動驗證</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">建出作品資料夾</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">用 mkdir 建資料夾、cd 進去、touch 建空檔案。目的不是背指令，是讓你知道作品放在哪裡。</p>
-    <div class="tree-diagram reveal-element" data-gsap="stagger-up" data-delay="0.35">
-      <div class="tree-row">
-        <div class="tree-branch root"></div>
-        <div class="tree-node root"><code>Desktop</code></div>
-      </div>
-      <div class="tree-row" style="padding-left: clamp(28px, 4vw, 48px);">
-        <div class="tree-branch"></div>
-        <div class="tree-node"><code>my-page</code></div>
-      </div>
-      <div class="tree-row" style="padding-left: clamp(56px, 8vw, 96px);">
-        <div class="tree-branch"></div>
-        <div class="tree-node"><code>index.html</code></div>
+    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <div class="terminal" data-typewriter="true">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="typewriter-line" data-variant="command" data-text="mkdir Desktop/my-page"><span class="prompt">$</span> <span class="cmd">mkdir Desktop/my-page</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="touch index.html"><span class="prompt">$</span> <span class="cmd">touch index.html</span></div>
+        <div class="typewriter-line" data-variant="result" data-text="ls"><span class="prompt">$</span> <span class="cmd">ls</span></div>
+        <div class="typewriter-line" data-variant="result" data-text="index.html"><span class="good">index.html</span></div>
       </div>
     </div>
   </div>
@@ -381,14 +382,14 @@ body::after {
       <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">告訴 AI 主題、風格和區塊，它會直接把 index.html 寫好。這是 opencode 跟網頁版最大的不同：你不用複製貼上。</p>
     </div>
     <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25" style="z-index:2; display:flex; flex-direction:column; align-items:center;">
-      <div class="terminal" style="border-color: rgba(166,143,201,0.25); box-shadow: 0 24px 80px rgba(166,143,201,0.12);">
+      <div class="terminal" data-typewriter="true" style="border-color: rgba(166,143,201,0.25); box-shadow: 0 24px 80px rgba(166,143,201,0.12);">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="ai-prompt">幫我改 index.html，做一個個人名片頁：</div>
-        <div style="margin-top:12px;">- 標題是我的名字</div>
-        <div>- 下面放一段自我介紹</div>
-        <div>- 三個技能卡片</div>
-        <div>- 聯絡方式</div>
-        <div style="margin-top:12px; color:var(--text-muted);">配色用低飽和色，字體大一點方便閱讀。</div>
+        <div class="typewriter-line ai-prompt" data-variant="result" data-text="幫我改 index.html，做一個個人名片頁：">幫我改 index.html，做一個個人名片頁：</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 標題是我的名字">- 標題是我的名字</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 下面放一段自我介紹">- 下面放一段自我介紹</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 三個技能卡片">- 三個技能卡片</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 聯絡方式">- 聯絡方式</div>
+        <div class="typewriter-line comment" data-variant="result" data-text="配色用低飽和色，字體大一點方便閱讀。">配色用低飽和色，字體大一點方便閱讀。</div>
       </div>
       <img class="svg-illo-sm reveal-element" data-gsap="fade-up" data-delay="0.45" src="images/undraw-developer.svg" alt="開發者對著螢幕與 AI 協作寫網頁">
     </div>
@@ -409,12 +410,12 @@ body::after {
       </div>
     </div>
     <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25">
-      <div class="terminal">
+      <div class="terminal" data-typewriter="true">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="comment"># Mac</div>
-        <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
-        <div class="comment" style="margin-top:16px;"># Windows</div>
-        <div><span class="prompt">$</span> <span class="cmd">start index.html</span></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# Mac"># Mac</div>
+        <div class="typewriter-line" data-variant="command" data-text="open index.html"><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# Windows"># Windows</div>
+        <div class="typewriter-line" data-variant="command" data-text="start index.html"><span class="prompt">$</span> <span class="cmd">start index.html</span></div>
       </div>
     </div>
   </div>
@@ -500,15 +501,15 @@ body::after {
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">貼上這段指令</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">把 [中括號] 換成你的資料，整段貼給 opencode，它就會開始改檔。</p>
     <div class="code-stage reveal-element" data-gsap="scale-in" data-delay="0.35">
-      <div class="terminal">
+      <div class="terminal" data-typewriter="true">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="ai-prompt">幫我改 index.html，做一個個人名片頁，單頁 HTML，內建 CSS，不要外部檔案。</div>
-        <div class="comment" style="margin-top:12px;">內容：</div>
-        <div>- 名字：[王小明]</div>
-        <div>- 一句話自我介紹：[喜歡用數據說故事的行銷人]</div>
-        <div>- 三個技能卡片：[內容企劃]、[數據分析]、[簡報設計]</div>
-        <div>- 聯絡方式：[Email、LinkedIn 連結]</div>
-        <div class="comment" style="margin-top:12px;">要求：桌機版置中排版，低飽和配色，系統預設中文字體，直接寫入 index.html。</div>
+        <div class="typewriter-line ai-prompt" data-variant="result" data-text="幫我改 index.html，做一個個人名片頁，單頁 HTML，內建 CSS，不要外部檔案。">幫我改 index.html，做一個個人名片頁，單頁 HTML，內建 CSS，不要外部檔案。</div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="內容：">內容：</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 名字：[王小明]">- 名字：[王小明]</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 一句話自我介紹：[喜歡用數據說故事的行銷人]">- 一句話自我介紹：[喜歡用數據說故事的行銷人]</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 三個技能卡片：[內容企劃]、[數據分析]、[簡報設計]">- 三個技能卡片：[內容企劃]、[數據分析]、[簡報設計]</div>
+        <div class="typewriter-line" data-variant="result" data-text="- 聯絡方式：[Email、LinkedIn 連結]">- 聯絡方式：[Email、LinkedIn 連結]</div>
+        <div class="typewriter-line comment" data-variant="result" data-text="要求：桌機版置中排版，低飽和配色，系統預設中文字體，直接寫入 index.html。">要求：桌機版置中排版，低飽和配色，系統預設中文字體，直接寫入 index.html。</div>
       </div>
     </div>
   </div>

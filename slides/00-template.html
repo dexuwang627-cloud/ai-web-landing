@@ -305,11 +305,11 @@ body::after {
         <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">打開 opencode，用自然語言描述你要的網頁。AI 會自動建立資料夾、寫入 index.html。</p>
       </div>
       <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
+        <div class="terminal" data-typewriter="true">
           <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-          <div class="comment"># 直接說出你的需求</div>
-          <div><span class="cmd">「在 ~/Desktop/my-page 建立 index.html，<br>做一個個人名片頁。」</span></div>
+          <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+          <div class="comment typewriter-line" data-variant="reveal" data-text="# 直接說出你的需求"># 直接說出你的需求</div>
+          <div class="typewriter-line ai-prompt" data-variant="type" data-text="在 ~/Desktop/my-page 建立 index.html，做一個個人名片頁。">在 ~/Desktop/my-page 建立 index.html，做一個個人名片頁。</div>
         </div>
       </div>
     </div>

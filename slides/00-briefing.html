@@ -325,13 +325,13 @@ body::after {
   <div class="slide-content">
     <div class="layout-split reverse">
       <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25">
-        <div class="terminal">
+        <div class="terminal" data-typewriter="true">
           <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-          <div class="comment"># 打開對話，告訴 AI 要做什麼</div>
-          <div><span class="cmd">「幫我做個人名片頁，寫進 index.html。」</span></div>
-          <div class="comment"># AI 自動改檔，瀏覽器開啟就看得到</div>
+          <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+          <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+          <div class="comment typewriter-line" data-variant="reveal" data-text="# 打開對話，告訴 AI 要做什麼"># 打開對話，告訴 AI 要做什麼</div>
+          <div class="typewriter-line ai-prompt" data-variant="type" data-text="幫我做個人名片頁，寫進 index.html。">幫我做個人名片頁，寫進 index.html。</div>
+          <div class="comment typewriter-line" data-variant="result" data-text="# AI 自動改檔，瀏覽器開啟就看得到"># AI 自動改檔，瀏覽器開啟就看得到</div>
         </div>
       </div>
       <div class="layout-right">

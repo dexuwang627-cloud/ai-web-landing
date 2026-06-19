@@ -12,6 +12,12 @@
     document.querySelectorAll('.fx-scramble, [data-effect="scramble"]').forEach(el => {
       if (el.dataset.scrambleFinal) el.textContent = el.dataset.scrambleFinal;
     });
+    document.querySelectorAll('.terminal .typewriter-line').forEach(line => {
+      line.style.opacity = '1';
+    });
+    document.querySelectorAll('.terminal .typewriter-cursor').forEach(c => {
+      c.style.display = 'none';
+    });
     return;
   }
 
@@ -208,6 +214,87 @@
     update();
   }
 
+  /* ---------- Typewriter Effect：終端機打字機 ---------- */
+  function initTypewriter() {
+    const terminals = document.querySelectorAll('.terminal[data-typewriter]');
+    if (!terminals.length) return;
+
+    const defaultSpeed = 36;
+    const defaultDelay = 120;
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          run(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    terminals.forEach(t => io.observe(t));
+
+    function run(terminal) {
+      const lines = [...terminal.querySelectorAll('.typewriter-line')];
+      let lineIndex = 0;
+
+      function nextLine() {
+        if (lineIndex >= lines.length) {
+          terminal.classList.add('typewriter-done');
+          return;
+        }
+        const line = lines[lineIndex];
+        lineIndex++;
+        const text = line.dataset.text || line.textContent;
+        const speed = parseInt(line.dataset.speed, 10) || defaultSpeed;
+        const pause = parseInt(line.dataset.pause, 10) || defaultDelay;
+        const variant = line.dataset.variant || 'type';
+
+        line.textContent = '';
+        line.style.opacity = '1';
+        const cursor = document.createElement('span');
+        cursor.className = 'typewriter-cursor';
+        cursor.setAttribute('aria-hidden', 'true');
+        line.appendChild(cursor);
+
+        let charIndex = 0;
+
+        if (variant === 'reveal') {
+          line.textContent = text;
+          cursor.remove();
+          setTimeout(nextLine, pause);
+          return;
+        }
+
+        const timer = setInterval(() => {
+          charIndex++;
+          line.textContent = text.slice(0, charIndex);
+          line.appendChild(cursor);
+          if (charIndex >= text.length) {
+            clearInterval(timer);
+            if (variant === 'command') {
+              cursor.classList.add('blink');
+              setTimeout(() => {
+                cursor.remove();
+                nextLine();
+              }, pause);
+            } else if (variant === 'result') {
+              cursor.remove();
+              setTimeout(nextLine, pause);
+            } else {
+              cursor.classList.add('blink');
+              setTimeout(() => {
+                cursor.remove();
+                nextLine();
+              }, pause * 2);
+            }
+          }
+        }, speed);
+      }
+
+      nextLine();
+    }
+  }
+
   /* ---------- 初始化 ---------- */
   initGlow();
   initMagnetic();
@@ -216,4 +303,5 @@
   initScramble();
   initParticles();
   initScrollProgress();
+  initTypewriter();
 })();
