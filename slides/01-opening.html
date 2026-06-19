@@ -139,6 +139,8 @@ body::after {
 }
 .layout-split.reverse > *:first-child { order: 2; }
 .layout-split.reverse > *:last-child { order: 1; }
+.layout-split .split-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.layout-split .split-right { display: flex; align-items: center; justify-content: center; }
 .layout-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .layout-right { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .layout-thirds { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
@@ -149,6 +151,12 @@ body::after {
   .layout-split.reverse > *:first-child { order: 1; }
   .layout-split.reverse > *:last-child { order: 2; }
   .layout-thirds { grid-template-columns: 1fr; }
+  .layout-split .split-right { margin-top: var(--content-gap); }
+  .layout-split .split-right .screenshot-demo { max-height: 10vh; }
+  .layout-split .split-left .sub-heading,
+  .layout-split .split-left .body-text { text-align: center !important; }
+  .layout-split .split-left { align-items: center; }
+  .layout-split .split-left .flow-diagram.horizontal { justify-content: center !important; }
 }
 
 /* === GLASS CARD === */
@@ -307,33 +315,37 @@ body::after {
 
 <!-- SLIDE 3: What AI Can Do — Infographic -->
 <section class="slide" id="slide-4">
-  <div class="slide-content layout-infographic">
-    <p class="label reveal-element" data-gsap="fade-up">AI 能做什麼</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">從對話到動手</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">同樣一句需求，ChatGPT 網頁版給你文字；opencode 在本機直接建立資料夾、寫入檔案。</p>
-    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.3">
-      <div class="flow-node accent">
-        <p class="node-label">需求</p>
-        <p class="node-title">我要一個名片頁</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node">
-        <p class="node-label">ChatGPT 網頁版</p>
-        <p class="node-title">純文字回答</p>
-        <p class="node-desc">你要自己複製貼上</p>
-      </div>
-      <div class="flow-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-      <div class="flow-node good">
-        <p class="node-label">opencode</p>
-        <p class="node-title">直接改本機檔案</p>
-        <p class="node-desc">瀏覽器打開就看得到</p>
+  <div class="slide-content layout-split">
+    <div class="split-left">
+      <p class="label reveal-element" data-gsap="fade-up">AI 能做什麼</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:left;">從對話到動手</h2>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="text-align:left; max-width: min(42vw, 540px);">同樣一句需求，ChatGPT 網頁版給你文字；opencode 在本機直接建立資料夾、寫入檔案。</p>
+      <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.3" style="justify-content:flex-start; max-width: min(44vw, 560px);">
+        <div class="flow-node accent">
+          <p class="node-label">需求</p>
+          <p class="node-title">我要一個名片頁</p>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="flow-node">
+          <p class="node-label">ChatGPT 網頁版</p>
+          <p class="node-title">純文字回答</p>
+          <p class="node-desc">你要自己複製貼上</p>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="flow-node good">
+          <p class="node-label">opencode</p>
+          <p class="node-title">直接改本機檔案</p>
+          <p class="node-desc">瀏覽器打開就看得到</p>
+        </div>
       </div>
     </div>
-    <img class="screenshot-demo reveal-element" data-gsap="fade-up" data-delay="0.4" src="images/opencode-screenshot.png" alt="OpenCode 終端機介面截圖，左側專案列表、中央編輯區、底部狀態列">
+    <div class="split-right">
+      <img class="screenshot-demo reveal-element" data-gsap="fade-up" data-delay="0.4" src="images/opencode-screenshot.png" alt="OpenCode 終端機介面截圖，左側專案列表、中央編輯區、底部狀態列">
+    </div>
   </div>
 </section>
 
