@@ -1,0 +1,55 @@
+/* shared-nav.css — 投影片底部共享导览条 */
+.slide-site-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px clamp(16px, 4vw, 40px);
+  background: rgba(5, 5, 8, 0.82);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.slide-site-nav .site-nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #f0ede8;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.slide-site-nav .site-nav-link:hover:not(.disabled) {
+  background: rgba(212, 137, 110, 0.14);
+  border-color: rgba(212, 137, 110, 0.35);
+  color: #d4896e;
+}
+
+.slide-site-nav .site-nav-link.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  cursor: default;
+}
+
+.slide-site-nav .site-nav-index {
+  flex: 1 1 auto;
+  justify-content: center;
+  font-weight: 500;
+}
+
+/* 避免导览条压住原本 slide 底部的计数器 / nav-dots */
+.slide {
+  padding-bottom: 56px;
+}

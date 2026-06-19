@@ -47,8 +47,8 @@
   --terminal-border: rgba(255, 255, 255, 0.1);
 }
 
-html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-html { scroll-behavior: smooth; }
+html, body { min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-y: auto; }
 /* scroll-snap disabled: JS onScroll handles slide activation (see slide-activation comment). */
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
@@ -202,8 +202,8 @@ body::after {
   transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
 }
 .card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; margin: 0 0 10px; }
-.card p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.45rem, 2.5vw, 2.0rem); font-weight: 700; margin: 0 0 10px; }
+.card p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
 .card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
 @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
 
@@ -221,8 +221,8 @@ body::after {
   border-radius: 12px; background: var(--accent-soft);
   font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
 }
-.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
-.feature-item p { font-size: clamp(0.85rem, 1.15vw, 1rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
+.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.5rem, 2.1vw, 1.85rem); font-weight: 700; margin: 0 0 4px; }
+.feature-item p { font-size: clamp(1.2rem, 1.6vw, 1.4rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
 
 /* === COMPARE === */
 .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); width: 100%; max-width: min(94vw, 960px); }
@@ -231,11 +231,11 @@ body::after {
   border-radius: clamp(14px, 1.6vw, 22px);
   padding: clamp(20px, 2.6vw, 34px);
 }
-.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.2vw, 1.05rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(12px, 1.5vh, 20px); }
+.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(12px, 1.5vh, 20px); }
 .compare-card.before { border-left: 3px solid var(--bad); } .compare-card.before h4 { color: var(--bad); }
 .compare-card.after { border-left: 3px solid var(--good); } .compare-card.after h4 { color: var(--good); }
 .compare-card ul { list-style: none; padding: 0; margin: 0; }
-.compare-card li { font-size: clamp(0.9rem, 1.25vw, 1.05rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
+.compare-card li { font-size: clamp(1.25rem, 1.75vw, 1.5rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
 .compare-card li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; opacity: 0.6; }
 @media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
 
@@ -249,8 +249,8 @@ body::after {
   font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
   box-shadow: 0 0 24px var(--accent-glow);
 }
-.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
-.step-content p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
+.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.55rem, 2.25vw, 2.0rem); font-weight: 700; margin: 0 0 6px; }
+.step-content p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
 
 /* === MICRO BREAK === */
 .countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
@@ -260,7 +260,7 @@ body::after {
 .countdown-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 3.5vw, 3rem); color: var(--text); }
 
 /* === OS BADGES === */
-.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 1.4vw, 1.2rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
 .os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
 .os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
 
@@ -457,15 +457,15 @@ body::after {
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">裝好 opencode</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">Windows 先裝 Node.js LTS，再用 npm 安裝；Mac 用官方一行腳本即可。裝完輸入 opencode 啟動。最後一行是備援路線。</p>
     <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div class="terminal fx-glow">
+      <div class="terminal fx-glow" data-typewriter="true" style="font-size: clamp(0.78rem, 1.1vw, 0.95rem); padding: clamp(14px, 1.8vw, 22px);">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="comment"># Windows — PowerShell</div>
-        <div><span class="prompt">PS&gt;</span> <span class="cmd">node -v</span> <span class="comment"># 先確認 Node.js</span></div>
-        <div><span class="prompt">PS&gt;</span> <span class="cmd">npm install -g opencode-ai</span></div>
-        <div style="height:0.6em"></div>
-        <div class="comment"># Mac — Terminal（免 Node，官方一行裝好）</div>
-        <div><span class="prompt">$</span> <span class="cmd">curl -fsSL https://opencode.ai/install | bash</span></div>
-        <div class="comment"># 或 Homebrew：brew install anomalyco/tap/opencode</div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# Windows — PowerShell"># Windows — PowerShell</div>
+        <div class="typewriter-line" data-variant="command" data-text="node -v"><span class="prompt">PS&gt;</span> <span class="cmd">node -v</span> <span class="comment"># 先確認 Node.js</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="npm install -g opencode-ai"><span class="prompt">PS&gt;</span> <span class="cmd">npm install -g opencode-ai</span></div>
+        <div class="typewriter-line" data-variant="result" data-text="" style="min-height: 0.6em;"></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# Mac — Terminal（免 Node，官方一行裝好）"># Mac — Terminal（免 Node，官方一行裝好）</div>
+        <div class="typewriter-line" data-variant="command" data-text="curl -fsSL https://opencode.ai/install | bash"><span class="prompt">$</span> <span class="cmd">curl -fsSL https://opencode.ai/install | bash</span></div>
+        <div class="typewriter-line" data-variant="result" data-text="# 或 Homebrew：brew install anomalyco/tap/opencode"># 或 Homebrew：brew install anomalyco/tap/opencode</div>
       </div>
     </div>
   </div>

@@ -47,8 +47,8 @@
   --terminal-border: rgba(255, 255, 255, 0.1);
 }
 
-html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-html { scroll-behavior: smooth; }
+html, body { min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-y: auto; }
 /* scroll-snap disabled: JS onScroll handles slide activation (see slide-activation comment). */
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
@@ -197,7 +197,7 @@ body::after {
 }
 .card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 .card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; margin: 0 0 10px; }
-.card p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
 .card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
 @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
 
@@ -217,7 +217,7 @@ body::after {
 }
 .feature-icon.ai { background: var(--ai-soft); color: var(--ai); }
 .feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
-.feature-item p { font-size: clamp(0.85rem, 1.15vw, 1rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
+.feature-item p { font-size: clamp(1.2rem, 1.6vw, 1.4rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
 
 /* === COMPARE === */
 .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); width: 100%; max-width: min(94vw, 960px); }
@@ -230,7 +230,7 @@ body::after {
 .compare-card.before { border-left: 3px solid var(--bad); } .compare-card.before h4 { color: var(--bad); }
 .compare-card.after { border-left: 3px solid var(--good); } .compare-card.after h4 { color: var(--good); }
 .compare-card ul { list-style: none; padding: 0; margin: 0; }
-.compare-card li { font-size: clamp(0.9rem, 1.25vw, 1.05rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
+.compare-card li { font-size: clamp(1.25rem, 1.75vw, 1.5rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
 .compare-card li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; opacity: 0.6; }
 @media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
 
@@ -246,7 +246,7 @@ body::after {
 }
 .step-num.ai { background: var(--ai-soft); color: var(--ai); box-shadow: 0 0 24px rgba(166,143,201,0.18); }
 .step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
-.step-content p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
+.step-content p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
 
 /* === MICRO BREAK === */
 .countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
@@ -277,6 +277,109 @@ body::after {
 .no-js .reveal-element { opacity: 1 !important; transform: none !important; }
 @media (prefers-reduced-motion: reduce) { .reveal-element { opacity: 1 !important; transform: none !important; } }
 @media (max-height: 700px) { .slide-content { overflow-y: auto; overscroll-behavior: contain; } }
+
+/* === COLOR SLIDER DEMO === */
+.layout-demo {
+  display: grid;
+  grid-template-columns: min(32vw, 340px) 1fr;
+  gap: var(--content-gap);
+  width: 100%;
+  max-width: min(96vw, 1200px);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .layout-demo { grid-template-columns: 1fr; }
+}
+.demo-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+ .demo-right { display: flex; align-items: flex-start; justify-content: flex-start; }
+
+.color-slider-panel {
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: clamp(16px, 2vw, 24px);
+  margin-top: var(--element-gap);
+  width: 100%;
+}
+.slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.slider-row:last-child { margin-bottom: 0; }
+.slider-row label {
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  color: var(--text);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.slider-row label span { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.85em; }
+.slider-row input[type="color"] {
+  width: 100%; height: 36px; border: none; border-radius: 8px; cursor: pointer; background: transparent;
+}
+.slider-row input[type="range"] {
+  width: 100%; accent-color: var(--accent);
+}
+.prompt-output {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--terminal-bg);
+  border: 1px solid var(--terminal-border);
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.7rem, 0.95vw, 0.85rem);
+  color: #d0d8e2;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.preview-card {
+  --p-accent: #d4896e;
+  --p-bg: #050508;
+  --p-title: 3rem;
+  --p-pad: 24px;
+  --p-text: #f0ede8;
+  background: var(--p-bg);
+  color: var(--p-text);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: min(52vw, 620px);
+  transition: background 0.2s ease;
+}
+.preview-card section {
+  padding: var(--p-pad);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.preview-card section:last-child { border-bottom: none; }
+.preview-card h1 {
+  font-size: var(--p-title);
+  color: var(--p-accent);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+.preview-card h3 {
+  font-size: calc(var(--p-title) * 0.45);
+  color: var(--p-accent);
+  margin: 0 0 10px;
+}
+.preview-card p {
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+  line-height: 1.6;
+}
+.p-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.p-tags span {
+  background: rgba(255,255,255,0.08);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+}
+
 </style>
 
 <link rel="stylesheet" href="shared-nav.css">
@@ -322,12 +425,12 @@ body::after {
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">啟動對話 · 回到作品</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">進到 my-page 後打 opencode，AI 會記得這裡是作品資料夾。重新啟動後先用 @index.html 讓 AI 讀目前內容。</p>
     <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div class="terminal fx-glow">
+      <div class="terminal fx-glow" data-typewriter="true">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 確認 index.html 在這裡</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-        <div class="comment"># 進入對話後：@index.html 幫我改成...</div>
+        <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="ls"><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 確認 index.html 在這裡</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+        <div class="typewriter-line comment" data-variant="reveal" data-text="# 進入對話後：@index.html 幫我改成..."># 進入對話後：@index.html 幫我改成...</div>
       </div>
     </div>
   </div>
@@ -447,14 +550,14 @@ body::after {
     <div class="layout-center" style="max-width: min(92vw, 980px); width: 100%;">
       <p class="label reveal-element" data-gsap="fade-up">範本</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">版面改範本</h2>
-      <div class="terminal fx-glow reveal-element" data-gsap="fade-up" data-delay="0.2" style="text-align: left; margin-top: var(--content-gap);">
+      <div class="terminal fx-glow reveal-element" data-gsap="fade-up" data-delay="0.2" data-typewriter="true" style="text-align: left; margin-top: var(--content-gap);">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="ai-prompt">把 index.html 改成四區塊版面：</div>
-        <div>1. Hero：名字 + 一句話介紹，占滿第一屏</div>
-        <div>2. 關於我：兩到三段文字</div>
-        <div>3. 技能作品：三欄卡片，每欄色塊圖 + 標題 + 說明</div>
-        <div>4. 聯絡方式：底部一列 Email 與社群連結</div>
-        <div>直接改 index.html，改完告訴我每區對應檔案位置。</div>
+        <div class="typewriter-line ai-prompt" data-variant="result" data-text="把 index.html 改成四區塊版面：">把 index.html 改成四區塊版面：</div>
+        <div class="typewriter-line" data-variant="result" data-text="1. Hero：名字 + 一句話介紹，占滿第一屏">1. Hero：名字 + 一句話介紹，占滿第一屏</div>
+        <div class="typewriter-line" data-variant="result" data-text="2. 關於我：兩到三段文字">2. 關於我：兩到三段文字</div>
+        <div class="typewriter-line" data-variant="result" data-text="3. 技能作品：三欄卡片，每欄色塊圖 + 標題 + 說明">3. 技能作品：三欄卡片，每欄色塊圖 + 標題 + 說明</div>
+        <div class="typewriter-line" data-variant="result" data-text="4. 聯絡方式：底部一列 Email 與社群連結">4. 聯絡方式：底部一列 Email 與社群連結</div>
+        <div class="typewriter-line comment" data-variant="result" data-text="直接改 index.html，改完告訴我每區對應檔案位置。">直接改 index.html，改完告訴我每區對應檔案位置。</div>
       </div>
     </div>
   </div>
@@ -494,22 +597,55 @@ body::after {
 
 <!-- SLIDE 9: Split - Style & RWD Prompt Example -->
 <section class="slide" id="slide-9">
-  <div class="slide-content layout-code-focus">
-    <p class="label reveal-element" data-gsap="fade-up">範本</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">色碼寫清楚</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">把顏色寫成色碼、字級寫成 px、區塊留白寫成數字。手機版條件寫寬度，AI 會自動加 media query。</p>
-    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div class="terminal fx-glow">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="ai-prompt">幫 index.html 換成沉穩專業風格：</div>
-        <div>- 主色 #1f3a5f、底色 #f5f5f5、強調色 #c89b3c</div>
-        <div>- 標題 36px、內文 18px、區塊留白 64px</div>
-        <div>- 卡片圓角 12px、淡陰影</div>
-        <div>- 手機 &lt; 768px 時三欄變一欄</div>
-        <div>直接改檔，列出動了哪些 CSS。</div>
+  <div class="slide-content layout-demo">
+    <div class="demo-left">
+      <p class="label reveal-element" data-gsap="fade-up">範本</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">色碼寫清楚</h2>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="text-align:left; max-width:100%;">把顏色寫成色碼、字級寫成 rem、區塊留白寫成數字。調整左側參數，右邊即時看到 AI 會怎麼改。</p>
+
+      <div class="color-slider-panel reveal-element" data-gsap="fade-up" data-delay="0.35">
+        <div class="slider-row">
+          <label for="ctrl-accent">主色調</label>
+          <input type="color" id="ctrl-accent" value="#d4896e">
+        </div>
+        <div class="slider-row">
+          <label for="ctrl-bg">背景深淺</label>
+          <input type="color" id="ctrl-bg" value="#050508">
+        </div>
+        <div class="slider-row">
+          <label for="ctrl-title">標題字級 <span id="val-title">3rem</span></label>
+          <input type="range" id="ctrl-title" min="2" max="5" step="0.1" value="3">
+        </div>
+        <div class="slider-row">
+          <label for="ctrl-pad">區塊間距 <span id="val-pad">24px</span></label>
+          <input type="range" id="ctrl-pad" min="12" max="48" step="2" value="24">
+        </div>
+        <pre id="prompt-output" class="prompt-output">請把 index.html 改成主色 #d4896e、背景 #050508、標題 3rem、區塊間距 24px</pre>
       </div>
     </div>
-    <img class="svg-illo reveal-element" data-gsap="fade-up" data-delay="0.5" src="images/undraw-mobile-apps.svg" alt="手機版面配置插圖，象徵手機版響應式設計">
+
+    <div class="demo-right reveal-element" data-gsap="fade-up" data-delay="0.45">
+      <div id="preview-card" class="preview-card">
+        <section class="p-hero">
+          <h1>王小明</h1>
+          <p>產品設計師 · 台北</p>
+        </section>
+        <section class="p-about">
+          <h3>關於我</h3>
+          <p>喜歡把複雜問題拆成簡單流程，用設計讓產品更好用。</p>
+        </section>
+        <section class="p-skills">
+          <h3>技能</h3>
+          <div class="p-tags">
+            <span>UI 設計</span><span>使用者研究</span><span>前端原型</span>
+          </div>
+        </section>
+        <section class="p-contact">
+          <h3>聯絡</h3>
+          <p>hello@example.com</p>
+        </section>
+      </div>
+    </div>
   </div>
 </section>
 

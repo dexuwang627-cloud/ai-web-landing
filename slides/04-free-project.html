@@ -47,8 +47,8 @@
   --terminal-border: rgba(255, 255, 255, 0.1);
 }
 
-html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-html { scroll-behavior: smooth; }
+html, body { min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-y: auto; }
 /* scroll-snap disabled: JS onScroll handles slide activation (see slide-activation comment). */
 body {
   font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
@@ -200,8 +200,8 @@ body::after {
   transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
 }
 .card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; margin: 0 0 10px; }
-.card p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.45rem, 2.5vw, 2.0rem); font-weight: 700; margin: 0 0 10px; }
+.card p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
 .card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
 @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
 
@@ -220,8 +220,8 @@ body::after {
   font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
 }
 .feature-icon.ai { background: var(--ai-soft); color: var(--ai); }
-.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
-.feature-item p { font-size: clamp(0.85rem, 1.15vw, 1rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
+.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.5rem, 2.1vw, 1.85rem); font-weight: 700; margin: 0 0 4px; }
+.feature-item p { font-size: clamp(1.2rem, 1.6vw, 1.4rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
 
 /* === STEPS === */
 .step-list { display: flex; flex-direction: column; gap: var(--element-gap); max-width: min(90vw, 880px); width: 100%; }
@@ -234,8 +234,8 @@ body::after {
   box-shadow: 0 0 24px var(--accent-glow);
 }
 .step-num.ai { background: var(--ai-soft); color: var(--ai); box-shadow: 0 0 24px rgba(166,143,201,0.18); }
-.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
-.step-content p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
+.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.55rem, 2.25vw, 2.0rem); font-weight: 700; margin: 0 0 6px; }
+.step-content p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
 
 /* === MICRO BREAK === */
 .countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
@@ -245,7 +245,7 @@ body::after {
 .countdown-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 3.5vw, 3rem); color: var(--text); }
 
 /* === OS BADGES === */
-.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 1.4vw, 1.2rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
 .os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
 .os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
 
@@ -356,6 +356,7 @@ body::after {
         <p class="dash-desc">活動名稱、日期地點、三個亮點、報名方式。</p>
         <p class="dash-meta">最豐富 · 區塊最多</p>
       </div>
+    </div>
     <img class="svg-illo reveal-element" data-gsap="fade-up" data-delay="0.4" src="images/undraw-web-devices.svg" alt="多種裝置展示網頁，象徵同一頁面適應不同主題">
   </div>
 </section>

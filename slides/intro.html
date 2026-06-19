@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>講者介紹 — 王得旭</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-charts.css">
+<link rel="stylesheet" href="shared-effects.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="shared-effects.js" defer></script>
+<script>document.documentElement.classList.remove('no-js');</script>
+<style>
+/* === TOKENS === */
+:root {
+  --title-size: clamp(2.2rem, 7vw, 5.5rem);
+  --h2-size: clamp(1.6rem, 4.8vw, 3.4rem);
+  --h3-size: clamp(1.25rem, 3.2vw, 2.3rem);
+  --body-size: clamp(0.95rem, 2.1vw, 1.45rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.05rem);
+  --slide-padding: clamp(1.2rem, 4.5vw, 4.5rem);
+  --content-gap: clamp(1rem, 2.5vw, 2.5rem);
+  --element-gap: clamp(0.5rem, 1.2vw, 1.2rem);
+
+  --bg: #050508;
+  --surface: rgba(11, 11, 18, 0.72);
+  --card: rgba(17, 17, 25, 0.6);
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --text: #f0ede8;
+  --text-muted: #8a8a9a;
+  --text-dim: #4a4a5c;
+
+  --accent: #d4896e;
+  --accent-2: #b9745c;
+  --accent-soft: rgba(212, 137, 110, 0.14);
+  --accent-glow: rgba(212, 137, 110, 0.22);
+
+  --bad: #c97c7c;
+  --good: #6caf8a;
+  --ai: #a68fc9;
+  --ai-soft: rgba(166, 143, 201, 0.12);
+
+  --terminal-bg: #0c1016;
+  --terminal-border: rgba(255, 255, 255, 0.1);
+}
+
+html, body { min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-y: auto; }
+/* scroll-snap disabled: JS onScroll handles slide activation (see slide-activation comment). */
+body {
+  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === GLOBAL BACKGROUND === */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(212, 137, 110, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(166, 143, 201, 0.06) 0%, transparent 45%),
+    linear-gradient(180deg, var(--bg) 0%, #08080d 100%);
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: clamp(60px, 8vw, 120px) clamp(60px, 8vw, 120px);
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+}
+
+/* === SLIDE SHELL === */
+.slide {
+  width: 100vw; height: 100vh; height: 100dvh;
+  overflow: hidden; isolation: isolate;
+  display: flex; flex-direction: column; position: relative;
+}
+.slide-content {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  max-height: 100%; overflow: hidden;
+  padding: var(--slide-padding);
+  width: 100%; box-sizing: border-box;
+  position: relative; z-index: 2;
+}
+
+/* === TYPOGRAPHY === */
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.75rem, 1.1vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.big-title {
+  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
+  font-size: var(--title-size);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.big-title .accent-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #e8b89f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.sub-heading {
+  font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+.body-text {
+  font-size: var(--body-size);
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: min(82vw, 680px);
+  text-align: center;
+}
+
+/* === LAYOUT PRIMITIVES === */
+.layout-center { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
+.layout-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap);
+  width: 100%; max-width: min(96vw, 1240px); align-items: center;
+  margin: 0 auto;
+}
+.layout-split.reverse > *:first-child { order: 2; }
+.layout-split.reverse > *:last-child { order: 1; }
+.layout-split .split-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.layout-split .split-right { display: flex; align-items: center; justify-content: center; }
+.layout-split .split-right .screenshot-demo {
+  max-height: 70vh; max-width: min(45vw, 560px);
+  margin-top: 0;
+}
+.layout-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.layout-right { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.layout-thirds { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
+.layout-full-bleed { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+@media (max-width: 900px) {
+  .layout-split { grid-template-columns: 1fr; }
+  .layout-split.reverse > *:first-child { order: 1; }
+  .layout-split.reverse > *:last-child { order: 2; }
+  .layout-thirds { grid-template-columns: 1fr; }
+  .layout-split .split-right { margin-top: var(--content-gap); }
+  .layout-split .split-right .screenshot-demo { max-height: 18vh; max-width: 80vw; }
+  .layout-split .split-left .sub-heading,
+  .layout-split .split-left .body-text { text-align: center !important; }
+  .layout-split .split-left { align-items: center; }
+  .layout-split .split-left .flow-diagram.horizontal { justify-content: center !important; }
+}
+
+/* === GLASS CARD === */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 24px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+}
+
+/* === TERMINAL === */
+.terminal {
+  background: var(--terminal-bg);
+  border: 1px solid var(--terminal-border);
+  border-radius: clamp(10px, 1.2vw, 18px);
+  padding: clamp(18px, 2.4vw, 30px);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.85rem, 1.25vw, 1.05rem);
+  line-height: 1.8;
+  color: #d0d8e2;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.terminal-header { display: flex; gap: 8px; margin-bottom: clamp(10px, 1.2vh, 16px); }
+.terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+.terminal .ai-prompt { color: var(--ai); }
+
+/* === CARDS === */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
+.card {
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  padding: clamp(22px, 2.8vw, 36px);
+  transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+}
+.card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; margin: 0 0 10px; }
+.card p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
+@media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
+
+/* === FEATURE LIST === */
+.feature-list { display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); max-width: min(90vw, 920px); width: 100%; }
+.feature-item {
+  display: flex; align-items: flex-start; gap: clamp(14px, 1.8vw, 22px);
+  background: var(--card); border: 1px solid var(--glass-border);
+  border-radius: clamp(10px, 1.2vw, 16px);
+  padding: clamp(16px, 2vw, 26px);
+}
+.feature-icon {
+  flex-shrink: 0; width: clamp(40px, 4.8vw, 56px); height: clamp(40px, 4.8vw, 56px);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; background: var(--accent-soft);
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
+}
+.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
+.feature-item p { font-size: clamp(1.2rem, 1.6vw, 1.4rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+/* === COMPARE === */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); width: 100%; max-width: min(94vw, 960px); }
+.compare-card {
+  background: var(--card); border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  padding: clamp(20px, 2.6vw, 34px);
+}
+.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.2vw, 1.05rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(12px, 1.5vh, 20px); }
+.compare-card.before { border-left: 3px solid var(--bad); } .compare-card.before h4 { color: var(--bad); }
+.compare-card.after { border-left: 3px solid var(--good); } .compare-card.after h4 { color: var(--good); }
+.compare-card ul { list-style: none; padding: 0; margin: 0; }
+.compare-card li { font-size: clamp(1.25rem, 1.75vw, 1.5rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
+.compare-card li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; opacity: 0.6; }
+@media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
+
+/* === STEPS === */
+.step-list { display: flex; flex-direction: column; gap: var(--element-gap); max-width: min(90vw, 880px); width: 100%; }
+.step-item { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 24px); }
+.step-num {
+  flex-shrink: 0; width: clamp(44px, 5vw, 56px); height: clamp(44px, 5vw, 56px);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
+.step-content p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
+
+/* === MICRO BREAK === */
+.countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
+.countdown-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+.countdown-ring circle.bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
+.countdown-ring circle.progress { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.1s linear; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+.countdown-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 3.5vw, 3rem); color: var(--text); }
+
+/* === OS BADGES === */
+.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+.os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
+.os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
+
+/* === DECORATIVE === */
+.glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+.glow-orb.accent { background: var(--accent); opacity: 0.12; }
+.glow-orb.ai { background: var(--ai); opacity: 0.1; }
+
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(18px, 2.2vw, 36px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 14px var(--accent-glow); transform: scale(1.4); }
+.slide-counter { position: fixed; bottom: clamp(14px, 2.2vw, 26px); right: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.6rem, 0.85vw, 0.75rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(14px, 2.2vw, 26px); left: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem, 0.75vw, 0.65rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+
+/* === REVEAL STATE === */
+.reveal-element { opacity: 0; will-change: transform, opacity; }
+.no-js .reveal-element { opacity: 1 !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) { .reveal-element { opacity: 1 !important; transform: none !important; } }
+@media (max-height: 700px) { .slide-content { overflow-y: auto; overscroll-behavior: contain; } }
+</style>
+
+<style>
+
+/* === INTRO-SPECIFIC COMPONENTS === */
+.project-cover-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.8vw, 22px); max-width: min(92vw, 980px); width: 100%; margin-top: clamp(1.2rem, 3vw, 2rem); }
+.project-cover-card { background: var(--card); border: 1px solid var(--glass-border); border-radius: clamp(10px, 1vw, 16px); padding: clamp(16px, 2.2vw, 26px); text-align: center; }
+.project-cover-card .metric { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.4rem, 3vw, 2.4rem); font-weight: 700; color: var(--accent); line-height: 1; }
+.project-cover-card .metric-label { font-size: var(--small-size); color: var(--text-muted); margin-top: 8px; }
+.project-cover-desc { font-size: clamp(0.9rem, 1.4vw, 1.1rem); color: var(--text-muted); font-weight: 300; max-width: min(80vw, 680px); text-align: center; line-height: 1.55; margin-top: var(--element-gap); }
+
+/* Demo stage */
+.demo-stage { background: rgba(5,5,8,0.6); border: 1px solid var(--glass-border); border-radius: clamp(12px, 1.2vw, 20px); padding: clamp(14px, 2vw, 28px); max-width: min(92vw, 960px); width: 100%; margin-top: clamp(1rem, 2.5vw, 1.8rem); position: relative; overflow: hidden; }
+.demo-stage-title { font-family: 'JetBrains Mono', monospace; font-size: var(--small-size); color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-bottom: clamp(10px, 1.5vw, 18px); }
+
+/* Tech stack tags */
+.tech-grid { display: flex; flex-wrap: wrap; gap: clamp(8px, 1vw, 12px); justify-content: center; max-width: min(90vw, 800px); margin-top: var(--element-gap); }
+.tech-tag { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.65rem, 1vw, 0.85rem); padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--glass-border); color: var(--text-muted); letter-spacing: 0.5px; }
+.tech-tag.accent { background: var(--accent-soft); border-color: var(--accent-glow); color: var(--accent); }
+
+/* PM Dashboard demo */
+.pm-kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.pm-kpi { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+.pm-kpi-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.pm-kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: var(--text); margin-top: 4px; }
+.pm-chart { display: flex; align-items: flex-end; gap: 8px; height: 110px; padding-top: 10px; }
+.pm-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.pm-bar { width: 100%; background: var(--good); border-radius: 4px 4px 0 0; min-height: 4px; transition: height 1s ease; }
+.pm-bar-label { font-size: 10px; color: var(--text-muted); }
+.pm-bar-val { font-size: 10px; color: var(--text); font-weight: 500; }
+.pm-project-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; }
+.pm-project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.pm-badge { font-size: 10px; padding: 3px 7px; border-radius: 4px; font-weight: 600; }
+.pm-progress { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+.pm-progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+.pm-progress-fill { height: 100%; border-radius: 3px; }
+
+/* iPAS Quiz demo */
+.quiz-card { background: #0d1117; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px; max-width: 520px; margin: 0 auto; }
+.quiz-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.quiz-num { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: rgba(34,197,94,0.15); color: #4ade80; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; }
+.quiz-badges { display: flex; gap: 6px; margin-left: auto; }
+.quiz-badge { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.quiz-badge.choice { background: rgba(59,130,246,0.15); color: #60a5fa; }
+.quiz-badge.diff { background: rgba(234,179,8,0.15); color: #fbbf24; }
+.quiz-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; background: rgba(255,255,255,0.02); }
+.quiz-option:hover { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.06); }
+.quiz-option.correct { border-color: #22c55e; background: rgba(34,197,94,0.12); }
+.quiz-option.wrong { border-color: #ef4444; background: rgba(239,68,68,0.12); }
+.quiz-score { text-align: center; padding: 24px; }
+.quiz-score-big { font-family: 'JetBrains Mono', monospace; font-size: 56px; font-weight: 700; color: var(--good); }
+.quiz-score-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; max-width: 260px; margin: 16px auto; overflow: hidden; }
+.quiz-score-fill { height: 100%; background: var(--good); border-radius: 3px; transition: width 0.8s ease; }
+.confetti-piece { position: fixed; width: 8px; height: 8px; pointer-events: none; z-index: 9999; }
+
+/* Trend Dashboard demo — Flight Instrument palette */
+.trend-sentiment { background: rgba(0,214,143,0.05); border: 1px solid rgba(0,214,143,0.2); border-radius: 10px; padding: 14px 18px; box-shadow: 0 0 30px rgba(0,214,143,0.05); }
+.trend-sentiment-label { font-size: 11px; color: #9898a0; letter-spacing: 1px; text-transform: uppercase; }
+.trend-sentiment-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: #00d68f; margin-top: 4px; }
+.trend-indices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.trend-index { background: #111113; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 10px; }
+.trend-index-name { font-size: 10px; color: #68687a; text-transform: uppercase; letter-spacing: 1px; }
+.trend-index-price { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: #e8e8ec; margin-top: 2px; }
+.trend-index-change { font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-top: 2px; }
+.trend-index-change.up { color: #00d68f; }
+.trend-index-change.down { color: #ff4466; }
+.trend-funnel { display: flex; align-items: stretch; gap: 3px; margin-top: 12px; }
+.trend-funnel-step { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 44px; border-radius: 5px; border: 1px solid rgba(74,158,255,0.25); background: rgba(74,158,255,0.08); }
+.trend-funnel-step span { font-size: 9px; color: #4A9EFF; font-weight: 600; text-align: center; padding: 0 4px; line-height: 1.2; }
+.trend-signals { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.trend-signal { font-size: 10px; padding: 3px 7px; border-radius: 4px; border: 1px solid rgba(0,214,143,0.25); background: rgba(0,214,143,0.08); color: #00d68f; }
+
+/* Korea Trip demo — journal palette */
+.korea-stage { background: #FDF6EC; color: #3D3229; border-radius: 14px; padding: clamp(14px, 2vw, 24px); position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(61,50,41,0.12); }
+.korea-stage.dark { background: #231E18; color: #F0E5D0; }
+.korea-hero-img { width: 100%; max-width: 220px; border-radius: 12px; transform: rotate(-3deg); box-shadow: 4px 6px 14px rgba(61,50,41,0.15); margin-bottom: 12px; }
+.korea-washi { display: inline-block; padding: 0.25rem 1rem; font-family: 'Noto Sans TC', sans-serif; font-weight: 500; font-size: 0.75rem; letter-spacing: 0.03em; position: relative; opacity: 0.9; color: #fff; }
+.korea-washi::before, .korea-washi::after { content: ''; position: absolute; top: 0; bottom: 0; width: 6px; opacity: 0.15; }
+.korea-washi::before { left: -2px; background: linear-gradient(180deg, transparent 20%, currentColor 20%, currentColor 40%, transparent 40%, transparent 60%, currentColor 60%, currentColor 80%, transparent 80%); }
+.korea-washi::after { right: -2px; background: linear-gradient(180deg, transparent 30%, currentColor 30%, currentColor 50%, transparent 50%, transparent 70%, currentColor 70%, currentColor 90%, transparent 90%); }
+.korea-washi-orange { background: #E8A870; }
+.korea-washi-blue { background: #9BBDD4; }
+.korea-timeline { display: flex; align-items: center; justify-content: space-between; position: relative; padding: 0.4rem 0.8rem; }
+.korea-timeline::before { content: ''; position: absolute; left: 1.2rem; right: 1.2rem; top: 50%; height: 0; border-top: 1.5px dashed #D9CEBC; transform: translateY(-4px); }
+.korea-dot { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; background: none; border: none; padding: 0; position: relative; z-index: 1; }
+.korea-dot-circle { width: 13px; height: 13px; border-radius: 50%; border: 2px dashed #D9CEBC; background: #FDF6EC; }
+.korea-dot.today .korea-dot-circle { background: #D4A843; border-color: #D4A843; box-shadow: 0 0 0 4px rgba(212,168,67,0.2); }
+.korea-dot-label { font-size: 9px; color: #7A6B5D; font-family: 'JetBrains Mono', monospace; }
+.boarding-pass-korea { perspective: 1000px; cursor: pointer; max-width: 280px; margin: 0 auto; }
+.boarding-pass-korea-inner { position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1); transform-style: preserve-3d; }
+.boarding-pass-korea.flipped .boarding-pass-korea-inner { transform: rotateY(180deg); }
+.bpk-front, .bpk-back { backface-visibility: hidden; -webkit-backface-visibility: hidden; background: #FFFDF7; border: 1px solid #E8D5B7; border-radius: 0.75rem; overflow: hidden; box-shadow: 2px 3px 8px rgba(61,50,41,0.08); }
+.bpk-back { position: absolute; inset: 0; transform: rotateY(180deg); padding: 1rem; display: flex; flex-direction: column; justify-content: center; }
+.bpk-header { padding: 0.5rem 1rem; background: rgba(232,168,112,0.18); display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #3D3229; }
+.bpk-body { padding: 1rem; text-align: center; }
+.bpk-time { font-size: 1.6rem; font-weight: 700; color: #3D3229; }
+.bpk-code { font-size: 0.65rem; color: #7A6B5D; }
+.bpk-route { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin: 0.5rem 0; }
+.bpk-route-line { flex: 1; height: 0; border-top: 1px dashed #D9CEBC; }
+
+.architecture-flow { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.2vw, 16px); flex-wrap: wrap; max-width: min(92vw, 880px); margin-top: var(--element-gap); }
+.arch-node { background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; padding: clamp(10px, 1.4vw, 16px); text-align: center; min-width: clamp(90px, 14vw, 140px); }
+.arch-node .icon { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 6px; }
+.arch-node .name { font-size: clamp(0.72rem, 1.1vw, 0.9rem); color: var(--text); font-weight: 500; }
+.arch-node .sub { font-size: clamp(0.6rem, 0.85vw, 0.75rem); color: var(--text-muted); margin-top: 2px; }
+.arch-arrow { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; }
+
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* === KOREA MAP & IMPORT === */
+.korea-map-wrap {
+  width: min(64vw, 720px);
+  max-width: 100%;
+  margin-top: var(--element-gap);
+  max-height: calc(100% - 60px);
+  overflow: hidden;
+}
+.korea-map-wrap .korea-map-controls textarea { rows: 2; height: 3.2em; }
+.korea-map-wrap .korea-map-controls label { margin-bottom: 3px; }
+.korea-map-wrap .korea-map-controls { margin-top: 6px; }
+.korea-map-wrap #korea-import-btn { padding: 5px 12px; margin-top: 4px; }
+.korea-map {
+  width: 100%;
+  height: clamp(180px, 18vh, 240px);
+  border-radius: clamp(10px, 1.2vw, 18px);
+  border: 1px solid var(--glass-border);
+  background: #0c1016;
+  overflow: hidden;
+}
+.korea-map .leaflet-container { background: #0c1016; border-radius: inherit; }
+.leaflet-popup-content-wrapper {
+  background: #FFFDF7 !important;
+  color: #3D3229 !important;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.leaflet-popup-tip { background: #FFFDF7 !important; }
+.korea-map-controls { margin-top: 10px; text-align: left; }
+.korea-map-controls label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 6px;
+}
+.korea-map-controls textarea {
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.75rem, 0.95vw, 0.85rem);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: var(--surface);
+  color: var(--text);
+  resize: vertical;
+}
+.korea-map-controls button {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.korea-map-controls button:hover { background: var(--accent-2); }
+.korea-import-msg { font-size: clamp(0.75rem, 1vw, 0.9rem); margin-left: 10px; }
+.korea-day-block {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-left: 3px solid #E8A870;
+  background: var(--card);
+  border-radius: 8px;
+  text-align: left;
+}
+.korea-day-block .day { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.75rem, 1vw, 0.9rem); color: #E8A870; letter-spacing: 1.5px; margin-bottom: 4px; }
+.korea-day-block .list { font-size: clamp(0.9rem, 1.3vw, 1.1rem); color: var(--text); }
+
+/* === KOREA FONT SCALE === */
+.korea-dot-label { font-size: clamp(0.72rem, 1.1vw, 0.95rem) !important; }
+.bpk-time { font-size: clamp(1.6rem, 2.8vw, 2.4rem) !important; }
+.bpk-code { font-size: clamp(0.75rem, 1vw, 0.95rem) !important; }
+.bpk-back p { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
+.korea-washi { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
+
+</style>
+
+<link rel="stylesheet" href="shared-nav.css">
+</head>
+<body>
+
+<!-- SLIDE 1 — 講者：名字 -->
+<section class="slide" id="slide-intro-name">
+  <div class="glow-orb accent" style="width:42vw;height:42vw;top:-14vw;left:-10vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">ABOUT THE INSTRUCTOR</p>
+    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
+      <span class="accent-text">王得旭</span>
+    </h1>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="margin-top: clamp(0.75rem, 2vw, 1.5rem); color: var(--text-muted); font-weight:300; letter-spacing:0.5px;">
+      自學程式 &nbsp;·&nbsp; 用 AI 做出真實產品
+    </p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35" style="max-width: min(80vw, 560px); text-align: center; line-height: 1.6; margin-top: var(--content-gap);">
+      下面是我用 AI 協作完成的幾個專案。每個都從真實需求出發，從前端畫面一路做到資料流與自動化。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 2 — PM Dashboard 封面 -->
+<section class="slide" id="slide-pm-cover">
+  <div class="glow-orb accent" style="width:44vw;height:44vw;top:-12vw;right:-8vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">PROJECT 01</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
+      <span style="color:var(--accent);">PM Dashboard</span>
+    </h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
+      專案管理儀表板：把發票、收款、客戶資料、案場照片與任務進度統整在同一個介面。
+    </p>
+    <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
+      <div class="project-cover-card">
+        <div class="metric">雙後端</div>
+        <div class="metric-label">Next.js + FastAPI 分工</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric">財務流</div>
+        <div class="metric-label">發票 / 收款 / 稅報 / 記帳</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric">案場照</div>
+        <div class="metric-label">照片上傳、Lightbox、 caption</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 3 — PM Dashboard Demo -->
+<section class="slide" id="slide-pm-demo">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">財務 KPI + 專案卡片</h2>
+    <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2">
+      <div class="demo-stage-title">Financial Overview</div>
+      <div class="pm-kpi-row">
+        <div class="pm-kpi"><div class="pm-kpi-label">已收款</div><div class="pm-kpi-value">$1.24M</div></div>
+        <div class="pm-kpi"><div class="pm-kpi-label">待開票</div><div class="pm-kpi-value">$328K</div></div>
+        <div class="pm-kpi"><div class="pm-kpi-label">未入帳</div><div class="pm-kpi-value">$561K</div></div>
+      </div>
+      <div class="pm-chart" id="pm-chart">
+        <div class="pm-bar-wrap"><div class="pm-bar" data-h="45" style="height:0%"></div><span class="pm-bar-label">1月</span><span class="pm-bar-val">42萬</span></div>
+        <div class="pm-bar-wrap"><div class="pm-bar" data-h="62" style="height:0%"></div><span class="pm-bar-label">2月</span><span class="pm-bar-val">58萬</span></div>
+        <div class="pm-bar-wrap"><div class="pm-bar" data-h="55" style="height:0%"></div><span class="pm-bar-label">3月</span><span class="pm-bar-val">51萬</span></div>
+        <div class="pm-bar-wrap"><div class="pm-bar" data-h="80" style="height:0%"></div><span class="pm-bar-label">4月</span><span class="pm-bar-val">74萬</span></div>
+        <div class="pm-bar-wrap"><div class="pm-bar" data-h="100" style="height:0%"></div><span class="pm-bar-label">5月</span><span class="pm-bar-val">93萬</span></div>
+        <div class="pm-bar-wrap"><div class="pm-bar" data-h="72" style="height:0%"></div><span class="pm-bar-label">6月</span><span class="pm-bar-val">67萬</span></div>
+      </div>
+    </div>
+    <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: clamp(0.8rem, 2vw, 1.2rem);">
+      <div class="demo-stage-title">Project Card</div>
+      <div class="pm-project-card">
+        <div class="pm-project-header">
+          <div>
+            <span class="pm-badge" style="background:rgba(22,163,74,0.15);color:#4ade80;">長照案</span>
+            <span class="pm-badge" style="background:rgba(255,255,255,0.06);color:var(--text-muted);">進行中</span>
+            <div style="font-size:0.85rem;color:var(--text);margin-top:6px;font-weight:500;">台北護理之家</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">設備升級</div>
+          </div>
+          <div style="text-align:right;"><div style="font-size:0.95rem;font-weight:600;">$1,680,000</div><div style="font-size:0.7rem;color:var(--text-muted);">世和智能</div></div>
+        </div>
+        <div class="pm-progress"><span style="font-size:0.7rem;color:var(--text-muted);width:36px;">任務</span><div class="pm-progress-track"><div class="pm-progress-fill" style="width:72%;background:#4ade80;"></div></div><span style="font-size:0.7rem;color:var(--text);">18/25</span></div>
+        <div class="pm-progress"><span style="font-size:0.7rem;color:var(--text-muted);width:36px;">收款</span><div class="pm-progress-track"><div class="pm-progress-fill" style="width:40%;background:#60a5fa;"></div></div><span style="font-size:0.7rem;color:var(--text);">2/5</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 4 — PM Dashboard Tech Stack -->
+<section class="slide" id="slide-pm-tech">
+  <div class="glow-orb" style="width:38vw;height:38vw;bottom:-16vw;left:-10vw;background:radial-gradient(circle,rgba(108,175,138,0.10),transparent 70%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">PM Dashboard 怎麼長出來的</h2>
+    <div class="architecture-flow reveal-element" data-gsap="fade-up" data-delay="0.2">
+      <div class="arch-node"><div class="icon">▣</div><div class="name">Next.js 16</div><div class="sub">App Router UI</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">⚡</div><div class="name">FastAPI</div><div class="sub">發票 / 財務 API</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">▦</div><div class="name">Supabase</div><div class="sub">專案 / 照片 DB</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">🐳</div><div class="name">Docker</div><div class="sub">一鍵啟動</div></div>
+    </div>
+    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <span class="tech-tag accent">React 19</span>
+      <span class="tech-tag">TypeScript</span>
+      <span class="tech-tag accent">Tailwind CSS v4</span>
+      <span class="tech-tag">shadcn/ui</span>
+      <span class="tech-tag">Radix UI</span>
+      <span class="tech-tag accent">date-fns</span>
+      <span class="tech-tag">WeasyPrint</span>
+      <span class="tech-tag">PyMuPDF</span>
+      <span class="tech-tag accent">LocalStorage Auth</span>
+    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 680px); text-align: center; margin-top: var(--content-gap); color: var(--text-muted);">
+      一頁就能看到「這個案子的任務做到哪、款收到哪、現場照片長什麼樣」。這不是炫技，是為了讓專案經理少開五個 tab。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 5 — iPAS Quiz 封面 -->
+<section class="slide" id="slide-ipas-cover">
+  <div class="glow-orb" style="width:46vw;height:46vw;top:-14vw;left:-12vw;background:radial-gradient(circle,rgba(166,143,201,0.12),transparent 65%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">PROJECT 02</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
+      <span style="color:var(--ai);">iPAS Quiz</span>
+    </h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
+      淨零碳規劃管理師模擬測驗平台：17,000+ 題、多種題型、計時考試、數據儀表板、訂閱付款。
+    </p>
+    <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
+      <div class="project-cover-card">
+        <div class="metric">17K+</div>
+        <div class="metric-label">題庫題目</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric">4 種</div>
+        <div class="metric-label">題型（單選 / 複選 / 是非 / 情境）</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric">$599</div>
+        <div class="metric-label">起跳訂閱（ECPay）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 6 — iPAS Quiz Demo -->
+<section class="slide" id="slide-ipas-demo">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">作答互動 + 成績卡</h2>
+    <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(88vw, 640px);">
+      <div id="quiz-demo">
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-header">
+            <div class="quiz-num">1</div>
+            <div class="quiz-badges">
+              <span class="quiz-badge choice">單選</span>
+              <span class="quiz-badge diff">Lv.2</span>
+            </div>
+          </div>
+          <p style="color:#e8e8ec;font-size:0.95rem;line-height:1.5;margin-bottom:12px;">
+            下列何者<b>不</b>屬於溫室氣體範疇三的主要排放源？
+          </p>
+          <div class="quiz-option" data-correct="true" onclick="pickOption(this)">
+            <span style="font-family:monospace;color:#60a5fa;font-weight:700;">A</span>
+            <span>員工通勤</span>
+          </div>
+          <div class="quiz-option" data-correct="false" onclick="pickOption(this)">
+            <span style="font-family:monospace;color:#60a5fa;font-weight:700;">B</span>
+            <span>自有鍋爐燃料燃燒</span>
+          </div>
+          <div class="quiz-option" data-correct="false" onclick="pickOption(this)">
+            <span style="font-family:monospace;color:#60a5fa;font-weight:700;">C</span>
+            <span>上游運輸配送</span>
+          </div>
+        </div>
+        <div class="quiz-score hidden" id="quiz-score">
+          <div class="quiz-score-big">92</div>
+          <div class="quiz-score-label">本次得分</div>
+          <div class="quiz-score-bar"><div class="quiz-score-fill" style="width:0%"></div></div>
+          <div style="font-size:0.8rem;color:#9898a0;margin-top:8px;">答對 23 / 25 題 · 繼續加油</div>
+        </div>
+      </div>
+    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35" style="max-width: min(80vw, 600px); text-align: center; color: var(--text-muted); font-size: var(--small-size);">
+      點選選項後會立即顯示對錯；交卷後出現分數卡 + confetti。實際產品還有錯題本、弱點分析與排行榜。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 7 — iPAS Quiz Tech Stack -->
+<section class="slide" id="slide-ipas-tech">
+  <div class="glow-orb" style="width:40vw;height:40vw;bottom:-14vw;right:-10vw;background:radial-gradient(circle,rgba(166,143,201,0.10),transparent 70%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">iPAS Quiz 的備考迴路</h2>
+    <div class="architecture-flow reveal-element" data-gsap="fade-up" data-delay="0.2">
+      <div class="arch-node"><div class="icon">📝</div><div class="name">練習</div><div class="sub">章節 / 難度篩選</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">📊</div><div class="name">分析</div><div class="sub">弱點長條圖 + 雷達</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">🔁</div><div class="name">複習</div><div class="sub">錯題本 + 間隔複習</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">💳</div><div class="name">訂閱</div><div class="sub">ECPay 升級 Pro</div></div>
+    </div>
+    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <span class="tech-tag accent">Python 3.12</span>
+      <span class="tech-tag">FastAPI</span>
+      <span class="tech-tag accent">Supabase Auth</span>
+      <span class="tech-tag">Google OAuth</span>
+      <span class="tech-tag">Vanilla JS</span>
+      <span class="tech-tag accent">Chart.js</span>
+      <span class="tech-tag">Canvas 雷達圖</span>
+      <span class="tech-tag accent">ECPay 綠界</span>
+      <span class="tech-tag">Docker 512MB</span>
+    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 680px); text-align: center; margin-top: var(--content-gap); color: var(--text-muted);">
+      所有前端都是原生 HTML/CSS/JS：沒有框架包袱，載入快、跑在便宜的 Docker 機器上。AI 負責批量產題與解析增強。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 8 — Trend Dashboard 封面 -->
+<section class="slide" id="slide-trend-cover">
+  <div class="glow-orb" style="width:44vw;height:44vw;top:-12vw;right:-8vw;background:radial-gradient(circle,rgba(74,158,255,0.10),transparent 65%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">PROJECT 03</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
+      <span style="color:#4A9EFF;">Trend Dashboard</span>
+    </h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
+      投資趨勢儀表板：每日自動收集台股與國際數據，經 Agent 篩選後推送至前端與 Discord。
+    </p>
+    <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
+      <div class="project-cover-card">
+        <div class="metric" style="color:#4A9EFF;">CAN SLIM</div>
+        <div class="metric-label">多層 funnel 選股</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric" style="color:#4A9EFF;">統合圖表</div>
+        <div class="metric-label">價量 + 基本面 + 籌碼疊加</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric" style="color:#4A9EFF;">推播</div>
+        <div class="metric-label">每日 Discord digest</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 9 — Trend Dashboard Demo -->
+<section class="slide" id="slide-trend-demo">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">情緒卡 + 指數 + 選股漏斗</h2>
+    <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(90vw, 720px); background: #0A0A0C; border-color: rgba(255,255,255,0.08);">
+      <div class="trend-sentiment">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="trend-sentiment-label">今日趨勢</span>
+          <span class="trend-sentiment-value">偏多</span>
+        </div>
+        <p style="font-size:0.8rem;color:#9898a0;margin-top:8px;line-height:1.5;">
+          國際指數普遍收紅，VIX 回落，台股量價結構偏多。留意電子族群突破後的追價風險。
+        </p>
+      </div>
+      <div class="trend-indices">
+        <div class="trend-index">
+          <div class="trend-index-name">S&amp;P 500</div>
+          <div class="trend-index-price">5,847.28</div>
+          <div class="trend-index-change up">▲ 0.74%</div>
+        </div>
+        <div class="trend-index">
+          <div class="trend-index-name">NASDAQ</div>
+          <div class="trend-index-price">18,552.00</div>
+          <div class="trend-index-change up">▲ 1.03%</div>
+        </div>
+        <div class="trend-index">
+          <div class="trend-index-name">VIX</div>
+          <div class="trend-index-price">17.35</div>
+          <div class="trend-index-change down">▼ 4.20%</div>
+        </div>
+      </div>
+      <div class="demo-stage-title" style="margin-top:16px;">Breakout Funnel</div>
+      <div class="trend-funnel">
+        <div class="trend-funnel-step" style="max-width:100%;"><span>多頭格局</span></div>
+        <div class="trend-funnel-step" style="max-width:84%;"><span>RS≥70</span></div>
+        <div class="trend-funnel-step" style="max-width:68%;"><span>突破</span></div>
+        <div class="trend-funnel-step" style="max-width:52%;"><span>量增</span></div>
+        <div class="trend-funnel-step" style="max-width:36%;"><span>法人確認</span></div>
+      </div>
+      <div class="trend-signals">
+        <span class="trend-signal">外投共買</span>
+        <span class="trend-signal">杯柄</span>
+        <span class="trend-signal">C A N S L I M</span>
+        <span class="trend-signal">Conviction 82</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 10 — Trend Dashboard Tech Stack -->
+<section class="slide" id="slide-trend-tech">
+  <div class="glow-orb" style="width:40vw;height:40vw;bottom:-16vw;left:-10vw;background:radial-gradient(circle,rgba(74,158,255,0.10),transparent 70%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">從資料到推播的全自動 pipeline</h2>
+    <div class="architecture-flow reveal-element" data-gsap="fade-up" data-delay="0.2">
+      <div class="arch-node"><div class="icon">📡</div><div class="name">Data Sources</div><div class="sub">TWSE / yfinance / RSS</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">🤖</div><div class="name">Python Agent</div><div class="sub">每日 cron + Claude API</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">▦</div><div class="name">Supabase</div><div class="sub">Postgres 資料庫</div></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><div class="icon">▣</div><div class="name">Next.js + FastAPI</div><div class="sub">Dashboard / API</div></div>
+      <span class="arch-arrow">↘</span>
+      <div class="arch-node"><div class="icon">💬</div><div class="name">Discord hermes</div><div class="sub">HMAC webhook</div></div>
+    </div>
+    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <span class="tech-tag accent">Next.js 15</span>
+      <span class="tech-tag">React 19</span>
+      <span class="tech-tag accent">ECharts 6</span>
+      <span class="tech-tag">Recharts</span>
+      <span class="tech-tag">FastAPI</span>
+      <span class="tech-tag accent">Supabase Postgres</span>
+      <span class="tech-tag">Claude API</span>
+      <span class="tech-tag accent">Hermes Webhook</span>
+      <span class="tech-tag">Docker Compose</span>
+    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(80vw, 680px); text-align: center; margin-top: var(--content-gap); color: var(--text-muted);">
+      從「收盤後抓資料」到「產生摘要」「畫出圖表」「推到 Discord」，整條路無需人工。設計語言叫 Flight Instrument：黑色表面、單一強調色、每個像素都要攜帶資訊。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 11 — Korea Trip 封面 -->
+<section class="slide" id="slide-korea-cover">
+  <div class="glow-orb" style="width:48vw;height:48vw;top:-14vw;left:-10vw;background:radial-gradient(circle,rgba(232,168,112,0.12),transparent 65%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">PROJECT 04</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">
+      <span style="color:#E8A870;">Korea Trip 2026</span>
+    </h2>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.2">
+      2026 韓國旅遊行程規劃網站：手帳風格、PWA 離線可用、多人即時協作日記。
+    </p>
+    <div class="project-cover-grid reveal-element" data-gsap="fade-up" data-delay="0.3">
+      <div class="project-cover-card">
+        <div class="metric" style="color:#E8A870;">手帳風</div>
+        <div class="metric-label">和紙膠帶 / 便利貼 / 拍立得</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric" style="color:#E8A870;">D9</div>
+        <div class="metric-label">釜山 + 濟州時間軸</div>
+      </div>
+      <div class="project-cover-card">
+        <div class="metric" style="color:#E8A870;">PWA</div>
+        <div class="metric-label">離線地圖 + 主畫面安裝</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 12 — Korea Trip Demo -->
+<section class="slide" id="slide-korea-demo">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">LIVE DEMO</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">登機牌 + 9 天時間軸</h2>
+    <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(88vw, 720px); background: #FDF6EC; border-color: #E8D5B7; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: center;">
+      
+      <div class="boarding-pass-korea" id="bp-demo" onclick="this.classList.toggle('flipped')">
+        <div class="boarding-pass-korea-inner">
+          <div class="bpk-front">
+            <div class="bpk-header">
+              <span>✈ LJ752 · 真航空</span>
+              <span style="font-weight:600;">6/27 (六)</span>
+            </div>
+            <div class="bpk-body">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div><div class="bpk-time">02:40</div><div class="bpk-code">TPE · T1</div></div>
+                <div class="bpk-route">
+                  <div class="bpk-route-line"></div>
+                  <span style="color:#7A6B5D;">✈</span>
+                  <div class="bpk-route-line"></div>
+                </div>
+                <div><div class="bpk-time">06:15</div><div class="bpk-code">PUS · I</div></div>
+              </div>
+              <div style="font-size:0.65rem;color:#B5A898;text-align:center;margin-top:8px;">2 小時 35 分 · 台北 → 釜山</div>
+            </div>
+          </div>
+          <div class="bpk-back">
+            <p style="font-size:0.85rem;font-weight:700;color:#3D3229;margin-bottom:8px;">台北 → 釜山</p>
+            <p style="font-size:0.7rem;color:#7A6B5D;margin-bottom:4px;">· 航廈：桃園 T1 → 金海 I</p>
+            <p style="font-size:0.7rem;color:#7A6B5D;margin-bottom:4px;">· 行李：託運 15kg</p>
+            <p style="font-size:0.7rem;color:#7A6B5D;margin-bottom:4px;">· 報到：起飛前 3 小時開櫃</p>
+            <p style="font-size:0.7rem;color:#7A6B5D;">· 凌晨航班，建議前一晚到機場附近</p>
+            <p style="font-size:0.6rem;color:#B5A898;text-align:center;margin-top:10px;">tap to flip back</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex: 1; min-width: 260px; max-width: 360px;">
+        <div style="display:flex;justify-content:center;gap:8px;margin-bottom:10px;">
+          <span class="korea-washi korea-washi-orange">釜山</span>
+          <span class="korea-washi korea-washi-blue">濟州</span>
+        </div>
+        <div class="korea-timeline">
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D1</span></div>
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D2</span></div>
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D3</span></div>
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D4</span></div>
+          <div class="korea-dot today"><div class="korea-dot-circle"></div><span class="korea-dot-label">D5</span></div>
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D6</span></div>
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D7</span></div>
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D8</span></div>
+          <div class="korea-dot"><div class="korea-dot-circle"></div><span class="korea-dot-label">D9</span></div>
+        </div>
+        <p style="font-size:0.7rem;color:#7A6B5D;text-align:center;margin-top:8px;">點擊登機牌可翻轉查看背面提醒</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SLIDE 13 — Korea Trip Tech Stack -->
+<section class="slide" id="slide-korea-tech">
+  <div class="glow-orb" style="width:42vw;height:42vw;bottom:-14vw;right:-10vw;background:radial-gradient(circle,rgba(232,168,112,0.10),transparent 70%);"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">TECH STACK</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="text-align:center;">Korea Trip：手帳風格的 PWA</h2>
+    <div class="demo-stage reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(84vw, 520px); background: transparent; border: none; box-shadow: none; display: flex; justify-content: center;">
+      <img src="assets/korea-hero.png" alt="Korea Trip 封面" class="korea-hero-img reveal-element" data-gsap="scale-in" data-delay="0.1" style="max-width: min(45vw, 240px);">
+    </div>
+    <div class="tech-grid reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <span class="tech-tag accent">Vite</span>
+      <span class="tech-tag">原生 ES Modules</span>
+      <span class="tech-tag accent">Tailwind CSS v4</span>
+      <span class="tech-tag">Leaflet 地圖</span>
+      <span class="tech-tag">CartoDB Voyager</span>
+      <span class="tech-tag accent">EventSource 同步</span>
+      <span class="tech-tag">IndexedDB 離線佇列</span>
+      <span class="tech-tag accent">vite-plugin-pwa</span>
+      <span class="tech-tag">Docker + nginx</span>
+    </div>
+    
+    <div class="korea-map-wrap reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <div id="korea-map" class="korea-map"></div>
+      <div class="korea-map-controls">
+        <label for="korea-csv">匯入行程 CSV（格式：Day,名稱,lat,lng）</label>
+        <textarea id="korea-csv" rows="3" placeholder="Day3,南山塔,37.551,126.988&#10;Day4,北村韓屋,37.582,126.985"></textarea>
+        <div style="display:flex; align-items:center; margin-top:6px;">
+          <button id="korea-import-btn" type="button">匯入並標記</button>
+          <span id="korea-import-msg" class="korea-import-msg"></span>
+        </div>
+      </div>
+      <div id="korea-day-blocks"></div>
+    </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="max-width: min(70vw, 560px); text-align: center; margin-top: var(--element-gap); margin-bottom: 0; padding-bottom: 4px; color: var(--text-muted);">
+      整站沒有 React，全部用字串模板動態產生。CSS 模擬紙張紋理、和紙膠帶、便利貼折角。PWA 讓手機在韓國街頭離線也能看地圖與行程；CSV 行程可即時標到地圖上。
+    </p>
+  </div>
+</section>
+
+
+<!-- SLIDE 14 — 結尾 -->
+<section class="slide" id="slide-intro-why">
+  <div class="glow-orb accent" style="width:48vw;height:48vw;top:-18vw;right:-14vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up">TODAY</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="max-width:min(85vw,680px); line-height:1.25; text-align:center;">
+      把我學到的，<br>用最直接的方式帶給你
+    </h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.25" style="max-width: min(80vw, 620px); text-align: center; color: var(--text-muted); margin-top: var(--content-gap);">
+      這些專案都不是「練習題」，而是真實有人會用的產品。今天這堂課，我會把同樣的工作流程拆給你看：從 Terminal 下指令、到叫 AI 幫你改出一個能打開的網頁。
+    </p>
+  </div>
+</section>
+
+
+<script>
+
+/* ===== PM Dashboard bar chart animation ===== */
+function animatePmBars(slide) {
+  const bars = slide.querySelectorAll('.pm-bar');
+  bars.forEach(bar => {
+    bar.style.height = '0%';
+    const target = bar.dataset.h + '%';
+    setTimeout(() => { bar.style.height = target; }, 100);
+  });
+}
+
+/* ===== iPAS Quiz demo ===== */
+function pickOption(el) {
+  const card = document.getElementById('quiz-card');
+  const score = document.getElementById('quiz-score');
+  const options = card.querySelectorAll('.quiz-option');
+  const isCorrect = el.dataset.correct === 'true';
+  options.forEach(o => {
+    o.style.pointerEvents = 'none';
+    if (o.dataset.correct === 'true') o.classList.add('correct');
+    else if (o === el) o.classList.add('wrong');
+  });
+  setTimeout(() => {
+    card.classList.add('hidden');
+    score.classList.remove('hidden');
+    const fill = score.querySelector('.quiz-score-fill');
+    fill.style.width = '0%';
+    setTimeout(() => { fill.style.width = '92%'; }, 100);
+    fireConfetti();
+  }, 600);
+}
+
+function fireConfetti() {
+  const colors = ['#22c55e', '#f59e0b', '#3b82f6', '#a855f7', '#ef4444'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    const size = 6 + Math.random() * 6;
+    const x = Math.random() * 100;
+    const dur = 1.5 + Math.random() * 1.5;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    p.style.cssText = `left:${x}vw;top:-10px;width:${size}px;height:${size}px;background:${color};border-radius:2px;animation:confettiFall ${dur}s ease-in forwards;`;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), dur * 1000);
+  }
+}
+
+/* ===== Korea Trip boarding pass flip ===== */
+document.addEventListener('click', e => {
+  const bp = e.target.closest('.boarding-pass-korea');
+  if (bp) bp.classList.toggle('flipped');
+});
+
+/* ===== Slide activation hooks ===== */
+(function hookSlideActivation() {
+  const slides = [...document.querySelectorAll('.slide')];
+  let active = -1;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        const idx = slides.indexOf(en.target);
+        if (idx !== active) {
+          active = idx;
+          if (en.target.id === 'slide-pm-demo') animatePmBars(en.target);
+        }
+      }
+    });
+  }, { threshold: 0.6 });
+  slides.forEach(s => obs.observe(s));
+})();
+
+/* ===== Korea Trip interactive map ===== */
+(function () {
+  let map = null;
+  let markers = [];
+
+  function initMap() {
+    if (map || !window.L) return;
+    const el = document.getElementById('korea-map');
+    if (!el) return;
+    map = L.map(el, { zoomControl: true, scrollWheelZoom: false })
+          .setView([37.5665, 126.9780], 11);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    const defaults = [
+      { name: '仁川機場', lat: 37.469, lng: 126.451, day: 'Day1' },
+      { name: '首爾車站', lat: 37.556, lng: 126.972, day: 'Day1' },
+      { name: '景福宮',   lat: 37.579, lng: 126.977, day: 'Day2' },
+      { name: '弘大',     lat: 37.556, lng: 126.923, day: 'Day2' }
+    ];
+    defaults.forEach(p => addMarker(p));
+  }
+
+  function addMarker(p) {
+    if (!map) return;
+    const m = L.marker([p.lat, p.lng]).addTo(map)
+      .bindPopup(`<b>${p.name}</b><br><span style="color:#7A6B5D;">${p.day}</span>`);
+    markers.push(m);
+    return m;
+  }
+
+  function parseCsv(text) {
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    const parsed = [];
+    const errors = [];
+    lines.forEach((line, i) => {
+      const parts = line.split(',').map(s => s.trim());
+      if (parts.length !== 4) { errors.push(`第 ${i + 1} 行：需 4 個欄位`); return; }
+      const [day, name, lat, lng] = parts;
+      const latN = parseFloat(lat), lngN = parseFloat(lng);
+      if (!day || !name || Number.isNaN(latN) || Number.isNaN(lngN)) {
+        errors.push(`第 ${i + 1} 行：請使用 Day,名稱,lat,lng 格式`); return;
+      }
+      parsed.push({ day, name, lat: latN, lng: lngN });
+    });
+    return { parsed, errors };
+  }
+
+  function appendDayBlocks(items) {
+    const wrap = document.getElementById('korea-day-blocks');
+    if (!wrap) return;
+    const order = [];
+    const groups = {};
+    items.forEach(it => {
+      if (!groups[it.day]) { groups[it.day] = []; order.push(it.day); }
+      groups[it.day].push(it);
+    });
+    order.forEach(day => {
+      const block = document.createElement('div');
+      block.className = 'korea-day-block';
+      block.innerHTML = `
+        <div class="day">${day}</div>
+        <div class="list">${groups[day].map(g => `${g.name} (${g.lat.toFixed(3)}, ${g.lng.toFixed(3)})`).join(' · ')}</div>
+      `;
+      wrap.appendChild(block);
+    });
+  }
+
+  function handleImport() {
+    const ta = document.getElementById('korea-csv');
+    const msg = document.getElementById('korea-import-msg');
+    const { parsed, errors } = parseCsv(ta.value);
+    if (!parsed.length) {
+      msg.style.color = '#c97c7c';
+      msg.textContent = errors[0] || '請使用 Day,名稱,lat,lng 格式';
+      return;
+    }
+    initMap();
+    parsed.forEach(addMarker);
+    appendDayBlocks(parsed);
+    msg.style.color = '#6caf8a';
+    msg.textContent = `已加入 ${parsed.length} 個地標${errors.length ? `（${errors.length} 行略過）` : ''}`;
+  }
+
+  // Lazy init: when slide-korea-tech enters viewport
+  const koreaSlide = document.getElementById('slide-korea-tech');
+  if (koreaSlide && window.IntersectionObserver) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          initMap();
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(koreaSlide);
+  } else {
+    // fallback: init on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMap);
+    } else {
+      initMap();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('korea-import-btn');
+    if (btn) btn.addEventListener('click', handleImport);
+  });
+})();
+
+</script>
+<!-- NAV -->
+<nav class="nav-dots" aria-label="slide navigation"></nav>
+<div class="slide-counter">1 / 14</div>
+<div class="keyboard-hint">↑ ↓ scroll</div>
+
+<script>
+(function(){
+  const slides = [...document.querySelectorAll('.slide')];
+  const nav = document.querySelector('.nav-dots');
+  const counter = document.querySelector('.slide-counter');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'go to slide ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    nav.appendChild(dot);
+  });
+
+  function goTo(index) {
+    if (index < 0 || index >= slides.length) return;
+    current = index;
+    slides[index].scrollIntoView({ behavior: 'smooth' });
+    updateNav(index);
+  }
+
+  function updateNav(index) {
+    current = index;
+    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === index));
+    if (counter) counter.textContent = (index + 1) + ' / ' + slides.length;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault(); goTo(current + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault(); goTo(current - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault(); goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault(); goTo(slides.length - 1);
+    }
+  });
+
+  // GSAP reveal animations
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Per-slide paused timelines — played when a slide becomes active.
+  const slideTimelines = slides.map(slide => {
+    const elements = slide.querySelectorAll('[data-gsap]');
+    const tl = gsap.timeline({ paused: true });
+
+    if (!elements.length) {
+      tl.to(slide.querySelectorAll('.reveal-element'), { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' });
+      return tl;
+    }
+
+    const groups = {};
+    elements.forEach(el => {
+      const type = el.dataset.gsap;
+      const delay = parseFloat(el.dataset.delay || 0);
+      if (!groups[type]) groups[type] = [];
+      groups[type].push({ el, delay });
+    });
+
+    Object.keys(groups).forEach(type => {
+      const items = groups[type].sort((a, b) => a.delay - b.delay);
+      const staggerOffset = 0.08;
+      items.forEach((item, i) => {
+        const delay = item.delay + (type === 'stagger-up' ? i * staggerOffset : 0);
+        switch (type) {
+          case 'fade-up':
+            tl.fromTo(item.el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'fade-right':
+            tl.fromTo(item.el, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'fade-left':
+            tl.fromTo(item.el, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'stagger-up':
+            tl.fromTo(item.el, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out' }, delay);
+            break;
+          case 'scale-in':
+            tl.fromTo(item.el, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }, delay);
+            break;
+        }
+      });
+    });
+    return tl;
+  });
+
+  function activateSlide(index) {
+    if (index === currentActive) return;
+    currentActive = index;
+    stopCountdown(slides[lastActive]);
+    lastActive = index;
+    const slide = slides[index];
+    const tl = slideTimelines[index];
+    if (tl) tl.restart(true);
+    startCountdown(slide);
+  }
+
+  let currentActive = -1;
+  let lastActive = 0;
+  const countdowns = new Map();
+
+  // Detect scroll stop and activate whichever slide is closest to the top.
+  // This replaces scroll-snap / IntersectionObserver because smooth keyboard
+  // scrolling can leave multiple slides briefly visible mid-transition.
+  let scrollTimeout;
+  const onScroll = () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const y = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight * 0.05;
+      let closest = 0;
+      for (let i = 0; i < slides.length; i++) {
+        if (Math.abs(slides[i].offsetTop - y) < Math.abs(slides[closest].offsetTop - y)) {
+          closest = i;
+        }
+      }
+      if (closest !== current) {
+        current = closest;
+        updateNav(closest);
+      }
+      activateSlide(closest);
+    }, 120);
+  };
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+
+  // Play the first slide immediately on load.
+  updateNav(0);
+  activateSlide(0);
+
+  // Hero kinetic title animation on first load
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
+    if (!heroLines.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroLines.forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+      return;
+    }
+    gsap.fromTo(heroLines,
+      { opacity: 0, y: 60, skewY: 3 },
+      { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
+    );
+  });
+
+  // Countdown logic
+  function startCountdown(slide) {
+    const duration = parseInt(slide.dataset.countdown, 10);
+    if (!duration || countdowns.has(slide)) return;
+    const text = slide.querySelector('.countdown-text');
+    const ring = slide.querySelector('.countdown-ring .progress');
+    if (!text || !ring) return;
+    const total = 283;
+    let remaining = duration;
+    text.textContent = remaining;
+    ring.style.stroke = 'var(--accent)';
+    ring.style.strokeDashoffset = 0;
+    const startTime = performance.now();
+    function tick(now) {
+      const elapsed = Math.floor((now - startTime) / 1000);
+      remaining = Math.max(0, duration - elapsed);
+      text.textContent = remaining;
+      ring.style.strokeDashoffset = total * (1 - remaining / duration);
+      if (remaining > 0) {
+        countdowns.set(slide, requestAnimationFrame(tick));
+      } else {
+        ring.style.stroke = 'var(--good)';
+      }
+    }
+    countdowns.set(slide, requestAnimationFrame(tick));
+  }
+  function stopCountdown(slide) {
+    if (countdowns.has(slide)) {
+      cancelAnimationFrame(countdowns.get(slide));
+      countdowns.delete(slide);
+    }
+  }
+
+  // Reduced motion support
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.globalTimeline.timeScale(0);
+    document.querySelectorAll('.reveal-element').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+  }
+})();
+</script>
+
+<script src="shared-nav.js" defer></script>
+</body>
+</html>

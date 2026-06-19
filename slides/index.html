@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLI 與 AI HTML 實作班 — 課程投影片</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050508;
+  --surface: rgba(11, 11, 18, 0.72);
+  --card: rgba(17, 17, 25, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --text: #f0ede8;
+  --text-muted: #8a8a9a;
+  --text-dim: #4a4a5c;
+  --accent: #d4896e;
+  --accent-soft: rgba(212, 137, 110, 0.14);
+  --accent-glow: rgba(212, 137, 110, 0.22);
+  --good: #6caf8a;
+  --ai: #a68fc9;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(212, 137, 110, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(166, 143, 201, 0.06) 0%, transparent 45%),
+    linear-gradient(180deg, var(--bg) 0%, #08080d 100%);
+}
+.wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: clamp(2rem, 6vh, 5rem) clamp(1.2rem, 5vw, 3rem); }
+header { text-align: center; margin-bottom: clamp(2rem, 5vh, 4rem); }
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  margin-top: 0.6rem;
+  line-height: 1.15;
+}
+h1 .accent { color: var(--accent); }
+.subtitle {
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  color: var(--text-muted);
+  margin-top: 0.8rem;
+  font-weight: 300;
+}
+.deck-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+}
+.deck-card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: clamp(18px, 2.5vw, 26px);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.deck-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-glow);
+  background: var(--surface);
+}
+.deck-card .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.deck-card h2 {
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.deck-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.deck-card .badge {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.65rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.5px;
+}
+footer {
+  text-align: center;
+  margin-top: clamp(3rem, 8vh, 5rem);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+}
+.note {
+  max-width: 720px;
+  margin: 2rem auto 0;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: var(--surface);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="label">CLI Course Slides</div>
+    <h1>CLI 與 AI HTML <span class="accent">實作班</span></h1>
+    <p class="subtitle">投影片網站 · 本地執行 · 方向鍵切換頁內 slide · Alt + 方向鍵切換單元</p>
+  </header>
+  <div class="deck-grid">
+    <a class="deck-card" href="intro.html">
+      <div class="num">1 / 6</div>
+      <h2>講者介紹</h2>
+      <p>王得旭、做過的專案、技術棧</p>
+      <span class="badge">intro.html</span>
+    </a>
+    <a class="deck-card" href="01-opening.html">
+      <div class="num">2 / 6</div>
+      <h2>UNIT 1 — 開場</h2>
+      <p>AI 定位、Terminal 入口</p>
+      <span class="badge">01-opening.html</span>
+    </a>
+    <a class="deck-card" href="02-ai-terminal.html">
+      <div class="num">3 / 6</div>
+      <h2>UNIT 2 — AI Terminal</h2>
+      <p>用 AI 生成與修改網頁</p>
+      <span class="badge">02-ai-terminal.html</span>
+    </a>
+    <a class="deck-card" href="03-ai-revision.html">
+      <div class="num">4 / 6</div>
+      <h2>UNIT 3 — AI 修訂</h2>
+      <p>反覆對話與版面調整</p>
+      <span class="badge">03-ai-revision.html</span>
+    </a>
+    <a class="deck-card" href="04-free-project.html">
+      <div class="num">5 / 6</div>
+      <h2>UNIT 4 — 自由專案</h2>
+      <p>獨立完成一頁作品</p>
+      <span class="badge">04-free-project.html</span>
+    </a>
+    <a class="deck-card" href="05-closing.html">
+      <div class="num">6 / 6</div>
+      <h2>UNIT 5 — 結場</h2>
+      <p>總結與後續</p>
+      <span class="badge">05-closing.html</span>
+    </a>
+  </div>
+  <div class="note">
+    每頁投影片底部都有「上一頁 / 下一頁 / 回目錄」導覽列。單元內用 ↑ ↓ 或 ← → 切換頁內 slide，Alt + ← → 切換單元，Esc 回目錄。
+  </div>
+  <footer>
+    王得旭 · CLI 與 AI HTML 實作班 · 本地投影片
+  </footer>
+</div>
+</body>
+</html>
