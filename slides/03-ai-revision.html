@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNIT 3 — AI 改版練習</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-charts.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>document.documentElement.classList.remove('no-js');</script>
@@ -308,44 +309,43 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 3: Split with Terminal -->
+<!-- SLIDE 3: Code Focus - Enter Project -->
 <section class="slide" id="slide-3">
-  <div class="slide-content">
-    <div class="layout-split">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">對話入口</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">啟動對話<br>回到作品</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">進到 my-page 後打 opencode，AI 會記得這裡是作品資料夾。重新啟動後先用 @index.html 讓 AI 讀目前內容。</p>
-      </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 確認 index.html 在這裡</span></div>
-          <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-          <div class="comment"># 進入對話後：@index.html 幫我改成...</div>
-        </div>
+  <div class="slide-content layout-code-focus">
+    <p class="label reveal-element" data-gsap="fade-up">對話入口</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">啟動對話 · 回到作品</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">進到 my-page 後打 opencode，AI 會記得這裡是作品資料夾。重新啟動後先用 @index.html 讓 AI 讀目前內容。</p>
+    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <div class="terminal">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 確認 index.html 在這裡</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+        <div class="comment"># 進入對話後：@index.html 幫我改成...</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 4: Compare Good vs Bad Prompt -->
+<!-- SLIDE 4: Compare Infographic - Good vs Bad Prompt -->
 <section class="slide" id="slide-4">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-compare-infographic">
     <p class="label reveal-element" data-gsap="fade-up">對比</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">模糊對具體</h2>
-    <div class="compare-grid reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="compare-card before">
-        <h4>BAD PROMPT</h4>
+    <div class="compare-diagram reveal-element" data-gsap="fade-up" data-delay="0.2">
+      <div class="compare-side bad">
+        <p class="compare-label">BAD PROMPT</p>
+        <h4 class="compare-title">AI 只能猜</h4>
         <ul>
           <li>「幫我變好看」</li>
           <li>「改漂亮一點」</li>
           <li>「好像不對，再試試」</li>
         </ul>
       </div>
-      <div class="compare-card after">
-        <h4>GOOD PROMPT</h4>
+      <div class="compare-vs">VS</div>
+      <div class="compare-side good">
+        <p class="compare-label">GOOD PROMPT</p>
+        <h4 class="compare-title">AI 一次到位</h4>
         <ul>
           <li>「把 index.html 改成個人名片」</li>
           <li>「分四區：大標、介紹、三欄卡片、聯絡」</li>
@@ -356,77 +356,79 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 5: Feature List - Prompt Formula -->
+<!-- SLIDE 5: Infographic - Prompt Formula -->
 <section class="slide" id="slide-5">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-infographic">
     <p class="label reveal-element" data-gsap="fade-up">公式</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">好指令這樣寫</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="feature-item">
-        <div class="feature-icon">01</div>
-        <div>
-          <h4>目標明確</h4>
-          <p>說出要做什麼頁面，例如個人名片、商家介紹或活動頁。</p>
-        </div>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">01 目標明確</p>
+        <p class="node-title">做什麼頁面</p>
+        <p class="node-desc">個人名片、商家介紹、活動頁</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">02</div>
-        <div>
-          <h4>區塊數字</h4>
-          <p>寫出幾欄、幾區、幾張卡，AI 才能一次切出你要的版面。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">03</div>
-        <div>
-          <h4>風格參數</h4>
-          <p>給顏色色碼、字級 px、區塊留白 px、圓角大小，別只說「質感」。</p>
-        </div>
+      <div class="flow-node">
+        <p class="node-label">02 區塊數字</p>
+        <p class="node-title">幾欄、幾區、幾張卡</p>
+        <p class="node-desc">四區塊、三欄卡片、一列聯絡</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">04</div>
-        <div>
-          <h4>直接改檔</h4>
-          <p>指定 index.html，並請 AI 改完列出動了哪些部分，方便你驗收。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">03 風格參數</p>
+        <p class="node-title">色碼、字級、留白、圓角</p>
+        <p class="node-desc">#1f3a5f / 36px / 64px / 12px</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">04 直接改檔 + 驗收</p>
+        <p class="node-title">改 index.html，列出動了什麼</p>
+        <p class="node-desc">指定檔案，讓 AI 改完給摘要</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 6: Steps - Layout Task 1 -->
+<!-- SLIDE 6: Flow - Four Blocks Layout -->
 <section class="slide" id="slide-6">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-flow">
     <p class="label reveal-element" data-gsap="fade-up">任務一</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">版面四區塊</h2>
-    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Hero 首屏</h4>
-          <p>名字加大，放一句話介紹，占滿第一屏。</p>
-        </div>
+    <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node accent">
+        <p class="node-label">第一屏</p>
+        <p class="node-title">Hero 首屏</p>
+        <p class="node-desc">名字加大 + 一句話介紹</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>關於我</h4>
-          <p>兩到三段文字，說明你是誰、做什麼。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>技能與作品</h4>
-          <p>三欄卡片，每欄一個色塊圖、標題、一句說明。</p>
-        </div>
+      <div class="flow-node">
+        <p class="node-label">第二區</p>
+        <p class="node-title">關於我</p>
+        <p class="node-desc">兩到三段文字</p>
       </div>
-      <div class="step-item">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>聯絡方式</h4>
-          <p>底部一列，放 Email 與社群連結。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">第三區</p>
+        <p class="node-title">技能與作品</p>
+        <p class="node-desc">三欄卡片</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node">
+        <p class="node-label">第四區</p>
+        <p class="node-title">聯絡方式</p>
+        <p class="node-desc">底部一列連結</p>
       </div>
     </div>
   </div>
@@ -452,32 +454,32 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 8: Steps - Style & Mobile Task 2 -->
+<!-- SLIDE 8: Flow - Style & Mobile Task 2 -->
 <section class="slide" id="slide-8">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-flow">
     <p class="label reveal-element" data-gsap="fade-up">任務二</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">風格加手機</h2>
-    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="step-item">
-        <div class="step-num ai">1</div>
-        <div class="step-content">
-          <h4>換風格</h4>
-          <p>指定主色、輔色、強調色的色碼，再寫字級與留白數字。</p>
-        </div>
+    <div class="flow-diagram horizontal reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="flow-node ai">
+        <p class="node-label">Step 1</p>
+        <p class="node-title">換風格</p>
+        <p class="node-desc">給色碼、字級 px、留白數字</p>
       </div>
-      <div class="step-item">
-        <div class="step-num ai">2</div>
-        <div class="step-content">
-          <h4>加細節</h4>
-          <p>卡片圓角、淡陰影、hover 微動效，讓頁面更像作品。</p>
-        </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="step-item">
-        <div class="step-num ai">3</div>
-        <div class="step-content">
-          <h4>做手機版</h4>
-          <p>螢幕小於 768px 時，三欄變一欄，並加上 viewport meta tag。</p>
-        </div>
+      <div class="flow-node">
+        <p class="node-label">Step 2</p>
+        <p class="node-title">加細節</p>
+        <p class="node-desc">圓角、陰影、hover 微動效</p>
+      </div>
+      <div class="flow-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </div>
+      <div class="flow-node good">
+        <p class="node-label">Step 3</p>
+        <p class="node-title">做手機版</p>
+        <p class="node-desc">&lt; 768px 三欄變一欄 + viewport</p>
       </div>
     </div>
   </div>
@@ -485,54 +487,44 @@ body::after {
 
 <!-- SLIDE 9: Split - Style & RWD Prompt Example -->
 <section class="slide" id="slide-9">
-  <div class="slide-content">
-    <div class="layout-split reverse">
-      <div class="layout-left">
-        <p class="label reveal-element" data-gsap="fade-right">範本</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-right" data-delay="0.1">色碼寫清楚</h2>
-        <p class="body-text reveal-element" data-gsap="fade-right" data-delay="0.2" style="text-align:left;max-width:100%;">把顏色寫成色碼、字級寫成 px、區塊留白寫成數字。手機版條件寫寬度，AI 會自動加 media query。</p>
-      </div>
-      <div class="layout-right reveal-element" data-gsap="fade-left" data-delay="0.25">
-        <div class="terminal">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div class="ai-prompt">幫 index.html 換成沉穩專業風格：</div>
-          <div>- 主色 #1f3a5f、底色 #f5f5f5、強調色 #c89b3c</div>
-          <div>- 標題 36px、內文 18px、區塊留白 64px</div>
-          <div>- 卡片圓角 12px、淡陰影</div>
-          <div>- 手機 &lt; 768px 時三欄變一欄</div>
-          <div>直接改檔，列出動了哪些 CSS。</div>
-        </div>
+  <div class="slide-content layout-code-focus">
+    <p class="label reveal-element" data-gsap="fade-up">範本</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">色碼寫清楚</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">把顏色寫成色碼、字級寫成 px、區塊留白寫成數字。手機版條件寫寬度，AI 會自動加 media query。</p>
+    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
+      <div class="terminal">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="ai-prompt">幫 index.html 換成沉穩專業風格：</div>
+        <div>- 主色 #1f3a5f、底色 #f5f5f5、強調色 #c89b3c</div>
+        <div>- 標題 36px、內文 18px、區塊留白 64px</div>
+        <div>- 卡片圓角 12px、淡陰影</div>
+        <div>- 手機 &lt; 768px 時三欄變一欄</div>
+        <div>直接改檔，列出動了哪些 CSS。</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SLIDE 10: Feature List - Understand What AI Changed -->
+<!-- SLIDE 10: Dashboard - Understand What AI Changed -->
 <section class="slide" id="slide-10">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-dashboard">
     <p class="label reveal-element" data-gsap="fade-up">驗收</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">檢查改動點</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="feature-item">
-        <div class="feature-icon ai">01</div>
-        <div>
-          <h4>看終端機摘要</h4>
-          <p>opencode 會列出改了哪個檔案、做了什麼動作。先看再回瀏覽器。</p>
-        </div>
+    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">01</div>
+        <h4 class="dash-title">看終端機摘要</h4>
+        <p class="dash-desc">opencode 會列出改了哪個檔案、做了什麼動作。先看再回瀏覽器。</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon ai">02</div>
-        <div>
-          <h4>用 @ 指向檔案</h4>
-          <p>輸入 @index.html 問 AI「這裡改了什麼」，AI 會讀檔後回答。</p>
-        </div>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">02</div>
+        <h4 class="dash-title">用 @ 指向檔案</h4>
+        <p class="dash-desc">輸入 @index.html 問 AI「這裡改了什麼」，AI 會讀檔後回答。</p>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon ai">03</div>
-        <div>
-          <h4>用 cat 看內容</h4>
-          <p>在終端機打 cat index.html，不用懂每行，只要知道檔案真的被改了。</p>
-        </div>
+      <div class="dashboard-card">
+        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">03</div>
+        <h4 class="dash-title">用 cat 看內容</h4>
+        <p class="dash-desc">在終端機打 cat index.html，不用懂每行，只要知道檔案真的被改了。</p>
       </div>
     </div>
   </div>
@@ -554,38 +546,62 @@ body::after {
   </div>
 </section>
 
-<!-- SLIDE 12: Feature List - Troubleshooting -->
+<!-- SLIDE 12: Troubleshooting Tree -->
 <section class="slide" id="slide-12">
-  <div class="slide-content layout-center">
+  <div class="slide-content layout-troubleshooting">
     <p class="label reveal-element" data-gsap="fade-up">排解</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">卡關排解術</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="feature-item">
-        <div class="feature-icon">01</div>
-        <div>
-          <h4>AI 跑錯資料夾</h4>
-          <p>先打 pwd 看自己在哪，再用 cd Desktop/my-page 回到作品資料夾。</p>
+    <div class="trouble-map reveal-element" data-gsap="stagger-up" data-delay="0.2">
+      <div class="trouble-row">
+        <div class="trouble-symptom">
+          <h5>AI 跑錯資料夾</h5>
+          <p>不知道自己在哪個目錄</p>
+        </div>
+        <div class="trouble-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="trouble-fix">
+          <h5>對策</h5>
+          <p>pwd 看位置，cd Desktop/my-page 回到作品資料夾</p>
         </div>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">02</div>
-        <div>
-          <h4>改完畫面沒變</h4>
-          <p>瀏覽器要重新整理。Mac 按 Cmd + R，Windows 按 Ctrl + R。</p>
+      <div class="trouble-row">
+        <div class="trouble-symptom">
+          <h5>改完畫面沒變</h5>
+          <p>瀏覽器還在顯示舊版本</p>
+        </div>
+        <div class="trouble-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="trouble-fix">
+          <h5>對策</h5>
+          <p>Mac Cmd+R / Windows Ctrl+R 重新整理</p>
         </div>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">03</div>
-        <div>
-          <h4>改壞了想回頭</h4>
-          <p>在 opencode 對話裡打 /undo，可以回到上一個能看的版本。</p>
+      <div class="trouble-row">
+        <div class="trouble-symptom">
+          <h5>改壞了想回頭</h5>
+          <p>最新版本不如上一版</p>
+        </div>
+        <div class="trouble-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="trouble-fix">
+          <h5>對策</h5>
+          <p>在 opencode 對話裡打 /undo 回到上一個能看版本</p>
         </div>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">04</div>
-        <div>
-          <h4>還是卡住</h4>
-          <p>打 /share 產生對話連結，貼到 LINE 群組給講師診斷。</p>
+      <div class="trouble-row">
+        <div class="trouble-symptom">
+          <h5>還是卡住</h5>
+          <p>自己試過仍無法解決</p>
+        </div>
+        <div class="trouble-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="trouble-fix">
+          <h5>對策</h5>
+          <p>打 /share 產生對話連結，貼到 LINE 群組給講師診斷</p>
         </div>
       </div>
     </div>
