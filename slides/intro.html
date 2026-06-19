@@ -476,6 +476,33 @@ body::after {
 .bpk-back p { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
 .korea-washi { font-size: clamp(0.85rem, 1.2vw, 1.05rem) !important; }
 
+/* === QR CODE === */
+.qr-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--content-gap);
+  padding: clamp(10px, 1.5vw, 16px);
+  background: #FFFDF7;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+.qr-block img {
+  width: clamp(120px, 16vw, 180px);
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+.qr-block .qr-caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
+  color: #3D3229;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
 </style>
 
 <link rel="stylesheet" href="shared-nav.css">
@@ -496,6 +523,10 @@ body::after {
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.35" style="max-width: min(80vw, 560px); text-align: center; line-height: 1.6; margin-top: var(--content-gap);">
       下面是我用 AI 協作完成的幾個專案。每個都從真實需求出發，從前端畫面一路做到資料流與自動化。
     </p>
+    <div class="qr-block reveal-element" data-gsap="fade-up" data-delay="0.5">
+      <img src="assets/rogueverge-qr.png" alt="rogueverge.com QR Code">
+      <span class="qr-caption">rogueverge.com · 掃描進入更多作品</span>
+    </div>
   </div>
 </section>
 
