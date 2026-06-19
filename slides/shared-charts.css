@@ -139,8 +139,12 @@
 .svg-chart .svg-fill-accent { fill: rgba(255,107,53,0.15); }
 
 .screenshot-demo { max-height: 34vh; width: auto; max-width: min(90vw, 900px); border-radius: clamp(10px, 1vw, 16px); border: 1px solid var(--terminal-border); box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin-top: var(--content-gap); object-fit: contain; }
+.svg-illo { max-height: 18vh; width: auto; max-width: min(80vw, 520px); margin-top: var(--content-gap); filter: drop-shadow(0 16px 40px rgba(0,0,0,0.25)); opacity: 0.95; }
+.svg-illo-sm { max-height: 14vh; width: auto; max-width: min(70vw, 320px); margin-top: var(--content-gap); filter: drop-shadow(0 12px 30px rgba(0,0,0,0.25)); opacity: 0.95; }
 @media (max-width: 700px) {
   .screenshot-demo { max-height: 16vh; max-width: 88vw; }
+  .svg-illo { max-height: 12vh; max-width: 80vw; }
+  .svg-illo-sm { max-height: 8vh; max-width: 60vw; }
   .flow-diagram.horizontal { flex-direction: row; flex-wrap: nowrap; gap: clamp(4px, 1.5vw, 8px); justify-content: center; }
   .flow-diagram.horizontal .flow-node { max-width: 23vw; padding: clamp(5px, 1.5vw, 10px) clamp(6px, 1.5vw, 10px); }
   .flow-diagram.horizontal .flow-node .node-title { font-size: clamp(0.72rem, 2.2vw, 0.9rem); }
