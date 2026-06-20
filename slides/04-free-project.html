@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="shared-charts.css">
 <link rel="stylesheet" href="shared-effects.css">
 <script src="shared-effects.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <script>document.documentElement.classList.remove('no-js');</script>
 <style>
 /* === TOKENS === */
@@ -283,7 +283,7 @@ body::after {
       <span class="kinetic-line">自由完成</span><br>
       <span class="accent-text kinetic-line">作品成型</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">七十五分鐘自由實作。從三選一主題開始，把上午雛形變成更像作品的本機頁面。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">七十五分鐘（含約 35 分鐘自由實作）。從三選一主題開始，把上午雛形變成更像作品的本機頁面。</p>
     <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
       <span class="os-badge mac">Mac</span>
       <span class="os-badge win">Windows</span>
@@ -312,12 +312,12 @@ body::after {
       <div class="skill-key">
         <kbd>/init</kbd>
         <p class="skill-name">認識專案</p>
-        <p class="skill-desc">讓 AI 讀取目前資料夾結構。</p>
+        <p class="skill-desc">產生 AGENTS.md，讓 AI 認識這個專案。</p>
       </div>
       <div class="skill-key">
         <kbd>/undo</kbd>
         <p class="skill-name">回上一步</p>
-        <p class="skill-desc">改壞了回到上一個能看版本。</p>
+        <p class="skill-desc">撤回最近一次對話與檔案修改（需 Git repo）。</p>
       </div>
       <div class="skill-key">
         <kbd>/share</kbd>
