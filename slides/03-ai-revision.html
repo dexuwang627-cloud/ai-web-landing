@@ -161,26 +161,66 @@ body::after {
 }
 .card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 .card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.45rem, 2.5vw, 2.0rem); font-weight: 700; margin: 0 0 10px; }
-.card p { font-size: clamp(1.15rem, 1.6vw, 1.4rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card p { font-size: clamp(1.05rem, 1.5vw, 1.3rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
 .card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
 @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
 
-/* === LINK CARDS（推薦網站） === */
-.link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(30vw, 280px), 1fr)); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1100px); }
+/* === LINK CARDS（推薦網站 + 標誌性 mini 視覺） === */
+.link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(30vw, 260px), 1fr)); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1100px); }
 .link-card {
-  display: flex; flex-direction: column; gap: 10px;
+  display: flex; flex-direction: column; gap: 8px;
   background: var(--card); border: 1px solid var(--glass-border);
   border-radius: clamp(14px, 1.6vw, 22px);
-  padding: clamp(20px, 2.6vw, 32px);
+  padding: clamp(16px, 2vw, 26px);
   text-decoration: none; color: inherit;
   transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
 }
 .link-card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.link-card .lc-illo { width: 100%; height: clamp(56px, 7vw, 76px); display: block; margin-bottom: 4px; }
 .link-card .lc-tag { align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--accent); background: var(--accent-soft); padding: 3px 10px; border-radius: 999px; }
 .link-card .lc-tag.ai { color: var(--ai); background: var(--ai-soft); }
-.link-card .lc-name { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.2rem, 1.8vw, 1.55rem); font-weight: 700; color: var(--text); margin: 0; }
-.link-card .lc-url { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--accent); }
-.link-card .lc-desc { font-size: clamp(1rem, 1.4vw, 1.2rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
+.link-card .lc-name { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.45rem); font-weight: 700; color: var(--text); margin: 0; }
+.link-card .lc-url { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--accent); }
+.link-card .lc-desc { font-size: clamp(0.9rem, 1.25vw, 1.1rem); color: var(--text-muted); line-height: 1.55; margin: 0; }
+
+/* === TERMINAL === */
+.terminal {
+  background: var(--terminal-bg);
+  border: 1px solid var(--terminal-border);
+  border-radius: clamp(10px, 1.2vw, 18px);
+  padding: clamp(16px, 2.2vw, 26px);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.8rem, 1.15vw, 1rem);
+  line-height: 1.8;
+  color: #d0d8e2;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.terminal-header { display: flex; gap: 8px; margin-bottom: clamp(10px, 1.2vh, 16px); }
+.terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; background: var(--text-dim); }
+.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+.terminal .ai-prompt { color: var(--ai); }
+
+/* === STEP LIST（引導任務） === */
+.step-list { display: flex; flex-direction: column; gap: var(--element-gap); width: 100%; }
+.step-item { display: flex; align-items: flex-start; gap: clamp(14px, 1.8vw, 20px); }
+.step-num {
+  flex-shrink: 0; width: clamp(38px, 4.4vw, 50px); height: clamp(38px, 4.4vw, 50px);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.step-num.ai { background: var(--ai-soft); color: var(--ai); box-shadow: 0 0 24px rgba(166,143,201,0.18); }
+.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.35rem); font-weight: 700; margin: 0 0 4px; }
+.step-content p { font-size: clamp(0.95rem, 1.3vw, 1.15rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+
+/* === TASK CARD（引導任務容器） === */
+.task-card { padding: clamp(22px, 3vw, 40px); max-width: min(92vw, 880px); width: 100%; }
+.task-card .task-meta { display: flex; align-items: center; gap: 10px; margin-bottom: var(--element-gap); }
+.task-card .task-badge { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--accent); background: var(--accent-soft); padding: 4px 12px; border-radius: 999px; }
+.task-card .task-goal { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--text-dim); letter-spacing: 1px; }
 
 /* === OS BADGES === */
 .os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
@@ -263,87 +303,289 @@ body::after {
       </div>
     </div>
   </div>
-</section><!-- SLIDE 4: Template Examples -->
+</section><!-- SLIDE 4: Guided Path Overview -->
 <section class="slide" id="slide-4">
+  <div class="glow-orb accent" style="width:42vw;height:42vw;bottom:-14vw;right:-10vw;"></div>
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">樣板範例</p>
+    <p class="label reveal-element" data-gsap="fade-up">帶你走</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三步逛完資源</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">不要漫無目的地滑。跟著這三步走，每步留下一個東西，最後組成一句給 AI 的指令。</p>
+    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--content-gap); max-width: min(90vw, 760px);">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>逛 — 挑一個你想做的版型</h4>
+          <p>走訪樣板範例站，記下喜歡的區塊順序。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num ai">2</div>
+        <div class="step-content">
+          <h4>記 — 截圖一個你喜歡的風格</h4>
+          <p>走訪設計靈感站，用三個詞描述配色或排版。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num" style="background: rgba(108,175,138,0.14); color: var(--good); box-shadow: 0 0 24px rgba(108,175,138,0.18);">3</div>
+        <div class="step-content">
+          <h4>說 — 把發現寫成一句 prompt</h4>
+          <p>把版型加風格組起來，下午實作直接用。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 5: Template Examples -->
+<section class="slide" id="slide-5">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">樣板範例 · 逛</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">別人做過的頁面</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">挑一個結構喜歡的，跟 AI 說「做成類似這個的版面」。點卡片可連過去看。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">挑一個結構喜歡的，記下它的區塊順序。點卡片連過去看。</p>
     <div class="link-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
       <a class="link-card fx-tilt" href="https://carrd.co" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="0" y="0" width="120" height="70" rx="6" fill="rgba(255,255,255,0.02)"/>
+          <rect x="40" y="22" width="40" height="6" rx="3" fill="var(--accent)"/>
+          <rect x="48" y="34" width="24" height="3" rx="1.5" fill="var(--text-dim)"/>
+        </svg>
         <span class="lc-tag">名片頁</span>
         <h4 class="lc-name">Carrd</h4>
         <span class="lc-url">carrd.co</span>
-        <p class="lc-desc">單頁網站範本平台，極簡結構，適合模仿個人名片頁。</p>
+        <p class="lc-desc">單頁網站範本平台，極簡置中結構，適合模仿個人名片頁。</p>
       </a>
       <a class="link-card fx-tilt" href="https://webflow.com/templates" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="8" y="10" width="32" height="50" rx="4" fill="rgba(212,137,110,0.18)" stroke="var(--accent)" stroke-opacity="0.4"/>
+          <rect x="44" y="10" width="32" height="50" rx="4" fill="rgba(255,255,255,0.04)" stroke="var(--glass-border)"/>
+          <rect x="80" y="10" width="32" height="50" rx="4" fill="rgba(255,255,255,0.04)" stroke="var(--glass-border)"/>
+          <rect x="14" y="18" width="20" height="3" rx="1.5" fill="var(--accent)"/>
+        </svg>
         <span class="lc-tag">商家頁</span>
         <h4 class="lc-name">Webflow Templates</h4>
         <span class="lc-url">webflow.com/templates</span>
         <p class="lc-desc">分類範本平台，含商家與服務業版型，適合模仿商家介紹頁。</p>
       </a>
       <a class="link-card fx-tilt" href="https://onepagelove.com" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="36" y="8" width="48" height="54" rx="5" fill="rgba(255,255,255,0.03)" stroke="var(--glass-border)"/>
+          <rect x="42" y="14" width="36" height="10" rx="2" fill="var(--ai-soft)"/>
+          <rect x="42" y="28" width="36" height="8" rx="2" fill="rgba(255,255,255,0.05)"/>
+          <rect x="42" y="40" width="36" height="8" rx="2" fill="rgba(255,255,255,0.05)"/>
+          <rect x="42" y="52" width="20" height="5" rx="2" fill="var(--ai)"/>
+        </svg>
         <span class="lc-tag">活動頁</span>
         <h4 class="lc-name">One Page Love</h4>
         <span class="lc-url">onepagelove.com</span>
         <p class="lc-desc">單頁網站設計 gallery，含活動頁範例，適合模仿活動版型。</p>
       </a>
+      <a class="link-card fx-tilt" href="https://www.squarespace.com/templates" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="8" y="8" width="104" height="54" rx="5" fill="rgba(255,255,255,0.03)" stroke="var(--glass-border)"/>
+          <rect x="8" y="8" width="104" height="26" rx="5" fill="rgba(212,137,110,0.15)"/>
+          <rect x="16" y="42" width="40" height="5" rx="2.5" fill="var(--accent)"/>
+          <rect x="16" y="52" width="60" height="3" rx="1.5" fill="var(--text-dim)"/>
+        </svg>
+        <span class="lc-tag">綜合</span>
+        <h4 class="lc-name">Squarespace Templates</h4>
+        <span class="lc-url">squarespace.com/templates</span>
+        <p class="lc-desc">官方範本展示，商家/活動/作品集分類清楚，可挑封面版型。</p>
+      </a>
     </div>
   </div>
-</section><!-- SLIDE 5: Design Inspiration -->
-<section class="slide" id="slide-5">
+</section><!-- SLIDE 6: Task 1 — Pick a Layout -->
+<section class="slide" id="slide-6">
+  <div class="glow-orb accent" style="width:40vw;height:40vw;top:-12vw;left:-10vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">任務一</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">挑一個你想做的版型</h2>
+    <div class="glass task-card reveal-element" data-gsap="fade-up" data-delay="0.25" style="margin-top: var(--content-gap);">
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>打開上一頁任一個樣板站</h4>
+            <p> Carrd、Webflow、One Page Love 都行，挑順眼的進去逛。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num ai">2</div>
+          <div class="step-content">
+            <h4>找一個你最想做的版型</h4>
+            <p>不用懂技術，看感覺：這個排法我喜歡。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background: rgba(108,175,138,0.14); color: var(--good); box-shadow: 0 0 24px rgba(108,175,138,0.18);">3</div>
+          <div class="step-content">
+            <h4>記下它的區塊順序</h4>
+            <p>從上到下唸出來，例如：大標 → 介紹 → 三欄卡片 → 聯絡。</p>
+          </div>
+        </div>
+      </div>
+      <div class="terminal" style="margin-top: var(--content-gap);">
+        <div class="terminal-header"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span></div>
+        <div class="comment"># 我的發現（任務一產出）</div>
+        <div><span class="prompt">$</span> <span class="cmd">版型參考：</span>Webflow 的咖啡店範本</div>
+        <div><span class="prompt">$</span> <span class="cmd">區塊順序：</span>店名大標 → 招牌語 → 三項主打 → 地圖聯絡</div>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 7: Design Inspiration -->
+<section class="slide" id="slide-7">
   <div class="glow-orb ai" style="width:42vw;height:42vw;bottom:-14vw;right:-10vw;"></div>
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">設計靈感</p>
+    <p class="label reveal-element" data-gsap="fade-up">設計靈感 · 記</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">找你喜歡的風格</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">看到喜歡的配色或排版，截圖或描述特徵給 AI，讓它做出類似感覺。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">看到喜歡的配色或排版，截圖或用三個詞描述，等等給 AI。</p>
     <div class="link-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
       <a class="link-card fx-tilt" href="https://www.awwwards.com" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <circle cx="60" cy="30" r="18" fill="rgba(212,137,110,0.15)" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M52 30 l6 6 l12 -12" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="44" y="54" width="32" height="6" rx="3" fill="var(--accent)"/>
+        </svg>
         <span class="lc-tag ai">獎項站</span>
         <h4 class="lc-name">Awwwards</h4>
         <span class="lc-url">awwwards.com</span>
         <p class="lc-desc">網頁設計獎項站，按分類瀏覽得獎網站找風格靈感。</p>
       </a>
       <a class="link-card fx-tilt" href="https://land-book.com" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="10" y="10" width="46" height="22" rx="4" fill="rgba(166,143,201,0.15)" stroke="var(--ai)" stroke-opacity="0.4"/>
+          <rect x="64" y="10" width="46" height="22" rx="4" fill="rgba(255,255,255,0.04)" stroke="var(--glass-border)"/>
+          <rect x="10" y="38" width="46" height="22" rx="4" fill="rgba(255,255,255,0.04)" stroke="var(--glass-border)"/>
+          <rect x="64" y="38" width="46" height="22" rx="4" fill="rgba(166,143,201,0.10)" stroke="var(--ai)" stroke-opacity="0.3"/>
+        </svg>
         <span class="lc-tag ai">著陸頁</span>
         <h4 class="lc-name">Land-book</h4>
         <span class="lc-url">land-book.com</span>
         <p class="lc-desc">著陸頁設計 gallery，適合找單頁版型與排版靈感。</p>
       </a>
       <a class="link-card fx-tilt" href="https://www.siteinspire.com" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="12" y="14" width="28" height="10" rx="5" fill="rgba(255,255,255,0.06)"/>
+          <rect x="44" y="14" width="36" height="10" rx="5" fill="var(--ai-soft)"/>
+          <rect x="20" y="30" width="44" height="10" rx="5" fill="rgba(255,255,255,0.06)"/>
+          <rect x="68" y="30" width="40" height="10" rx="5" fill="rgba(255,255,255,0.06)"/>
+          <rect x="32" y="46" width="52" height="10" rx="5" fill="var(--ai-soft)"/>
+        </svg>
         <span class="lc-tag ai">目錄站</span>
         <h4 class="lc-name">Siteinspire</h4>
         <span class="lc-url">siteinspire.com</span>
         <p class="lc-desc">網頁設計目錄，可按 tag 篩選風格找版型。</p>
       </a>
+      <a class="link-card fx-tilt" href="https://dribbble.com" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="14" y="10" width="44" height="44" rx="10" fill="rgba(212,137,110,0.18)"/>
+          <circle cx="36" cy="32" r="8" fill="var(--accent)"/>
+          <rect x="66" y="14" width="40" height="6" rx="3" fill="var(--text-dim)"/>
+          <rect x="66" y="26" width="28" height="4" rx="2" fill="var(--text-dim)"/>
+          <rect x="66" y="40" width="40" height="10" rx="5" fill="var(--accent-soft)"/>
+        </svg>
+        <span class="lc-tag ai">視覺作品</span>
+        <h4 class="lc-name">Dribbble</h4>
+        <span class="lc-url">dribbble.com</span>
+        <p class="lc-desc">設計師作品社群，看配色與介面練習的視覺靈感。</p>
+      </a>
     </div>
   </div>
-</section><!-- SLIDE 6: AI Tools -->
-<section class="slide" id="slide-6">
+</section><!-- SLIDE 8: Task 2 — Capture a Style -->
+<section class="slide" id="slide-8">
+  <div class="glow-orb ai" style="width:40vw;height:40vw;top:-12vw;right:-10vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">任務二</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">截圖一個你喜歡的風格</h2>
+    <div class="glass task-card reveal-element" data-gsap="fade-up" data-delay="0.25" style="margin-top: var(--content-gap);">
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>打開上一頁任一個靈感站</h4>
+            <p>Awwwards、Land-book、Siteinspire 都行。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num ai">2</div>
+          <div class="step-content">
+            <h4>找到一個你喜歡的配色或排版</h4>
+            <p>截圖存下來，等等可以貼給 opencode 看。</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background: rgba(108,175,138,0.14); color: var(--good); box-shadow: 0 0 24px rgba(108,175,138,0.18);">3</div>
+          <div class="step-content">
+            <h4>用三個詞描述它</h4>
+            <p>例如：深色背景、留白多、圓角卡片。</p>
+          </div>
+        </div>
+      </div>
+      <div class="terminal" style="margin-top: var(--content-gap);">
+        <div class="terminal-header"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span></div>
+        <div class="comment"># 我的發現（任務二產出）</div>
+        <div><span class="prompt">$</span> <span class="cmd">風格截圖：</span>已存到桌面</div>
+        <div><span class="prompt">$</span> <span class="cmd">三個詞：</span>深色、留白多、圓角</div>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 9: AI Tools -->
+<section class="slide" id="slide-9">
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">AI 工具</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">回家繼續用的幫手</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">opencode 是主工具，其他是備援或輔助構思。任一個能產生 HTML 放進 index.html 就算過關。</p>
     <div class="link-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
       <a class="link-card fx-tilt" href="https://opencode.ai" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="8" y="10" width="104" height="50" rx="6" fill="var(--terminal-bg)" stroke="var(--terminal-border)"/>
+          <circle cx="16" cy="18" r="2.5" fill="var(--text-dim)"/>
+          <circle cx="24" cy="18" r="2.5" fill="var(--text-dim)"/>
+          <circle cx="32" cy="18" r="2.5" fill="var(--text-dim)"/>
+          <rect x="16" y="34" width="6" height="3" fill="var(--accent)"/>
+          <rect x="26" y="30" width="3" height="10" fill="var(--text)"/>
+          <rect x="16" y="48" width="40" height="3" rx="1.5" fill="var(--text-dim)"/>
+        </svg>
         <span class="lc-tag">主工具</span>
         <h4 class="lc-name">opencode</h4>
         <span class="lc-url">opencode.ai</span>
-        <p class="lc-desc">本機 AI 直接改檔，今天的主工具。Mac / Windows / Linux 都支援。</p>
+        <p class="lc-desc">本機 AI 直接改檔，今天的主工具。Mac / Windows / Linux。</p>
       </a>
       <a class="link-card fx-tilt" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="16" y="12" width="88" height="32" rx="10" fill="rgba(108,175,138,0.15)" stroke="var(--good)" stroke-opacity="0.4"/>
+          <circle cx="32" cy="28" r="3" fill="var(--good)"/>
+          <circle cx="44" cy="28" r="3" fill="var(--good)"/>
+          <circle cx="56" cy="28" r="3" fill="var(--good)"/>
+          <path d="M30 44 l-6 10 l14 -8 z" fill="rgba(108,175,138,0.15)" stroke="var(--good)" stroke-opacity="0.4"/>
+        </svg>
         <span class="lc-tag ai">備援</span>
         <h4 class="lc-name">ChatGPT</h4>
         <span class="lc-url">chatgpt.com</span>
         <p class="lc-desc">構思內容、生成網頁文案。網頁版手動貼 HTML 是最後防線。</p>
       </a>
       <a class="link-card fx-tilt" href="https://claude.ai" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="16" y="12" width="88" height="32" rx="10" fill="rgba(212,137,110,0.15)" stroke="var(--accent)" stroke-opacity="0.4"/>
+          <circle cx="40" cy="28" r="4" fill="var(--accent)"/>
+          <rect x="52" y="26" width="28" height="4" rx="2" fill="var(--accent)" fill-opacity="0.6"/>
+          <rect x="52" y="34" width="18" height="3" rx="1.5" fill="var(--accent)" fill-opacity="0.4"/>
+          <path d="M88 44 l4 8 l-8 -2 z" fill="var(--accent)" fill-opacity="0.5"/>
+        </svg>
         <span class="lc-tag ai">備援</span>
         <h4 class="lc-name">Claude</h4>
         <span class="lc-url">claude.ai</span>
         <p class="lc-desc">輔助構思與除錯，定位同 ChatGPT。網頁介面不分平台。</p>
       </a>
       <a class="link-card fx-tilt" href="https://github.com/openai/codex" target="_blank" rel="noopener noreferrer">
+        <svg class="lc-illo" viewBox="0 0 120 70" fill="none" aria-hidden="true">
+          <rect x="8" y="10" width="104" height="50" rx="6" fill="var(--terminal-bg)" stroke="var(--terminal-border)"/>
+          <circle cx="16" cy="18" r="2.5" fill="var(--text-dim)"/>
+          <circle cx="24" cy="18" r="2.5" fill="var(--text-dim)"/>
+          <circle cx="32" cy="18" r="2.5" fill="var(--text-dim)"/>
+          <rect x="16" y="30" width="10" height="3" fill="var(--ai)"/>
+          <rect x="30" y="30" width="22" height="3" fill="var(--text-muted)"/>
+          <rect x="16" y="40" width="16" height="3" fill="var(--ai)"/>
+          <rect x="36" y="40" width="30" height="3" fill="var(--text-muted)"/>
+          <rect x="16" y="50" width="8" height="3" fill="var(--good)"/>
+        </svg>
         <span class="lc-tag ai">備援</span>
         <h4 class="lc-name">Codex CLI</h4>
         <span class="lc-url">github.com/openai/codex</span>
@@ -351,8 +593,27 @@ body::after {
       </a>
     </div>
   </div>
-</section><!-- SLIDE 7: How to Use Resources Flow -->
-<section class="slide" id="slide-7">
+</section><!-- SLIDE 10: Task 3 — Write the Prompt -->
+<section class="slide" id="slide-10">
+  <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-12vw;right:-10vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">任務三</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">把發現寫成一句 prompt</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">把任務一的版型加任務二的風格，套進這個模板，下午實作直接用。</p>
+    <div class="terminal fx-glow reveal-element" data-gsap="fade-up" data-delay="0.3" style="margin-top: var(--content-gap); max-width: min(92vw, 860px);">
+      <div class="terminal-header"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span></div>
+      <div class="comment"># prompt 模板（把 [ ] 換成你的發現）</div>
+      <div class="ai-prompt">我想做像 [Carrd 那種置中] 的個人名片頁，</div>
+      <div class="ai-prompt">風格 [深色、留白多、圓角]，</div>
+      <div class="ai-prompt">區塊順序 [大標 → 介紹 → 三欄技能 → 聯絡]。</div>
+      <div class="ai-prompt">直接寫入 index.html。</div>
+      <div class="comment" style="margin-top: 8px;"># 我的 prompt（填完即可帶進下一階段）</div>
+      <div class="ai-prompt">我想做像 ____________ 的 ____________ 頁，</div>
+      <div class="ai-prompt">風格 ____________，區塊順序 ____________。</div>
+    </div>
+  </div>
+</section><!-- SLIDE 11: From See to Make Flow -->
+<section class="slide" id="slide-11">
   <div class="slide-content layout-flow">
     <p class="label reveal-element" data-gsap="fade-up">怎麼用</p>
     <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">從看到做出</h2>
@@ -385,8 +646,21 @@ body::after {
     </div>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.4" style="max-width: min(80vw, 560px); font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-dim);">不用模仿一模一樣，抓結構與感覺，剩下的讓 AI 幫你組。</p>
   </div>
-</section><!-- SLIDE 8: Transition to Hands-on -->
-<section class="slide" id="slide-8">
+</section><!-- SLIDE 12: Bring It Together -->
+<section class="slide" id="slide-12">
+  <div class="glow-orb ai" style="width:46vw;height:46vw;bottom:-16vw;left:-10vw;"></div>
+  <div class="slide-content layout-full-bleed">
+    <div class="layout-center glass fx-spotlight" style="padding: clamp(36px,5.5vw,72px) clamp(30px,4.5vw,64px); max-width: min(90vw, 920px);">
+      <p class="label reveal-element" data-gsap="fade-up">帶進實作</p>
+      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(1.8rem, 4.5vw, 3.4rem);">
+        把三個發現<br>
+        <span style="color: var(--accent);">帶進下一階段</span>
+      </h2>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">你手上有：一個版型、三個風格詞、一句 prompt。這就是下午實作的起點。</p>
+    </div>
+  </div>
+</section><!-- SLIDE 13: Transition to Hands-on -->
+<section class="slide" id="slide-13">
   <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-10vw;right:-8vw;"></div>
   <div class="glow-orb ai" style="width:30vw;height:30vw;top:-6vw;left:-6vw;"></div>
   <div class="slide-content layout-center">
@@ -395,13 +669,13 @@ body::after {
       看完了<br>
       <span class="accent-text">換你動手</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">接下來兩小時，用剛剛看到的靈感，做出你的商家介紹頁。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">接下來兩小時，用剛剛記下的版型與風格，做出你的商家介紹頁。</p>
   </div>
 </section>
 
 <!-- NAV -->
 <nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 8</div>
+<div class="slide-counter">1 / 13</div>
 <div class="keyboard-hint">↑ ↓ scroll</div>
 
 <script>
