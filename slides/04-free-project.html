@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNIT 4 — 自由完成作品</title>
+<title>UNIT 4 — 實作深化</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-charts.css">
 <link rel="stylesheet" href="shared-effects.css">
@@ -280,10 +280,10 @@ body::after {
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">UNIT 4</p>
     <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      <span class="kinetic-line">自由完成</span><br>
+      <span class="kinetic-line">實作深化</span><br>
       <span class="accent-text kinetic-line">作品成型</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">七十五分鐘（含約 35 分鐘自由實作）。從三選一主題開始，把上午雛形變成更像作品的本機頁面。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">兩小時實作深化。講師 demo 商家介紹頁，你跟做或換成自己的素材，把上午雛形變成更像作品的本機頁面。</p>
     <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
       <span class="os-badge mac">Mac</span>
       <span class="os-badge win">Windows</span>
@@ -329,38 +329,18 @@ body::after {
 </section><!-- SLIDE 4: Theme Dashboard -->
 <section class="slide" id="slide-4">
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">三選一</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">選一主題深化</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">點擊卡片展開建議 prompt，選一個最有感覺的主題繼續完成。</p>
+    <p class="label reveal-element" data-gsap="fade-up">今天主題</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">來做商家介紹頁</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">講師用咖啡店當 demo。你用自己的店家，或挑一家喜歡的店替換素材，AI 會幫你做出一頁介紹。</p>
     <div class="expander-group reveal-element" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--content-gap); max-width: min(96vw, 1100px); width: 100%;">
-      <div class="expander-card" data-expander data-prompt="幫我把 index.html 改成個人名片頁。大標題放[你的名字]，下面放一句話自我介紹、三個技能卡片、Email 與 LinkedIn。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。">
-        <div class="expander-header">
-          <div class="expander-icon">01</div>
-          <div class="expander-title">個人名片頁</div>
-        </div>
-        <div class="expander-body">
-          <p>名字 + 一句話介紹 + 三項技能 + 聯絡方式。最適合第一次完整做完一頁。</p>
-          <div class="expander-prompt">「幫我把 index.html 改成個人名片頁。大標題放[你的名字]……」</div>
-        </div>
-      </div>
       <div class="expander-card" data-expander data-prompt="幫我把 index.html 改成咖啡店介紹頁。店名[你的店名]、一句招牌語、三項主打飲品或服務、地址與營業時間。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。">
         <div class="expander-header">
-          <div class="expander-icon" style="background:var(--ai-soft);color:var(--ai);">02</div>
+          <div class="expander-icon" style="background:var(--ai-soft);color:var(--ai);">01</div>
           <div class="expander-title">商家介紹頁</div>
         </div>
         <div class="expander-body">
-          <p>店名 + 招牌語 + 三項主打 + 地址與營業時間。適合已有素材描述的人。</p>
+          <p>店名 + 招牌語 + 三項主打 + 地址與營業時間。適合已有素材描述的人，區塊清楚好練習。</p>
           <div class="expander-prompt">「幫我把 index.html 改成咖啡店介紹頁。店名[你的店名]……」</div>
-        </div>
-      </div>
-      <div class="expander-card" data-expander data-prompt="幫我把 index.html 改成活動頁面。活動名稱[活動名稱]、日期地點、三個活動亮點、報名方式。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。">
-        <div class="expander-header">
-          <div class="expander-icon" style="background:rgba(108,175,138,0.14);color:var(--good);">03</div>
-          <div class="expander-title">活動頁面</div>
-        </div>
-        <div class="expander-body">
-          <p>活動名稱 + 日期地點 + 三個亮點 + 報名方式。區塊最多，最能練習完整敘述。</p>
-          <div class="expander-prompt">「幫我把 index.html 改成活動頁面。活動名稱[活動名稱]……」</div>
         </div>
       </div>
     </div>
@@ -402,31 +382,6 @@ body::after {
       </div>
     </div>
   </div>
-</section><!-- SLIDE 6: Demo A — Personal Card Madlibs -->
-<section class="slide" id="slide-6">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">Demo A</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">個人名片填空</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">填入你的資料，下方會自動組成一段完整 prompt，複製後貼給 opencode。</p>
-    <form class="madlib-form reveal-element" data-gsap="fade-up" data-delay="0.35" data-madlib style="margin-top: var(--content-gap);">
-      <div class="madlib-row">
-        <input type="text" data-key="名字" placeholder="你的名字" value="王小明">
-        <input type="text" data-key="介紹" placeholder="一句話介紹" value="喜歡用數據說故事的行銷人">
-      </div>
-      <div class="madlib-row">
-        <input type="text" data-key="技能一" placeholder="技能一" value="內容企劃">
-        <input type="text" data-key="技能二" placeholder="技能二" value="數據分析">
-        <input type="text" data-key="技能三" placeholder="技能三" value="簡報設計">
-      </div>
-      <div class="madlib-row">
-        <input type="text" data-key="聯絡" placeholder="聯絡方式" value="hello@example.com">
-      </div>
-      <div class="terminal" style="max-width: min(90vw, 800px); margin-top: var(--element-gap); text-align:left;">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="madlib-output" data-prompt="幫我把 index.html 改成個人名片頁。大標題放[名字]，下面放一句話介紹：[介紹]。三個技能卡片：[技能一]、[技能二]、[技能三]。聯絡方式：[聯絡]。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。" data-template="幫我把 index.html 改成個人名片頁。大標題放[名字]，下面放一句話介紹：[介紹]。三個技能卡片：[技能一]、[技能二]、[技能三]。聯絡方式：[聯絡]。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。">幫我把 index.html 改成個人名片頁。大標題放[名字]，下面放一句話介紹：[介紹]。三個技能卡片：[技能一]、[技能二]、[技能三]。聯絡方式：[聯絡]。風格簡潔低飽和，桌機置中、手機單欄。直接寫入 index.html。</div>
-      </div>
-    </form>
-  </div>
 </section><!-- SLIDE 7: Demo B — Shop Madlibs -->
 <section class="slide" id="slide-7">
   <div class="slide-content layout-center">
@@ -450,32 +405,6 @@ body::after {
       <div class="terminal" style="max-width: min(90vw, 800px); margin-top: var(--element-gap); text-align:left;">
         <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
         <div class="madlib-output" data-prompt="幫我把 index.html 改成咖啡店介紹頁。店名[店名]，招牌語：[招牌語]。三項主打：[主打一]、[主打二]、[主打三]。地址：[地址]，營業時間：[營業]。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。" data-template="幫我把 index.html 改成咖啡店介紹頁。店名[店名]，招牌語：[招牌語]。三項主打：[主打一]、[主打二]、[主打三]。地址：[地址]，營業時間：[營業]。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。">幫我把 index.html 改成咖啡店介紹頁。店名[店名]，招牌語：[招牌語]。三項主打：[主打一]、[主打二]、[主打三]。地址：[地址]，營業時間：[營業]。風格溫暖低飽和，桌機三欄、手機單欄。直接寫入 index.html。</div>
-      </div>
-    </form>
-  </div>
-</section><!-- SLIDE 8: Demo C — Event Madlibs -->
-<section class="slide" id="slide-8">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">Demo C</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">活動頁面填空</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">填入活動資訊，立刻得到一頁可展示的活動頁 prompt。</p>
-    <form class="madlib-form reveal-element" data-gsap="fade-up" data-delay="0.35" data-madlib style="margin-top: var(--content-gap);">
-      <div class="madlib-row">
-        <input type="text" data-key="活動" placeholder="活動名稱" value="夏日市集工作坊">
-        <input type="text" data-key="日期" placeholder="日期" value="2026 年 8 月 15 日">
-      </div>
-      <div class="madlib-row">
-        <input type="text" data-key="地點" placeholder="地點" value="台中草悟道">
-        <input type="text" data-key="亮點一" placeholder="亮點一" value="手作體驗">
-        <input type="text" data-key="亮點二" placeholder="亮點二" value="街頭美食">
-      </div>
-      <div class="madlib-row">
-        <input type="text" data-key="亮點三" placeholder="亮點三" value="現場音樂">
-        <input type="text" data-key="報名" placeholder="報名方式" value="現場報名，免費入場">
-      </div>
-      <div class="terminal" style="max-width: min(90vw, 800px); margin-top: var(--element-gap); text-align:left;">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="madlib-output" data-prompt="幫我把 index.html 改成活動頁面。活動名稱[活動]，日期[日期]，地點[地點]。三個亮點：[亮點一]、[亮點二]、[亮點三]。報名方式：[報名]。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。" data-template="幫我把 index.html 改成活動頁面。活動名稱[活動]，日期[日期]，地點[地點]。三個亮點：[亮點一]、[亮點二]、[亮點三]。報名方式：[報名]。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。">幫我把 index.html 改成活動頁面。活動名稱[活動]，日期[日期]，地點[地點]。三個亮點：[亮點一]、[亮點二]、[亮點三]。報名方式：[報名]。風格有活力但不要太花，桌機三欄、手機單欄。直接寫入 index.html。</div>
       </div>
     </form>
   </div>

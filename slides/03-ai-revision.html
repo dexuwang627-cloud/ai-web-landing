@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNIT 3 — AI 改版練習</title>
+<title>UNIT 3 — 你可以做什麼</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-charts.css">
 <link rel="stylesheet" href="shared-effects.css">
@@ -138,24 +138,7 @@ body::after {
 
 /* === LAYOUT PRIMITIVES === */
 .layout-center { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
-.layout-split {
-  display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap);
-  width: 100%; max-width: min(96vw, 1240px); align-items: center;
-  margin: 0 auto;
-}
-.layout-split.reverse > *:first-child { order: 2; }
-.layout-split.reverse > *:last-child { order: 1; }
-.layout-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-.layout-right { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-.layout-thirds { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
 .layout-full-bleed { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; }
-
-@media (max-width: 900px) {
-  .layout-split { grid-template-columns: 1fr; }
-  .layout-split.reverse > *:first-child { order: 1; }
-  .layout-split.reverse > *:last-child { order: 2; }
-  .layout-thirds { grid-template-columns: 1fr; }
-}
 
 /* === GLASS CARD === */
 .glass {
@@ -167,25 +150,6 @@ body::after {
   box-shadow: 0 24px 80px rgba(0,0,0,0.25);
 }
 
-/* === TERMINAL === */
-.terminal {
-  background: var(--terminal-bg);
-  border: 1px solid var(--terminal-border);
-  border-radius: clamp(10px, 1.2vw, 18px);
-  padding: clamp(18px, 2.4vw, 30px);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.85rem, 1.25vw, 1.05rem);
-  line-height: 1.8;
-  color: #d0d8e2;
-  width: 100%;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-}
-.terminal-header { display: flex; gap: 8px; margin-bottom: clamp(10px, 1.2vh, 16px); }
-.terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
-.terminal-dot.red { background: var(--text-dim); } .terminal-dot.yellow { background: var(--text-dim); } .terminal-dot.green { background: var(--text-dim); }
-.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
-.terminal .ai-prompt { color: var(--ai); }
-
 /* === CARDS === */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
 .card {
@@ -196,64 +160,27 @@ body::after {
   transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
 }
 .card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; margin: 0 0 10px; }
-.card p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.45rem, 2.5vw, 2.0rem); font-weight: 700; margin: 0 0 10px; }
+.card p { font-size: clamp(1.15rem, 1.6vw, 1.4rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
 .card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
 @media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
 
-/* === FEATURE LIST === */
-.feature-list { display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); max-width: min(90vw, 920px); width: 100%; }
-.feature-item {
-  display: flex; align-items: flex-start; gap: clamp(14px, 1.8vw, 22px);
-  background: var(--card); border: 1px solid var(--glass-border);
-  border-radius: clamp(10px, 1.2vw, 16px);
-  padding: clamp(16px, 2vw, 26px);
-}
-.feature-icon {
-  flex-shrink: 0; width: clamp(40px, 4.8vw, 56px); height: clamp(40px, 4.8vw, 56px);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 12px; background: var(--accent-soft);
-  font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
-}
-.feature-icon.ai { background: var(--ai-soft); color: var(--ai); }
-.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
-.feature-item p { font-size: clamp(1.2rem, 1.6vw, 1.4rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
-
-/* === COMPARE === */
-.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); width: 100%; max-width: min(94vw, 960px); }
-.compare-card {
+/* === LINK CARDS（推薦網站） === */
+.link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(30vw, 280px), 1fr)); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1100px); }
+.link-card {
+  display: flex; flex-direction: column; gap: 10px;
   background: var(--card); border: 1px solid var(--glass-border);
   border-radius: clamp(14px, 1.6vw, 22px);
-  padding: clamp(20px, 2.6vw, 34px);
+  padding: clamp(20px, 2.6vw, 32px);
+  text-decoration: none; color: inherit;
+  transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
 }
-.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.2vw, 1.05rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(12px, 1.5vh, 20px); }
-.compare-card.before { border-left: 3px solid var(--bad); } .compare-card.before h4 { color: var(--bad); }
-.compare-card.after { border-left: 3px solid var(--good); } .compare-card.after h4 { color: var(--good); }
-.compare-card ul { list-style: none; padding: 0; margin: 0; }
-.compare-card li { font-size: clamp(1.25rem, 1.75vw, 1.5rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
-.compare-card li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; opacity: 0.6; }
-@media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
-
-/* === STEPS === */
-.step-list { display: flex; flex-direction: column; gap: var(--element-gap); max-width: min(90vw, 880px); width: 100%; }
-.step-item { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 24px); }
-.step-num {
-  flex-shrink: 0; width: clamp(44px, 5vw, 56px); height: clamp(44px, 5vw, 56px);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
-  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
-  box-shadow: 0 0 24px var(--accent-glow);
-}
-.step-num.ai { background: var(--ai-soft); color: var(--ai); box-shadow: 0 0 24px rgba(166,143,201,0.18); }
-.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
-.step-content p { font-size: clamp(1.25rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
-
-/* === MICRO BREAK === */
-.countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
-.countdown-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-.countdown-ring circle.bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
-.countdown-ring circle.progress { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.1s linear; filter: drop-shadow(0 0 8px var(--accent-glow)); }
-.countdown-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 3.5vw, 3rem); color: var(--text); }
+.link-card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.link-card .lc-tag { align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--accent); background: var(--accent-soft); padding: 3px 10px; border-radius: 999px; }
+.link-card .lc-tag.ai { color: var(--ai); background: var(--ai-soft); }
+.link-card .lc-name { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.2rem, 1.8vw, 1.55rem); font-weight: 700; color: var(--text); margin: 0; }
+.link-card .lc-url { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--accent); }
+.link-card .lc-desc { font-size: clamp(1rem, 1.4vw, 1.2rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
 
 /* === OS BADGES === */
 .os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
@@ -277,116 +204,13 @@ body::after {
 .no-js .reveal-element { opacity: 1 !important; transform: none !important; }
 @media (prefers-reduced-motion: reduce) { .reveal-element { opacity: 1 !important; transform: none !important; } }
 @media (max-height: 700px) { .slide-content { overflow-y: auto; overscroll-behavior: contain; } }
-
-/* === COLOR SLIDER DEMO === */
-.layout-demo {
-  display: grid;
-  grid-template-columns: min(32vw, 340px) 1fr;
-  gap: var(--content-gap);
-  width: 100%;
-  max-width: min(96vw, 1200px);
-  align-items: start;
-}
-@media (max-width: 900px) {
-  .layout-demo { grid-template-columns: 1fr; }
-}
-.demo-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
- .demo-right { display: flex; align-items: flex-start; justify-content: flex-start; }
-
-.color-slider-panel {
-  background: var(--card);
-  border: 1px solid var(--glass-border);
-  border-radius: 14px;
-  padding: clamp(16px, 2vw, 24px);
-  margin-top: var(--element-gap);
-  width: 100%;
-}
-.slider-row {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-.slider-row:last-child { margin-bottom: 0; }
-.slider-row label {
-  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
-  color: var(--text);
-  display: flex; justify-content: space-between; align-items: center;
-}
-.slider-row label span { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.85em; }
-.slider-row input[type="color"] {
-  width: 100%; height: 36px; border: none; border-radius: 8px; cursor: pointer; background: transparent;
-}
-.slider-row input[type="range"] {
-  width: 100%; accent-color: var(--accent);
-}
-.prompt-output {
-  margin-top: 12px;
-  padding: 12px;
-  background: var(--terminal-bg);
-  border: 1px solid var(--terminal-border);
-  border-radius: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.7rem, 0.95vw, 0.85rem);
-  color: #d0d8e2;
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
-
-.preview-card {
-  --p-accent: #d4896e;
-  --p-bg: #050508;
-  --p-title: 3rem;
-  --p-pad: 24px;
-  --p-text: #f0ede8;
-  background: var(--p-bg);
-  color: var(--p-text);
-  border: 1px solid var(--glass-border);
-  border-radius: 14px;
-  overflow: hidden;
-  width: 100%;
-  max-width: min(52vw, 620px);
-  transition: background 0.2s ease;
-}
-.preview-card section {
-  padding: var(--p-pad);
-  border-bottom: 1px solid color-mix(in srgb, var(--p-text) 12%, transparent);
-}
-.preview-card section:last-child { border-bottom: none; }
-.preview-card h1 {
-  font-size: var(--p-title);
-  color: var(--p-accent);
-  margin: 0 0 8px;
-  line-height: 1.2;
-}
-.preview-card h3 {
-  font-size: calc(var(--p-title) * 0.45);
-  color: var(--p-accent);
-  margin: 0 0 10px;
-}
-.preview-card p {
-  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
-  color: color-mix(in srgb, var(--p-text) 75%, transparent);
-  margin: 0;
-  line-height: 1.6;
-}
-.p-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
-.p-tags span {
-  background: rgba(255,255,255,0.08);
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
-  border: 1px solid var(--p-accent);
-  color: var(--p-accent);
-}
-
 </style>
 
 <link rel="stylesheet" href="shared-nav.css">
 </head>
 <body>
+
+<div class="fx-scroll-progress" data-effect="scroll-progress"></div>
 
 <!-- SLIDE 1: Hero -->
 <section class="slide fx-hero-particles" id="slide-1">
@@ -394,10 +218,10 @@ body::after {
   <div class="slide-content layout-center">
     <p class="label reveal-element" data-gsap="fade-up">UNIT 3</p>
     <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      <span class="kinetic-line">AI 改版練習</span><br>
-      <span class="ai-text kinetic-line">從看到作品</span>
+      <span class="kinetic-line">你可以做什麼</span><br>
+      <span class="ai-text kinetic-line">先看過再做</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">上午你請 AI 生出第一版。下午我們學會講清楚，讓 AI 把版面、風格、手機版一次改到位。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">上午你做出第一個網頁。下午先逛三類資源——別人做過的樣板、找風格的靈感站、回家能用的 AI 工具——再動手深化你的作品。</p>
     <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
       <span class="os-badge mac">Mac</span>
       <span class="os-badge win">Windows</span>
@@ -410,328 +234,174 @@ body::after {
     <div class="layout-center glass fx-spotlight" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
       <p class="label reveal-element" data-gsap="fade-up">起點</p>
       <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
-        先回資料夾<br>
-        <span style="color: var(--accent);">再下指令</span>
+        先看過<br>
+        <span style="color: var(--accent);">再做自己的</span>
       </h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">改版前必須回到放 index.html 的資料夾。如果跑錯地方，AI 會建新檔，舊作品就不會被更新。</p>
+      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">動手深化前先逛三類資源。看過別人做過什麼、哪裡找風格、回家用哪些工具，才知道自己想做哪一種。</p>
     </div>
   </div>
-</section><!-- SLIDE 3: Code Focus - Enter Project -->
+</section><!-- SLIDE 3: Three Resource Categories -->
 <section class="slide" id="slide-3">
-  <div class="slide-content layout-code-focus">
-    <p class="label reveal-element" data-gsap="fade-up">對話入口</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">啟動對話 · 回到作品</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">進到 my-page 後打 opencode，AI 會讀取這個資料夾來認識專案。重新啟動後先用 @index.html 讓 AI 讀目前內容。</p>
-    <div class="code-stage reveal-element" data-gsap="fade-up" data-delay="0.35">
-      <div class="terminal fx-glow" data-typewriter="true">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-        <div class="typewriter-line" data-variant="command" data-text="ls"><span class="prompt">$</span> <span class="cmd">ls</span> <span class="comment"># 確認 index.html 在這裡</span></div>
-        <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-        <div class="typewriter-line comment" data-variant="reveal" data-text="# 進入對話後：@index.html 幫我改成..."># 進入對話後：@index.html 幫我改成...</div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">三類資源</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">下午先逛這三類</h2>
+    <div class="card-grid reveal-element" data-gsap="stagger-up" data-delay="0.2" style="margin-top: var(--content-gap);">
+      <div class="card fx-tilt">
+        <span class="num">01</span>
+        <h4>樣板範例</h4>
+        <p>別人做過的頁面，挑一個結構喜歡的來模仿。</p>
+      </div>
+      <div class="card fx-tilt">
+        <span class="num" style="color: var(--ai);">02</span>
+        <h4>設計靈感</h4>
+        <p>找你喜歡的配色與排版，截圖給 AI 參考。</p>
+      </div>
+      <div class="card fx-tilt">
+        <span class="num" style="color: var(--good);">03</span>
+        <h4>AI 工具</h4>
+        <p>回家繼續做、繼續改的幫手，掛掉就換一個。</p>
       </div>
     </div>
   </div>
-</section><!-- SLIDE 4: Compare Infographic - Good vs Bad Prompt -->
+</section><!-- SLIDE 4: Template Examples -->
 <section class="slide" id="slide-4">
-  <div class="slide-content layout-compare-infographic">
-    <p class="label reveal-element" data-gsap="fade-up">對比</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">模糊對具體</h2>
-    <div class="compare-diagram reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="compare-side bad">
-        <p class="compare-label">BAD PROMPT</p>
-        <h4 class="compare-title">AI 只能猜</h4>
-        <ul>
-          <li>「幫我變好看」</li>
-          <li>「改漂亮一點」</li>
-          <li>「好像不對，再試試」</li>
-        </ul>
-      </div>
-      <div class="compare-vs">VS</div>
-      <div class="compare-side good">
-        <p class="compare-label">GOOD PROMPT</p>
-        <h4 class="compare-title">AI 一次到位</h4>
-        <ul>
-          <li>「把 index.html 改成個人名片」</li>
-          <li>「分四區：大標、介紹、三欄卡片、聯絡」</li>
-          <li>「主色 #1f3a5f，手機三欄變一欄」</li>
-        </ul>
-      </div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">樣板範例</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">別人做過的頁面</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">挑一個結構喜歡的，跟 AI 說「做成類似這個的版面」。點卡片可連過去看。</p>
+    <div class="link-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
+      <a class="link-card fx-tilt" href="https://carrd.co" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag">名片頁</span>
+        <h4 class="lc-name">Carrd</h4>
+        <span class="lc-url">carrd.co</span>
+        <p class="lc-desc">單頁網站範本平台，極簡結構，適合模仿個人名片頁。</p>
+      </a>
+      <a class="link-card fx-tilt" href="https://webflow.com/templates" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag">商家頁</span>
+        <h4 class="lc-name">Webflow Templates</h4>
+        <span class="lc-url">webflow.com/templates</span>
+        <p class="lc-desc">分類範本平台，含商家與服務業版型，適合模仿商家介紹頁。</p>
+      </a>
+      <a class="link-card fx-tilt" href="https://onepagelove.com" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag">活動頁</span>
+        <h4 class="lc-name">One Page Love</h4>
+        <span class="lc-url">onepagelove.com</span>
+        <p class="lc-desc">單頁網站設計 gallery，含活動頁範例，適合模仿活動版型。</p>
+      </a>
     </div>
   </div>
-</section><!-- SLIDE 5: Infographic - Prompt Formula -->
+</section><!-- SLIDE 5: Design Inspiration -->
 <section class="slide" id="slide-5">
-  <div class="slide-content layout-infographic">
-    <p class="label reveal-element" data-gsap="fade-up">公式</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">好指令這樣寫</h2>
+  <div class="glow-orb ai" style="width:42vw;height:42vw;bottom:-14vw;right:-10vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">設計靈感</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">找你喜歡的風格</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">看到喜歡的配色或排版，截圖或描述特徵給 AI，讓它做出類似感覺。</p>
+    <div class="link-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
+      <a class="link-card fx-tilt" href="https://www.awwwards.com" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag ai">獎項站</span>
+        <h4 class="lc-name">Awwwards</h4>
+        <span class="lc-url">awwwards.com</span>
+        <p class="lc-desc">網頁設計獎項站，按分類瀏覽得獎網站找風格靈感。</p>
+      </a>
+      <a class="link-card fx-tilt" href="https://land-book.com" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag ai">著陸頁</span>
+        <h4 class="lc-name">Land-book</h4>
+        <span class="lc-url">land-book.com</span>
+        <p class="lc-desc">著陸頁設計 gallery，適合找單頁版型與排版靈感。</p>
+      </a>
+      <a class="link-card fx-tilt" href="https://www.siteinspire.com" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag ai">目錄站</span>
+        <h4 class="lc-name">Siteinspire</h4>
+        <span class="lc-url">siteinspire.com</span>
+        <p class="lc-desc">網頁設計目錄，可按 tag 篩選風格找版型。</p>
+      </a>
+    </div>
+  </div>
+</section><!-- SLIDE 6: AI Tools -->
+<section class="slide" id="slide-6">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">AI 工具</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">回家繼續用的幫手</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">opencode 是主工具，其他是備援或輔助構思。任一個能產生 HTML 放進 index.html 就算過關。</p>
+    <div class="link-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
+      <a class="link-card fx-tilt" href="https://opencode.ai" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag">主工具</span>
+        <h4 class="lc-name">opencode</h4>
+        <span class="lc-url">opencode.ai</span>
+        <p class="lc-desc">本機 AI 直接改檔，今天的主工具。Mac / Windows / Linux 都支援。</p>
+      </a>
+      <a class="link-card fx-tilt" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag ai">備援</span>
+        <h4 class="lc-name">ChatGPT</h4>
+        <span class="lc-url">chatgpt.com</span>
+        <p class="lc-desc">構思內容、生成網頁文案。網頁版手動貼 HTML 是最後防線。</p>
+      </a>
+      <a class="link-card fx-tilt" href="https://claude.ai" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag ai">備援</span>
+        <h4 class="lc-name">Claude</h4>
+        <span class="lc-url">claude.ai</span>
+        <p class="lc-desc">輔助構思與除錯，定位同 ChatGPT。網頁介面不分平台。</p>
+      </a>
+      <a class="link-card fx-tilt" href="https://github.com/openai/codex" target="_blank" rel="noopener noreferrer">
+        <span class="lc-tag ai">備援</span>
+        <h4 class="lc-name">Codex CLI</h4>
+        <span class="lc-url">github.com/openai/codex</span>
+        <p class="lc-desc">OpenAI 本機 coding agent，與 opencode 同類定位，用 ChatGPT 方案額度。</p>
+      </a>
+    </div>
+  </div>
+</section><!-- SLIDE 7: How to Use Resources Flow -->
+<section class="slide" id="slide-7">
+  <div class="slide-content layout-flow">
+    <p class="label reveal-element" data-gsap="fade-up">怎麼用</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">從看到做出</h2>
     <div class="flow-diagram horizontal compact reveal-element" data-gsap="stagger-up" data-delay="0.2">
       <div class="flow-node accent">
-        <p class="node-label">01 目標明確</p>
-        <p class="node-title">做什麼頁面</p>
-        <p class="node-desc">個人名片、商家介紹、活動頁</p>
+        <p class="node-label">1 逛資源</p>
+        <p class="node-title">找一個喜歡的</p>
       </div>
       <div class="flow-arrow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
       <div class="flow-node">
-        <p class="node-label">02 區塊數字</p>
-        <p class="node-title">幾欄、幾區、幾張卡</p>
-        <p class="node-desc">四區塊、三欄卡片、一列聯絡</p>
+        <p class="node-label">2 記特徵</p>
+        <p class="node-title">截圖或描述</p>
       </div>
       <div class="flow-arrow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
-      <div class="flow-node">
-        <p class="node-label">03 風格參數</p>
-        <p class="node-title">色碼、字級、留白、圓角</p>
-        <p class="node-desc">#1f3a5f / 36px / 64px / 12px</p>
+      <div class="flow-node ai">
+        <p class="node-label">3 給 opencode</p>
+        <p class="node-title">說清楚要什麼</p>
       </div>
       <div class="flow-arrow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </div>
       <div class="flow-node good">
-        <p class="node-label">04 直接改檔 + 驗收</p>
-        <p class="node-title">改 index.html，列出動了什麼</p>
-        <p class="node-desc">指定檔案，讓 AI 改完給摘要</p>
+        <p class="node-label">4 AI 改檔</p>
+        <p class="node-title">寫入 index.html</p>
       </div>
     </div>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.4" style="max-width: min(80vw, 560px); font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-dim);">不用模仿一模一樣，抓結構與感覺，剩下的讓 AI 幫你組。</p>
   </div>
-</section><!-- SLIDE 6: Interactive Block Sorter -->
-<section class="slide" id="slide-6">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">任務一</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">版面四區塊</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">點擊區塊可改變順序，下方會自動生成對應的 prompt。</p>
-    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" data-sorter data-prompt="幫我把 index.html 改成這個順序：[順序]。每區塊獨立、有適當留白，直接寫入檔案。">
-      <div class="sorter" style="margin-top: var(--content-gap);">
-        <div class="sorter-item active" data-sort="Hero 首屏" style="order:0">Hero 首屏</div>
-        <div class="sorter-item" data-sort="關於我" style="order:1">關於我</div>
-        <div class="sorter-item" data-sort="技能與作品" style="order:2">技能與作品</div>
-        <div class="sorter-item" data-sort="聯絡方式" style="order:3">聯絡方式</div>
-      </div>
-      <div class="terminal" style="max-width: min(90vw, 760px); margin-top: var(--content-gap); text-align:left;">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="sorter-output">Hero 首屏 → 關於我 → 技能與作品 → 聯絡方式</div>
-      </div>
-    </div>
-  </div>
-</section><!-- SLIDE 7: Full-Bleed Layout Prompt Example -->
-<section class="slide" id="slide-7">
-  <div class="glow-orb accent" style="width:48vw;height:48vw;top:-16vw;right:-10vw;"></div>
-  <div class="slide-content layout-full-bleed">
-    <div class="layout-center" style="max-width: min(92vw, 980px); width: 100%;">
-      <p class="label reveal-element" data-gsap="fade-up">範本</p>
-      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">版面改範本</h2>
-      <div class="terminal fx-glow reveal-element" data-gsap="fade-up" data-delay="0.2" data-typewriter="true" style="text-align: left; margin-top: var(--content-gap);">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="typewriter-line ai-prompt" data-variant="result" data-text="把 index.html 改成四區塊版面：">把 index.html 改成四區塊版面：</div>
-        <div class="typewriter-line" data-variant="result" data-text="1. Hero：名字 + 一句話介紹，占滿第一屏">1. Hero：名字 + 一句話介紹，占滿第一屏</div>
-        <div class="typewriter-line" data-variant="result" data-text="2. 關於我：兩到三段文字">2. 關於我：兩到三段文字</div>
-        <div class="typewriter-line" data-variant="result" data-text="3. 技能作品：三欄卡片，每欄色塊圖 + 標題 + 說明">3. 技能作品：三欄卡片，每欄色塊圖 + 標題 + 說明</div>
-        <div class="typewriter-line" data-variant="result" data-text="4. 聯絡方式：底部一列 Email 與社群連結">4. 聯絡方式：底部一列 Email 與社群連結</div>
-        <div class="typewriter-line comment" data-variant="result" data-text="直接改 index.html，改完告訴我每區對應檔案位置。">直接改 index.html，改完告訴我每區對應檔案位置。</div>
-      </div>
-    </div>
-  </div>
-</section><!-- SLIDE 8: Style Wand -->
+</section><!-- SLIDE 8: Transition to Hands-on -->
 <section class="slide" id="slide-8">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">任務二</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">風格魔術棒</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 680px);">選顏色、字體、留白，AI 就會照你的選擇改 index.html。</p>
-    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" data-wand data-prompt="幫我把 index.html 風格改成[色調]、[字體]、[留白]。手機版三欄變一欄。直接寫入檔案。">
-      <div class="wand" style="margin-top: var(--content-gap); align-items: center;">
-        <div class="wand-group" style="flex-direction: column; align-items: flex-start;">
-          <p style="font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--text-muted); margin: 0 0 6px;">色調</p>
-          <div class="wand-group">
-            <button type="button" data-wand-key="色調" data-wand-opt="低飽和暖色">低飽和暖色</button>
-            <button type="button" data-wand-key="色調" data-wand-opt="冷色專業">冷色專業</button>
-            <button type="button" data-wand-key="色調" data-wand-opt="清新手寫">清新手寫</button>
-          </div>
-        </div>
-        <div class="wand-group" style="flex-direction: column; align-items: flex-start;">
-          <p style="font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--text-muted); margin: 0 0 6px;">字體</p>
-          <div class="wand-group">
-            <button type="button" data-wand-key="字體" data-wand-opt="系統預設中文字體">系統預設</button>
-            <button type="button" data-wand-key="字體" data-wand-opt="粗黑無襯線">粗黑無襯線</button>
-            <button type="button" data-wand-key="字體" data-wand-opt="圓潤手寫感">圓潤手寫</button>
-          </div>
-        </div>
-        <div class="wand-group" style="flex-direction: column; align-items: flex-start;">
-          <p style="font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--text-muted); margin: 0 0 6px;">留白</p>
-          <div class="wand-group">
-            <button type="button" data-wand-key="留白" data-wand-opt="寬鬆 48px">寬鬆</button>
-            <button type="button" data-wand-key="留白" data-wand-opt="適中 24px">適中</button>
-            <button type="button" data-wand-key="留白" data-wand-opt="緊湊 12px">緊湊</button>
-          </div>
-        </div>
-      </div>
-      <div class="terminal" style="max-width: min(90vw, 760px); margin-top: var(--content-gap); text-align:left;">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div class="wand-output">色調：低飽和暖色，字體：系統預設中文字體，留白：寬鬆 48px</div>
-      </div>
-    </div>
-  </div>
-</section><!-- SLIDE 9: Split - Style & RWD Prompt Example -->
-<section class="slide" id="slide-9">
-  <div class="slide-content layout-demo">
-    <div class="demo-left">
-      <p class="label reveal-element" data-gsap="fade-up">範本</p>
-      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">色碼寫清楚</h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="text-align:left; max-width:100%;">把顏色寫成色碼、字級寫成 rem、區塊留白寫成數字。調整左側參數，右邊即時看到 AI 會怎麼改。</p>
-
-      <div class="color-slider-panel reveal-element" data-gsap="fade-up" data-delay="0.35">
-        <div class="slider-row">
-          <label for="ctrl-accent">主色調</label>
-          <input type="color" id="ctrl-accent" value="#d4896e">
-        </div>
-        <div class="slider-row">
-          <label for="ctrl-bg">背景深淺</label>
-          <input type="color" id="ctrl-bg" value="#050508">
-        </div>
-        <div class="slider-row">
-          <label for="ctrl-title">標題字級 <span id="val-title">3rem</span></label>
-          <input type="range" id="ctrl-title" min="2" max="5" step="0.1" value="3">
-        </div>
-        <div class="slider-row">
-          <label for="ctrl-pad">區塊間距 <span id="val-pad">24px</span></label>
-          <input type="range" id="ctrl-pad" min="12" max="48" step="2" value="24">
-        </div>
-        <pre id="prompt-output" class="prompt-output">請把 index.html 改成主色 #d4896e、背景 #050508、標題 3rem、區塊間距 24px</pre>
-      </div>
-    </div>
-
-    <div class="demo-right reveal-element" data-gsap="fade-up" data-delay="0.45">
-      <div id="preview-card" class="preview-card">
-        <section class="p-hero">
-          <h1>王小明</h1>
-          <p>產品設計師 · 台北</p>
-        </section>
-        <section class="p-about">
-          <h3>關於我</h3>
-          <p>喜歡把複雜問題拆成簡單流程，用設計讓產品更好用。</p>
-        </section>
-        <section class="p-skills">
-          <h3>技能</h3>
-          <div class="p-tags">
-            <span>UI 設計</span><span>使用者研究</span><span>前端原型</span>
-          </div>
-        </section>
-        <section class="p-contact">
-          <h3>聯絡</h3>
-          <p>hello@example.com</p>
-        </section>
-      </div>
-    </div>
-  </div>
-</section><!-- SLIDE 10: Dashboard - Understand What AI Changed -->
-<section class="slide" id="slide-10">
-  <div class="slide-content layout-dashboard">
-    <p class="label reveal-element" data-gsap="fade-up">驗收</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">檢查改動點</h2>
-    <div class="dashboard-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">01</div>
-        <h4 class="dash-title">看終端機摘要</h4>
-        <p class="dash-desc">opencode 會列出改了哪個檔案、做了什麼動作。先看再回瀏覽器。</p>
-      </div>
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">02</div>
-        <h4 class="dash-title">用 @ 指向檔案</h4>
-        <p class="dash-desc">輸入 @index.html 問 AI「這裡改了什麼」，AI 會讀檔後回答。</p>
-      </div>
-      <div class="dashboard-card fx-tilt">
-        <div class="dash-icon" style="background: var(--ai-soft); color: var(--ai);">03</div>
-        <h4 class="dash-title">用 cat 看內容</h4>
-        <p class="dash-desc">在終端機打 cat index.html，不用懂每行，只要知道檔案真的被改了。</p>
-      </div>
-    </div>
-    <img class="svg-illo reveal-element" data-gsap="fade-up" data-delay="0.4" src="images/undraw-web-devices.svg" alt="多種裝置並排插圖，象徵不同螢幕尺寸驗收">
-  </div>
-</section><!-- SLIDE 11: Troubleshooting Tree -->
-<section class="slide" id="slide-11">
-  <div class="slide-content layout-troubleshooting">
-    <p class="label reveal-element" data-gsap="fade-up">排解</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">卡關排解術</h2>
-    <div class="trouble-map reveal-element" data-gsap="stagger-up" data-delay="0.2">
-      <div class="trouble-row">
-        <div class="trouble-symptom">
-          <h5>AI 跑錯資料夾</h5>
-          <p>不知道自己在哪個目錄</p>
-        </div>
-        <div class="trouble-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
-        <div class="trouble-fix">
-          <h5>對策</h5>
-          <p>pwd 看位置，cd Desktop/my-page 回到作品資料夾</p>
-        </div>
-      </div>
-      <div class="trouble-row">
-        <div class="trouble-symptom">
-          <h5>改完畫面沒變</h5>
-          <p>瀏覽器還在顯示舊版本</p>
-        </div>
-        <div class="trouble-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
-        <div class="trouble-fix">
-          <h5>對策</h5>
-          <p>Mac Cmd+R / Windows Ctrl+R 重新整理</p>
-        </div>
-      </div>
-      <div class="trouble-row">
-        <div class="trouble-symptom">
-          <h5>改壞了想回頭</h5>
-          <p>最新版本不如上一版</p>
-        </div>
-        <div class="trouble-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
-        <div class="trouble-fix">
-          <h5>對策</h5>
-          <p>在 opencode 對話裡打 /undo 撤回最近一次對話與檔案修改（需 Git repo）</p>
-        </div>
-      </div>
-      <div class="trouble-row">
-        <div class="trouble-symptom">
-          <h5>還是卡住</h5>
-          <p>自己試過仍無法解決</p>
-        </div>
-        <div class="trouble-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </div>
-        <div class="trouble-fix">
-          <h5>對策</h5>
-          <p>打 /share 產生對話連結，貼到 LINE 群組給講師診斷</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section><!-- SLIDE 12: Break -->
-<section class="slide" id="slide-12">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">BREAK</p>
-    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">休息十分鐘</h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">起來動一動，十點回來繼續。</p>
-  </div>
-</section><!-- SLIDE 13: Closing -->
-<section class="slide" id="slide-13">
   <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-10vw;right:-8vw;"></div>
   <div class="glow-orb ai" style="width:30vw;height:30vw;top:-6vw;left:-6vw;"></div>
   <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">單元結束</p>
+    <p class="label reveal-element" data-gsap="fade-up">下一階段</p>
     <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      版面風格<br>
-      <span class="accent-text">都到位</span>
+      看完了<br>
+      <span class="accent-text">換你動手</span>
     </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">下一單元：三選一主題，自由完成你的本機作品。</p>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">接下來兩小時，用剛剛看到的靈感，做出你的商家介紹頁。</p>
   </div>
 </section>
 
 <!-- NAV -->
 <nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 13</div>
+<div class="slide-counter">1 / 8</div>
 <div class="keyboard-hint">↑ ↓ scroll</div>
 
 <script>
@@ -825,17 +495,13 @@ body::after {
   function activateSlide(index) {
     if (index === currentActive) return;
     currentActive = index;
-    stopCountdown(slides[lastActive]);
-    lastActive = index;
     const slide = slides[index];
     const tl = slideTimelines[index];
     if (tl) tl.restart(true);
-    startCountdown(slide);
   }
 
   let currentActive = -1;
   let lastActive = 0;
-  const countdowns = new Map();
 
   // Detect scroll stop and activate whichever slide is closest to the top.
   // This replaces scroll-snap / IntersectionObserver because smooth keyboard
@@ -876,81 +542,7 @@ body::after {
       { opacity: 0, y: 60, skewY: 3 },
       { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
     );
-
-    // 色碼 / 字級 / 留白 即時互動預覽
-    const accentInput = document.getElementById('ctrl-accent');
-    const bgInput = document.getElementById('ctrl-bg');
-    const titleInput = document.getElementById('ctrl-title');
-    const padInput = document.getElementById('ctrl-pad');
-    const promptOutput = document.getElementById('prompt-output');
-    const preview = document.getElementById('preview-card');
-    const valTitle = document.getElementById('val-title');
-    const valPad = document.getElementById('val-pad');
-
-    if (preview && promptOutput) {
-      function hexLuminance(hex) {
-        const rgb = hex.replace('#', '').match(/.{2}/g).map(v => parseInt(v, 16) / 255);
-        const [r, g, b] = rgb.map(c => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
-        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-      }
-
-      function updatePreview() {
-        const accent = accentInput ? accentInput.value : '#d4896e';
-        const bg = bgInput ? bgInput.value : '#050508';
-        const titleSize = titleInput ? titleInput.value : '3';
-        const pad = padInput ? padInput.value : '24';
-        const isLightBg = hexLuminance(bg) > 0.5;
-
-        preview.style.setProperty('--p-accent', accent);
-        preview.style.setProperty('--p-bg', bg);
-        preview.style.setProperty('--p-title', `${titleSize}rem`);
-        preview.style.setProperty('--p-pad', `${pad}px`);
-        preview.style.setProperty('--p-text', isLightBg ? '#1a1a1a' : '#f0ede8');
-
-        if (valTitle) valTitle.textContent = `${titleSize}rem`;
-        if (valPad) valPad.textContent = `${pad}px`;
-        promptOutput.textContent = `請把 index.html 改成主色 ${accent}、背景 ${bg}、標題 ${titleSize}rem、區塊間距 ${pad}px`;
-      }
-
-      [accentInput, bgInput, titleInput, padInput].forEach(el => {
-        if (el) el.addEventListener('input', updatePreview);
-      });
-      updatePreview();
-    }
   });
-
-  // Countdown logic
-  function startCountdown(slide) {
-    const duration = parseInt(slide.dataset.countdown, 10);
-    if (!duration || countdowns.has(slide)) return;
-    const text = slide.querySelector('.countdown-text');
-    const ring = slide.querySelector('.countdown-ring .progress');
-    if (!text || !ring) return;
-    const total = 283;
-    let remaining = duration;
-    text.textContent = remaining;
-    ring.style.stroke = 'var(--accent)';
-    ring.style.strokeDashoffset = 0;
-    const startTime = performance.now();
-    function tick(now) {
-      const elapsed = Math.floor((now - startTime) / 1000);
-      remaining = Math.max(0, duration - elapsed);
-      text.textContent = remaining;
-      ring.style.strokeDashoffset = total * (1 - remaining / duration);
-      if (remaining > 0) {
-        countdowns.set(slide, requestAnimationFrame(tick));
-      } else {
-        ring.style.stroke = 'var(--good)';
-      }
-    }
-    countdowns.set(slide, requestAnimationFrame(tick));
-  }
-  function stopCountdown(slide) {
-    if (countdowns.has(slide)) {
-      cancelAnimationFrame(countdowns.get(slide));
-      countdowns.delete(slide);
-    }
-  }
 
   // Reduced motion support
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
