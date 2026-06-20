@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "/Users/te-shuwang/.local/bin/codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "/Users/te-shuwang/Projects/personal/cli-course"
+      ]
+    }
+  }
+}

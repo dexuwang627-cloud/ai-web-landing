@@ -6,3 +6,6 @@
 
 # CodeGraph local index
 .codegraph/
+
+# Local verification artifacts
+slides/verify-*/
