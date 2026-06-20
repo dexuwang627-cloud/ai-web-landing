@@ -10,7 +10,8 @@
     '02-ai-terminal.html',
     '03-ai-revision.html',
     '04-free-project.html',
-    '05-closing.html'
+    '05-closing.html',
+    '06-recap.html'
   ];
 
   const current = location.pathname.split('/').pop() || order[0];
