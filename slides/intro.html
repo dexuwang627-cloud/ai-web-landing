@@ -442,6 +442,34 @@ body::after {
 
 </style>
 
+<style data-overflow-fix>
+/* === 版面溢出修正：壓縮間距/line-height，不縮 font-size === */
+#slide-3 .slide-content, #slide-4 .slide-content, #slide-4b .slide-content, #slide-5 .slide-content, #slide-6 .slide-content {
+  padding-top: clamp(0.5rem, 1.2vw, 1.05rem) !important;
+  padding-bottom: clamp(0.5rem, 1.2vw, 1.05rem) !important;
+}
+#slide-3 .step-list, #slide-4 .step-list, #slide-4b .step-list, #slide-5 .step-list { gap: 4px !important; }
+#slide-3 .step-item, #slide-4 .step-item, #slide-4b .step-item, #slide-5 .step-item { gap: 12px !important; }
+#slide-3 .step-content h4, #slide-4 .step-content h4, #slide-4b .step-content h4, #slide-5 .step-content h4 { margin-bottom: 2px !important; }
+#slide-3 .step-content p, #slide-4 .step-content p, #slide-4b .step-content p, #slide-5 .step-content p { line-height: 1.35 !important; }
+#slide-3 .step-num, #slide-4 .step-num, #slide-4b .step-num, #slide-5 .step-num { width: clamp(36px, 4vw, 44px) !important; height: clamp(36px, 4vw, 44px) !important; font-size: clamp(0.9rem, 1.2vw, 1.1rem) !important; }
+#slide-3 .card { padding: 5px !important; }
+#slide-3 .card-grid { gap: 8px !important; margin-top: 8px !important; }
+#slide-3 .card .terminal { padding: 6px !important; line-height: 1.25 !important; }
+#slide-3 .project-cover-desc { margin-top: 6px !important; margin-bottom: 4px !important; line-height: 1.35 !important; }
+#slide-3 .step-list { margin-top: 8px !important; }
+#slide-3 .terminal { padding: clamp(9px, 1.2vw, 14px) !important; }
+#slide-4 .terminal, #slide-4b .terminal { padding: clamp(9px, 1.2vw, 14px) !important; }
+#slide-4 .project-cover-desc, #slide-4b .project-cover-desc { margin-top: 6px !important; line-height: 1.35 !important; }
+#slide-4b details { margin-top: 8px !important; }
+#slide-5 .feature-list { gap: 8px !important; margin-top: 10px !important; }
+#slide-5 .feature-item { padding: clamp(8px, 1.2vw, 14px) !important; }
+#slide-5 .feature-item p { line-height: 1.4 !important; }
+#slide-6 .progress-tracker { margin-top: 10px !important; }
+#slide-6 .progress-items { gap: 6px !important; }
+#slide-6 .terminal { padding: clamp(10px, 1.4vw, 16px) !important; }
+</style>
+
 <link rel="stylesheet" href="shared-nav.css">
 </head>
 <body>
@@ -560,77 +588,76 @@ body::after {
 <section class="slide" id="slide-4">
   <div class="glow-orb ai" style="width:42vw;height:42vw;bottom:-14vw;right:-10vw;"></div>
   <div class="slide-content layout-center" style="position:relative; z-index:2;">
-    <p class="label reveal-element" data-gsap="fade-up"><span class="os-badge win">Windows</span> INSTALL</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">Windows：推薦用 npm 安裝</h2>
+    <p class="label reveal-element" data-gsap="fade-up"><span class="os-badge win">Windows</span> INSTALL · 1/2</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">Windows：先裝 Node.js</h2>
     <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">課堂上最穩定的路徑是先裝 Node.js，再用 npm 全域安裝 opencode-ai。</p>
-    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="width:100%; max-width: min(90vw, 860px);">
-      <div class="toggle-switch" data-toggle>
-        <button type="button" data-toggle-for="npm" class="active">推薦：npm 安裝</button>
-        <button type="button" data-toggle-for="fallback">備用：手動 zip</button>
-      </div>
-      <div class="toggle-panels" style="margin-top: var(--element-gap);">
-        <div class="toggle-panel active" data-toggle-panel="npm">
-          <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.4">Node.js 是「讓 JavaScript 在你電腦上執行的環境」；npm 是「下載工具包的程式」，安裝 Node.js 時會自動附帶。我們先裝 Node.js，主要目的就是取得 npm。</p>
-          <div class="step-list" style="margin: var(--element-gap) auto 0; text-align: left;">
-            <div class="step-item">
-              <div class="step-num">1</div>
-              <div class="step-content">
-                <h4>下載 Node.js 安裝檔</h4>
-                <p>前往 <code>nodejs.org</code>，點擊 Get Node.js 按鈕進入下載頁，下載 Windows 的 <code>.msi</code> 安裝檔（預設 LTS）。</p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-num">2</div>
-              <div class="step-content">
-                <h4>執行安裝程式</h4>
-                <p>雙擊下載的安裝檔，一路按「下一步」，使用預設安裝路徑即可；npm 會自動一起裝好。</p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-num">3</div>
-              <div class="step-content">
-                <h4>確認安裝成功</h4>
-                <p>開啟終端機（PowerShell 或 Git Bash），輸入以下指令，看到版本號就代表沒問題：</p>
-                <div class="terminal" style="text-align:left; margin-top: var(--element-gap);">
-                  <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-                  <div style="white-space:pre-wrap;">node -v
-npm -v</div>
-                </div>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-num">4</div>
-              <div class="step-content">
-                <h4>安裝 opencode</h4>
-                <p>在終端機貼上這行指令，全域安裝 opencode-ai：</p>
-                <div class="terminal" style="text-align:left; margin-top: var(--element-gap);">
-                  <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-                  <div style="white-space:pre-wrap;">npm install -g opencode-ai</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <p class="project-cover-desc" style="margin-top: var(--element-gap);">小提示：如果輸入 <code>npm</code> 後出現「不是可識別的命令」，請先關閉並重新開啟終端機再試一次。</p>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.35" style="text-align:center;">Node.js 是「讓 JavaScript 在你電腦上執行的環境」；npm 是「下載工具包的程式」，安裝 Node.js 時會自動附帶。我們先裝 Node.js，主要目的就是取得 npm。</p>
+    <div class="step-list reveal-element" data-gsap="fade-up" data-delay="0.45" style="margin: var(--element-gap) auto 0; text-align: left;">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>下載 Node.js 安裝檔</h4>
+          <p>前往 <code>nodejs.org</code>，點擊 Get Node.js 按鈕進入下載頁，下載 Windows 的 <code>.msi</code> 安裝檔（預設 LTS）。</p>
         </div>
-        <div class="toggle-panel" data-toggle-panel="fallback">
-          <p class="project-cover-desc" style="text-align:center;">若 npm 無法使用，可改用官方壓縮檔：</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>執行安裝程式</h4>
+          <p>雙擊下載的安裝檔，一路按「下一步」，使用預設安裝路徑即可；npm 會自動一起裝好。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 4b — Windows 安裝 opencode -->
+<section class="slide" id="slide-4b">
+  <div class="glow-orb accent" style="width:40vw;height:40vw;top:-12vw;left:-10vw;"></div>
+  <div class="slide-content layout-center" style="position:relative; z-index:2;">
+    <p class="label reveal-element" data-gsap="fade-up"><span class="os-badge win">Windows</span> INSTALL · 2/2</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">Windows：安裝並啟用 opencode</h2>
+    <div class="step-list reveal-element" data-gsap="fade-up" data-delay="0.2" style="margin: var(--element-gap) auto 0; text-align: left;">
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>確認安裝成功</h4>
+          <p>開啟終端機（PowerShell 或 Git Bash），輸入以下指令，看到版本號就代表沒問題：</p>
           <div class="terminal" style="text-align:left; margin-top: var(--element-gap);">
             <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
-            <div style="white-space:pre-wrap;">https://github.com/anomalyco/opencode/releases/latest/download/opencode-windows-x64.zip</div>
+            <div style="white-space:pre-wrap;">node -v
+npm -v</div>
           </div>
-          <div class="step-list" style="margin: var(--element-gap) auto 0; text-align: left;">
-            <div class="step-item">
-              <div class="step-num">1</div>
-              <div class="step-content"><h4>下載並解壓縮</h4><p>下載 zip 後，把資料夾解壓到你想放的位置。</p></div>
-            </div>
-            <div class="step-item">
-              <div class="step-num">2</div>
-              <div class="step-content"><h4>加入系統路徑 PATH</h4><p>把解壓後的資料夾路徑加入 PATH，之後就能在任何終端機直接使用 <code>opencode</code>。</p></div>
-            </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>安裝 opencode</h4>
+          <p>在終端機貼上這行指令，全域安裝 opencode-ai：</p>
+          <div class="terminal" style="text-align:left; margin-top: var(--element-gap);">
+            <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+            <div style="white-space:pre-wrap;">npm install -g opencode-ai</div>
           </div>
         </div>
       </div>
     </div>
+    <p class="project-cover-desc reveal-element" data-gsap="fade-up" data-delay="0.4" style="margin-top: var(--element-gap);">小提示：如果輸入 <code>npm</code> 後出現「不是可識別的命令」，請先關閉並重新開啟終端機再試一次。</p>
+    <details class="reveal-element" data-gsap="fade-up" data-delay="0.5" style="width:100%; max-width: min(90vw, 860px); margin-top: var(--element-gap); text-align:left;">
+      <summary style="cursor:pointer; color:var(--text-muted); font-size: var(--small-size);">備用：npm 無法使用時，改用官方壓縮檔</summary>
+      <div class="terminal" style="text-align:left; margin-top: 8px;">
+        <div class="terminal-header"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div></div>
+        <div style="white-space:pre-wrap;">https://github.com/anomalyco/opencode/releases/latest/download/opencode-windows-x64.zip</div>
+      </div>
+      <div class="step-list" style="margin: 8px auto 0; text-align: left;">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content"><h4>下載並解壓縮</h4><p>下載 zip 後，把資料夾解壓到你想放的位置。</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content"><h4>加入系統路徑 PATH</h4><p>把解壓後的資料夾路徑加入 PATH，之後就能在任何終端機直接使用 <code>opencode</code>。</p></div>
+        </div>
+      </div>
+    </details>
   </div>
 </section><!-- SLIDE 5 — 第一次登入與 API 金鑰 -->
 <section class="slide" id="slide-5">

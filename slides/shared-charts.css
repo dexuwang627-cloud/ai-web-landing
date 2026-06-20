@@ -236,3 +236,10 @@
   .screenshot-demo { max-height: 24vh; }
   .svg-chart { max-height: 45vh; }
 }
+
+/* === 版面溢出防護（全 slide 共用）=== */
+.layout-split > * { min-width: 0; }
+.layout-thirds > * { min-width: 0; }
+.card-grid > * { min-width: 0; }
+.terminal { box-sizing: border-box; overflow-wrap: anywhere; }
+.svg-illo, .svg-illo-sm { max-width: 100%; height: auto; }

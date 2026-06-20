@@ -275,6 +275,16 @@ body::after {
 @media (max-height: 700px) { .slide-content { overflow-y: auto; overscroll-behavior: contain; } }
 </style>
 
+<style data-overflow-fix>
+/* === slide-10 版面溢出修正：壓縮間距/line-height，不縮 font-size === */
+#slide-10 .slide-content { padding-top: clamp(0.6rem, 1.6vw, 1.4rem) !important; padding-bottom: clamp(0.6rem, 1.6vw, 1.4rem) !important; }
+#slide-10 .feature-list { gap: 6px !important; margin-top: 8px !important; }
+#slide-10 .feature-item { padding: clamp(7px, 1vw, 12px) !important; }
+#slide-10 .feature-item h4 { margin-bottom: 1px !important; }
+#slide-10 .feature-item p { line-height: 1.35 !important; }
+#slide-10 .terminal { padding: clamp(10px, 1.4vw, 16px) !important; }
+</style>
+
 <link rel="stylesheet" href="shared-nav.css">
 </head>
 <body>
