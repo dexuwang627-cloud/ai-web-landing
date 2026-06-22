@@ -9,3 +9,18 @@
 
 # Local verification artifacts
 slides/verify-*/
+
+# Secrets and credentials
+.google_form_token.pickle
+client_secret_*.json
+token.pickle
+*.pem
+*.key
+.env
+.env.local
+
+# Wrangler local state
+.wrangler/
+
+# Distribution builds (keep source only, CI builds if needed)
+# dist/

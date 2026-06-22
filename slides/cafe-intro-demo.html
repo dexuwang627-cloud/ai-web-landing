@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>慢時咖啡 Slow Time Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f5ecd9;
+    --paper:#faf3e3;
+    --espresso:#5b3a29;
+    --latte:#b07a4f;
+    --accent:#d97b3c;
+    --ink:#3d2a1d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Serif TC',serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 20% 10%, #fff7e6 0, transparent 40%),
+      radial-gradient(circle at 80% 80%, #f0e2c4 0, transparent 45%),
+      var(--cream);
+    min-height:100vh;
+    padding:48px 24px 80px;
+    line-height:1.85;
+  }
+  .wrap{max-width:880px;margin:0 auto}
+
+  /* 紙膠帶效果 */
+  .tape{
+    position:absolute;top:-14px;left:50%;
+    transform:translateX(-50%) rotate(-2deg);
+    width:120px;height:28px;
+    background:rgba(217,123,60,.55);
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+  }
+
+  header{
+    position:relative;
+    text-align:center;
+    padding:56px 32px 48px;
+    background:var(--paper);
+    border-radius:6px;
+    box-shadow:0 8px 24px rgba(91,58,41,.10), 0 1px 0 rgba(255,255,255,.6) inset;
+    margin-bottom:48px;
+  }
+  .brand-en{
+    font-family:'Caveat',cursive;
+    font-size:1.4rem;letter-spacing:2px;
+    color:var(--latte);
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Ma Shan Zheng',cursive;
+    font-size:clamp(2.6rem,6vw,3.8rem);
+    color:var(--espresso);
+    font-weight:400;
+    margin-bottom:18px;
+  }
+  .tagline{
+    font-family:'Ma Shan Zheng',cursive;
+    font-size:clamp(1.3rem,3vw,1.8rem);
+    color:var(--accent);
+    letter-spacing:1px;
+  }
+  .tagline::before,.tagline::after{
+    content:'"';color:var(--latte);opacity:.6;margin:0 .2em;
+  }
+  .deco-line{
+    width:60px;height:3px;margin:22px auto 0;
+    background:var(--latte);border-radius:2px;
+    transform:rotate(-1deg);
+  }
+
+  /* 關於店家 */
+  .about{
+    position:relative;
+    background:var(--paper);
+    border-radius:6px;
+    padding:40px 36px;
+    box-shadow:0 8px 24px rgba(91,58,41,.10);
+    margin-bottom:56px;
+  }
+  .about h2{
+    font-family:'Ma Shan Zheng',cursive;
+    font-size:2rem;font-weight:400;
+    color:var(--espresso);
+    margin-bottom:20px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .about h2::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--accent)}
+  .about p{
+    font-size:.98rem;
+    color:#5a4636;
+    margin-bottom:12px;
+  }
+
+  /* 商品卡 */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:28px;margin-bottom:56px;
+  }
+  .card{
+    position:relative;
+    background:var(--paper);
+    border-radius:4px;
+    padding:36px 26px 28px;
+    box-shadow:0 6px 18px rgba(91,58,41,.12);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .card:nth-child(2){transform:rotate(.6deg)}
+  .card:nth-child(3){transform:rotate(-.6deg)}
+  .card:hover{
+    transform:translateY(-4px) rotate(0deg);
+    box-shadow:0 12px 28px rgba(91,58,41,.18);
+  }
+  .card-num{
+    font-family:'Caveat',cursive;
+    font-size:1.2rem;color:var(--latte);
+  }
+  .card h3{
+    font-family:'Ma Shan Zheng',cursive;
+    font-size:1.8rem;font-weight:400;
+    color:var(--espresso);
+    margin:4px 0 10px;
+  }
+  .card p{font-size:.98rem;color:#5a4636}
+
+  /* 資訊區 */
+  .info{
+    position:relative;
+    background:var(--paper);
+    border-radius:6px;
+    padding:40px 36px;
+    box-shadow:0 8px 24px rgba(91,58,41,.10);
+  }
+  .info h2{
+    font-family:'Ma Shan Zheng',cursive;
+    font-size:2rem;font-weight:400;
+    color:var(--espresso);
+    margin-bottom:20px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .info h2::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--accent)}
+  .info-row{
+    display:flex;flex-wrap:wrap;gap:12px 14px;
+    padding:14px 0;border-bottom:1px dashed #d8c5a4;
+  }
+  .info-row:last-child{border-bottom:none}
+  .label{
+    font-family:'Caveat',cursive;
+    font-size:1.3rem;color:var(--latte);
+    min-width:90px;
+  }
+  .value{color:var(--ink)}
+
+  footer{
+    text-align:center;margin-top:40px;
+    font-family:'Caveat',cursive;
+    font-size:1.1rem;color:var(--latte);
+  }
+
+  @media (max-width:520px){
+    body{padding:28px 14px 60px}
+    header{padding:44px 20px 36px}
+    .info{padding:28px 22px}
+    .about{padding:28px 22px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="tape"></div>
+    <div class="brand-en">Slow Time Cafe</div>
+    <h1>慢時咖啡</h1>
+    <p class="tagline">今天也值得慢慢過</p>
+    <div class="deco-line"></div>
+  </header>
+
+  <section class="about">
+    <h2>關於我們</h2>
+    <p>慢時咖啡藏在巷弄轉角，是一間把時間當原料的小店。我們相信，一杯好咖啡需要慢慢沖，一段好日子值得慢慢過。這裡沒有急迫的時鐘，只有剛好的溫度與剛好的安靜。</p>
+  </section>
+
+  <section class="cards">
+    <article class="card">
+      <div class="tape"></div>
+      <div class="card-num">No. 01</div>
+      <h3>單品手沖</h3>
+      <p>每日精選產區豆，現磨現沖，果酸明亮、尾韻帶焦糖甜。讓時間在熱水與粉層之間慢下來。</p>
+    </article>
+
+    <article class="card">
+      <div class="tape"></div>
+      <div class="card-num">No. 02</div>
+      <h3>手工甜點</h3>
+      <p>當天現做、限量供應。肉桂捲與司康在烤箱裡慢慢膨脹，出爐時整條巷弄都是甜的。</p>
+    </article>
+
+    <article class="card">
+      <div class="tape"></div>
+      <div class="card-num">No. 03</div>
+      <h3>安靜工作區</h3>
+      <p>靠窗長桌、穩定 Wi-Fi、充足插座。適合想躲起來專心的人，也歡迎帶一本書坐一下午。</p>
+    </article>
+  </section>
+
+  <section class="info">
+    <h2>來找我們</h2>
+    <div class="info-row">
+      <span class="label">地址</span>
+      <span class="value">台北市大安區瑞安街 120 巷 3 號</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Hours</span>
+      <span class="value">週一至週五 09:00 – 20:00　週六日 10:00 – 21:00</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Tel</span>
+      <span class="value">02-2700-5566</span>
+    </div>
+  </section>
+
+  <footer>手寫的我們，等你來翻頁</footer>
+</div>
+</body>
+</html>

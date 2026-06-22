@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIT 6 — 今天教了什麼</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-charts.css">
+<link rel="stylesheet" href="shared-effects.css">
+<script src="shared-effects.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>document.documentElement.classList.remove('no-js');</script>
+<style>
+/* === TOKENS === */
+:root {
+  --title-size: clamp(2.2rem, 7vw, 5.5rem);
+  --h2-size: clamp(1.6rem, 4.8vw, 3.4rem);
+  --h3-size: clamp(1.25rem, 3.2vw, 2.3rem);
+  --body-size: clamp(0.95rem, 2.1vw, 1.45rem);
+  --small-size: clamp(0.8rem, 1.3vw, 1.05rem);
+  --slide-padding: clamp(1.2rem, 4.5vw, 4.5rem);
+  --content-gap: clamp(1rem, 2.5vw, 2.5rem);
+  --element-gap: clamp(0.5rem, 1.2vw, 1.2rem);
+
+  --bg: #050508;
+  --surface: rgba(11, 11, 18, 0.72);
+  --card: rgba(17, 17, 25, 0.6);
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --text: #f0ede8;
+  --text-muted: #8a8a9a;
+  --text-dim: #4a4a5c;
+
+  --accent: #d4896e;
+  --accent-2: #b9745c;
+  --accent-soft: rgba(212, 137, 110, 0.14);
+  --accent-glow: rgba(212, 137, 110, 0.22);
+
+  --bad: #c97c7c;
+  --good: #6caf8a;
+  --ai: #a68fc9;
+  --ai-soft: rgba(166, 143, 201, 0.12);
+
+  --terminal-bg: #0c1016;
+  --terminal-border: rgba(255, 255, 255, 0.1);
+}
+
+html, body { min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-y: auto; }
+body {
+  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === GLOBAL BACKGROUND === */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(212, 137, 110, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(166, 143, 201, 0.06) 0%, transparent 45%),
+    linear-gradient(180deg, var(--bg) 0%, #08080d 100%);
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: clamp(60px, 8vw, 120px) clamp(60px, 8vw, 120px);
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+}
+
+/* === SLIDE SHELL === */
+.slide {
+  width: 100vw; height: 100vh; height: 100dvh;
+  overflow: hidden; isolation: isolate;
+  display: flex; flex-direction: column; position: relative;
+}
+.slide-content {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  max-height: 100%; overflow: hidden;
+  padding: var(--slide-padding);
+  width: 100%; box-sizing: border-box;
+  position: relative; z-index: 2;
+}
+
+/* === TYPOGRAPHY === */
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.75rem, 1.1vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.big-title {
+  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
+  font-size: var(--title-size);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.big-title .accent-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #e8b89f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.sub-heading {
+  font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+.body-text {
+  font-size: var(--body-size);
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: min(82vw, 680px);
+  text-align: center;
+}
+
+/* === LAYOUT PRIMITIVES === */
+.layout-center { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
+.layout-full-bleed { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+/* === GLASS CARD === */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 24px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+}
+
+/* === TERMINAL === */
+.terminal {
+  background: var(--terminal-bg);
+  border: 1px solid var(--terminal-border);
+  border-radius: clamp(10px, 1.2vw, 18px);
+  padding: clamp(18px, 2.4vw, 30px);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.85rem, 1.25vw, 1.05rem);
+  line-height: 1.8;
+  color: #d0d8e2;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.terminal-header { display: flex; gap: 8px; margin-bottom: clamp(10px, 1.2vh, 16px); }
+.terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+.terminal .ai-prompt { color: var(--ai); }
+
+/* === CARDS === */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
+.card {
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  padding: clamp(22px, 2.8vw, 36px);
+  transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+}
+.card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.45rem, 2.5vw, 2.0rem); font-weight: 700; margin: 0 0 10px; }
+.card p { font-size: clamp(1.2rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
+.card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
+@media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
+
+/* === STEPS === */
+.step-list { display: flex; flex-direction: column; gap: var(--element-gap); max-width: min(90vw, 880px); width: 100%; }
+.step-item { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 24px); }
+.step-num {
+  flex-shrink: 0; width: clamp(44px, 5vw, 56px); height: clamp(44px, 5vw, 56px);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+.step-num.good { background: rgba(108,175,138,0.14); color: var(--good); box-shadow: 0 0 24px rgba(108,175,138,0.18); }
+.step-num.ai { background: var(--ai-soft); color: var(--ai); box-shadow: 0 0 24px rgba(166,143,201,0.18); }
+.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.55rem, 2.25vw, 2.0rem); font-weight: 700; margin: 0 0 6px; }
+.step-content p { font-size: clamp(1.2rem, 1.7vw, 1.5rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
+
+/* === COMPARE === */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); width: 100%; max-width: min(94vw, 960px); }
+.compare-card {
+  background: var(--card); border: 1px solid var(--glass-border);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  padding: clamp(20px, 2.6vw, 34px);
+}
+.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(12px, 1.5vh, 20px); }
+.compare-card.before { border-left: 3px solid var(--bad); } .compare-card.before h4 { color: var(--bad); }
+.compare-card.after { border-left: 3px solid var(--good); } .compare-card.after h4 { color: var(--good); }
+.compare-card ul { list-style: none; padding: 0; margin: 0; }
+.compare-card li { font-size: clamp(1.2rem, 1.75vw, 1.45rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
+.compare-card li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; opacity: 0.6; }
+@media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
+
+/* === OS BADGES === */
+.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 1.4vw, 1.2rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+.os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
+.os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
+
+/* === DECORATIVE === */
+.glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+.glow-orb.accent { background: var(--accent); opacity: 0.12; }
+.glow-orb.ai { background: var(--ai); opacity: 0.1; }
+
+/* === NAV === */
+.nav-dots { position: fixed; right: clamp(18px, 2.2vw, 36px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
+.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+.nav-dot.active { background: var(--accent); box-shadow: 0 0 14px var(--accent-glow); transform: scale(1.4); }
+.slide-counter { position: fixed; bottom: clamp(14px, 2.2vw, 26px); right: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.6rem, 0.85vw, 0.75rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
+.keyboard-hint { position: fixed; bottom: clamp(14px, 2.2vw, 26px); left: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem, 0.75vw, 0.65rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+
+/* === REVEAL STATE === */
+.reveal-element { opacity: 0; will-change: transform, opacity; }
+.no-js .reveal-element { opacity: 1 !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) { .reveal-element { opacity: 1 !important; transform: none !important; } }
+@media (max-height: 700px) { .slide-content { overflow-y: auto; overscroll-behavior: contain; } }
+</style>
+
+<link rel="stylesheet" href="shared-nav.css">
+</head>
+<body>
+
+<!-- SLIDE 1: Hero -->
+<section class="slide" id="slide-1" data-effect="hero-particles">
+  <div class="glow-orb accent" style="width:48vw;height:48vw;top:-14vw;right:-10vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">UNIT 6</p>
+    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
+      <span class="kinetic-line">今天</span><br>
+      <span class="accent-text kinetic-line">教了什麼</span>
+    </h1>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">把八小時走過的路再走一次。五個單元、三層能力、一個本機作品。</p>
+  </div>
+</section><!-- SLIDE 2: Day Timeline -->
+<section class="slide" id="slide-2">
+  <div class="glow-orb ai" style="width:46vw;height:46vw;bottom:-16vw;left:-10vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">今日流程</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">五個單元走一遍</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">從打開終端機到本機作品，每一步都有可見的成果。</p>
+    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--content-gap); max-width: min(90vw, 820px);">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>UNIT 1 開場 — 不怕黑畫面</h4>
+          <p>打開終端機，pwd / ls 看自己在哪，建立 my-page 與 index.html。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num ai">2</div>
+        <div class="step-content">
+          <h4>UNIT 2 第一個 HTML — opencode 動手</h4>
+          <p>跟 opencode 說一句話，AI 自己寫入 index.html，瀏覽器打開就看到頁面。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>UNIT 3 改版 — 從能看到像作品</h4>
+          <p>好指令 vs 壞指令，學會把需求講成主題、區塊、風格三要素。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num ai">4</div>
+        <div class="step-content">
+          <h4>UNIT 4 自由實作 — 把作品做完</h4>
+          <p>名片頁、商家頁、活動頁三選一，用 opencode 把選定主題做出來。</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num good">5</div>
+        <div class="step-content">
+          <h4>UNIT 5 回顧 — 打開你的 index.html</h4>
+          <p>本機瀏覽器展示成果，互相看彼此的作品。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 3: Three-Layer Capability -->
+<section class="slide" id="slide-3">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">三層能力</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">今天累積的能力</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">不是學工程師技能，是把這三層串起來：說清楚 → 看懂 → 做出來。</p>
+    <div class="card-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
+      <div class="card fx-tilt">
+        <span class="num">01</span>
+        <h4>AI 對話</h4>
+        <p>把想法說清楚，讓 opencode 直接改檔，不用複製貼上。</p>
+      </div>
+      <div class="card fx-tilt">
+        <span class="num" style="color: var(--ai);">02</span>
+        <h4>terminal 看懂</h4>
+        <p>找檔案、進資料夾、開檔案，看懂 AI 到底做了什麼。</p>
+      </div>
+      <div class="card fx-tilt">
+        <span class="num" style="color: var(--good);">03</span>
+        <h4>HTML 作品</h4>
+        <p>本機網頁產出，瀏覽器打開 index.html 就是你的成果。</p>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 4: Commands You Learned -->
+<section class="slide" id="slide-4">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">今天會的指令</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">這幾個就夠了</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">不用背指令表。這幾個是為了「知道作品在哪、打開來看」而存在的。</p>
+    <div class="reveal-element" data-gsap="fade-up" data-delay="0.3" style="margin-top: var(--content-gap); max-width: min(90vw, 720px); width: 100%;">
+      <div class="terminal" data-effect="glow" data-typewriter="true">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# 知道自己在哪"># 知道自己在哪</div>
+        <div class="typewriter-line" data-variant="command" data-text="pwd"><span class="prompt">$</span> <span class="cmd">pwd</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="ls"><span class="prompt">$</span> <span class="cmd">ls</span></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# 進資料夾、建資料夾"># 進資料夾、建資料夾</div>
+        <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div class="typewriter-line" data-variant="command" data-text="mkdir my-page"><span class="prompt">$</span> <span class="cmd">mkdir my-page</span></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# 建檔、打開看成果"># 建檔、打開看成果</div>
+        <div class="typewriter-line" data-variant="command" data-text="touch index.html"><span class="prompt">$</span> <span class="cmd">touch index.html</span></div>
+        <div class="typewriter-line" data-variant="result" data-text="open index.html  # Mac"><span class="cmd">open index.html</span> <span class="comment"># Mac</span></div>
+        <div class="typewriter-line" data-variant="result" data-text="start index.html  # Windows"><span class="cmd">start index.html</span> <span class="comment"># Windows</span></div>
+        <div class="comment typewriter-line" data-variant="reveal" data-text="# 然後交給 opencode 改檔"># 然後交給 opencode 改檔</div>
+        <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 5: Before / After -->
+<section class="slide" id="slide-5">
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">從恐懼到上手</p>
+    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">早上 vs 下午的你</h2>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">同一個黑畫面，早上看是恐懼，下午看是入口。</p>
+    <div class="compare-grid reveal-element" data-gsap="stagger-up" data-delay="0.3" style="margin-top: var(--content-gap);">
+      <div class="compare-card before">
+        <h4>早上 09:00</h4>
+        <ul>
+          <li>看到黑畫面會怕</li>
+          <li>以為要背一堆指令</li>
+          <li>不知道作品會在哪裡</li>
+          <li>覺得網頁離自己很遠</li>
+        </ul>
+      </div>
+      <div class="compare-card after">
+        <h4>下午 16:00</h4>
+        <ul>
+          <li>知道作品在 my-page 裡</li>
+          <li>會叫 opencode 直接改檔</li>
+          <li>能下 pwd / ls 驗證檔案</li>
+          <li>瀏覽器打開就是自己的頁面</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section><!-- SLIDE 6: Closing Line -->
+<section class="slide" id="slide-6" data-effect="spotlight">
+  <div class="glow-orb accent" style="width:42vw;height:42vw;bottom:-12vw;right:-10vw;"></div>
+  <div class="slide-content layout-center">
+    <p class="label reveal-element" data-gsap="fade-up">一句話總結</p>
+    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
+      你已經會用 terminal<br>
+      <span class="accent-text">叫 AI 做網頁了</span>
+    </h1>
+    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">不用背指令、不用部署、不用 Git。作品就在你的 my-page 裡，回家打開還在。</p>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="nav-dots" aria-label="slide navigation"></nav>
+<div class="slide-counter">1 / 6</div>
+<div class="keyboard-hint">↑ ↓ scroll</div>
+
+<script>
+(function(){
+  const slides = [...document.querySelectorAll('.slide')];
+  const nav = document.querySelector('.nav-dots');
+  const counter = document.querySelector('.slide-counter');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'go to slide ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    nav.appendChild(dot);
+  });
+
+  function goTo(index) {
+    if (index < 0 || index >= slides.length) return;
+    current = index;
+    slides[index].scrollIntoView({ behavior: 'smooth' });
+    updateNav(index);
+  }
+
+  function updateNav(index) {
+    current = index;
+    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === index));
+    if (counter) counter.textContent = (index + 1) + ' / ' + slides.length;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault(); goTo(current + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault(); goTo(current - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault(); goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault(); goTo(slides.length - 1);
+    }
+  });
+
+  // GSAP reveal animations
+  gsap.registerPlugin(ScrollTrigger);
+
+  const slideTimelines = slides.map(slide => {
+    const elements = slide.querySelectorAll('[data-gsap]');
+    const tl = gsap.timeline({ paused: true });
+
+    if (!elements.length) {
+      tl.to(slide.querySelectorAll('.reveal-element'), { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' });
+      return tl;
+    }
+
+    const groups = {};
+    elements.forEach(el => {
+      const type = el.dataset.gsap;
+      const delay = parseFloat(el.dataset.delay || 0);
+      if (!groups[type]) groups[type] = [];
+      groups[type].push({ el, delay });
+    });
+
+    Object.keys(groups).forEach(type => {
+      const items = groups[type].sort((a, b) => a.delay - b.delay);
+      const staggerOffset = 0.08;
+      items.forEach((item, i) => {
+        const delay = item.delay + (type === 'stagger-up' ? i * staggerOffset : 0);
+        switch (type) {
+          case 'fade-up':
+            tl.fromTo(item.el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'fade-right':
+            tl.fromTo(item.el, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'fade-left':
+            tl.fromTo(item.el, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
+            break;
+          case 'stagger-up':
+            tl.fromTo(item.el, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out' }, delay);
+            break;
+          case 'scale-in':
+            tl.fromTo(item.el, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }, delay);
+            break;
+        }
+      });
+    });
+    return tl;
+  });
+
+  function activateSlide(index) {
+    if (index === currentActive) return;
+    currentActive = index;
+    lastActive = index;
+    const slide = slides[index];
+    const tl = slideTimelines[index];
+    if (tl) tl.restart(true);
+  }
+
+  let currentActive = -1;
+  let lastActive = 0;
+
+  let scrollTimeout;
+  const onScroll = () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const y = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight * 0.05;
+      let closest = 0;
+      for (let i = 0; i < slides.length; i++) {
+        if (Math.abs(slides[i].offsetTop - y) < Math.abs(slides[closest].offsetTop - y)) {
+          closest = i;
+        }
+      }
+      if (closest !== current) {
+        current = closest;
+        updateNav(closest);
+      }
+      activateSlide(closest);
+    }, 120);
+  };
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+
+  updateNav(0);
+  activateSlide(0);
+
+  // Hero kinetic title animation on first load
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
+    if (!heroLines.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroLines.forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+      return;
+    }
+    gsap.fromTo(heroLines,
+      { opacity: 0, y: 60, skewY: 3 },
+      { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
+    );
+  });
+
+  // Reduced motion support
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.globalTimeline.timeScale(0);
+    document.querySelectorAll('.reveal-element').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+  }
+})();
+</script>
+
+<script src="shared-nav.js" defer></script>
+</body>
+</html>
