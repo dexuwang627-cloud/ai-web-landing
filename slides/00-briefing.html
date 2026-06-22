@@ -3,57 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>00 — 課程簡報</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<title>Terminal + AI 網頁實作入門｜一日實作班</title>
+<meta name="description" content="一天 8 小時，零基礎也能做出第一個本機網頁。不背指令、不寫程式、不部署，你說 AI 做，瀏覽器立刻看到成果。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* === TOKENS === */
+/* ===== TOKENS ===== */
 :root {
-  --title-size: clamp(2.2rem, 7vw, 5.5rem);
-  --h2-size: clamp(1.6rem, 4.8vw, 3.4rem);
-  --h3-size: clamp(1.25rem, 3.2vw, 2.3rem);
-  --body-size: clamp(0.95rem, 2.1vw, 1.45rem);
-  --small-size: clamp(0.8rem, 1.3vw, 1.05rem);
-  --slide-padding: clamp(1.2rem, 4.5vw, 4.5rem);
-  --content-gap: clamp(1rem, 2.5vw, 2.5rem);
-  --element-gap: clamp(0.5rem, 1.2vw, 1.2rem);
-
   --bg: #050508;
   --surface: rgba(11, 11, 18, 0.72);
   --card: rgba(17, 17, 25, 0.6);
   --glass: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.08);
-
   --text: #f0ede8;
   --text-muted: #8a8a9a;
   --text-dim: #4a4a5c;
-
   --accent: #d4896e;
   --accent-2: #b9745c;
   --accent-soft: rgba(212, 137, 110, 0.14);
   --accent-glow: rgba(212, 137, 110, 0.22);
-
   --bad: #c97c7c;
   --good: #6caf8a;
   --ai: #a68fc9;
   --ai-soft: rgba(166, 143, 201, 0.12);
-
   --terminal-bg: #0c1016;
   --terminal-border: rgba(255, 255, 255, 0.1);
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
 }
 
-html, body { min-height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
-html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
+  font-family: var(--sans);
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  line-height: 1.75;
+  overflow-x: hidden;
 }
 
-/* === GLOBAL BACKGROUND === */
+/* ===== BACKGROUND ===== */
 body::before {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
@@ -72,555 +63,825 @@ body::after {
   mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
 }
 
-/* === SLIDE SHELL === */
-.slide {
-  width: 100vw; height: 100vh; height: 100dvh;
-  overflow: hidden; scroll-snap-align: start;
-  display: flex; flex-direction: column; position: relative;
+/* ===== NAVIGATION ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 16px clamp(1rem, 4vw, 3rem);
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(180deg, rgba(5,5,8,0.9) 0%, transparent 100%);
+  backdrop-filter: blur(12px);
 }
-.slide-content {
-  flex: 1; display: flex; flex-direction: column;
-  justify-content: center; align-items: center;
-  max-height: 100%; overflow: hidden;
-  padding: var(--slide-padding);
-  position: relative; z-index: 2;
+.nav-logo {
+  font-family: var(--mono); font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 2px; color: var(--accent); text-transform: uppercase;
 }
-
-/* === TYPOGRAPHY === */
-.label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.75rem, 1.1vw, 1rem);
-  font-weight: 500;
-  letter-spacing: 4px;
-  color: var(--accent);
-  text-transform: uppercase;
+.nav-links { display: flex; gap: clamp(16px, 2vw, 32px); list-style: none; }
+.nav-links a {
+  color: var(--text-muted); text-decoration: none; font-size: 0.85rem;
+  transition: color 0.3s;
 }
-.big-title {
-  font-family: 'Noto Sans TC', 'Bricolage Grotesque', sans-serif;
-  font-size: var(--title-size);
-  font-weight: 900;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin: 0;
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  display: inline-block; padding: 10px 20px; border-radius: 999px;
+  background: var(--accent); color: #0a0a0a; font-weight: 700;
+  font-size: 0.8rem; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
 }
-.big-title .accent-text {
-  background: linear-gradient(135deg, var(--accent) 0%, #e8b89f 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.sub-heading {
-  font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;
-  font-size: var(--h2-size);
-  font-weight: 700;
-  line-height: 1.25;
-  margin: 0;
-}
-.body-text {
-  font-size: var(--body-size);
-  color: var(--text-muted);
-  line-height: 1.75;
-  font-weight: 300;
-  max-width: min(82vw, 680px);
-  text-align: center;
-}
-
-/* === LAYOUT PRIMITIVES === */
-.layout-center { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
-.layout-split {
-  display: grid; grid-template-columns: 1fr 1fr; gap: var(--content-gap);
-  width: 100%; max-width: min(96vw, 1240px); align-items: center;
-}
-.layout-split.reverse > *:first-child { order: 2; }
-.layout-split.reverse > *:last-child { order: 1; }
-.layout-left { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-.layout-right { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-.layout-thirds { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
-.layout-full-bleed { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; }
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+.nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
 
 @media (max-width: 900px) {
-  .layout-split { grid-template-columns: 1fr; }
-  .layout-split.reverse > *:first-child { order: 1; }
-  .layout-split.reverse > *:last-child { order: 2; }
-  .layout-thirds { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-toggle { display: block; }
 }
 
-/* === GLASS CARD === */
-.glass {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: clamp(14px, 1.6vw, 24px);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+/* ===== UTILITIES ===== */
+.container { position: relative; z-index: 2; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.2rem, 5vw, 3rem); }
+.section { padding: clamp(80px, 12vh, 140px) 0; position: relative; }
+.section-header { text-align: center; margin-bottom: clamp(40px, 6vh, 64px); }
+.label {
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
 }
-
-/* === TERMINAL === */
-.terminal {
-  background: var(--terminal-bg);
-  border: 1px solid var(--terminal-border);
-  border-radius: clamp(10px, 1.2vw, 18px);
-  padding: clamp(18px, 2.4vw, 30px);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.85rem, 1.25vw, 1.05rem);
-  line-height: 1.8;
-  color: #d0d8e2;
-  width: 100%;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+.label.left { text-align: left; }
+.section-title {
+  font-family: var(--sans); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 900;
+  line-height: 1.2; letter-spacing: -0.02em;
 }
-.terminal-header { display: flex; gap: 8px; margin-bottom: clamp(10px, 1.2vh, 16px); }
-.terminal-dot { width: clamp(10px, 1.2vw, 14px); height: clamp(10px, 1.2vw, 14px); border-radius: 50%; }
-.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
-.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
-
-/* === CARDS === */
-.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--content-gap); width: 100%; max-width: min(96vw, 1200px); }
-.card {
-  background: var(--card);
-  border: 1px solid var(--glass-border);
-  border-radius: clamp(14px, 1.6vw, 22px);
-  padding: clamp(22px, 2.8vw, 36px);
-  transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+.section-subtitle {
+  font-size: clamp(1rem, 1.6vw, 1.25rem); color: var(--text-muted);
+  max-width: 640px; margin: 16px auto 0; font-weight: 300;
 }
-.card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.card h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; margin: 0 0 10px; }
-.card p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.65; margin: 0; }
-.card .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); margin-bottom: 12px; display: block; }
-@media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
-
-/* === FEATURE LIST === */
-.feature-list { display: flex; flex-direction: column; gap: clamp(10px, 1.4vw, 18px); max-width: min(90vw, 920px); width: 100%; }
-.feature-item {
-  display: flex; align-items: flex-start; gap: clamp(14px, 1.8vw, 22px);
-  background: var(--card); border: 1px solid var(--glass-border);
-  border-radius: clamp(10px, 1.2vw, 16px);
-  padding: clamp(16px, 2vw, 26px);
+.accent-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #e8b89f 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.feature-icon {
-  flex-shrink: 0; width: clamp(40px, 4.8vw, 56px); height: clamp(40px, 4.8vw, 56px);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 12px; background: var(--accent-soft);
-  font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent);
+.glow-orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0;
 }
-.feature-item h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 700; margin: 0 0 4px; }
-.feature-item p { font-size: clamp(0.85rem, 1.15vw, 1rem); color: var(--text-muted); line-height: 1.6; margin: 0; }
-
-/* === COMPARE === */
-.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 28px); width: 100%; max-width: min(94vw, 960px); }
-.compare-card {
-  background: var(--card); border: 1px solid var(--glass-border);
-  border-radius: clamp(14px, 1.6vw, 22px);
-  padding: clamp(20px, 2.6vw, 34px);
-}
-.compare-card h4 { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.85rem, 1.2vw, 1.05rem); font-weight: 700; letter-spacing: 2px; margin: 0 0 clamp(12px, 1.5vh, 20px); }
-.compare-card.before { border-left: 3px solid var(--bad); } .compare-card.before h4 { color: var(--bad); }
-.compare-card.after { border-left: 3px solid var(--good); } .compare-card.after h4 { color: var(--good); }
-.compare-card ul { list-style: none; padding: 0; margin: 0; }
-.compare-card li { font-size: clamp(0.9rem, 1.25vw, 1.05rem); color: var(--text-muted); line-height: 1.7; padding-left: 1.3em; position: relative; margin-bottom: 0.6em; }
-.compare-card li::before { content: ''; position: absolute; left: 0; top: 0.35em; width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; opacity: 0.6; }
-@media (max-width: 700px) { .compare-grid { grid-template-columns: 1fr; } }
-
-/* === STEPS === */
-.step-list { display: flex; flex-direction: column; gap: var(--element-gap); max-width: min(90vw, 880px); width: 100%; }
-.step-item { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 24px); }
-.step-num {
-  flex-shrink: 0; width: clamp(44px, 5vw, 56px); height: clamp(44px, 5vw, 56px);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
-  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: clamp(1rem, 1.4vw, 1.3rem);
-  box-shadow: 0 0 24px var(--accent-glow);
-}
-.step-content h4 { font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 700; margin: 0 0 6px; }
-.step-content p { font-size: clamp(0.88rem, 1.2vw, 1.05rem); color: var(--text-muted); line-height: 1.7; margin: 0; }
-
-/* === MICRO BREAK === */
-.countdown-ring { width: clamp(140px, 20vw, 260px); height: clamp(140px, 20vw, 260px); position: relative; }
-.countdown-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-.countdown-ring circle.bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
-.countdown-ring circle.progress { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.1s linear; filter: drop-shadow(0 0 8px var(--accent-glow)); }
-.countdown-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 3.5vw, 3rem); color: var(--text); }
-
-/* === OS BADGES === */
-.os-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: clamp(0.7rem, 1vw, 0.85rem); font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
-.os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
-.os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
-
-/* === DECORATIVE === */
-.glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
 .glow-orb.accent { background: var(--accent); opacity: 0.12; }
 .glow-orb.ai { background: var(--ai); opacity: 0.1; }
 
-/* === NAV === */
-.nav-dots { position: fixed; right: clamp(18px, 2.2vw, 36px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 100; }
-.nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
-.nav-dot.active { background: var(--accent); box-shadow: 0 0 14px var(--accent-glow); transform: scale(1.4); }
-.slide-counter { position: fixed; bottom: clamp(14px, 2.2vw, 26px); right: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.6rem, 0.85vw, 0.75rem); color: var(--text-dim); z-index: 100; letter-spacing: 1px; }
-.keyboard-hint { position: fixed; bottom: clamp(14px, 2.2vw, 26px); left: clamp(18px, 2.2vw, 36px); font-family: 'JetBrains Mono', monospace; font-size: clamp(0.55rem, 0.75vw, 0.65rem); color: var(--text-dim); z-index: 100; opacity: 0.5; }
+/* ===== HERO ===== */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
+.hero-content { position: relative; z-index: 2; }
+.hero-label { margin-bottom: 24px; }
+.hero h1 {
+  font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.03em; margin-bottom: 24px;
+}
+.hero p {
+  font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--text-muted);
+  max-width: 680px; margin: 0 auto 40px; font-weight: 300; line-height: 1.8;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 18px 40px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  color: #0a0a0a; font-weight: 800; font-size: 1.05rem; text-decoration: none;
+  box-shadow: 0 16px 48px var(--accent-glow); transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-cta:hover { transform: translateY(-3px); box-shadow: 0 24px 60px var(--accent-glow); }
+.hero-meta {
+  margin-top: 32px; display: flex; justify-content: center; gap: 32px;
+  color: var(--text-muted); font-size: 0.9rem; font-family: var(--mono);
+}
+.hero-meta span { display: flex; align-items: center; gap: 8px; }
+.os-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+  border-radius: 999px; font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.os-badge.mac { background: rgba(212,137,110,0.1); color: var(--accent); }
+.os-badge.win { background: rgba(166,143,201,0.1); color: var(--ai); }
 
-/* === REVEAL STATE === */
-.reveal-element { opacity: 0; transform: translateY(30px); }
+/* ===== INSTRUCTOR ===== */
+.instructor-grid {
+  display: grid; grid-template-columns: 220px 1fr; gap: clamp(32px, 5vw, 64px);
+  align-items: center; max-width: 900px; margin: 0 auto;
+}
+.instructor-avatar {
+  width: 220px; height: 220px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-soft), var(--ai-soft));
+  border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; color: var(--accent); font-weight: 900;
+}
+.instructor-info h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 16px; }
+.instructor-info p { color: var(--text-muted); margin-bottom: 16px; font-size: 1rem; }
+.instructor-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.instructor-tags span {
+  padding: 6px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--glass-border);
+  color: var(--text-muted); font-size: 0.85rem;
+}
+@media (max-width: 700px) {
+  .instructor-grid { grid-template-columns: 1fr; text-align: center; }
+  .instructor-avatar { margin: 0 auto; width: 160px; height: 160px; font-size: 3rem; }
+}
+
+/* ===== POSITIONING ===== */
+.position-card {
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px;
+  padding: clamp(40px, 6vw, 72px); text-align: center; max-width: 900px; margin: 0 auto;
+  backdrop-filter: blur(20px);
+}
+.position-card h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 800; line-height: 1.3; margin-bottom: 20px;
+}
+.position-card p { color: var(--text-muted); font-size: clamp(1rem, 1.6vw, 1.25rem); max-width: 640px; margin: 0 auto; }
+
+/* ===== CARDS ===== */
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.5vw, 28px); }
+.card {
+  background: var(--card); border: 1px solid var(--glass-border); border-radius: 20px;
+  padding: clamp(24px, 3vw, 36px); transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.card:hover { transform: translateY(-6px); border-color: rgba(212, 137, 110, 0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.card .num {
+  font-family: var(--mono); font-size: 0.85rem; color: var(--accent); font-weight: 700;
+  letter-spacing: 2px; margin-bottom: 16px; display: block;
+}
+.card h3 { font-size: clamp(1.2rem, 1.8vw, 1.5rem); font-weight: 800; margin-bottom: 12px; }
+.card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+.card-icon { font-size: 2rem; margin-bottom: 16px; }
+@media (max-width: 900px) { .card-grid { grid-template-columns: 1fr; } }
+
+/* ===== TERMINAL DEMO ===== */
+.terminal-demo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+.terminal {
+  background: var(--terminal-bg); border: 1px solid var(--terminal-border); border-radius: 16px;
+  padding: clamp(18px, 2.5vw, 30px); font-family: var(--mono); font-size: clamp(0.85rem, 1.2vw, 1rem);
+  line-height: 1.85; color: #d0d8e2; box-shadow: 0 24px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.terminal-header { display: flex; gap: 8px; margin-bottom: 18px; }
+.terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
+.terminal .prompt { color: var(--accent); } .terminal .cmd { color: #f0f6fc; } .terminal .comment { color: #6e7a8a; }
+.terminal .ai-prompt { color: var(--ai); }
+.terminal-content p { color: var(--text-muted); margin-bottom: 16px; }
+.terminal-content h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 800; margin-bottom: 16px; }
+@media (max-width: 900px) { .terminal-demo { grid-template-columns: 1fr; } .terminal-content { text-align: center; } }
+
+/* ===== TIMELINE ===== */
+.timeline { display: flex; flex-direction: column; gap: 0; max-width: 800px; margin: 0 auto; }
+.timeline-item { display: grid; grid-template-columns: 100px 1fr; gap: clamp(16px, 3vw, 32px); padding: 24px 0; border-bottom: 1px solid var(--glass-border); }
+.timeline-item:last-child { border-bottom: none; }
+.timeline-time {
+  font-family: var(--mono); font-size: 0.85rem; color: var(--accent); font-weight: 700;
+  letter-spacing: 1px; padding-top: 4px;
+}
+.timeline-content h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+.timeline-content p { color: var(--text-muted); font-size: 0.95rem; }
+@media (max-width: 600px) { .timeline-item { grid-template-columns: 1fr; gap: 8px; } }
+
+/* ===== FEATURE LIST ===== */
+.feature-list { display: flex; flex-direction: column; gap: clamp(12px, 1.5vw, 18px); max-width: 900px; margin: 0 auto; width: 100%; }
+.feature-item {
+  display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 24px);
+  background: var(--card); border: 1px solid var(--glass-border); border-radius: 16px;
+  padding: clamp(18px, 2.2vw, 28px);
+}
+.feature-icon {
+  flex-shrink: 0; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; background: var(--accent-soft); font-family: var(--mono); font-weight: 700;
+  color: var(--accent); font-size: 1.1rem;
+}
+.feature-item h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; }
+.feature-item p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.65; }
+
+/* ===== PORTFOLIO SHOWCASE ===== */
+.showcase { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+.showcase-frame {
+  background: var(--card); border: 1px solid var(--glass-border); border-radius: 20px;
+  overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+}
+.showcase-frame iframe { width: 100%; height: 420px; border: none; display: block; }
+.showcase-frame img { width: 100%; height: auto; display: block; }
+.showcase-content h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; margin-bottom: 16px; }
+.showcase-content p { color: var(--text-muted); margin-bottom: 20px; }
+.showcase-images { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.showcase-images img {
+  width: 100%; height: 140px; object-fit: cover; border-radius: 12px;
+  border: 1px solid var(--glass-border); opacity: 0.9; transition: opacity 0.3s;
+}
+.showcase-images img:hover { opacity: 1; }
+@media (max-width: 900px) { .showcase { grid-template-columns: 1fr; } .showcase-frame iframe { height: 320px; } }
+
+/* ===== FAQ ACCORDION ===== */
+.faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item {
+  background: var(--card); border: 1px solid var(--glass-border); border-radius: 16px;
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%; padding: 20px 24px; background: none; border: none; color: var(--text);
+  font-family: var(--sans); font-size: 1.05rem; font-weight: 700; text-align: left;
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  transition: color 0.3s;
+}
+.faq-question:hover { color: var(--accent); }
+.faq-question::after {
+  content: '+'; font-family: var(--mono); font-size: 1.3rem; color: var(--accent); transition: transform 0.3s;
+}
+.faq-item.active .faq-question::after { transform: rotate(45deg); }
+.faq-answer {
+  max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 24px;
+}
+.faq-item.active .faq-answer { max-height: 300px; padding: 0 24px 20px; }
+.faq-answer p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonials { overflow: hidden; }
+.testimonial-track {
+  display: flex; gap: 24px; width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.testimonial-track:hover { animation-play-state: paused; }
+.testimonial-card {
+  width: 340px; flex-shrink: 0; background: var(--card); border: 1px solid var(--glass-border);
+  border-radius: 20px; padding: 28px;
+}
+.testimonial-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--accent-soft);
+  display: flex; align-items: center; justify-content: center; color: var(--accent);
+  font-weight: 700; font-family: var(--mono); font-size: 0.9rem;
+}
+.testimonial-name { font-weight: 700; font-size: 0.95rem; }
+.testimonial-role { color: var(--text-dim); font-size: 0.8rem; }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== SCROLL VELOCITY ===== */
+.scroll-velocity {
+  padding: 60px 0; overflow: hidden; border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+.scroll-velocity-row {
+  display: flex; white-space: nowrap; font-family: var(--sans);
+  font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.25); letter-spacing: -0.02em;
+  will-change: transform;
+}
+.scroll-velocity-row.filled { color: var(--text); -webkit-text-stroke: none; }
+.scroll-velocity-row span { padding-right: 1em; }
+
+/* ===== CTA SECTION ===== */
+.cta-section { text-align: center; }
+.cta-section h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 900; margin-bottom: 20px; }
+.cta-section p { color: var(--text-muted); max-width: 560px; margin: 0 auto 40px; }
+.form-container {
+  max-width: 720px; margin: 0 auto; background: var(--card); border: 1px solid var(--glass-border);
+  border-radius: 20px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+}
+.form-container iframe { width: 100%; height: 820px; border: none; display: block; }
+@media (max-width: 700px) { .form-container iframe { height: 900px; } }
+
+/* ===== FOOTER ===== */
+.footer {
+  padding: 40px 0; text-align: center; color: var(--text-dim); font-size: 0.85rem;
+  border-top: 1px solid var(--glass-border);
+}
+.footer a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+.footer a:hover { color: var(--accent); }
+
+/* ===== REVEAL ANIMATIONS ===== */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+  .testimonial-track { animation: none; }
+  .scroll-velocity-row { transform: none !important; }
+}
 </style>
-
-<link rel="stylesheet" href="shared-nav.css">
 </head>
 <body>
 
-<!-- SLIDE 1: Hero / Course Title -->
-<section class="slide" id="slide-1">
-  <div class="glow-orb accent" style="width:45vw;height:45vw;top:-12vw;right:-8vw;"></div>
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">AI 入門體驗課</p>
-    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      <span class="kinetic-line">用 terminal</span><br>
-      <span class="accent-text kinetic-line">叫 AI 做網頁</span>
-    </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">不背指令、不寫程式、不部署，八小時做出你電腦裡打開的第一個網頁。</p>
-    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">CLI + AI</div>
+  <ul class="nav-links">
+    <li><a href="#about">課程定位</a></li>
+    <li><a href="#flow">當日流程</a></li>
+    <li><a href="#showcase">作品展示</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a class="nav-cta" href="#register">立即報名</a>
+  <button class="nav-toggle" aria-label="open menu">☰</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glow-orb accent" style="width:50vw;height:50vw;top:-20vw;right:-10vw;"></div>
+  <div class="glow-orb ai" style="width:40vw;height:40vw;bottom:-16vw;left:-10vw;"></div>
+  <div class="container hero-content">
+    <p class="label hero-label reveal">一日實作班 · 零基礎友善</p>
+    <h1 class="reveal delay-1">一天，從不敢開「黑畫面」<br>到讓 <span class="accent-text">AI 幫你做事</span></h1>
+    <p class="reveal delay-2">你是不是也這樣：跟 AI 聊了很久，回過神來發現什麼都沒做出來？<br>這堂課只有一個目標：一天之內，你會親眼看著 AI 幫你做出一個能在自己電腦打開的網頁。</p>
+    <div class="reveal delay-3">
+      <a class="hero-cta" href="#register">預約報名</a>
+    </div>
+    <div class="hero-meta reveal delay-3">
       <span class="os-badge mac">Mac</span>
       <span class="os-badge win">Windows</span>
+      <span>8 小時</span>
+      <span>本機作品</span>
     </div>
   </div>
-</section><!-- SLIDE 2: One-line Positioning -->
-<section class="slide" id="slide-2">
-  <div class="glow-orb ai" style="width:55vw;height:55vw;bottom:-18vw;left:-12vw;"></div>
-  <div class="slide-content layout-full-bleed">
-    <div class="layout-center glass" style="padding: clamp(40px,6vw,80px) clamp(32px,5vw,72px); max-width: min(90vw, 900px);">
-      <p class="label reveal-element" data-gsap="fade-up">一句話定位</p>
-      <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1" style="font-size: clamp(2rem, 5vw, 4rem);">
-        Terminal 不是背指令的地方<br>
-        <span style="color: var(--accent);">是叫 AI 動手的入口</span>
-      </h2>
-      <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">我們把 ChatGPT 對話變成可直接改檔的 AI 工具。你說，它做，檔案就出現在你的電腦上。</p>
+</section>
+
+<!-- INSTRUCTOR -->
+<section class="section" id="instructor">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">講師</p>
+      <h2 class="section-title">帶你動手做出第一個網頁</h2>
+    </div>
+    <div class="instructor-grid reveal delay-1">
+      <div class="instructor-avatar">王</div>
+      <div class="instructor-info">
+        <h2>王得旭</h2>
+        <p>獨立用 AI 產出生產環境可用的數據監控系統，也協助企業進行 AI 智慧轉型輔導。這堂課不講工程師術語，只帶你做一件具體的事：讓 AI 幫你生出第一個本機網頁。</p>
+        <div class="instructor-tags">
+          <span>AI 輔助開發</span>
+          <span>數據監控系統</span>
+          <span>企業轉型輔導</span>
+        </div>
+      </div>
     </div>
   </div>
-</section><!-- SLIDE 3: Who Is This For -->
-<section class="slide" id="slide-3">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">適合誰</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">這三種人最該來</h2>
-    <div class="card-grid reveal-element" data-gsap="stagger-up" data-delay="0.2">
+</section>
+
+<!-- POSITIONING -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="position-card reveal">
+      <p class="label">一句話定位</p>
+      <h2>那個黑黑的視窗不是用來背指令的<br><span class="accent-text">是叫 AI 動手的入口</span></h2>
+      <p>我們會從打開一個視窗開始，帶你一步一步操作。會裝工具、會下一些簡單指令，但每一步都是為了一件事：讓你做出能看到的東西。不是要把你訓練成工程師。</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IS IT FOR -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">適合誰</p>
+      <h2 class="section-title">這三種人最該來</h2>
+    </div>
+    <div class="card-grid reveal delay-1">
       <div class="card">
+        <div class="card-icon">💬</div>
         <span class="num">01</span>
-        <h4>ChatGPT 聊天很熟</h4>
+        <h3>ChatGPT 聊天很熟</h3>
         <p>想把它從「問答」升級成「幫我做東西」的人。</p>
       </div>
       <div class="card">
+        <div class="card-icon">🖥</div>
         <span class="num">02</span>
-        <h4>看到黑畫面會怕</h4>
-        <p>想理解 terminal 到底在幹嘛，卻不想背指令表的人。</p>
+        <h3>看到黑畫面會怕</h3>
+        <p>想理解那個視窗到底在幹嘛，卻不想背指令表的人。</p>
       </div>
       <div class="card">
+        <div class="card-icon">📄</div>
         <span class="num">03</span>
-        <h4>想做第一個網頁</h4>
+        <h3>想做第一個網頁</h3>
         <p>沒學過 HTML/CSS，但希望八小時內能帶走一頁作品的人。</p>
       </div>
     </div>
   </div>
-</section><!-- SLIDE 4: Main Tool opencode -->
-<section class="slide" id="slide-4">
-  <div class="slide-content">
-    <div class="layout-split reverse">
-      <div class="layout-left reveal-element" data-gsap="fade-right" data-delay="0.25">
-        <div class="terminal" data-typewriter="true">
-          <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-          <div class="typewriter-line" data-variant="command" data-text="cd Desktop/my-page"><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-          <div class="typewriter-line" data-variant="command" data-text="opencode"><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-          <div class="comment typewriter-line" data-variant="reveal" data-text="# 打開對話，告訴 AI 要做什麼"># 打開對話，告訴 AI 要做什麼</div>
-          <div class="typewriter-line ai-prompt" data-variant="type" data-text="幫我做個人名片頁，寫進 index.html。">幫我做個人名片頁，寫進 index.html。</div>
-          <div class="comment typewriter-line" data-variant="result" data-text="# AI 自動改檔，瀏覽器開啟就看得到"># AI 自動改檔，瀏覽器開啟就看得到</div>
-        </div>
+</section>
+
+<!-- TOOL DEMO -->
+<section class="section" style="background: rgba(255,255,255,0.015);">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">主工具</p>
+      <h2 class="section-title">你說，AI 直接改檔</h2>
+    </div>
+    <div class="terminal-demo reveal delay-1">
+      <div class="terminal">
+        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
+        <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
+        <div class="comment"># 打開對話，告訴 AI 要做什麼</div>
+        <div class="ai-prompt">幫我做個人名片頁，寫進 index.html。</div>
+        <div class="comment"># AI 自動改檔，瀏覽器開啟就看得到</div>
+        <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
       </div>
-      <div class="layout-right">
-        <p class="label reveal-element" data-gsap="fade-left">主工具</p>
-        <h2 class="sub-heading reveal-element" data-gsap="fade-left" data-delay="0.1">opencode<br>本機 AI CLI</h2>
-        <p class="body-text reveal-element" data-gsap="fade-left" data-delay="0.2" style="text-align:left;max-width:100%;">裝在電腦裡的 AI 對話工具。你下自然語言指令，它直接建立資料夾、寫入檔案、改版內容，全程不用手動複製貼上。你不需要記住任何指令，只要會問問題。</p>
-        <p class="body-text reveal-element" data-gsap="fade-left" data-delay="0.3" style="text-align:left;max-width:100%;">備援方案：ChatGPT Codex 桌面版、Claude Cowork、網頁版手動貼。確保每個人都能完成作品。</p>
+      <div class="terminal-content">
+        <h3>opencode 本機 AI CLI</h3>
+        <p>裝在電腦裡的 AI 對話工具。你下自然語言指令，它直接建立資料夾、寫入檔案、改版內容，全程不用手動複製貼上。</p>
+        <p>萬一裝不起來也沒關係，我們準備了 ChatGPT Codex、Claude Cowork、網頁版等備援方案，確保每個人都能完成作品。</p>
       </div>
     </div>
   </div>
-</section><!-- SLIDE 5: Day Flow Timeline -->
-<section class="slide" id="slide-5">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">當日流程</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">八小時怎麼過</h2>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2" style="max-width: min(80vw, 640px);">上午建立信心，下午自由完成作品，最後互相展示。</p>
-    <div class="step-list reveal-element" data-gsap="stagger-up" data-delay="0.35" style="margin-top: var(--content-gap); max-width: min(90vw, 800px);">
-      <div class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>上午：認識 AI 改檔</h4>
-          <p>安裝 opencode、建立資料夾、請 AI 生出第一版網頁。</p>
+</section>
+
+<!-- DAY FLOW -->
+<section class="section" id="flow">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">當日流程</p>
+      <h2 class="section-title">八小時怎麼過</h2>
+      <p class="section-subtitle">上午建立信心，下午自由完成作品，最後互相展示。</p>
+    </div>
+    <div class="timeline reveal delay-1">
+      <div class="timeline-item">
+        <div class="timeline-time">09:00</div>
+        <div class="timeline-content">
+          <h3>打開視窗，建立資料夾</h3>
+          <p>從打開電腦裡的視窗開始，帶你建立作品資料夾，不再怕黑畫面。</p>
         </div>
       </div>
-      <div class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>下午：講清楚再改版</h4>
+      <div class="timeline-item">
+        <div class="timeline-time">10:45</div>
+        <div class="timeline-content">
+          <h3>請 AI 生出第一個網頁</h3>
+          <p>用自然語言告訴 AI 你想要什麼，看它直接改檔，本機瀏覽器打開就能看到成果。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">13:05</div>
+        <div class="timeline-content">
+          <h3>學會講清楚，再改版</h3>
           <p>學會主題、區塊、風格三要素，讓 AI 把頁面改得更像作品。</p>
         </div>
       </div>
-      <div class="step-item">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>收尾：本機展示</h4>
-          <p>瀏覽器打開 index.html，截圖、分享、帶著成果回家。</p>
+      <div class="timeline-item">
+        <div class="timeline-time">14:50</div>
+        <div class="timeline-content">
+          <h3>自由完成你的作品</h3>
+          <p>個人名片頁、商家介紹頁、活動頁三選一，講師巡場，卡住即時救援。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">16:15</div>
+        <div class="timeline-content">
+          <h3>本機展示，帶回家</h3>
+          <p>瀏覽器打開 index.html，截圖、分享，帶著成果與繼續修改的能力回家。</p>
         </div>
       </div>
     </div>
   </div>
-</section><!-- SLIDE 6: What You Take Away -->
-<section class="slide" id="slide-6">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">會帶走什麼</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">三樣帶回家的東西</h2>
-    <div class="feature-list reveal-element" data-gsap="stagger-up" data-delay="0.2">
+</section>
+
+<!-- TAKEAWAYS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">會帶走什麼</p>
+      <h2 class="section-title">三樣帶回家的東西</h2>
+    </div>
+    <div class="feature-list reveal delay-1">
       <div class="feature-item">
         <div class="feature-icon">01</div>
         <div>
           <h4>一個本機 HTML 檔案</h4>
-          <p>在你的 my-page 資料夾裡，瀏覽器打開就是作品。</p>
+          <p>在你的 my-page 資料夾裡，瀏覽器打開就是作品。我們先專注完成「能給自己看的版本」，公開網站留到下一步。</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">02</div>
         <div>
           <h4>一套叫 AI 做事的流程</h4>
-          <p>學會怎麼講，AI 才會聽懂、改對、改好。</p>
+          <p>學會怎麼把想法講清楚，讓 AI 聽得懂、改對、改好，回家也能繼續請它幫你改。</p>
         </div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">03</div>
         <div>
-          <h4>不怕黑畫面的信心</h4>
-          <p>terminal 只是門口，AI 才是工人。你只需要確認檔案有沒有在對的地方。</p>
+          <h4>不怕視窗的信心</h4>
+          <p>那個視窗只是門口，AI 才是工人。你只需要確認檔案有沒有在對的地方。</p>
         </div>
       </div>
     </div>
   </div>
-</section><!-- SLIDE 7: Three Page Themes -->
-<section class="slide" id="slide-7">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">實作主題</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">下午三選一完成</h2>
-    <div class="layout-thirds reveal-element" data-gsap="stagger-up" data-delay="0.2">
+</section>
+
+<!-- PROJECT THEMES -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">實作主題</p>
+      <h2 class="section-title">下午三選一完成</h2>
+    </div>
+    <div class="card-grid reveal delay-1">
       <div class="card">
         <span class="num">A</span>
-        <h4>個人名片頁</h4>
-        <p>名字、一句話、三張技能卡片、聯絡方式。</p>
+        <h3>個人名片頁</h3>
+        <p>名字、一句話、三張技能卡片、聯絡方式。適合想建立線上身分的你。</p>
       </div>
       <div class="card">
         <span class="num">B</span>
-        <h4>商家介紹頁</h4>
-        <p>店名、招牌語、主打商品、營業時間與地址。</p>
+        <h3>商家介紹頁</h3>
+        <p>店名、招牌語、主打商品、營業時間與地址。適合有小型品牌或副業的你。</p>
       </div>
       <div class="card">
         <span class="num">C</span>
-        <h4>活動報名頁</h4>
-        <p>活動名稱、時間地點、流程亮點、報名方式。</p>
+        <h3>活動報名頁</h3>
+        <p>活動名稱、時間地點、流程亮點、報名方式。適合要辦活動或聚會的你。</p>
       </div>
     </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="margin-top: var(--content-gap);">從簡單版面開始，再請 AI 換風格、加手機版、調顏色，逐步改成像作品。</p>
-  </div>
-</section><!-- SLIDE 8: Not Teaching Git / Deployment -->
-<section class="slide" id="slide-8">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">這堂課不教</p>
-    <h2 class="sub-heading reveal-element" data-gsap="fade-up" data-delay="0.1">先不碰這些</h2>
-    <div class="compare-grid reveal-element" data-gsap="fade-up" data-delay="0.2">
-      <div class="compare-card before">
-        <h4>不教</h4>
-        <ul>
-          <li>把作品上傳到網路上的流程</li>
-          <li>多人同時編輯與備份</li>
-          <li>帳號權限與線上平台設定</li>
-          <li>資料庫與後端伺服器</li>
-          <li>收費 API 與金鑰管理</li>
-        </ul>
-      </div>
-      <div class="compare-card after">
-        <h4>進階班再教</h4>
-        <ul>
-          <li>讓每個人先完成本機作品</li>
-          <li>減少帳號、權限、網路卡住的機率</li>
-          <li>把時間花在 AI 對話與改版</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section><!-- SLIDE 9: CTA -->
-<section class="slide" id="slide-9">
-  <div class="glow-orb accent" style="width:40vw;height:40vw;bottom:-10vw;right:-8vw;"></div>
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">報名資訊</p>
-    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">
-      帶上筆電<br>
-      <span class="accent-text">八小時做出你的網頁</span>
-    </h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">單日 8 小時，現場統一帶安裝。你不需要會寫程式，只需要願意跟 AI 對話。</p>
-    <div class="reveal-element" data-gsap="fade-up" data-delay="0.35" style="margin-top: var(--content-gap);">
-      <a href="#" class="cta-button" style="display:inline-block;padding: clamp(14px,2vw,20px) clamp(32px,5vw,56px);border-radius: 999px;background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);color: #0a0a0a;font-family: 'Bricolage Grotesque', 'Noto Sans TC', sans-serif;font-size: clamp(1rem, 1.6vw, 1.35rem);font-weight: 700;text-decoration: none;box-shadow: 0 16px 48px var(--accent-glow);">立即報名</a>
-    </div>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.45" style="margin-top: var(--element-gap); font-size: var(--small-size);">自備筆電與充電器即可，安裝與帳號課堂統一處理。</p>
-  </div>
-</section><!-- SLIDE 10: Break -->
-<section class="slide" id="slide-10">
-  <div class="slide-content layout-center">
-    <p class="label reveal-element" data-gsap="fade-up">BREAK</p>
-    <h1 class="big-title reveal-element" data-gsap="fade-up" data-delay="0.1">休息十分鐘</h1>
-    <p class="body-text reveal-element" data-gsap="fade-up" data-delay="0.2">起來動一動，十點回來繼續。</p>
   </div>
 </section>
 
-<!-- NAV -->
-<nav class="nav-dots" aria-label="slide navigation"></nav>
-<div class="slide-counter">1 / 10</div>
-<div class="keyboard-hint">↑ ↓ scroll</div>
+<!-- SHOWCASE -->
+<section class="section" id="showcase" style="background: rgba(255,255,255,0.015);">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">作品展示</p>
+      <h2 class="section-title">這就是當天可能做出來的東西</h2>
+    </div>
+    <div class="showcase reveal delay-1">
+      <div class="showcase-frame">
+        <iframe src="../my-page%20%E6%99%9A%E4%B8%8A8.48.34/cafe-intro.html" title="學員作品範例：慢時咖啡"></iframe>
+      </div>
+      <div class="showcase-content">
+        <h3>範例：慢時咖啡</h3>
+        <p>一個簡單的商家介紹頁，包含店名、招牌語、商品卡片與聯絡資訊。當天你可以從這個基礎出發，請 AI 換風格、加圖片、調手機版。</p>
+        <div class="showcase-images">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80" alt="咖啡廳空間">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80" alt="咖啡杯">
+          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=80" alt="筆電與工作區">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80" alt="打開電腦">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- SCROLL VELOCITY -->
+<section class="scroll-velocity" data-scroll-velocity>
+  <div class="scroll-velocity-row" data-velocity="120">
+    <span>TERMINAL × AI × HTML</span>
+    <span>TERMINAL × AI × HTML</span>
+    <span>TERMINAL × AI × HTML</span>
+    <span>TERMINAL × AI × HTML</span>
+  </div>
+  <div class="scroll-velocity-row filled" data-velocity="-160">
+    <span>MAKE YOUR FIRST WEBPAGE</span>
+    <span>MAKE YOUR FIRST WEBPAGE</span>
+    <span>MAKE YOUR FIRST WEBPAGE</span>
+    <span>MAKE YOUR FIRST WEBPAGE</span>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">常見問題</p>
+      <h2 class="section-title">你可能還在想的事</h2>
+    </div>
+    <div class="faq-list reveal delay-1">
+      <div class="faq-item">
+        <button class="faq-question">我完全沒寫過程式，真的跟得上嗎？</button>
+        <div class="faq-answer"><p>這堂課就是為零基礎設計的。我們不講程式語法，只講怎麼把想法講清楚讓 AI 聽懂，然後確認 AI 改出來的東西有沒有在對的位置。現場會一步步帶，卡住馬上有救援。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">當天做出來的網頁，別人看得到嗎？</button>
+        <div class="faq-answer"><p>當天完成的作品會存在你的筆電裡，可以截圖分享給朋友，但還不會變成公開網址。我們先專注把「能給自己看的版本」完成，公開網站留到進階課程。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">我需要先裝什麼軟體嗎？</button>
+        <div class="faq-answer"><p>不用。課程開始前會預留安裝時間，講師會同步示範 Mac 與 Windows 的安裝流程。萬一主工具裝不起來，我們也準備了備援方案，確保你不會掉隊。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">那個黑黑的視窗看起來很可怕，會不會很難？</button>
+        <div class="faq-answer"><p>我們只會用到幾個很簡單的操作：建立資料夾、移動到資料夾、確認檔案在裡面。其他都交給 AI 動手。你會慢慢發現，那個視窗只是入口，裡面的 AI 才是幫你做事的人。</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">課後我還能繼續修改作品嗎？</button>
+        <div class="faq-answer"><p>會。你會帶走整個作品資料夾，回家後可以再啟動 AI 工具繼續改版。課堂也會給你 prompt 範本，讓你知道怎麼講 AI 才會改得準。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">學員回饋</p>
+      <h2 class="section-title">他們都完成了自己的網頁</h2>
+    </div>
+  </div>
+  <div class="testimonial-track">
+    <div class="testimonial-card">
+      <p>「我本來以為要背一堆指令，結果講師帶我們直接叫 AI 動手。看到瀏覽器打開自己頁面的時候，真的覺得自己也做得到。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">A</div>
+        <div>
+          <div class="testimonial-name">阿明</div>
+          <div class="testimonial-role">行銷企劃</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「我連 HTML 是什麼都不知道，但八小時後我帶走了一個自己的名片頁。最重要的是，我知道回家要怎麼繼續請 AI 幫我改。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">M</div>
+        <div>
+          <div class="testimonial-name">美玲</div>
+          <div class="testimonial-role">自由接案工作者</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「以前跟 ChatGPT 聊完就結束了，這堂課終於讓我看到『說出來就會變成檔案』是什麼感覺。現在我比較敢開那個黑黑視窗了。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">J</div>
+        <div>
+          <div class="testimonial-name">家豪</div>
+          <div class="testimonial-role">產品經理</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「我選了商家介紹頁，做出來的風格比我想像中好看很多。講師教我怎麼講 AI 才聽得懂，這個比學語法還實用。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">S</div>
+        <div>
+          <div class="testimonial-name">小珊</div>
+          <div class="testimonial-role">咖啡廳老闆</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「本來擔心自己電腦會裝不起來，結果現場有備援方案。我用網頁版 AI 也完成了作品，沒有任何人被丟下。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">T</div>
+        <div>
+          <div class="testimonial-name">大雄</div>
+          <div class="testimonial-role">公務員</div>
+        </div>
+      </div>
+    </div>
+    <!-- duplicate for seamless loop -->
+    <div class="testimonial-card">
+      <p>「我本來以為要背一堆指令，結果講師帶我們直接叫 AI 動手。看到瀏覽器打開自己頁面的時候，真的覺得自己也做得到。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">A</div>
+        <div>
+          <div class="testimonial-name">阿明</div>
+          <div class="testimonial-role">行銷企劃</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「我連 HTML 是什麼都不知道，但八小時後我帶走了一個自己的名片頁。最重要的是，我知道回家要怎麼繼續請 AI 幫我改。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">M</div>
+        <div>
+          <div class="testimonial-name">美玲</div>
+          <div class="testimonial-role">自由接案工作者</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「以前跟 ChatGPT 聊完就結束了，這堂課終於讓我看到『說出來就會變成檔案』是什麼感覺。現在我比較敢開那個黑黑視窗了。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">J</div>
+        <div>
+          <div class="testimonial-name">家豪</div>
+          <div class="testimonial-role">產品經理</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「我選了商家介紹頁，做出來的風格比我想像中好看很多。講師教我怎麼講 AI 才聽得懂，這個比學語法還實用。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">S</div>
+        <div>
+          <div class="testimonial-name">小珊</div>
+          <div class="testimonial-role">咖啡廳老闆</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <p>「本來擔心自己電腦會裝不起來，結果現場有備援方案。我用網頁版 AI 也完成了作品，沒有任何人被丟下。」</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">T</div>
+        <div>
+          <div class="testimonial-name">大雄</div>
+          <div class="testimonial-role">公務員</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / REGISTRATION -->
+<section class="section cta-section" id="register">
+  <div class="container">
+    <p class="label reveal">報名資訊</p>
+    <h2 class="section-title reveal delay-1">帶上筆電，八小時做出你的網頁</h2>
+    <p class="reveal delay-2">單日 8 小時，現場統一帶安裝。你不需要會寫程式，只需要願意跟 AI 對話。填寫下方表單，我們會盡快與你聯繫。</p>
+    <div class="form-container reveal delay-3">
+      <iframe src="https://docs.google.com/forms/d/1m7T8MEqJwS3n8lKWH0wpFWmajoSIEX68wzfgnSAfPAE/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>Terminal + AI 網頁實作入門｜王得旭</p>
+    <p style="margin-top:8px; color: var(--text-dim);">本機作品 · 不部署 · 零基礎友善</p>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
 <script>
+/* Reveal on scroll */
 (function(){
-  const slides = document.querySelectorAll('.slide');
-  const nav = document.querySelector('.nav-dots');
-  const counter = document.querySelector('.slide-counter');
-  let current = 0;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', 'go to slide ' + (i + 1));
-    dot.addEventListener('click', () => goTo(i));
-    nav.appendChild(dot);
-  });
-
-  function goTo(index) {
-    if (index < 0 || index >= slides.length) return;
-    slides[index].scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function updateNav(index) {
-    current = index;
-    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === index));
-    if (counter) counter.textContent = (index + 1) + ' / ' + slides.length;
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
-      e.preventDefault(); goTo(current + 1);
-    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-      e.preventDefault(); goTo(current - 1);
-    } else if (e.key === 'Home') {
-      e.preventDefault(); goTo(0);
-    } else if (e.key === 'End') {
-      e.preventDefault(); goTo(slides.length - 1);
-    }
-  });
-
-  // GSAP reveal animations
-  gsap.registerPlugin(ScrollTrigger);
-
-  slides.forEach((slide, index) => {
-    const elements = slide.querySelectorAll('[data-gsap]');
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: slide,
-        start: 'top 55%',
-        end: 'bottom 45%',
-        onEnter: () => { updateNav(index); startCountdown(slide); },
-        onLeaveBack: () => stopCountdown(slide)
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+})();
 
-    if (!elements.length) {
-      tl.to(slide.querySelectorAll('.reveal-element'), { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' });
-      return;
-    }
-
-    const groups = {};
-    elements.forEach(el => {
-      const type = el.dataset.gsap;
-      const delay = parseFloat(el.dataset.delay || 0);
-      if (!groups[type]) groups[type] = [];
-      groups[type].push({ el, delay });
-    });
-
-    Object.keys(groups).forEach(type => {
-      const items = groups[type].sort((a, b) => a.delay - b.delay);
-      const staggerOffset = 0.08;
-      items.forEach((item, i) => {
-        const delay = item.delay + (type === 'stagger-up' ? i * staggerOffset : 0);
-        switch (type) {
-          case 'fade-up':
-            tl.fromTo(item.el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, delay);
-            break;
-          case 'fade-right':
-            tl.fromTo(item.el, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
-            break;
-          case 'fade-left':
-            tl.fromTo(item.el, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }, delay);
-            break;
-          case 'stagger-up':
-            tl.fromTo(item.el, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power2.out' }, delay);
-            break;
-          case 'scale-in':
-            tl.fromTo(item.el, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }, delay);
-            break;
-        }
-      });
+/* FAQ accordion */
+(function(){
+  const items = document.querySelectorAll('.faq-item');
+  items.forEach(item => {
+    const q = item.querySelector('.faq-question');
+    q.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      items.forEach(i => i.classList.remove('active'));
+      if (!isActive) item.classList.add('active');
     });
   });
+})();
 
-  // Hero kinetic title animation on first load
-  window.addEventListener('load', () => {
-    const heroLines = document.querySelectorAll('#slide-1 .kinetic-line');
-    if (heroLines.length) {
-      gsap.fromTo(heroLines,
-        { opacity: 0, y: 60, skewY: 3 },
-        { opacity: 1, y: 0, skewY: 0, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.3 }
-      );
-    }
+/* Scroll Velocity (React Bits inspired, native implementation) */
+(function(){
+  const rows = document.querySelectorAll('[data-velocity]');
+  if (!rows.length) return;
+
+  let lastScrollY = window.scrollY;
+  let velocity = 0;
+  let rafId = null;
+
+  const state = new Map();
+  rows.forEach(row => {
+    const base = parseFloat(row.dataset.velocity) || 100;
+    state.set(row, { base, x: 0, direction: base > 0 ? 1 : -1 });
   });
 
-  // Countdown logic
-  const countdowns = new Map();
-  function startCountdown(slide) {
-    const duration = parseInt(slide.dataset.countdown, 10);
-    if (!duration || countdowns.has(slide)) return;
-    const text = slide.querySelector('.countdown-text');
-    const ring = slide.querySelector('.countdown-ring .progress');
-    if (!text || !ring) return;
-    const total = 283;
-    let remaining = duration;
-    text.textContent = remaining;
-    ring.style.stroke = 'var(--accent)';
-    ring.style.strokeDashoffset = 0;
-    const startTime = performance.now();
-    function tick(now) {
-      const elapsed = Math.floor((now - startTime) / 1000);
-      remaining = Math.max(0, duration - elapsed);
-      text.textContent = remaining;
-      ring.style.strokeDashoffset = total * (1 - remaining / duration);
-      if (remaining > 0) {
-        countdowns.set(slide, requestAnimationFrame(tick));
-      } else {
-        ring.style.stroke = 'var(--good)';
+  function updateVelocity() {
+    const current = window.scrollY;
+    velocity = (current - lastScrollY) * 0.3;
+    lastScrollY = current;
+    rafId = requestAnimationFrame(updateVelocity);
+  }
+  rafId = requestAnimationFrame(updateVelocity);
+
+  function animate() {
+    rows.forEach(row => {
+      const s = state.get(row);
+      const width = row.scrollWidth / 2;
+      const factor = 1 + Math.abs(velocity) * 0.02;
+      const move = s.base * factor * 0.016;
+      s.x -= move * s.direction;
+
+      if (Math.abs(s.x) >= width) {
+        s.x = 0;
       }
-    }
-    countdowns.set(slide, requestAnimationFrame(tick));
+      row.style.transform = `translateX(${s.x}px)`;
+    });
+    requestAnimationFrame(animate);
   }
-  function stopCountdown(slide) {
-    if (countdowns.has(slide)) {
-      cancelAnimationFrame(countdowns.get(slide));
-      countdowns.delete(slide);
-    }
-  }
+  animate();
 
-  // Reduced motion support
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    gsap.globalTimeline.timeScale(0);
-    document.querySelectorAll('.reveal-element').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
-  }
+  window.addEventListener('beforeunload', () => cancelAnimationFrame(rafId));
+})();
+
+/* Mobile nav toggle */
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links = document.querySelector('.nav-links');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  });
 })();
 </script>
 
-<script src="shared-nav.js" defer></script>
 </body>
 </html>
