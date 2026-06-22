@@ -3,6 +3,13 @@
 
 # Claude / session handoff
 .claude-handoff.md
+slides/.claude-handoff.md
+takehome/.claude-handoff.md
+
+# Claude local settings
+.claude/
+slides/.claude/
+takehome/.claude/
 
 # CodeGraph local index
 .codegraph/
@@ -21,6 +28,21 @@ token.pickle
 
 # Wrangler local state
 .wrangler/
+
+# Python cache / tooling
+.ruff_cache/
+slides/.ruff_cache/
+takehome/.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # Distribution builds (keep source only, CI builds if needed)
 # dist/
