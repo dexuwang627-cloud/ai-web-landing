@@ -116,6 +116,18 @@ body::after {
   background: linear-gradient(135deg, var(--accent) 0%, #e8b89f 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
+.shiny-text {
+  position: relative;
+  background:
+    linear-gradient(120deg, var(--accent) 0%, #e8b89f 40%, #ffffff 50%, #e8b89f 60%, var(--accent) 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: shine 3.5s linear infinite;
+}
+@keyframes shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 .glow-orb {
   position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0;
 }
@@ -221,6 +233,149 @@ body::after {
 .terminal-content h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 800; margin-bottom: 16px; }
 @media (max-width: 900px) { .terminal-demo { grid-template-columns: 1fr; } .terminal-content { text-align: center; } }
 
+/* ===== LIVE CODING DEMO (typewriter) ===== */
+.lcdemo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 40px); align-items: stretch; max-width: 1000px; margin: 0 auto; }
+.lcdemo-box {
+  background: var(--card); border: 1px solid var(--glass-border); border-radius: 20px;
+  overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.lcdemo-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 18px; background: rgba(0,0,0,0.25); border-bottom: 1px solid var(--glass-border);
+}
+.lcdemo-title { font-size: 0.8rem; color: var(--text-muted); font-family: var(--mono); }
+.lcdemo-dots { display: flex; gap: 6px; }
+.lcdemo-dot { width: 10px; height: 10px; border-radius: 50%; }
+.lcdemo-terminal {
+  padding: 20px; font-family: var(--mono); font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+  line-height: 1.85; color: #d0d8e2; min-height: 280px;
+}
+.lcdemo-line { min-height: 1.85em; white-space: pre-wrap; }
+.lcdemo-line.typing::after {
+  content: '▋'; display: inline-block; margin-left: 2px; color: var(--accent);
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.lcdemo-browser {
+  padding: 0; background: #0a0a0f; min-height: 280px;
+  display: flex; align-items: center; justify-content: center;
+}
+.lcdemo-result {
+  width: 100%; height: 100%; padding: 24px; opacity: 0; transform: scale(0.96);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.lcdemo-result.visible { opacity: 1; transform: scale(1); }
+.lcdemo-browser-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  background: rgba(0,0,0,0.35); border-bottom: 1px solid var(--glass-border);
+}
+.lcdemo-browser-url {
+  flex: 1; background: rgba(255,255,255,0.05); border-radius: 6px;
+  padding: 4px 10px; font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted);
+}
+.lcdemo-namecard {
+  text-align: center;
+}
+.lcdemo-namecard h4 {
+  font-size: 1.4rem; font-weight: 800; margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--accent) 0%, #e8b89f 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.lcdemo-namecard p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 18px; }
+.lcdemo-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.lcdemo-tags span {
+  padding: 5px 12px; border-radius: 999px; background: var(--accent-soft);
+  color: var(--accent); font-size: 0.75rem; font-family: var(--mono);
+}
+.lcdemo-cta-row { display: flex; gap: 12px; justify-content: center; margin-top: 18px; }
+.lcdemo-cta-row a {
+  padding: 8px 16px; border-radius: 8px; font-size: 0.8rem; text-decoration: none; font-weight: 700;
+}
+.lcdemo-cta-row a.primary { background: var(--accent); color: #0a0a0a; }
+.lcdemo-cta-row a.secondary { border: 1px solid var(--glass-border); color: var(--text-muted); }
+@media (max-width: 900px) { .lcdemo { grid-template-columns: 1fr; } }
+
+/* ===== STOCK DASHBOARD PREVIEW ===== */
+.stock-card {
+  max-width: 640px; margin: 0 auto;
+  background: var(--card); border: 1px solid var(--glass-border); border-radius: 24px;
+  padding: clamp(24px, 4vw, 36px);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+}
+.stock-card-header {
+  display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;
+}
+.stock-card-title { font-size: 0.85rem; color: var(--text-muted); font-family: var(--mono); }
+.stock-card-sub { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; }
+.stock-card-metric { text-align: right; }
+.stock-card-value { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: var(--text); line-height: 1; }
+.stock-card-change { font-size: 0.9rem; color: var(--good); font-weight: 700; margin-top: 6px; }
+.stock-trend-wrap {
+  background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); border-radius: 18px;
+  padding: clamp(20px, 3vw, 28px); position: relative; overflow: hidden;
+}
+.stock-trend-wrap::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none;
+}
+.stock-trend-svg { position: relative; z-index: 1; width: 100%; height: auto; display: block; }
+.stock-trend-line {
+  fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 400; stroke-dashoffset: 400;
+  animation: drawStockLine 3.5s ease-in-out infinite alternate;
+}
+.stock-line-0 { stroke: var(--good); }
+.stock-line-1 { stroke: var(--accent); animation-delay: 0.5s; }
+.stock-line-2 { stroke: #7aa2d6; animation-delay: 1s; }
+.stock-trend-area {
+  fill: url(#stockTrendGradient0); opacity: 0;
+  animation: fadeStockArea 3.5s ease-in-out infinite alternate;
+}
+.stock-area-1 { fill: url(#stockTrendGradient1); opacity: 0; animation: fadeStockArea 3.5s 0.5s ease-in-out infinite alternate; }
+.stock-area-2 { fill: url(#stockTrendGradient2); opacity: 0; animation: fadeStockArea 3.5s 1s ease-in-out infinite alternate; }
+.stock-trend-dot {
+  r: 4;
+  animation: pulseStockDot 3.5s ease-in-out infinite alternate;
+}
+.stock-dot-0 { fill: var(--good); }
+.stock-dot-1 { fill: var(--accent); animation-delay: 0.5s; }
+.stock-dot-2 { fill: #7aa2d6; animation-delay: 1s; }
+@keyframes drawStockLine {
+  0% { stroke-dashoffset: 400; }
+  40% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes fadeStockArea {
+  0% { opacity: 0; }
+  40% { opacity: 0.28; }
+  100% { opacity: 0.28; }
+}
+@keyframes pulseStockDot {
+  0% { opacity: 0; r: 2; }
+  40% { opacity: 1; r: 4; }
+  55% { r: 6; }
+  70% { r: 4; }
+  100% { opacity: 1; r: 4; }
+}
+.stock-trend-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 20px; position: relative; z-index: 1;
+}
+.stock-trend-labels { display: flex; gap: 16px; font-size: 0.75rem; color: var(--text-dim); font-family: var(--mono); }
+.stock-holdings { display: flex; gap: 8px; flex-wrap: wrap; }
+.stock-holdings span {
+  padding: 5px 12px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; font-family: var(--mono);
+  border: 1px solid var(--glass-border); color: var(--text-muted);
+}
+.stock-holdings span.up { background: rgba(108,175,138,0.12); color: var(--good); border-color: rgba(108,175,138,0.2); }
+.stock-holdings span.watch { background: rgba(230,192,105,0.1); color: #e6c069; border-color: rgba(230,192,105,0.2); }
+.stock-legend { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.stock-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-muted); font-family: var(--mono); }
+.stock-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
 /* ===== TIMELINE ===== */
 .timeline { display: flex; flex-direction: column; gap: 0; max-width: 800px; margin: 0 auto; }
 .timeline-item { display: grid; grid-template-columns: 100px 1fr; gap: clamp(16px, 3vw, 32px); padding: 24px 0; border-bottom: 1px solid var(--glass-border); }
@@ -296,7 +451,6 @@ body::after {
   display: flex; gap: 24px; width: max-content;
   animation: marquee 40s linear infinite;
 }
-.testimonial-track:hover { animation-play-state: paused; }
 .testimonial-card {
   width: 340px; flex-shrink: 0; background: var(--card); border: 1px solid var(--glass-border);
   border-radius: 20px; padding: 28px;
@@ -355,10 +509,29 @@ body::after {
 .delay-2 { transition-delay: 0.3s; }
 .delay-3 { transition-delay: 0.45s; }
 
+.stock-checklist {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.stock-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--text-muted);
+}
+.stock-checklist svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; }
   .testimonial-track { animation: none; }
   .scroll-velocity-row { transform: none !important; }
+  .shiny-text { animation: none; }
 }
 </style>
 </head>
@@ -383,7 +556,7 @@ body::after {
   <div class="glow-orb ai" style="width:40vw;height:40vw;bottom:-16vw;left:-10vw;"></div>
   <div class="container hero-content">
     <p class="label hero-label reveal">一日實作班 · 零基礎友善</p>
-    <h1 class="reveal delay-1">一天，從不敢開「黑畫面」<br>到讓 <span class="accent-text">AI 幫你做事</span></h1>
+    <h1 class="reveal delay-1">一天，從不敢開「黑畫面」<br>到讓 <span class="accent-text shiny-text">AI 幫你做事</span></h1>
     <p class="reveal delay-2">你是不是也這樣：跟 AI 聊了很久，回過神來發現什麼都沒做出來？<br>這堂課只有一個目標：一天之內，你會親眼看著 AI 幫你做出一個能在自己電腦打開的網頁。</p>
     <div class="reveal delay-3">
       <a class="hero-cta" href="#register">預約報名</a>
@@ -404,16 +577,13 @@ body::after {
       <p class="label">講師</p>
       <h2 class="section-title">帶你動手做出第一個網頁</h2>
     </div>
-    <div class="instructor-grid reveal delay-1">
-      <div class="instructor-avatar">王</div>
-      <div class="instructor-info">
-        <h2>王得旭</h2>
-        <p>獨立用 AI 產出生產環境可用的數據監控系統，也協助企業進行 AI 智慧轉型輔導。這堂課不講工程師術語，只帶你做一件具體的事：讓 AI 幫你生出第一個本機網頁。</p>
-        <div class="instructor-tags">
-          <span>AI 輔助開發</span>
-          <span>數據監控系統</span>
-          <span>企業轉型輔導</span>
-        </div>
+    <div class="reveal delay-1" style="max-width: 760px; margin: 0 auto;">
+      <h2 style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 16px; text-align: center;">Louis</h2>
+      <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 1rem; text-align: center;">獨立用 AI 產出生產環境可用的數據監控系統，也協助企業進行 AI 智慧轉型輔導。這堂課不講工程師術語，只帶你做一件具體的事：讓 AI 幫你生出第一個本機網頁。</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+        <span style="padding: 6px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.85rem;">AI 輔助開發</span>
+        <span style="padding: 6px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.85rem;">數據監控系統</span>
+        <span style="padding: 6px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.85rem;">企業轉型輔導</span>
       </div>
     </div>
   </div>
@@ -439,19 +609,19 @@ body::after {
     </div>
     <div class="card-grid reveal delay-1">
       <div class="card">
-        <div class="card-icon">💬</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <span class="num">01</span>
         <h3>ChatGPT 聊天很熟</h3>
         <p>想把它從「問答」升級成「幫我做東西」的人。</p>
       </div>
       <div class="card">
-        <div class="card-icon">🖥</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <span class="num">02</span>
         <h3>看到黑畫面會怕</h3>
         <p>想理解那個視窗到底在幹嘛，卻不想背指令表的人。</p>
       </div>
       <div class="card">
-        <div class="card-icon">📄</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
         <span class="num">03</span>
         <h3>想做第一個網頁</h3>
         <p>沒學過 HTML/CSS，但希望八小時內能帶走一頁作品的人。</p>
@@ -466,22 +636,51 @@ body::after {
     <div class="section-header reveal">
       <p class="label">主工具</p>
       <h2 class="section-title">你說，AI 直接改檔</h2>
+      <p class="section-subtitle">跟 ChatGPT 聊天得到答案；跟 Claude Code / opencode 聊天，得到的是你電腦裡的檔案。</p>
     </div>
-    <div class="terminal-demo reveal delay-1">
-      <div class="terminal">
-        <div class="terminal-header"><span class="terminal-dot red"></span><span class="terminal-dot yellow"></span><span class="terminal-dot green"></span></div>
-        <div><span class="prompt">$</span> <span class="cmd">cd Desktop/my-page</span></div>
-        <div><span class="prompt">$</span> <span class="cmd">opencode</span></div>
-        <div class="comment"># 打開對話，告訴 AI 要做什麼</div>
-        <div class="ai-prompt">幫我做個人名片頁，寫進 index.html。</div>
-        <div class="comment"># AI 自動改檔，瀏覽器開啟就看得到</div>
-        <div><span class="prompt">$</span> <span class="cmd">open index.html</span></div>
+
+    <div class="lcdemo reveal delay-1" data-lcdemo>
+      <div class="lcdemo-box">
+        <div class="lcdemo-header">
+          <div class="lcdemo-dots">
+            <span class="lcdemo-dot" style="background:#ff5f56;"></span>
+            <span class="lcdemo-dot" style="background:#ffbd2e;"></span>
+            <span class="lcdemo-dot" style="background:#27c93f;"></span>
+          </div>
+          <span class="lcdemo-title">terminal — opencode</span>
+        </div>
+        <div class="lcdemo-terminal" data-terminal>
+          <div class="lcdemo-line" data-type data-text=""></div>
+        </div>
       </div>
-      <div class="terminal-content">
-        <h3>opencode 本機 AI CLI</h3>
-        <p>裝在電腦裡的 AI 對話工具。你下自然語言指令，它直接建立資料夾、寫入檔案、改版內容，全程不用手動複製貼上。</p>
-        <p>萬一裝不起來也沒關係，我們準備了 ChatGPT Codex、Claude Cowork、網頁版等備援方案，確保每個人都能完成作品。</p>
+
+      <div class="lcdemo-box">
+        <div class="lcdemo-browser-bar">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="lcdemo-browser-url">file:///Users/louis/Desktop/my-page/index.html</span>
+        </div>
+        <div class="lcdemo-browser">
+          <div class="lcdemo-result" data-result>
+            <div class="lcdemo-namecard">
+              <h4>Louis Wang</h4>
+              <p>AI 輔助開發 · 網頁實作講師</p>
+              <div class="lcdemo-tags">
+                <span>AI 工作流</span>
+                <span>本機網頁</span>
+                <span>數據儀表板</span>
+              </div>
+              <div class="lcdemo-cta-row">
+                <a class="primary" href="#register">聯絡我</a>
+                <a class="secondary" href="#">查看作品</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="terminal-content reveal delay-2" style="max-width: 760px; margin: 40px auto 0; text-align: center;">
+      <p style="color: var(--text-muted);">ChatGPT / Gemini 給你答案，你自己動手貼到不知道哪裡。Claude Code 與 opencode 把答案直接寫進檔案，瀏覽器一打開就是成品。</p>
     </div>
   </div>
 </section>
@@ -594,6 +793,81 @@ body::after {
   </div>
 </section>
 
+<!-- STOCK TRACKER EXAMPLE -->
+<section class="section" id="stock-example" style="background: rgba(255,255,255,0.015);">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">延伸應用</p>
+      <h2 class="section-title">不只網頁：用 AI 做股票數據儀表板</h2>
+      <p class="section-subtitle">課程的核心能力回家後可以延伸。Louis 實際用同一套 AI + 本機流程，做出可追蹤持倉與價格變化的資料工具。</p>
+    </div>
+    <div class="stock-card reveal delay-1">
+      <div class="stock-card-header">
+        <div>
+          <div class="stock-card-title">Portfolio Trend</div>
+          <div class="stock-card-sub">my-stock / dashboard.html</div>
+        </div>
+        <div class="stock-card-metric">
+          <div class="stock-card-value">$24,580</div>
+          <div class="stock-card-change">+12.4% this week</div>
+        </div>
+      </div>
+
+      <div class="stock-trend-wrap">
+        <svg class="stock-trend-svg" viewBox="0 0 300 120" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="stockTrendGradient0" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--good)" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="var(--good)" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="stockTrendGradient1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="stockTrendGradient2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7aa2d6" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#7aa2d6" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path class="stock-trend-area stock-area-1" d="M0,92 L40,85 L80,90 L120,78 L160,82 L200,70 L240,72 L280,65 L300,62 L300,120 L0,120 Z"/>
+          <path class="stock-trend-area stock-area-2" d="M0,80 L40,82 L80,75 L120,68 L160,72 L200,55 L240,58 L280,48 L300,42 L300,120 L0,120 Z"/>
+          <path class="stock-trend-area" d="M0,100 L40,95 L80,82 L120,88 L160,60 L200,55 L240,30 L280,35 L300,15 L300,120 L0,120 Z"/>
+          <path class="stock-trend-line stock-line-1" d="M0,92 L40,85 L80,90 L120,78 L160,82 L200,70 L240,72 L280,65 L300,62"/>
+          <path class="stock-trend-line stock-line-2" d="M0,80 L40,82 L80,75 L120,68 L160,72 L200,55 L240,58 L280,48 L300,42"/>
+          <path class="stock-trend-line stock-line-0" d="M0,100 L40,95 L80,82 L120,88 L160,60 L200,55 L240,30 L280,35 L300,15"/>
+          <circle class="stock-trend-dot stock-dot-1" cx="300" cy="62"/>
+          <circle class="stock-trend-dot stock-dot-2" cx="300" cy="42"/>
+          <circle class="stock-trend-dot stock-dot-0" cx="300" cy="15"/>
+        </svg>
+        <div class="stock-trend-footer">
+          <div class="stock-legend">
+            <div class="stock-legend-item">
+              <span class="stock-legend-dot" style="background:var(--good);"></span>
+              <span>NVDA</span>
+            </div>
+            <div class="stock-legend-item">
+              <span class="stock-legend-dot" style="background:var(--accent);"></span>
+              <span>AAPL</span>
+            </div>
+            <div class="stock-legend-item">
+              <span class="stock-legend-dot" style="background:#7aa2d6;"></span>
+              <span>TSLA</span>
+            </div>
+          </div>
+          <div class="stock-trend-labels">
+            <span>Jun 15</span>
+            <span>Jun 22</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-content reveal delay-2" style="max-width: 760px; margin: 40px auto 0; text-align: center;">
+      <p style="color: var(--text-muted);">上完課後，同樣的對話流程可以延伸到股票：給 AI 一份持股清單，請它畫趨勢線、標註關注訊號，本機打開就能看到自己的儀表板。</p>
+    </div>
+  </div>
+</section>
+
 <!-- SHOWCASE -->
 <section class="section" id="showcase" style="background: rgba(255,255,255,0.015);">
   <div class="container">
@@ -603,7 +877,7 @@ body::after {
     </div>
     <div class="showcase reveal delay-1">
       <div class="showcase-frame">
-        <iframe src="../my-page%20%E6%99%9A%E4%B8%8A8.48.34/cafe-intro.html" title="學員作品範例：慢時咖啡"></iframe>
+        <iframe src="cafe-intro-demo.html" title="學員作品範例：慢時咖啡"></iframe>
       </div>
       <div class="showcase-content">
         <h3>範例：慢時咖啡</h3>
@@ -795,7 +1069,7 @@ body::after {
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
-    <p>Terminal + AI 網頁實作入門｜王得旭</p>
+    <p>Terminal + AI 網頁實作入門｜Louis</p>
     <p style="margin-top:8px; color: var(--text-dim);">本機作品 · 不部署 · 零基礎友善</p>
   </div>
 </footer>
@@ -870,6 +1144,95 @@ body::after {
   animate();
 
   window.addEventListener('beforeunload', () => cancelAnimationFrame(rafId));
+})();
+
+/* Live coding demo typewriter */
+(function(){
+  const scripts = {
+    main: [
+      { text: '$ cd Desktop/my-page', type: 'cmd', delay: 600 },
+      { text: '$ opencode', type: 'cmd', delay: 800 },
+      { text: '# 打開對話，告訴 AI 要做什麼', type: 'comment', delay: 600 },
+      { text: '幫我做個人名片頁，寫進 index.html。', type: 'ai', delay: 1400 },
+      { text: '# AI 自動改檔中...', type: 'comment', delay: 1000 },
+      { text: '已更新 index.html', type: 'success', delay: 800 },
+      { text: '$ open index.html', type: 'cmd', delay: 800 }
+    ],
+    stock: [
+      { text: '$ cd Desktop/my-stock', type: 'cmd', delay: 600 },
+      { text: '$ opencode', type: 'cmd', delay: 800 },
+      { text: '# 給 AI 持股清單與想看的圖表', type: 'comment', delay: 600 },
+      { text: '幫我讀 watchlist.csv，畫出這週趨勢線。', type: 'ai', delay: 1600 },
+      { text: '# AI 自動整理數據與畫圖...', type: 'comment', delay: 1200 },
+      { text: '已更新 dashboard.html', type: 'success', delay: 800 },
+      { text: '$ open dashboard.html', type: 'cmd', delay: 800 }
+    ]
+  };
+
+  function setClass(line, type) {
+    line.className = 'lcdemo-line';
+    if (type === 'cmd') line.classList.add('cmd');
+    if (type === 'comment') line.classList.add('comment');
+    if (type === 'ai') line.classList.add('ai-prompt');
+    if (type === 'success') { line.style.color = 'var(--good)'; }
+  }
+
+  function typeLine(terminal, lineObj) {
+    return new Promise(resolve => {
+      const line = document.createElement('div');
+      line.className = 'lcdemo-line typing';
+      setClass(line, lineObj.type);
+      terminal.appendChild(line);
+
+      if (lineObj.type === 'comment') {
+        line.textContent = lineObj.text;
+        setTimeout(resolve, lineObj.delay);
+        return;
+      }
+
+      let i = 0;
+      function step() {
+        line.textContent = lineObj.text.slice(0, i + 1);
+        i++;
+        if (i < lineObj.text.length) {
+          setTimeout(step, 35 + Math.random() * 30);
+        } else {
+          line.classList.remove('typing');
+          setTimeout(resolve, lineObj.delay);
+        }
+      }
+      step();
+    });
+  }
+
+  function initDemo(demo) {
+    const terminal = demo.querySelector('[data-terminal]');
+    const result = demo.querySelector('[data-result]');
+    const id = demo.dataset.lcdemo || 'main';
+    const script = scripts[id] || scripts.main;
+
+    async function run() {
+      while (true) {
+        terminal.innerHTML = '';
+        result.classList.remove('visible');
+        for (const line of script) {
+          await typeLine(terminal, line);
+        }
+        result.classList.add('visible');
+        await new Promise(r => setTimeout(r, 3200));
+      }
+    }
+
+    const io = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        io.disconnect();
+        run();
+      }
+    }, { threshold: 0.2 });
+    io.observe(demo);
+  }
+
+  document.querySelectorAll('[data-lcdemo]').forEach(initDemo);
 })();
 
 /* Mobile nav toggle */
